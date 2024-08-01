@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2925c89f683e5464da5be92bd6ecb1c8, type: 3}
+  m_Name: MoveAction
+  m_EditorClassIdentifier: 
+  cost: 50
+  evaluationFrequency: 4
+  moveRadius: 10
+  samples: 10

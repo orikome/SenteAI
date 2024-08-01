@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8afa0a2d1d668047b8501eb46f67b39, type: 3}
+  m_Name: Laser
+  m_EditorClassIdentifier: 
+  cost: 60
+  predictedUtility: 0.5
+  laserPrefab: {fileID: 5423380317875475676, guid: dc296d75e435a654d92357db6f7bb082, type: 3}
+  duration: 2
+  laserDistance: 100
+  accuracy: 1
