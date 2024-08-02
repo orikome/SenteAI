@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 206466445}
   - component: {fileID: 206466447}
   - component: {fileID: 206466449}
+  - component: {fileID: 206466452}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -248,6 +249,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7aa4335195e2fb640b8928dffc395154, type: 2}
   - {fileID: 11400000, guid: 449744e7dc6e66a47aa113b8c59e89d5, type: 2}
   - {fileID: 11400000, guid: 18fd8b1955206f44196709b394095265, type: 2}
+--- !u!114 &206466452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206466441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96af76340e6cc7948b96da2b2e6237f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 206466443}
+  target: {fileID: 915808712}
+  rotationSpeed: 60
 --- !u!1 &245425506
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +689,7 @@ Transform:
   m_GameObject: {fileID: 874107139}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.42, z: 4.59}
+  m_LocalPosition: {x: 0, y: -1.42, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1027,7 +1043,6 @@ GameObject:
   - component: {fileID: 976961486}
   - component: {fileID: 976961485}
   - component: {fileID: 976961484}
-  - component: {fileID: 976961487}
   m_Layer: 0
   m_Name: Eye
   m_TagString: Untagged
@@ -1121,21 +1136,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 976961482}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &976961487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976961482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96af76340e6cc7948b96da2b2e6237f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eyeModel: {fileID: 976961483}
-  eyeRotationLimit: 60
-  Target: {fileID: 0}
 --- !u!1 &1098865935
 GameObject:
   m_ObjectHideFlags: 0
