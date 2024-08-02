@@ -1,6 +1,10 @@
 using System.Linq;
 using UnityEngine;
 
+[CreateAssetMenu(
+    fileName = "RouletteSelectionStrategy",
+    menuName = "ActionSelection/RouletteSelectionStrategy"
+)]
 public class RouletteSelectionStrategy : ActionSelectionStrategy
 {
     public override AgentAction SelectAction(Agent agent)
