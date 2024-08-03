@@ -47,7 +47,7 @@ public class MoveAction : AgentAction
 
         // return bestPosition;
 
-        return PlayerMovement.Instance.transform.position;
+        return Player.Instance.transform.position;
     }
 
     private float ScorePosition(Vector3 position, Agent agent)

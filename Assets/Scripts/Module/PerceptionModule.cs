@@ -10,7 +10,7 @@ public abstract class PerceptionModule : AgentModule
     {
         if (target == null)
         {
-            target = PlayerMovement.Instance?.transform;
+            target = Player.Instance.transform;
         }
     }
 }

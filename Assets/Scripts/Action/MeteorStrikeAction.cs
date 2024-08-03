@@ -13,7 +13,7 @@ public class MeteorStrikeAction : AgentAction
 
     private void DropMeteor(Transform firePoint)
     {
-        Vector3 targetPosition = PlayerMovement.Instance.transform.position;
+        Vector3 targetPosition = Player.Instance.transform.position;
         GameObject meteor = Instantiate(
             meteorPrefab,
             targetPosition + (Vector3.up * 10),

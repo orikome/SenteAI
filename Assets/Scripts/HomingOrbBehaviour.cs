@@ -11,7 +11,7 @@ public class HomingOrbBehaviour : MonoBehaviour
 
     void Start()
     {
-        player = PlayerMovement.Instance?.transform;
+        player = Player.Instance.transform;
         rb = GetComponent<Rigidbody>();
     }
 

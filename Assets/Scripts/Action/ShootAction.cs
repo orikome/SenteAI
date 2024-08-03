@@ -22,7 +22,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         var seeingModule = agent.GetModule<SeeingModule>();
         if (seeingModule != null && seeingModule.canSeeTarget)
         {
-            target = PlayerMovement.Instance?.transform;
+            target = Player.Instance.transform;
             Vector3 aimDirection = PredictionUtility.PredictPosition(
                 firePoint.position,
                 target,
