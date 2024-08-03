@@ -16,7 +16,12 @@ public class AgentActionDecisionMaker : MonoBehaviour
         if (agent.readinessModule.CanPerformAction(actionToUse))
         {
             agent.readinessModule.OnActionPerformed(actionToUse);
-            Debug.Log($"Executing action: {actionToUse.name}");
+            //Debug.Log($"Executing action: {actionToUse.name}");
+            DebugManager.Instance.Log(
+                this.transform,
+                $"Executing action: {actionToUse.name}",
+                Color.cyan
+            );
             return actionToUse;
         }
 
