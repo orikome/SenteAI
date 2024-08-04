@@ -8,4 +8,5 @@ public class AgentData : ScriptableObject
     public int maxHealth = 100;
     public List<AgentModule> modules;
     public List<AgentAction> actions;
+    public ActionSelectionStrategy actionSelectionStrategy;
 }

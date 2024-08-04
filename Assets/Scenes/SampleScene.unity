@@ -363,14 +363,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
-  - {fileID: 11400000, guid: 6b1cd409ee2475e42bdc19bb6cbaec26, type: 2}
+  modules: []
   actionWeightManager: {fileID: 0}
   actionDecisionMaker: {fileID: 0}
   readinessModule: {fileID: 0}
   perceptionModule: {fileID: 0}
-  actionSelectionStrategy: {fileID: 11400000, guid: 1047add231d697d4fa102d5823469b1d, type: 2}
+  actionSelectionStrategy: {fileID: 0}
   data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
   firePoint: {fileID: 874107140}
 --- !u!114 &206466445
@@ -433,10 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246323a6449d0234d8cbc8e3a8e9a8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 7aa4335195e2fb640b8928dffc395154, type: 2}
-  - {fileID: 11400000, guid: 449744e7dc6e66a47aa113b8c59e89d5, type: 2}
-  - {fileID: 11400000, guid: 18fd8b1955206f44196709b394095265, type: 2}
+  actions: []
 --- !u!114 &206466452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,9 +1906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246323a6449d0234d8cbc8e3a8e9a8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: c80ba10ee38d2b4418f1284758ef7026, type: 2}
-  - {fileID: 11400000, guid: b773d7be901db6d439982c672d0a1bd2, type: 2}
+  actions: []
 --- !u!114 &1558212485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,15 +1919,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
-  - {fileID: 11400000, guid: 6b1cd409ee2475e42bdc19bb6cbaec26, type: 2}
+  modules: []
   actionWeightManager: {fileID: 0}
   actionDecisionMaker: {fileID: 0}
   readinessModule: {fileID: 0}
   perceptionModule: {fileID: 0}
-  actionSelectionStrategy: {fileID: 11400000, guid: 1047add231d697d4fa102d5823469b1d, type: 2}
-  data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
+  actionSelectionStrategy: {fileID: 0}
+  data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 803972207}
 --- !u!4 &1558212486
 Transform:

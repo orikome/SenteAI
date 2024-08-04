@@ -41,10 +41,20 @@ public class Agent : MonoBehaviour, IDamageable
         navMeshAgent = GetComponent<NavMeshAgent>();
         actionWeightManager = GetComponent<AgentActionWeightManager>();
         actionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
+
+        // Ensure we only use data from our AgentData file
+        modules.Clear();
+        actionWeightManager.actions.Clear();
+        actionSelectionStrategy = null;
+
+        InitializeData();
+        currentHealth = MaxHealth;
+        actionDecisionMaker.Initialize(this);
+        actionWeightManager.Initialize();
+
         readinessModule = GetModule<ActionReadinessModule>();
         perceptionModule = GetModule<PerceptionModule>();
-        actionDecisionMaker.Initialize(this);
-        currentHealth = MaxHealth;
+
         Debug.Assert(firePoint != null, "FirePoint is not set!");
         Debug.Assert(readinessModule != null, "ActionReadinessModule is not assigned!");
         Debug.Assert(perceptionModule != null, "PerceptionModule is not assigned!");
@@ -72,6 +82,37 @@ public class Agent : MonoBehaviour, IDamageable
 
         AgentAction decidedAction = actionDecisionMaker.MakeDecision();
         decidedAction?.ExecuteAction(firePoint, this);
+    }
+
+    private void InitializeData()
+    {
+        if (data == null)
+        {
+            Debug.LogError("AgentData is not assigned!");
+            return;
+        }
+
+        // Initialize modules
+        foreach (var module in data.modules)
+        {
+            if (module != null)
+            {
+                AgentModule newModule = Instantiate(module);
+                modules.Add(newModule);
+            }
+        }
+
+        // Initialize actions
+        foreach (var action in data.actions)
+        {
+            if (action != null)
+            {
+                AgentAction newAction = Instantiate(action);
+                actionWeightManager.actions.Add(newAction);
+            }
+        }
+
+        actionSelectionStrategy = data.actionSelectionStrategy;
     }
 
     private void DebugLog()

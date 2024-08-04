@@ -7,7 +7,7 @@ public class AgentActionWeightManager : MonoBehaviour
     public List<AgentAction> actions;
     public Dictionary<AgentAction, float> weights = new Dictionary<AgentAction, float>();
 
-    private void OnEnable()
+    public void Initialize()
     {
         InitializeWeights();
     }
