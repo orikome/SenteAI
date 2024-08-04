@@ -53,6 +53,7 @@ public class AgentActionWeightManager : MonoBehaviour
     public void ResetWeights()
     {
         InitializeWeights();
-        Debug.Log("Reset weights");
+        //Debug.Log("Reset weights");
+        DebugManager.Instance.Log(transform, "Reset weights", Color.red);
     }
 }
