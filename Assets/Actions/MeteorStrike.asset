@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab22ca717389d604e8c76ae7361c8ccf, type: 3}
-  m_Name: HomingOrbsAction
+  m_Script: {fileID: 11500000, guid: 1e8dce58f2882284d9647741257a80ba, type: 3}
+  m_Name: MeteorStrike
   m_EditorClassIdentifier: 
-  cost: 40
-  orbPrefab: {fileID: 8895309130385202063, guid: c3dafc5b7d1872b4b8b8e34119b31397, type: 3}
-  numberOfOrbs: 3
-  spreadAngle: 45
+  cost: 80
+  meteorPrefab: {fileID: 2406367453882067487, guid: ed87fe88f4747014988e04c03bda2398, type: 3}
+  dropDelay: 2

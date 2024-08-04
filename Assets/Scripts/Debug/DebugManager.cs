@@ -4,7 +4,6 @@ public class DebugManager : MonoBehaviour
 {
     public static DebugManager Instance;
     public GameObject debugTextPrefab;
-    public Transform cameraTransform;
 
     private void Awake()
     {

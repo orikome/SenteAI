@@ -16,16 +16,23 @@ public class AgentActionDecisionMaker : MonoBehaviour
         if (agent.readinessModule.CanPerformAction(actionToUse))
         {
             agent.readinessModule.OnActionPerformed(actionToUse);
-            //Debug.Log($"Executing action: {actionToUse.name}");
-            DebugManager.Instance.Log(
-                this.transform,
-                $"Executing action: {actionToUse.name}",
-                Color.cyan
-            );
+
+            DebugLog(actionToUse);
+
             return actionToUse;
         }
 
         return null;
+    }
+
+    private void DebugLog(AgentAction actionToUse)
+    {
+        //Debug.Log($"Agent X is executing action: {actionToUse.name}");
+        DebugManager.Instance.Log(
+            transform,
+            $"{actionToUse.name} C:{actionToUse.cost}",
+            Color.cyan
+        );
     }
 
     public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)

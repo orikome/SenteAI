@@ -20,6 +20,7 @@ public class DebugText : MonoBehaviour
     private void OnEnable()
     {
         StartCoroutine(FadeAndDeactivate());
+        transform.SetParent(null);
     }
 
     private void Update()

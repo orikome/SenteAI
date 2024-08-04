@@ -68,8 +68,22 @@ public class Agent : MonoBehaviour, IDamageable
             action.UpdateWeights(this);
         }
 
+        //DebugLog();
+
         AgentAction decidedAction = actionDecisionMaker.MakeDecision();
         decidedAction?.ExecuteAction(firePoint, this);
+    }
+
+    private void DebugLog()
+    {
+        string debugInfo = "";
+
+        foreach (var actionProbability in actionWeightManager.weights)
+        {
+            debugInfo +=
+                $"A: {actionProbability.Key.name}, W: {actionProbability.Value:F2}, C: {actionProbability.Key.cost}\n";
+        }
+        DebugManager.Instance.Log(transform, debugInfo, Color.white);
     }
 
     public void SetDestination(Vector3 destination)

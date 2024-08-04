@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4574376676340829042}
   - component: {fileID: 1540448718203514118}
   - component: {fileID: 2686756091533485771}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DebugText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6ee28d899f1384b9873194b6bf7e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 2
-  speed: 1
+  lifetime: 1
+  speed: 4
 --- !u!114 &2686756091533485771
 MonoBehaviour:
   m_ObjectHideFlags: 0
