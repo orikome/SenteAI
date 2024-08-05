@@ -11,4 +11,6 @@ public class HearingModule : PerceptionModule
         // Check if there are any sounds within hearingRange
         // If so, update lastKnownLocation
     }
+
+    public override void RegisterEvents(AgentEvents agentEvents) { }
 }

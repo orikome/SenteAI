@@ -23,4 +23,6 @@ public class CooldownBasedActionReadiness : ActionReadinessModule
     }
 
     public override void Execute(Agent agent) { }
+
+    public override void RegisterEvents(AgentEvents agentEvents) { }
 }

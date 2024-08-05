@@ -38,15 +38,14 @@ public class SeeingModule : PerceptionModule
         {
             lastKnownLocation = target.position;
             lastSeen = Time.time;
+            if (!previousVisibility)
+            {
+                lastVisibilityChangeTime = Time.time;
+            }
         }
-
-        // Reset weights when target visibility changes
-        if (previousVisibility != canSeeTarget)
+        else if (previousVisibility)
         {
-            lastSeen = Time.time;
-            //Debug.Log($"Target lost at: {Time.time}");
             lastVisibilityChangeTime = Time.time;
-            agent.actionWeightManager.ResetWeights();
         }
 
         previousVisibility = canSeeTarget;
@@ -60,4 +59,6 @@ public class SeeingModule : PerceptionModule
             targetVisible ? Color.green : Color.red
         );
     }
+
+    public override void RegisterEvents(AgentEvents events) { }
 }

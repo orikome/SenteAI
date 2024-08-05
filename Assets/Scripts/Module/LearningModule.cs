@@ -4,4 +4,6 @@ using UnityEngine;
 public class LearningModule : AgentModule
 {
     public override void Execute(Agent agent) { }
+
+    public override void RegisterEvents(AgentEvents agentEvents) { }
 }

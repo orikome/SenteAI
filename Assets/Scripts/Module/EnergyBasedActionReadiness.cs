@@ -26,4 +26,6 @@ public class EnergyBasedReadinessModule : ActionReadinessModule
     {
         curEnergy = Mathf.Min(curEnergy + energyRecoveryRate * Time.deltaTime, maxEnergy);
     }
+
+    public override void RegisterEvents(AgentEvents agentEvents) { }
 }

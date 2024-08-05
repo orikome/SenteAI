@@ -25,6 +25,9 @@ public class Agent : MonoBehaviour, IDamageable
     public PerceptionModule perceptionModule;
     public ActionSelectionStrategy actionSelectionStrategy;
 
+    [HideInInspector]
+    public AgentEvents events;
+
     public AgentData data;
     public Transform firePoint;
     private NavMeshAgent navMeshAgent;
@@ -41,6 +44,7 @@ public class Agent : MonoBehaviour, IDamageable
         navMeshAgent = GetComponent<NavMeshAgent>();
         actionWeightManager = GetComponent<AgentActionWeightManager>();
         actionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
+        events = GetComponent<AgentEvents>();
 
         // Ensure we only use data from our AgentData file
         modules.Clear();
@@ -55,10 +59,17 @@ public class Agent : MonoBehaviour, IDamageable
         readinessModule = GetModule<ActionReadinessModule>();
         perceptionModule = GetModule<PerceptionModule>();
 
+        // Register modules with events
+        foreach (var module in modules)
+        {
+            module.RegisterEvents(events);
+        }
+
         Debug.Assert(firePoint != null, "FirePoint is not set!");
         Debug.Assert(readinessModule != null, "ActionReadinessModule is not assigned!");
         Debug.Assert(perceptionModule != null, "PerceptionModule is not assigned!");
         Debug.Assert(actionSelectionStrategy != null, "ActionSelectionStrategy is not assigned!");
+        Debug.Assert(events != null, "AgentEvents is not assigned!");
 
         if (actionWeightManager.actions.Count == 0)
         {
