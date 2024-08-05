@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SeeingModule", menuName = "Module/SeeingModule")]
@@ -11,6 +10,8 @@ public class SeeingModule : PerceptionModule
     private LayerMask layerMask;
     public bool canSeeTarget { get; private set; }
     private bool previousVisibility;
+    private float cooldownTime = 1f;
+    private float lastVisibilityChangeTime;
 
     public override void Execute(Agent agent)
     {
@@ -21,10 +22,10 @@ public class SeeingModule : PerceptionModule
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, range, layerMask);
         bool targetVisible = hit && hitInfo.transform == target;
 
-        canSeeTarget = targetVisible;
+        if (Time.time - lastVisibilityChangeTime < cooldownTime)
+            return;
 
-        // if (Time.frameCount % 20 != 0)
-        //     return;
+        canSeeTarget = targetVisible;
 
         if (targetVisible)
         {
@@ -37,6 +38,7 @@ public class SeeingModule : PerceptionModule
         {
             lastSeen = Time.time;
             //Debug.Log($"Target lost at: {Time.time}");
+            lastVisibilityChangeTime = Time.time;
             agent.actionWeightManager.ResetWeights();
         }
 
