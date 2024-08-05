@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76cc33fad3d5f3044827c65f65375d07, type: 3}
   m_Name: SeeingModule
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  lastSeen: 0
   range: 100
   layerMask:
     serializedVersion: 2
-    m_Bits: 375
-  target: {fileID: 0}
+    m_Bits: 320

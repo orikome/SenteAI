@@ -13,6 +13,12 @@ public class SeeingModule : PerceptionModule
     private float cooldownTime = 1f;
     private float lastVisibilityChangeTime;
 
+    private void OnValidate()
+    {
+        if (layerMask == 0)
+            Debug.LogWarning("LayerMask is empty!", this);
+    }
+
     public override void Execute(Agent agent)
     {
         target = Player.Instance.transform;
@@ -21,6 +27,7 @@ public class SeeingModule : PerceptionModule
 
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, range, layerMask);
         bool targetVisible = hit && hitInfo.transform == target;
+        DebugRay(agent, directionToTarget, targetVisible);
 
         if (Time.time - lastVisibilityChangeTime < cooldownTime)
             return;
@@ -43,5 +50,14 @@ public class SeeingModule : PerceptionModule
         }
 
         previousVisibility = canSeeTarget;
+    }
+
+    private void DebugRay(Agent agent, Vector3 directionToTarget, bool targetVisible)
+    {
+        Debug.DrawRay(
+            agent.transform.position,
+            directionToTarget.normalized * range,
+            targetVisible ? Color.green : Color.red
+        );
     }
 }
