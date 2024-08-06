@@ -12,7 +12,8 @@ public class MoveAction : AgentAction
 
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
-        Vector3 bestPosition = EvaluateBestPosition(agent);
+        //Vector3 bestPosition = EvaluateBestPosition(agent);
+        Vector3 bestPosition = Player.Instance.transform.position;
         agent.SetDestination(bestPosition);
 
         if (IsPositionGood(bestPosition))
@@ -21,33 +22,31 @@ public class MoveAction : AgentAction
 
     private Vector3 EvaluateBestPosition(Agent agent)
     {
-        // Vector3 bestPosition = Vector3.zero;
-        // float bestScore = float.MinValue;
+        Vector3 bestPosition = Vector3.zero;
+        float bestScore = float.MinValue;
 
-        // // TODO: checking distance to player, cover, lines of sight, etc.
-        // // Use a scoring system to eval pos
-        // // If agent some state, prefer ranged, melee or seek cover?
+        // TODO: checking distance to player, cover, lines of sight, etc.
+        // Use a scoring system to eval pos
+        // If agent some state, prefer ranged, melee or seek cover?
 
-        // for (int i = 0; i < samples; i++)
-        // {
-        //     Vector3 randomPoint = agent.transform.position + Random.insideUnitSphere * moveRadius;
-        //     NavMeshHit hit;
-        //     if (NavMesh.SamplePosition(randomPoint, out hit, moveRadius, NavMesh.AllAreas))
-        //     {
-        //         Vector3 samplePosition = hit.position;
-        //         float score = ScorePosition(samplePosition, agent);
+        for (int i = 0; i < samples; i++)
+        {
+            Vector3 randomPoint = agent.transform.position + Random.insideUnitSphere * moveRadius;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, moveRadius, NavMesh.AllAreas))
+            {
+                Vector3 samplePosition = hit.position;
+                float score = ScorePosition(samplePosition, agent);
 
-        //         if (score > bestScore)
-        //         {
-        //             bestScore = score;
-        //             bestPosition = samplePosition;
-        //         }
-        //     }
-        // }
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestPosition = samplePosition;
+                }
+            }
+        }
 
-        // return bestPosition;
-
-        return Player.Instance.transform.position;
+        return bestPosition;
     }
 
     private float ScorePosition(Vector3 position, Agent agent)
