@@ -43,7 +43,9 @@ public class DebugText : MonoBehaviour
             yield return null;
         }
 
-        gameObject.SetActive(false);
+        // TODO: Add simple pooler
+        //gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void SetText(string message, Color color)
