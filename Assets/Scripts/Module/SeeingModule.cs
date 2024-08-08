@@ -40,6 +40,7 @@ public class SeeingModule : PerceptionModule
             lastSeen = Time.time;
             if (!previousVisibility)
             {
+                agent.actionWeightManager.ResetWeights();
                 lastVisibilityChangeTime = Time.time;
             }
         }
