@@ -75,6 +75,13 @@ public class Agent : MonoBehaviour, IDamageable
         {
             Debug.LogError("No actions assigned!");
         }
+
+        GameManager.Instance.activeAgents.Add(this);
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.activeAgents.Remove(this);
     }
 
     private void Update()
