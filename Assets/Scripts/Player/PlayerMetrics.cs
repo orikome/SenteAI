@@ -12,7 +12,7 @@ public class PlayerMetrics : MonoBehaviour
     [Header("Player Metrics")]
     public float shootingFrequency;
     public float dodgeRatio;
-    public float averageDistanceFromBoss;
+    public float distanceToClosestEnemy;
     public float movementSpeed;
     Vector3 lastPosition = Vector3.zero;
 
@@ -36,7 +36,11 @@ public class PlayerMetrics : MonoBehaviour
     {
         shootingFrequency = Random.Range(0f, 1f);
         dodgeRatio = Random.Range(0f, 1f);
-        averageDistanceFromBoss = Random.Range(0f, 1f);
+
+        distanceToClosestEnemy = OrikomeUtils.GeneralUtils.GetDistanceSquared(
+            FindClosestEnemyToPlayer().position,
+            transform.position
+        );
 
         movementSpeed =
             OrikomeUtils.GeneralUtils.GetDistanceSquared(transform.position, lastPosition)
@@ -44,9 +48,31 @@ public class PlayerMetrics : MonoBehaviour
         lastPosition = transform.position;
     }
 
+    public Transform FindClosestEnemyToPlayer()
+    {
+        Agent closestEnemy = null;
+        float closestEnemyDistance = Mathf.Infinity;
+
+        foreach (Agent agent in GameManager.Instance.activeAgents)
+        {
+            float distance = OrikomeUtils.GeneralUtils.GetDistanceSquared(
+                agent.transform.position,
+                transform.position
+            );
+
+            if (distance < closestEnemyDistance)
+            {
+                closestEnemyDistance = distance;
+                closestEnemy = agent;
+            }
+        }
+
+        return closestEnemy?.transform;
+    }
+
     PlayerBehavior ClassifyBehavior()
     {
-        if (shootingFrequency > aggressiveThreshold && averageDistanceFromBoss < defensiveThreshold)
+        if (shootingFrequency > aggressiveThreshold && distanceToClosestEnemy < defensiveThreshold)
             return PlayerBehavior.Aggressive;
 
         if (dodgeRatio > aggressiveThreshold)
