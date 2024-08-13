@@ -14,11 +14,12 @@ public class LaserBeamAction : AgentAction
     public override void Initialize(Agent agent)
     {
         seeingModule = agent.GetModule<SeeingModule>();
+        Debug.Assert(seeingModule != null, "SeeingModule is not set!");
     }
 
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
-        if (seeingModule != null && seeingModule.canSeeTarget)
+        if (seeingModule.canSeeTarget)
         {
             ShootLaser(firePoint);
             agent.actionWeightManager.AdjustWeight(this, 0.1f);
@@ -32,33 +33,31 @@ public class LaserBeamAction : AgentAction
 
     public override void UpdateWeights(Agent agent)
     {
-        if (seeingModule != null)
+        if (seeingModule.canSeeTarget)
         {
-            if (seeingModule.canSeeTarget)
-            {
-                agent.actionWeightManager.AdjustWeight(this, 0.1f);
-            }
-            else
-            {
-                agent.actionWeightManager.AdjustWeight(this, -0.1f);
-            }
+            agent.actionWeightManager.AdjustWeight(this, 0.1f);
+        }
+        else
+        {
+            agent.actionWeightManager.AdjustWeight(this, -0.1f);
         }
     }
 
     private void ShootLaser(Transform firePoint)
     {
-        Transform target = Player.Instance.transform;
         Vector3 directionToTarget = PredictionUtility.PredictPosition(
             firePoint.position,
-            target,
+            Player.Instance.transform,
             laserDistance,
             accuracy
         );
+
         GameObject laser = Instantiate(
             laserPrefab,
             firePoint.position,
             Quaternion.LookRotation(directionToTarget)
         );
+
         LineRenderer line = laser.GetComponent<LineRenderer>();
         line.SetPosition(0, firePoint.position);
         line.SetPosition(1, firePoint.position + directionToTarget * laserDistance);
