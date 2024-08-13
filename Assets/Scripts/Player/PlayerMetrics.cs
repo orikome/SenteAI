@@ -29,7 +29,7 @@ public class PlayerMetrics : MonoBehaviour
     {
         UpdatePlayerMetrics();
         currentBehavior = ClassifyBehavior();
-        //RespondToPlayerBehavior();
+        RespondToPlayerBehavior();
     }
 
     void UpdatePlayerMetrics()
@@ -83,16 +83,19 @@ public class PlayerMetrics : MonoBehaviour
 
     void RespondToPlayerBehavior()
     {
+        if (Time.frameCount % 300 != 0)
+            return;
+
         switch (currentBehavior)
         {
             case PlayerBehavior.Aggressive:
-                Debug.Log("Player is Aggressive");
+                DebugManager.Instance.Log(transform, "Player is Aggressive", Color.red);
                 break;
             case PlayerBehavior.Defensive:
-                Debug.Log("Player is Defensive");
+                DebugManager.Instance.Log(transform, "Player is Defensive", Color.blue);
                 break;
             case PlayerBehavior.Balanced:
-                Debug.Log("Player is Balanced");
+                DebugManager.Instance.Log(transform, "Player is Balanced", Color.green);
                 break;
         }
     }
