@@ -12,6 +12,8 @@ public class HomingOrbsAction : AgentAction
         ShootOrbs(firePoint);
     }
 
+    public override void Initialize(Agent agent) { }
+
     private void ShootOrbs(Transform firePoint)
     {
         for (int i = 0; i < numberOfOrbs; i++)

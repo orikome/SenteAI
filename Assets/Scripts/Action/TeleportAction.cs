@@ -4,4 +4,6 @@ using UnityEngine;
 public class TeleportAction : AgentAction
 {
     public override void ExecuteAction(Transform firePoint, Agent agent) { }
+
+    public override void Initialize(Agent agent) { }
 }

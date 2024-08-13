@@ -16,10 +16,15 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
+    SeeingModule seeingModule;
+
+    public override void Initialize(Agent agent)
+    {
+        seeingModule = agent.GetModule<SeeingModule>();
+    }
 
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
-        var seeingModule = agent.GetModule<SeeingModule>();
         if (seeingModule != null && seeingModule.canSeeTarget)
         {
             target = Player.Instance.transform;
@@ -73,7 +78,6 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void UpdateWeights(Agent agent)
     {
-        SeeingModule seeingModule = agent.GetModule<SeeingModule>();
         if (seeingModule != null)
         {
             if (seeingModule.canSeeTarget)

@@ -64,4 +64,6 @@ public class MoveAction : AgentAction
     {
         return true;
     }
+
+    public override void Initialize(Agent agent) { }
 }

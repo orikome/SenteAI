@@ -11,6 +11,8 @@ public class MeteorStrikeAction : AgentAction
         DropMeteor(firePoint);
     }
 
+    public override void Initialize(Agent agent) { }
+
     private void DropMeteor(Transform firePoint)
     {
         Vector3 targetPosition = Player.Instance.transform.position;

@@ -9,11 +9,15 @@ public class LaserBeamAction : AgentAction
 
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
+    SeeingModule seeingModule;
+
+    public override void Initialize(Agent agent)
+    {
+        seeingModule = agent.GetModule<SeeingModule>();
+    }
 
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
-        var seeingModule = agent.GetModule<SeeingModule>();
-
         if (seeingModule != null && seeingModule.canSeeTarget)
         {
             ShootLaser(firePoint);
@@ -28,7 +32,6 @@ public class LaserBeamAction : AgentAction
 
     public override void UpdateWeights(Agent agent)
     {
-        SeeingModule seeingModule = agent.GetModule<SeeingModule>();
         if (seeingModule != null)
         {
             if (seeingModule.canSeeTarget)

@@ -76,6 +76,12 @@ public class Agent : MonoBehaviour, IDamageable
             Debug.LogError("No actions assigned!");
         }
 
+        // Initialize actions
+        foreach (var action in actionWeightManager.actions)
+        {
+            action.Initialize(this);
+        }
+
         GameManager.Instance.activeAgents.Add(this);
     }
 
