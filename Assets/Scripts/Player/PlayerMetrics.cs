@@ -14,6 +14,7 @@ public class PlayerMetrics : MonoBehaviour
     public float dodgeRatio;
     public float averageDistanceFromBoss;
     public float movementSpeed;
+    Vector3 lastPosition = Vector3.zero;
 
     [Header("Behavior Thresholds")]
     [SerializeField]
@@ -36,7 +37,11 @@ public class PlayerMetrics : MonoBehaviour
         shootingFrequency = Random.Range(0f, 1f);
         dodgeRatio = Random.Range(0f, 1f);
         averageDistanceFromBoss = Random.Range(0f, 1f);
-        movementSpeed = Random.Range(0f, 1f);
+
+        movementSpeed =
+            OrikomeUtils.GeneralUtils.GetDistanceSquared(transform.position, lastPosition)
+            / Time.deltaTime;
+        lastPosition = transform.position;
     }
 
     PlayerBehavior ClassifyBehavior()
