@@ -81,7 +81,10 @@ public class Agent : MonoBehaviour, IDamageable
         {
             action.Initialize(this);
         }
+    }
 
+    void Start()
+    {
         GameManager.Instance.activeAgents.Add(this);
     }
 

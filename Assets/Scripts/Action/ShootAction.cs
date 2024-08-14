@@ -25,7 +25,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
-        if (seeingModule != null && seeingModule.canSeeTarget)
+        if (seeingModule.canSeeTarget)
         {
             target = Player.Instance.transform;
             Vector3 aimDirection = PredictionUtility.PredictPosition(
@@ -56,7 +56,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         // Increase effectiveness when the projectile hits
         agent.actionWeightManager.AdjustWeight(this, effectivenessAdjustment);
         OnSuccessCallback?.Invoke();
-        //Debug.Log("HaNDLED SUCCESS");
+        Debug.Log("Hit player");
     }
 
     public void HandleMiss(Agent agent, float distanceToPlayer)
@@ -78,16 +78,13 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void UpdateWeights(Agent agent)
     {
-        if (seeingModule != null)
+        if (seeingModule.canSeeTarget)
         {
-            if (seeingModule.canSeeTarget)
-            {
-                agent.actionWeightManager.AdjustWeight(this, 0.1f);
-            }
-            else
-            {
-                agent.actionWeightManager.AdjustWeight(this, -0.1f);
-            }
+            agent.actionWeightManager.AdjustWeight(this, 0.1f);
+        }
+        else
+        {
+            agent.actionWeightManager.AdjustWeight(this, -0.1f);
         }
     }
 
@@ -98,6 +95,7 @@ public class ShootAction : AgentAction, IFeedbackAction
             firePoint.position,
             Quaternion.LookRotation(direction)
         );
+
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         if (projectileComponent != null)
