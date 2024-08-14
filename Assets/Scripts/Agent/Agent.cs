@@ -144,6 +144,9 @@ public class Agent : MonoBehaviour, IDamageable
 
     private void DebugLog()
     {
+        if (Time.frameCount % 300 != 0)
+            return;
+
         string debugInfo = "";
 
         foreach (var actionProbability in actionWeightManager.weights)

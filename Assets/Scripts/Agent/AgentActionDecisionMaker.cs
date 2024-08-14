@@ -27,10 +27,18 @@ public class AgentActionDecisionMaker : MonoBehaviour
 
     private void DebugLog(AgentAction actionToUse)
     {
-        //Debug.Log($"Agent X is executing action: {actionToUse.name}");
+        string actionName = actionToUse.name.Replace("(Clone)", "").Trim();
+
+        float weight = 0f;
+
+        if (agent.actionWeightManager.weights.TryGetValue(actionToUse, out float foundWeight))
+        {
+            weight = foundWeight;
+        }
+
         DebugManager.Instance.Log(
             transform,
-            $"{actionToUse.name} C:{actionToUse.cost}",
+            $"{actionName} C:{actionToUse.cost} W:{weight:F2}",
             Color.cyan
         );
     }
