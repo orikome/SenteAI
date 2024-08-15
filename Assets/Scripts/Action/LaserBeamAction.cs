@@ -33,14 +33,29 @@ public class LaserBeamAction : AgentAction
 
     public override void UpdateWeights(Agent agent)
     {
+        float distanceToPlayer = OrikomeUtils.GeneralUtils.GetDistanceSquared(
+            agent.transform.position,
+            Player.Instance.transform.position
+        );
+        //Todo: energyLevel
+        float healthFactor = agent.CurrentHealth / agent.MaxHealth;
+
         if (seeingModule.canSeeTarget)
         {
-            agent.actionWeightManager.AdjustWeight(this, 0.1f);
+            float utility = CalculateUtility(distanceToPlayer, healthFactor, 0.5f);
+            agent.actionWeightManager.AdjustWeight(this, utility);
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -0.1f);
+            agent.actionWeightManager.AdjustWeight(this, -0.2f * Time.deltaTime);
         }
+    }
+
+    private float CalculateUtility(float distance, float threat, float energy)
+    {
+        return Mathf.Clamp01(1.0f - distance / 100f)
+            * Mathf.Clamp01(threat)
+            * Mathf.Clamp01(energy);
     }
 
     private void ShootLaser(Transform firePoint)
