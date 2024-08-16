@@ -5,7 +5,7 @@ public class EnergyBasedReadinessModule : ActionReadinessModule
 {
     public float energyRecoveryRate = 20.0f;
     public float maxEnergy = 100.0f;
-    private float curEnergy;
+    public float curEnergy { get; private set; }
 
     private void OnEnable()
     {

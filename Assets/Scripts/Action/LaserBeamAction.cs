@@ -10,10 +10,12 @@ public class LaserBeamAction : AgentAction
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
     SeeingModule seeingModule;
+    EnergyBasedReadinessModule energyBasedReadinessModule;
 
     public override void Initialize(Agent agent)
     {
         seeingModule = agent.GetModule<SeeingModule>();
+        energyBasedReadinessModule = agent.GetModule<EnergyBasedReadinessModule>();
         Debug.Assert(seeingModule != null, "SeeingModule is not set!");
     }
 
@@ -37,12 +39,13 @@ public class LaserBeamAction : AgentAction
             agent.transform.position,
             Player.Instance.transform.position
         );
-        //Todo: energyLevel
+        float energyFactor =
+            energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
         float healthFactor = agent.CurrentHealth / agent.MaxHealth;
 
         if (seeingModule.canSeeTarget)
         {
-            float utility = CalculateUtility(distanceToPlayer, healthFactor, 0.5f);
+            float utility = CalculateUtility(distanceToPlayer, healthFactor, energyFactor * 3);
             agent.actionWeightManager.AdjustWeight(this, utility);
         }
         else

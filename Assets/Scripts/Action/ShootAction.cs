@@ -35,18 +35,18 @@ public class ShootAction : AgentAction, IFeedbackAction
                 accuracy
             );
             ShootProjectile(firePoint, aimDirection, agent);
-            agent.actionWeightManager.AdjustWeight(this, 0.1f);
+            agent.actionWeightManager.AdjustWeight(this, 0.1f * Time.deltaTime);
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -1f);
+            agent.actionWeightManager.AdjustWeight(this, -1f * Time.deltaTime);
         }
     }
 
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
-        agent.actionWeightManager.AdjustWeight(this, -(effectivenessAdjustment / 4));
+        agent.actionWeightManager.AdjustWeight(this, -(effectivenessAdjustment / 2));
         OnFailureCallback?.Invoke();
         //Debug.Log("HaNDLED FAILURE");
     }
