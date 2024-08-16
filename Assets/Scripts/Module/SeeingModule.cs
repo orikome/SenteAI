@@ -36,16 +36,20 @@ public class SeeingModule : PerceptionModule
 
         if (targetVisible)
         {
+            Player.Instance.playerMetrics.UpdateCoverStatus(true);
             lastKnownLocation = target.position;
             lastSeen = Time.time;
             if (!previousVisibility)
             {
                 agent.actionWeightManager.ResetWeights();
+                Player.Instance.playerMetrics.timeInCover = 0;
                 lastVisibilityChangeTime = Time.time;
             }
         }
         else if (previousVisibility)
         {
+            Player.Instance.playerMetrics.UpdateCoverStatus(false);
+            Player.Instance.playerMetrics.timeInCover = 0;
             lastVisibilityChangeTime = Time.time;
         }
 

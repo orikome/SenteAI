@@ -8,7 +8,7 @@ public class Player : MonoBehaviour, IDamageable
     private float currentHealth;
     public static Player Instance;
     private PlayerMovement playerMovement;
-    private PlayerMetrics playerMetrics;
+    public PlayerMetrics playerMetrics { get; private set; }
 
     void Awake()
     {

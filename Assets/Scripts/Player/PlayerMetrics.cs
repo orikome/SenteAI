@@ -15,6 +15,8 @@ public class PlayerMetrics : MonoBehaviour
     public float distanceToClosestEnemy;
     public float movementSpeed;
     public float damageTaken;
+    public bool isInCover { get; private set; }
+    public float timeInCover;
     Vector3 lastPosition = Vector3.zero;
 
     [Header("Behavior Thresholds")]
@@ -33,10 +35,18 @@ public class PlayerMetrics : MonoBehaviour
         RespondToPlayerBehavior();
     }
 
+    public void UpdateCoverStatus(bool canAnyEnemySeePlayer)
+    {
+        isInCover = !canAnyEnemySeePlayer;
+    }
+
     void UpdatePlayerMetrics()
     {
         shootingFrequency = Random.Range(0f, 1f);
         dodgeRatio = Random.Range(0f, 1f);
+
+        if (isInCover)
+            timeInCover += Time.deltaTime;
 
         distanceToClosestEnemy = OrikomeUtils.GeneralUtils.GetDistanceSquared(
             FindClosestEnemyToPlayer().position,
