@@ -14,6 +14,7 @@ public class PlayerMetrics : MonoBehaviour
     public float dodgeRatio;
     public float distanceToClosestEnemy;
     public float movementSpeed;
+    public float damageTaken;
     Vector3 lastPosition = Vector3.zero;
 
     [Header("Behavior Thresholds")]

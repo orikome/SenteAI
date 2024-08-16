@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount)
     {
+        playerMetrics.damageTaken += amount;
         currentHealth -= amount;
         currentHealth = Mathf.Max(currentHealth, 0);
 

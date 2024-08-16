@@ -51,10 +51,10 @@ public class LaserBeamAction : AgentAction
         }
     }
 
-    private float CalculateUtility(float distance, float threat, float energy)
+    private float CalculateUtility(float distance, float health, float energy)
     {
         return Mathf.Clamp01(1.0f - distance / 100f)
-            * Mathf.Clamp01(threat)
+            * Mathf.Clamp01(health)
             * Mathf.Clamp01(energy);
     }
 
