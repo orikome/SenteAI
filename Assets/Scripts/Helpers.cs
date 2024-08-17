@@ -6,20 +6,24 @@ public static class Helpers
         Vector3 shooterPosition,
         Transform target,
         float projectileSpeed,
-        float accuracy = 1.0f
+        float accuracy = 1.0f,
+        Vector3 lastTargetPosition = default
     )
     {
-        if (!target.GetComponent<Rigidbody>())
-            return (target.position - shooterPosition).normalized;
+        Vector3 currentTargetPosition = target.position;
+        Vector3 targetVelocity = (currentTargetPosition - lastTargetPosition) / Time.deltaTime;
 
-        Vector3 directionToTarget = (target.position - shooterPosition).normalized;
-        Vector3 targetVelocity = target.GetComponent<Rigidbody>().velocity;
+        // Get distance between shooter and target
+        float distance = OrikomeUtils.GeneralUtils.GetDistanceSquared(
+            target.position,
+            shooterPosition
+        );
 
-        float timeToTarget = Vector3.Distance(target.position, shooterPosition) / projectileSpeed;
+        float timeToTarget = distance / projectileSpeed;
 
         Vector3 predictedPosition = target.position + targetVelocity * timeToTarget;
 
-        // The lower the accuracy, the higher the deviation
+        // If accuracy is low, add deviation to make the prediction imperfect
         float deviationMagnitude = (1.0f - accuracy) * 0.5f;
         Vector3 deviation = Random.insideUnitSphere * deviationMagnitude;
         Vector3 adjustedPrediction = predictedPosition + deviation;
