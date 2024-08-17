@@ -28,7 +28,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         if (seeingModule.canSeeTarget)
         {
             target = Player.Instance.transform;
-            Vector3 aimDirection = PredictionUtility.PredictPosition(
+            Vector3 aimDirection = Helpers.PredictPosition(
                 firePoint.position,
                 target,
                 projectileSpeed,

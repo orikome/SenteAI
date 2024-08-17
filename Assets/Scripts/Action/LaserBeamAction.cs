@@ -64,7 +64,7 @@ public class LaserBeamAction : AgentAction
 
     private void ShootLaser(Transform firePoint)
     {
-        Vector3 directionToTarget = PredictionUtility.PredictPosition(
+        Vector3 directionToTarget = Helpers.PredictPosition(
             firePoint.position,
             Player.Instance.transform,
             laserDistance,
