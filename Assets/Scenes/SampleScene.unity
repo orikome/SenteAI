@@ -1249,6 +1249,8 @@ MonoBehaviour:
   dodgeRatio: 0
   distanceToClosestEnemy: 0
   movementSpeed: 0
+  damageTaken: 0
+  timeInCover: 0
   aggressiveThreshold: 0.7
   defensiveThreshold: 0.3
   currentBehavior: 0
@@ -1626,7 +1628,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -1814,7 +1816,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
