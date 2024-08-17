@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(otherLayer, enemyProjectileMask))
             return;
 
-        if (collision.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+        if (collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
         {
             damageable.TakeDamage(damage);
             OnHitCallback?.Invoke();
