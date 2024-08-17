@@ -71,5 +71,5 @@ public class SeeingModule : PerceptionModule
         );
     }
 
-    public override void RegisterEvents(AgentEvents events) { }
+    public override void Initialize(AgentEvents events) { }
 }

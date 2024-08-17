@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
-  m_Name: Boss
+  m_Name: Boss 2
   m_EditorClassIdentifier: 
   agentName: Bossman
   maxHealth: 100
@@ -18,7 +18,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf5a60785112ee54a9320d3655c7d1a8, type: 2}
   - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
   actions:
-  - {fileID: 11400000, guid: 7aa4335195e2fb640b8928dffc395154, type: 2}
-  - {fileID: 11400000, guid: 18fd8b1955206f44196709b394095265, type: 2}
-  - {fileID: 11400000, guid: b773d7be901db6d439982c672d0a1bd2, type: 2}
+  - {fileID: 11400000, guid: 2cfce2468a1d80d4189ea0dcf9191205, type: 2}
   actionSelectionStrategy: {fileID: 11400000, guid: 1047add231d697d4fa102d5823469b1d, type: 2}

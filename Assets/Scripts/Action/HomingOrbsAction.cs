@@ -6,13 +6,23 @@ public class HomingOrbsAction : AgentAction
     public GameObject orbPrefab;
     public int numberOfOrbs = 3;
     public float spreadAngle = 45f;
+    SeeingModule seeingModule;
 
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
-        ShootOrbs(firePoint);
+        if (seeingModule.canSeeTarget)
+            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
+        else
+        {
+            ShootOrbs(firePoint);
+            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
+        }
     }
 
-    public override void Initialize(Agent agent) { }
+    public override void Initialize(Agent agent)
+    {
+        seeingModule = agent.GetModule<SeeingModule>();
+    }
 
     private void ShootOrbs(Transform firePoint)
     {

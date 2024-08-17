@@ -5,5 +5,5 @@ public class DialogueModule : AgentModule
 {
     public override void Execute(Agent agent) { }
 
-    public override void RegisterEvents(AgentEvents agentEvents) { }
+    public override void Initialize() { }
 }

@@ -12,5 +12,5 @@ public class HearingModule : PerceptionModule
         // If so, update lastKnownLocation
     }
 
-    public override void RegisterEvents(AgentEvents agentEvents) { }
+    public override void Initialize() { }
 }

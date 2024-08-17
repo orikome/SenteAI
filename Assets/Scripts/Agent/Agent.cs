@@ -59,10 +59,10 @@ public class Agent : MonoBehaviour, IDamageable
         readinessModule = GetModule<ActionReadinessModule>();
         perceptionModule = GetModule<PerceptionModule>();
 
-        // Register modules with events
+        // Initialize modules
         foreach (var module in modules)
         {
-            module.RegisterEvents(events);
+            module.Initialize();
         }
 
         Debug.Assert(firePoint != null, "FirePoint is not set!");

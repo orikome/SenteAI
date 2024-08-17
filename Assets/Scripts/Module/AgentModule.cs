@@ -10,5 +10,5 @@ public abstract class AgentModule : ScriptableObject
     /// <summary>
     /// Called once in the agent's awake function.
     /// </summary>
-    public abstract void RegisterEvents(AgentEvents agentEvents);
+    public abstract void Initialize();
 }
