@@ -17,7 +17,7 @@ public class MoveAction : AgentAction
         agent.SetDestination(bestPosition);
 
         if (IsPositionGood(bestPosition))
-            agent.actionWeightManager.AdjustWeight(this, 0.1f);
+            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
     }
 
     private Vector3 EvaluateBestPosition(Agent agent)

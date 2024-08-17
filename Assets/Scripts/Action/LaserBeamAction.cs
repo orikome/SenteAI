@@ -24,11 +24,11 @@ public class LaserBeamAction : AgentAction
         if (seeingModule.canSeeTarget)
         {
             ShootLaser(firePoint);
-            agent.actionWeightManager.AdjustWeight(this, 0.1f);
+            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -1.0f);
+            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
             Debug.Log("Target not in sight!");
         }
     }
@@ -50,7 +50,7 @@ public class LaserBeamAction : AgentAction
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -0.2f * Time.deltaTime);
+            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
         }
     }
 
@@ -58,7 +58,8 @@ public class LaserBeamAction : AgentAction
     {
         return Mathf.Clamp01(1.0f - distance / 100f)
             * Mathf.Clamp01(health)
-            * Mathf.Clamp01(energy);
+            * Mathf.Clamp01(energy)
+            * Time.deltaTime;
     }
 
     private void ShootLaser(Transform firePoint)

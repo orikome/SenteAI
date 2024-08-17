@@ -9,7 +9,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
-    float effectivenessAdjustment = 0.5f;
+    float effectivenessAdjustment = 10f;
     public float closeMissThreshold = 1f;
 
     Transform target;
@@ -35,18 +35,18 @@ public class ShootAction : AgentAction, IFeedbackAction
                 accuracy
             );
             ShootProjectile(firePoint, aimDirection, agent);
-            agent.actionWeightManager.AdjustWeight(this, 0.1f * Time.deltaTime);
+            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -1f * Time.deltaTime);
+            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
         }
     }
 
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
-        agent.actionWeightManager.AdjustWeight(this, -(effectivenessAdjustment / 2));
+        agent.actionWeightManager.AdjustWeight(this, -effectivenessAdjustment);
         OnFailureCallback?.Invoke();
         //Debug.Log("HaNDLED FAILURE");
     }
@@ -80,11 +80,11 @@ public class ShootAction : AgentAction, IFeedbackAction
     {
         if (seeingModule.canSeeTarget)
         {
-            agent.actionWeightManager.AdjustWeight(this, 0.1f);
+            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -0.1f);
+            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
         }
     }
 
