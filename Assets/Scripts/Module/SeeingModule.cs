@@ -9,8 +9,8 @@ public class SeeingModule : PerceptionModule
     [SerializeField]
     private LayerMask layerMask;
     public bool canSeeTarget { get; private set; }
-    private bool previousVisibility;
-    private float cooldownTime = 1f;
+    private bool wasVisible;
+    private float cooldownTime = 0.5f;
     private float lastVisibilityChangeTime;
 
     private void OnValidate()
@@ -26,34 +26,40 @@ public class SeeingModule : PerceptionModule
         Ray ray = new Ray(agent.transform.position, directionToTarget.normalized);
 
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, range, layerMask);
-        bool targetVisible = hit && hitInfo.transform == target;
-        DebugRay(agent, directionToTarget, targetVisible);
+        bool isVisible = hit && hitInfo.transform == target;
 
+        DebugRay(agent, directionToTarget, isVisible);
+
+        // Return early if still in cooldown period
         if (Time.time - lastVisibilityChangeTime < cooldownTime)
             return;
 
-        canSeeTarget = targetVisible;
+        // Check if visibility has changed
+        bool visibilityChanged = isVisible != wasVisible;
 
-        if (targetVisible)
+        // Update if visible
+        if (isVisible && visibilityChanged)
         {
+            canSeeTarget = true;
             Player.Instance.playerMetrics.UpdateCoverStatus(true);
             lastKnownLocation = target.position;
             lastSeen = Time.time;
-            if (!previousVisibility)
-            {
-                agent.actionWeightManager.ResetWeights();
-                Player.Instance.playerMetrics.timeInCover = 0;
-                lastVisibilityChangeTime = Time.time;
-            }
+            agent.actionWeightManager.ResetWeights();
+            Player.Instance.playerMetrics.timeInCover = 0;
+            lastVisibilityChangeTime = Time.time;
         }
-        else if (previousVisibility)
+
+        // Update if target was lost
+        if (!isVisible && visibilityChanged)
         {
+            canSeeTarget = false;
             Player.Instance.playerMetrics.UpdateCoverStatus(false);
             Player.Instance.playerMetrics.timeInCover = 0;
             lastVisibilityChangeTime = Time.time;
         }
 
-        previousVisibility = canSeeTarget;
+        // Update visibility bool
+        wasVisible = isVisible;
     }
 
     private void DebugRay(Agent agent, Vector3 directionToTarget, bool targetVisible)
