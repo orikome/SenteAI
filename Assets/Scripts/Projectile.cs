@@ -34,24 +34,22 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         int otherLayer = collision.gameObject.layer;
-
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(otherLayer, enemyProjectileMask))
             return;
 
-        if (collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
-        {
-            damageable.TakeDamage(damage);
-            OnHitCallback?.Invoke();
-            TriggerParticles();
-            Destroy(gameObject);
-            Debug.Log($"{gameObject.name} dealt {damage} damage to {collision.gameObject.name}");
-        }
-        else
+        if (!collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
         {
             OnMissCallback?.Invoke();
             TriggerParticles();
             Destroy(gameObject);
+            return;
         }
+
+        damageable.TakeDamage(damage);
+        OnHitCallback?.Invoke();
+        TriggerParticles();
+        Destroy(gameObject);
+        Debug.Log($"{gameObject.name} dealt {damage} damage to {collision.gameObject.name}");
     }
 
     public void SetDirection(Vector2 direction)
