@@ -97,7 +97,7 @@ public class ShootAction : AgentAction, IFeedbackAction
             Quaternion.LookRotation(direction)
         );
 
-        Debug.DrawRay(firePoint.position, direction * 10, Color.red, 1f);
+        Debug.DrawRay(firePoint.position, direction * 100, Color.blue, 1f);
 
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.Initialize(direction, projectileSpeed, damage);

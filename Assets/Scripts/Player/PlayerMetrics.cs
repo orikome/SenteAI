@@ -14,10 +14,11 @@ public class PlayerMetrics : MonoBehaviour
     public float dodgeRatio;
     public float distanceToClosestEnemy;
     public float movementSpeed;
+    public Vector3 velocity;
     public float damageTaken;
     public bool isInCover { get; private set; }
     public float timeInCover;
-    Vector3 lastPosition = Vector3.zero;
+    public Vector3 lastPosition = Vector3.zero;
 
     [Header("Behavior Thresholds")]
     [SerializeField]
@@ -53,9 +54,8 @@ public class PlayerMetrics : MonoBehaviour
             transform.position
         );
 
-        movementSpeed =
-            OrikomeUtils.GeneralUtils.GetDistanceSquared(transform.position, lastPosition)
-            / Time.deltaTime;
+        movementSpeed = Vector3.Distance(transform.position, lastPosition) / Time.deltaTime;
+        velocity = (transform.position - lastPosition) / Time.deltaTime;
         lastPosition = transform.position;
     }
 

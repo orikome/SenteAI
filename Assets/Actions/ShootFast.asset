@@ -16,3 +16,5 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
   projectileSpeed: 30
   accuracy: 1
+  closeMissThreshold: 1
+  damage: 10
