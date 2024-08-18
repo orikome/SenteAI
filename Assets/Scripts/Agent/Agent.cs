@@ -39,7 +39,7 @@ public class Agent : MonoBehaviour, IDamageable
     #endregion
 
 
-    private void Awake()
+    public void Initialize()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         actionWeightManager = GetComponent<AgentActionWeightManager>();
@@ -59,12 +59,6 @@ public class Agent : MonoBehaviour, IDamageable
         readinessModule = GetModule<ActionReadinessModule>();
         perceptionModule = GetModule<PerceptionModule>();
 
-        // Initialize modules
-        foreach (var module in modules)
-        {
-            module.Initialize();
-        }
-
         Debug.Assert(firePoint != null, "FirePoint is not set!");
         Debug.Assert(readinessModule != null, "ActionReadinessModule is not assigned!");
         Debug.Assert(perceptionModule != null, "PerceptionModule is not assigned!");
@@ -76,6 +70,12 @@ public class Agent : MonoBehaviour, IDamageable
             Debug.LogError("No actions assigned!");
         }
 
+        // Initialize modules
+        foreach (var module in modules)
+        {
+            module.Initialize();
+        }
+
         // Initialize actions
         foreach (var action in actionWeightManager.actions)
         {
@@ -83,7 +83,7 @@ public class Agent : MonoBehaviour, IDamageable
         }
     }
 
-    void Start()
+    void OnEnable()
     {
         GameManager.Instance.activeAgents.Add(this);
     }

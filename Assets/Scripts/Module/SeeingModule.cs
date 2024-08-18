@@ -13,15 +13,15 @@ public class SeeingModule : PerceptionModule
     private float cooldownTime = 0.5f;
     private float lastVisibilityChangeTime;
 
-    private void OnValidate()
+    public override void Initialize()
     {
         if (layerMask == 0)
             Debug.LogWarning("LayerMask is empty!", this);
+        target = Player.Instance.transform;
     }
 
     public override void Execute(Agent agent)
     {
-        target = Player.Instance.transform;
         Vector3 directionToTarget = target.position - agent.transform.position;
         Ray ray = new Ray(agent.transform.position, directionToTarget.normalized);
 
@@ -70,6 +70,4 @@ public class SeeingModule : PerceptionModule
             targetVisible ? Color.green : Color.red
         );
     }
-
-    public override void Initialize(AgentEvents events) { }
 }
