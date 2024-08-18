@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
     private void Start()
     {
         timer = lifetime;
-        enemyProjectileMask = OrikomeUtils.LayerMaskUtils.CreateMask("EnemyProjectile");
+        enemyProjectileMask = OrikomeUtils.LayerMaskUtils.CreateMask("EnemyProjectile", "Enemy");
     }
 
     private void Update()

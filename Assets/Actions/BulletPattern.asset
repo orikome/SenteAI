@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76cc33fad3d5f3044827c65f65375d07, type: 3}
-  m_Name: SeeingModule
+  m_Script: {fileID: 11500000, guid: 34691451f601ee043bc8ececfa56d75b, type: 3}
+  m_Name: BulletPattern
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  lastSeen: 0
-  range: 100
+  cost: 10
+  bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
+  numberOfBullets: 10
+  spreadAngle: 30
+  bulletSpeed: 10

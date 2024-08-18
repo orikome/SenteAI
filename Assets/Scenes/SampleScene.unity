@@ -371,7 +371,7 @@ MonoBehaviour:
   perceptionModule: {fileID: 0}
   actionSelectionStrategy: {fileID: 0}
   events: {fileID: 0}
-  data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
+  data: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
   firePoint: {fileID: 874107140}
 --- !u!114 &206466445
 MonoBehaviour:
@@ -1892,7 +1892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1558212480
 MonoBehaviour:
   m_ObjectHideFlags: 0
