@@ -5,8 +5,6 @@ public class SeeingModule : PerceptionModule
 {
     [SerializeField]
     private float range = 10f;
-
-    [SerializeField]
     private LayerMask layerMask;
     public bool canSeeTarget { get; private set; }
     private bool wasVisible;
@@ -15,8 +13,7 @@ public class SeeingModule : PerceptionModule
 
     public override void Initialize()
     {
-        if (layerMask == 0)
-            Debug.LogWarning("LayerMask is empty!", this);
+        layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy");
         target = Player.Instance.transform;
     }
 
