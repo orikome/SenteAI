@@ -11,6 +11,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public float accuracy = 1.0f;
     float effectivenessAdjustment = 10f;
     public float closeMissThreshold = 1f;
+    public int damage = 10;
 
     Transform target;
 
@@ -21,13 +22,13 @@ public class ShootAction : AgentAction, IFeedbackAction
     public override void Initialize(Agent agent)
     {
         seeingModule = agent.GetModule<SeeingModule>();
+        target = Player.Instance.transform;
     }
 
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
         if (seeingModule.canSeeTarget)
         {
-            target = Player.Instance.transform;
             Vector3 aimDirection = Helpers.PredictPosition(
                 firePoint.position,
                 target,
@@ -96,8 +97,11 @@ public class ShootAction : AgentAction, IFeedbackAction
             Quaternion.LookRotation(direction)
         );
 
-        projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
+        Debug.DrawRay(firePoint.position, direction * 10, Color.red, 1f);
+
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
+        projectileComponent.Initialize(direction, projectileSpeed, damage);
+
         if (projectileComponent != null)
         {
             projectileComponent.OnHitCallback = () => HandleSuccess(agent);

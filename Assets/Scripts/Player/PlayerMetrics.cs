@@ -61,6 +61,9 @@ public class PlayerMetrics : MonoBehaviour
 
     public Transform FindClosestEnemyToPlayer()
     {
+        if (GameManager.Instance.activeAgents.Count == 0)
+            return Player.Instance.transform;
+
         Agent closestEnemy = null;
         float closestEnemyDistance = Mathf.Infinity;
 

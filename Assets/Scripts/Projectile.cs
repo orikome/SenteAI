@@ -9,8 +9,10 @@ public class Projectile : MonoBehaviour
     private float timer;
     public Action OnHitCallback;
     public Action OnMissCallback;
-    private Vector2 moveDirection;
+    private Vector3 moveDirection;
     private LayerMask enemyProjectileMask;
+    private float speed;
+    Vector3 rotationDirection;
 
     private void Start()
     {
@@ -18,14 +20,19 @@ public class Projectile : MonoBehaviour
         enemyProjectileMask = OrikomeUtils.LayerMaskUtils.CreateMask("EnemyProjectile", "Enemy");
     }
 
+    private void FixedUpdate()
+    {
+        transform.Translate(speed * Time.fixedDeltaTime * moveDirection, Space.World);
+        transform.Rotate(speed * Time.fixedDeltaTime * rotationDirection, Space.World);
+    }
+
     private void Update()
     {
-        transform.Translate(moveDirection * 5f * Time.deltaTime);
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
             OnMissCallback?.Invoke();
-            Helpers.SpawnParticles(transform.position, Color.white);
+            //Helpers.SpawnParticles(transform.position, Color.white);
             Destroy(gameObject);
         }
     }
@@ -51,8 +58,11 @@ public class Projectile : MonoBehaviour
         Debug.Log($"{gameObject.name} dealt {damage} damage to {collision.gameObject.name}");
     }
 
-    public void SetDirection(Vector2 direction)
+    public void Initialize(Vector3 direction, float projectileSpeed, int dmg)
     {
-        moveDirection = direction;
+        moveDirection = direction.normalized;
+        rotationDirection = direction.normalized;
+        speed = projectileSpeed;
+        damage = dmg;
     }
 }

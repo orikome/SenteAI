@@ -9,12 +9,12 @@ public class BulletHellExperiment : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
-            GenerateLinearBullets(currentSpiralAngleOffset, 60, 12);
+            GenerateLinearBullets(currentSpiralAngleOffset, 60, 24);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            GenerateSpiralBullets(currentSpiralAngleOffset, 60, 12);
+            GenerateSpiralBullets(currentSpiralAngleOffset, 60, 24);
             currentSpiralAngleOffset += 10;
         }
     }
@@ -27,11 +27,11 @@ public class BulletHellExperiment : MonoBehaviour
 
             float angleInRadians = angle * (Mathf.PI / 180);
 
-            Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+            Vector3 direction = new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Projectile>().SetDirection(direction);
+            bullet.GetComponent<Projectile>().Initialize(direction, 10f, 1);
         }
     }
 
@@ -43,11 +43,11 @@ public class BulletHellExperiment : MonoBehaviour
         {
             float angleInRadians = angle * (Mathf.PI / 180);
 
-            Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+            Vector3 direction = new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Projectile>().SetDirection(direction);
+            bullet.GetComponent<Projectile>().Initialize(direction, 10f, 1);
 
             angle += angleIncrement;
         }
