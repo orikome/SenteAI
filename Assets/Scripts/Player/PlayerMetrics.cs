@@ -35,10 +35,12 @@ public class PlayerMetrics : MonoBehaviour
     private float defensiveThreshold = 0.3f;
 
     public PlayerBehavior currentBehavior;
+    Agent closestEnemy;
 
     void Start()
     {
         lastPosition = transform.position;
+        closestEnemy = null;
     }
 
     void Update()
@@ -92,7 +94,6 @@ public class PlayerMetrics : MonoBehaviour
         if (GameManager.Instance.activeAgents.Count == 0)
             return Player.Instance.transform;
 
-        Agent closestEnemy = null;
         float closestEnemyDistance = Mathf.Infinity;
 
         foreach (Agent agent in GameManager.Instance.activeAgents)
@@ -126,6 +127,7 @@ public class PlayerMetrics : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        // Visualize player history with small spheres
         if (positionHistory.Count > 0)
         {
             Gizmos.color = Color.red;
@@ -133,6 +135,20 @@ public class PlayerMetrics : MonoBehaviour
             {
                 Gizmos.DrawSphere(pos, 0.4f);
             }
+        }
+
+        // Visualize cover status
+        Gizmos.color = isInCover ? Color.green : Color.red;
+        Gizmos.DrawWireCube(transform.position, new Vector3(1, 1, 1));
+
+        // Visualize distance to closest enemy
+        if (closestEnemy != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, closestEnemy.transform.position);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(closestEnemy.transform.position, 0.5f);
         }
     }
 
