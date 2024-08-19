@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMetrics : MonoBehaviour
@@ -20,6 +21,12 @@ public class PlayerMetrics : MonoBehaviour
     public float timeInCover;
     public Vector3 lastPosition = Vector3.zero;
 
+    [Header("Player Position History")]
+    public List<Vector3> positionHistory = new List<Vector3>();
+    private float historyRecordInterval = 1f;
+    private float timeSinceLastRecord = 0f;
+    private int maxHistoryCount = 60;
+
     [Header("Behavior Thresholds")]
     [SerializeField]
     private float aggressiveThreshold = 0.7f;
@@ -37,6 +44,7 @@ public class PlayerMetrics : MonoBehaviour
     void Update()
     {
         UpdatePlayerMetrics();
+        TrackPlayerPositionHistory();
         currentBehavior = ClassifyBehavior();
         RespondToPlayerBehavior();
     }
@@ -59,6 +67,24 @@ public class PlayerMetrics : MonoBehaviour
         movementSpeed = Vector3.Distance(transform.position, lastPosition) / Time.deltaTime;
         velocity = (transform.position - lastPosition) / Time.deltaTime;
         lastPosition = transform.position;
+    }
+
+    void TrackPlayerPositionHistory()
+    {
+        timeSinceLastRecord += Time.deltaTime;
+
+        if (timeSinceLastRecord >= historyRecordInterval)
+        {
+            positionHistory.Add(transform.position);
+
+            // If over limit, start removing past records
+            if (positionHistory.Count > maxHistoryCount)
+            {
+                positionHistory.RemoveAt(0);
+            }
+
+            timeSinceLastRecord = 0f;
+        }
     }
 
     public Transform FindClosestEnemyToPlayer()
@@ -96,6 +122,18 @@ public class PlayerMetrics : MonoBehaviour
             return PlayerBehavior.Defensive;
 
         return PlayerBehavior.Balanced;
+    }
+
+    void OnDrawGizmos()
+    {
+        if (positionHistory.Count > 0)
+        {
+            Gizmos.color = Color.red;
+            foreach (Vector3 pos in positionHistory)
+            {
+                Gizmos.DrawSphere(pos, 0.4f);
+            }
+        }
     }
 
     void RespondToPlayerBehavior()
