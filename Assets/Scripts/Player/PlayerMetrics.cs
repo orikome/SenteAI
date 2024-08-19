@@ -29,6 +29,11 @@ public class PlayerMetrics : MonoBehaviour
 
     public PlayerBehavior currentBehavior;
 
+    void Start()
+    {
+        lastPosition = transform.position;
+    }
+
     void Update()
     {
         UpdatePlayerMetrics();
@@ -49,10 +54,7 @@ public class PlayerMetrics : MonoBehaviour
         if (isInCover)
             timeInCover += Time.deltaTime;
 
-        distanceToClosestEnemy = OrikomeUtils.GeneralUtils.GetDistanceSquared(
-            FindClosestEnemyToPlayer().position,
-            transform.position
-        );
+        FindClosestEnemyToPlayer();
 
         movementSpeed = Vector3.Distance(transform.position, lastPosition) / Time.deltaTime;
         velocity = (transform.position - lastPosition) / Time.deltaTime;
@@ -78,10 +80,11 @@ public class PlayerMetrics : MonoBehaviour
             {
                 closestEnemyDistance = distance;
                 closestEnemy = agent;
+                distanceToClosestEnemy = distance;
             }
         }
 
-        return closestEnemy?.transform;
+        return closestEnemy.transform;
     }
 
     PlayerBehavior ClassifyBehavior()
