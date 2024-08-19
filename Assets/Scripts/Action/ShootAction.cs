@@ -31,8 +31,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         {
             ShootProjectile(
                 firePoint,
-                Player.Instance.playerMetrics.PredictNextPositionUsingMomentum()
-                    + new Vector3(0, -2f, 0),
+                Player.Instance.playerMetrics.PredictPositionDynamically() + new Vector3(0, -2f, 0),
                 agent
             );
             agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);

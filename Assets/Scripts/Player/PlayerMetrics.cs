@@ -37,6 +37,9 @@ public class PlayerMetrics : MonoBehaviour
     public PlayerBehavior currentBehavior;
     Agent closestEnemy;
 
+    private float detectionThreshold = 1.5f;
+    private int recentHistorySize = 6;
+
     void Start()
     {
         lastPosition = transform.position;
@@ -194,6 +197,39 @@ public class PlayerMetrics : MonoBehaviour
         return predictedPosition;
     }
 
+    public Vector3 PredictPositionDynamically()
+    {
+        // If player is cheesing (circling or moving in a small area), use average position prediction
+        if (IsClusteredMovement())
+        {
+            //DebugManager.Instance.Log(transform, "CHEESE", Color.yellow);
+            return GetAveragePosition(recentHistorySize);
+        }
+
+        //DebugManager.Instance.Log(transform, "MOMENTUM", Color.blue);
+        return PredictNextPositionUsingMomentum();
+    }
+
+    private bool IsClusteredMovement()
+    {
+        if (positionHistory.Count < recentHistorySize)
+            return false;
+
+        // Get average position of last few locations
+        Vector3 averagePosition = GetAveragePosition(recentHistorySize);
+        float totalDisplacement = 0f;
+
+        for (int i = positionHistory.Count - recentHistorySize; i < positionHistory.Count; i++)
+        {
+            totalDisplacement += Vector3.Distance(positionHistory[i], averagePosition);
+        }
+
+        float averageDisplacement = totalDisplacement / recentHistorySize;
+
+        // If below threshold, player positions are clustered
+        return averageDisplacement < detectionThreshold;
+    }
+
     PlayerBehavior ClassifyBehavior()
     {
         if (shootingFrequency > aggressiveThreshold && distanceToClosestEnemy < defensiveThreshold)
@@ -211,6 +247,9 @@ public class PlayerMetrics : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(PredictNextPositionUsingMomentum(), Vector3.one * 2);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawCube(PredictPositionDynamically(), Vector3.one * 2);
 
         // Visualize player history with small spheres
         if (positionHistory.Count > 0)
