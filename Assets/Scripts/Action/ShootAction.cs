@@ -29,13 +29,12 @@ public class ShootAction : AgentAction, IFeedbackAction
     {
         if (seeingModule.canSeeTarget)
         {
-            Vector3 aimDirection = Helpers.PredictPosition(
-                firePoint.position,
-                target,
-                projectileSpeed,
-                accuracy
+            ShootProjectile(
+                firePoint,
+                Player.Instance.playerMetrics.PredictNextPositionUsingMomentum()
+                    + new Vector3(0, -2f, 0),
+                agent
             );
-            ShootProjectile(firePoint, aimDirection, agent);
             agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
         }
         else

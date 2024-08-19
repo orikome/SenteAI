@@ -23,9 +23,9 @@ public class PlayerMetrics : MonoBehaviour
 
     [Header("Player Position History")]
     public List<Vector3> positionHistory = new List<Vector3>();
-    private float historyRecordInterval = 1f;
+    private float historyRecordInterval = 0.2f;
     private float timeSinceLastRecord = 0f;
-    private int maxHistoryCount = 60;
+    private readonly int maxHistoryCount = 200;
 
     [Header("Behavior Thresholds")]
     [SerializeField]
@@ -114,6 +114,86 @@ public class PlayerMetrics : MonoBehaviour
         return closestEnemy.transform;
     }
 
+    public Vector3 GetAveragePosition()
+    {
+        Vector3 averagePosition = Vector3.zero;
+        foreach (Vector3 pos in positionHistory)
+        {
+            averagePosition += pos;
+        }
+        return averagePosition / positionHistory.Count;
+    }
+
+    public Vector3 GetAveragePosition(int historyCount)
+    {
+        int validHistoryCount = Mathf.Min(historyCount, positionHistory.Count);
+
+        if (validHistoryCount == 0)
+            return transform.position;
+
+        Vector3 averagePosition = Vector3.zero;
+
+        for (int i = positionHistory.Count - validHistoryCount; i < positionHistory.Count; i++)
+        {
+            averagePosition += positionHistory[i];
+        }
+
+        return averagePosition / validHistoryCount;
+    }
+
+    public Vector3 PredictNextPositionUsingAverage()
+    {
+        Vector3 avgPosition = GetAveragePosition();
+        return (avgPosition + transform.position) / 2;
+    }
+
+    public Vector3 PredictNextPositionUsingVelocity()
+    {
+        if (positionHistory.Count < 2)
+            return transform.position;
+
+        Vector3 lastVelocity =
+            (
+                positionHistory[positionHistory.Count - 1]
+                - positionHistory[positionHistory.Count - 2]
+            ) / historyRecordInterval;
+
+        // Add velocity to current position
+        Vector3 predictedPosition = transform.position + lastVelocity * historyRecordInterval;
+
+        return predictedPosition;
+    }
+
+    public Vector3 PredictNextPositionUsingMomentum()
+    {
+        if (positionHistory.Count < 3)
+            return transform.position;
+
+        // Calculate velocity between last two positions
+        Vector3 velocity1 =
+            (
+                positionHistory[positionHistory.Count - 1]
+                - positionHistory[positionHistory.Count - 2]
+            ) / historyRecordInterval;
+
+        // Calculate velocity one step further back
+        Vector3 velocity2 =
+            (
+                positionHistory[positionHistory.Count - 2]
+                - positionHistory[positionHistory.Count - 3]
+            ) / historyRecordInterval;
+
+        Vector3 acceleration = (velocity1 - velocity2) / historyRecordInterval;
+
+        // Project both velocity and acceleration forward
+        Vector3 predictedPosition =
+            transform.position
+            + velocity1
+            + 0.5f * acceleration * Mathf.Pow(historyRecordInterval, 2);
+
+        return predictedPosition;
+    }
+
     PlayerBehavior ClassifyBehavior()
     {
         if (shootingFrequency > aggressiveThreshold && distanceToClosestEnemy < defensiveThreshold)
@@ -127,6 +207,11 @@ public class PlayerMetrics : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        Gizmos.DrawCube(GetAveragePosition(), Vector3.one * 4);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawCube(PredictNextPositionUsingMomentum(), Vector3.one * 2);
+
         // Visualize player history with small spheres
         if (positionHistory.Count > 0)
         {
