@@ -38,7 +38,7 @@ public class PlayerMetrics : MonoBehaviour
     Agent closestEnemy;
 
     private float detectionThreshold = 1.5f;
-    private int recentHistorySize = 6;
+    private int recentHistorySize = 12;
 
     void Start()
     {
