@@ -43,6 +43,14 @@ public class ShootAction : AgentAction, IFeedbackAction
         }
     }
 
+    private float CalculateUtility(float distance, float health, float energy)
+    {
+        return Mathf.Clamp01(1.0f - distance / 100f)
+            * Mathf.Clamp01(health)
+            * Mathf.Clamp01(energy)
+            * Time.deltaTime;
+    }
+
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
@@ -78,9 +86,12 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void UpdateWeights(Agent agent)
     {
+        float healthFactor = agent.CurrentHealth / agent.MaxHealth;
+
         if (seeingModule.canSeeTarget)
         {
-            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
+            float utility = CalculateUtility(agent.distanceToPlayer, healthFactor, 0.5f);
+            agent.actionWeightManager.AdjustWeight(this, utility * Time.deltaTime);
         }
         else
         {

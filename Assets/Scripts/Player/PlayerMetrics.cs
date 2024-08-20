@@ -26,6 +26,8 @@ public class PlayerMetrics : MonoBehaviour
     private readonly float historyRecordInterval = 0.2f;
     private float timeSinceLastRecord = 0f;
     private readonly int maxHistoryCount = 200;
+    private readonly float detectionThreshold = 1.5f;
+    private readonly int recentHistorySize = 6;
 
     [Header("Behavior Thresholds")]
     [SerializeField]
@@ -36,9 +38,6 @@ public class PlayerMetrics : MonoBehaviour
 
     public PlayerBehavior currentBehavior;
     Agent closestEnemy;
-
-    private readonly float detectionThreshold = 1.5f;
-    private readonly int recentHistorySize = 6;
 
     void Start()
     {
@@ -110,6 +109,8 @@ public class PlayerMetrics : MonoBehaviour
                 agent.transform.position,
                 transform.position
             );
+
+            agent.distanceToPlayer = distance;
 
             if (distance < closestEnemyDistance)
             {

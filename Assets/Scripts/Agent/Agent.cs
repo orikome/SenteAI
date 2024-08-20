@@ -38,6 +38,7 @@ public class Agent : MonoBehaviour, IDamageable
     public float CurrentHealth => currentHealth;
     #endregion
 
+    public float distanceToPlayer;
 
     public void Initialize()
     {
