@@ -17,13 +17,13 @@ public class PlayerMetrics : MonoBehaviour
     public float movementSpeed;
     public Vector3 velocity;
     public float damageTaken;
-    public bool isInCover { get; private set; }
+    public bool IsInCover { get; private set; }
     public float timeInCover;
     public Vector3 lastPosition = Vector3.zero;
 
     [Header("Player Position History")]
     public List<Vector3> positionHistory = new List<Vector3>();
-    private float historyRecordInterval = 0.2f;
+    private readonly float historyRecordInterval = 0.2f;
     private float timeSinceLastRecord = 0f;
     private readonly int maxHistoryCount = 200;
 
@@ -37,8 +37,8 @@ public class PlayerMetrics : MonoBehaviour
     public PlayerBehavior currentBehavior;
     Agent closestEnemy;
 
-    private float detectionThreshold = 1.5f;
-    private int recentHistorySize = 12;
+    private readonly float detectionThreshold = 1.5f;
+    private readonly int recentHistorySize = 6;
 
     void Start()
     {
@@ -61,7 +61,7 @@ public class PlayerMetrics : MonoBehaviour
 
     public void UpdateCoverStatus(bool canAnyEnemySeePlayer)
     {
-        isInCover = !canAnyEnemySeePlayer;
+        IsInCover = !canAnyEnemySeePlayer;
     }
 
     void UpdatePlayerMetrics()
@@ -69,7 +69,7 @@ public class PlayerMetrics : MonoBehaviour
         shootingFrequency = Random.Range(0f, 1f);
         dodgeRatio = Random.Range(0f, 1f);
 
-        if (isInCover)
+        if (IsInCover)
             timeInCover += Time.deltaTime;
 
         FindClosestEnemyToPlayer();
@@ -244,11 +244,16 @@ public class PlayerMetrics : MonoBehaviour
 
         Gizmos.DrawCube(GetAveragePosition(), Vector3.one * 4);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawCube(PredictNextPositionUsingMomentum(), Vector3.one * 2);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawCube(PredictPositionDynamically(), Vector3.one * 2);
+        if (IsClusteredMovement())
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(GetAveragePosition(recentHistorySize), Vector3.one * 4);
+        }
+        else
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawCube(PredictNextPositionUsingMomentum(), Vector3.one * 2);
+        }
 
         // Visualize player history with small spheres
         if (positionHistory.Count > 0)
@@ -261,7 +266,7 @@ public class PlayerMetrics : MonoBehaviour
         }
 
         // Visualize cover status
-        Gizmos.color = isInCover ? Color.green : Color.red;
+        Gizmos.color = IsInCover ? Color.green : Color.red;
         Gizmos.DrawWireCube(transform.position, new Vector3(1, 1, 1));
 
         // Visualize distance to closest enemy
