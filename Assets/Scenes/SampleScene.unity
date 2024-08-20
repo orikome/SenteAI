@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modules: []
-  actionWeightManager: {fileID: 0}
+  actionUtilityManager: {fileID: 0}
   actionDecisionMaker: {fileID: 0}
   readinessModule: {fileID: 0}
   perceptionModule: {fileID: 0}
@@ -604,6 +604,7 @@ MonoBehaviour:
   events: {fileID: 0}
   data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
   firePoint: {fileID: 874107140}
+  distanceToPlayer: 0
 --- !u!114 &206466445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,7 +1062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modules: []
-  actionWeightManager: {fileID: 0}
+  actionUtilityManager: {fileID: 0}
   actionDecisionMaker: {fileID: 0}
   readinessModule: {fileID: 0}
   perceptionModule: {fileID: 0}
@@ -1069,6 +1070,7 @@ MonoBehaviour:
   events: {fileID: 0}
   data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 1872615904}
+  distanceToPlayer: 0
 --- !u!4 &341880543
 Transform:
   m_ObjectHideFlags: 0
@@ -1825,7 +1827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d2cc4c42b05f148980ca6bb274036f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 10
   jumpHeight: 2
   gravity: -9.81
 --- !u!114 &915808714
@@ -1880,7 +1882,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915808710}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6132f318478c4234093bdc264f6927ec, type: 3}
   m_Name: 
@@ -3102,7 +3104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modules: []
-  actionWeightManager: {fileID: 0}
+  actionUtilityManager: {fileID: 0}
   actionDecisionMaker: {fileID: 0}
   readinessModule: {fileID: 0}
   perceptionModule: {fileID: 0}
@@ -3110,6 +3112,7 @@ MonoBehaviour:
   events: {fileID: 0}
   data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 803972207}
+  distanceToPlayer: 0
 --- !u!4 &1558212486
 Transform:
   m_ObjectHideFlags: 0

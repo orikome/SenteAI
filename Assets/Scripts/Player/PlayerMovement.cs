@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;
+    public float moveSpeed = 10.0f;
     public float jumpHeight = 2.0f;
     public float gravity = -9.81f;
     private CharacterController controller;
@@ -22,25 +22,23 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = 0f;
         }
 
-        Move();
+        HandleMovement();
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
         }
-
-        // Apply gravity
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
 
-    private void Move()
+    private void HandleMovement()
     {
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        controller.Move(move * moveSpeed * Time.deltaTime);
+        Vector3 move = new Vector3(moveX, 0, moveZ);
+        controller.Move(moveSpeed * Time.deltaTime * move);
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
     private void Jump()
