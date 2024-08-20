@@ -13,7 +13,8 @@ public class MoveAction : AgentAction
     public override void ExecuteAction(Transform firePoint, Agent agent)
     {
         //Vector3 bestPosition = EvaluateBestPosition(agent);
-        Vector3 bestPosition = Player.Instance.transform.position;
+        Vector3 bestPosition = Player.Instance.playerMetrics.PredictPositionDynamically();
+        //Vector3 bestPosition = Player.Instance.transform.position;
         agent.SetDestination(bestPosition);
 
         if (IsPositionGood(bestPosition))

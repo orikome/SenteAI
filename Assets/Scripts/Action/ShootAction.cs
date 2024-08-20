@@ -39,7 +39,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
+            agent.actionWeightManager.AdjustWeight(this, -20f * Time.deltaTime);
         }
     }
 
