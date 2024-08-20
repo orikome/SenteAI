@@ -44,6 +44,11 @@ public class PlayerMetrics : MonoBehaviour
     {
         lastPosition = transform.position;
         closestEnemy = null;
+
+        for (int i = 0; i < recentHistorySize; i++)
+        {
+            positionHistory.Add(transform.position);
+        }
     }
 
     void Update()
@@ -152,9 +157,6 @@ public class PlayerMetrics : MonoBehaviour
 
     public Vector3 PredictNextPositionUsingVelocity()
     {
-        if (positionHistory.Count < 2)
-            return transform.position;
-
         Vector3 lastVelocity =
             (
                 positionHistory[positionHistory.Count - 1]
@@ -169,9 +171,6 @@ public class PlayerMetrics : MonoBehaviour
 
     public Vector3 PredictNextPositionUsingMomentum()
     {
-        if (positionHistory.Count < 3)
-            return transform.position;
-
         // Calculate velocity between last two positions
         Vector3 velocity1 =
             (
@@ -212,9 +211,6 @@ public class PlayerMetrics : MonoBehaviour
 
     private bool IsClusteredMovement()
     {
-        if (positionHistory.Count < recentHistorySize)
-            return false;
-
         // Get average position of last few locations
         Vector3 averagePosition = GetAveragePosition(recentHistorySize);
         float totalDisplacement = 0f;
@@ -243,6 +239,9 @@ public class PlayerMetrics : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        if (!Application.isPlaying)
+            return;
+
         Gizmos.DrawCube(GetAveragePosition(), Vector3.one * 4);
 
         Gizmos.color = Color.blue;
