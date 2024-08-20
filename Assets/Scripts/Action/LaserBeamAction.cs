@@ -19,21 +19,15 @@ public class LaserBeamAction : AgentAction
         Debug.Assert(seeingModule != null, "SeeingModule is not set!");
     }
 
-    public override void ExecuteAction(Transform firePoint, Agent agent)
+    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         if (seeingModule.canSeeTarget)
         {
             ShootLaser(firePoint);
-            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
-        }
-        else
-        {
-            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
-            Debug.Log("Target not in sight!");
         }
     }
 
-    public override void UpdateWeights(Agent agent)
+    public override void UpdateUtilityLoop(Agent agent)
     {
         float energyFactor =
             energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
@@ -46,11 +40,11 @@ public class LaserBeamAction : AgentAction
                 healthFactor,
                 energyFactor * 3
             );
-            agent.actionWeightManager.AdjustWeight(this, utility * Time.deltaTime);
+            agent.actionUtilityManager.AdjustUtilityScore(this, utility * Time.deltaTime);
         }
         else
         {
-            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
+            agent.actionUtilityManager.AdjustUtilityScore(this, -10f * Time.deltaTime);
         }
     }
 

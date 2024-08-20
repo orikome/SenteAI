@@ -8,14 +8,14 @@ public class HomingOrbsAction : AgentAction
     public float spreadAngle = 45f;
     SeeingModule seeingModule;
 
-    public override void ExecuteAction(Transform firePoint, Agent agent)
+    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         if (seeingModule.canSeeTarget)
-            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
+            agent.actionUtilityManager.AdjustUtilityScore(this, -10f * Time.deltaTime);
         else
         {
             ShootOrbs(firePoint);
-            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
+            agent.actionUtilityManager.AdjustUtilityScore(this, 10f * Time.deltaTime);
         }
     }
 

@@ -19,9 +19,9 @@ public class BulletPatternAction : AgentAction
         Debug.Assert(energyBasedReadinessModule != null, "EnergyBasedReadinessModule is not set!");
     }
 
-    public override void ExecuteAction(Transform firePoint, Agent agent) { }
+    public override void ExecuteActionLoop(Transform firePoint, Agent agent) { }
 
-    public override void UpdateWeights(Agent agent) { }
+    public override void UpdateUtilityLoop(Agent agent) { }
 
     private float CalculateUtility(float distance, float health, float energy)
     {

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 [RequireComponent(
     typeof(NavMeshAgent),
-    typeof(AgentActionWeightManager),
+    typeof(AgentActionUtilityManager),
     typeof(AgentActionDecisionMaker)
 )]
 public class Agent : MonoBehaviour, IDamageable
@@ -13,7 +13,7 @@ public class Agent : MonoBehaviour, IDamageable
     public List<AgentModule> modules = new List<AgentModule>();
 
     [HideInInspector]
-    public AgentActionWeightManager actionWeightManager;
+    public AgentActionUtilityManager actionUtilityManager;
 
     [HideInInspector]
     public AgentActionDecisionMaker actionDecisionMaker;
@@ -43,19 +43,19 @@ public class Agent : MonoBehaviour, IDamageable
     public void Initialize()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        actionWeightManager = GetComponent<AgentActionWeightManager>();
+        actionUtilityManager = GetComponent<AgentActionUtilityManager>();
         actionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
         events = GetComponent<AgentEvents>();
 
         // Ensure we only use data from our AgentData file
         modules.Clear();
-        actionWeightManager.actions.Clear();
+        actionUtilityManager.actions.Clear();
         actionSelectionStrategy = null;
 
         InitializeData();
         currentHealth = MaxHealth;
         actionDecisionMaker.Initialize(this);
-        actionWeightManager.Initialize();
+        actionUtilityManager.Initialize();
 
         readinessModule = GetModule<ActionReadinessModule>();
         perceptionModule = GetModule<PerceptionModule>();
@@ -66,7 +66,7 @@ public class Agent : MonoBehaviour, IDamageable
         Debug.Assert(actionSelectionStrategy != null, "ActionSelectionStrategy is not assigned!");
         Debug.Assert(events != null, "AgentEvents is not assigned!");
 
-        if (actionWeightManager.actions.Count == 0)
+        if (actionUtilityManager.actions.Count == 0)
         {
             Debug.LogError("No actions assigned!");
         }
@@ -78,7 +78,7 @@ public class Agent : MonoBehaviour, IDamageable
         }
 
         // Initialize actions
-        foreach (var action in actionWeightManager.actions)
+        foreach (var action in actionUtilityManager.actions)
         {
             action.Initialize(this);
         }
@@ -101,15 +101,15 @@ public class Agent : MonoBehaviour, IDamageable
             module.Execute(this);
         }
 
-        foreach (var action in actionWeightManager.actions)
+        foreach (var action in actionUtilityManager.actions)
         {
-            action.UpdateWeights(this);
+            action.UpdateUtilityLoop(this);
         }
 
         //DebugLog();
 
         AgentAction decidedAction = actionDecisionMaker.MakeDecision();
-        decidedAction?.ExecuteAction(firePoint, this);
+        decidedAction?.ExecuteActionLoop(firePoint, this);
     }
 
     private void InitializeData()
@@ -136,7 +136,7 @@ public class Agent : MonoBehaviour, IDamageable
             if (action != null)
             {
                 AgentAction newAction = Instantiate(action);
-                actionWeightManager.actions.Add(newAction);
+                actionUtilityManager.actions.Add(newAction);
             }
         }
 
@@ -150,7 +150,7 @@ public class Agent : MonoBehaviour, IDamageable
 
         string debugInfo = "";
 
-        foreach (var actionProbability in actionWeightManager.weights)
+        foreach (var actionProbability in actionUtilityManager.utilityScore)
         {
             debugInfo +=
                 $"A: {actionProbability.Key.name}, W: {actionProbability.Value:F2}, C: {actionProbability.Key.cost}\n";

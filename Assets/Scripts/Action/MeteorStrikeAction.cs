@@ -6,7 +6,7 @@ public class MeteorStrikeAction : AgentAction
     public GameObject meteorPrefab;
     public float dropDelay = 2f;
 
-    public override void ExecuteAction(Transform firePoint, Agent agent)
+    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         DropMeteor(firePoint);
     }

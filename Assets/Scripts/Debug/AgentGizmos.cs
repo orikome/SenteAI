@@ -4,14 +4,14 @@ using UnityEditor;
 
 public class AgentGizmos : MonoBehaviour
 {
-    AgentActionWeightManager actionDictionary;
+    AgentActionUtilityManager actionDictionary;
     Agent agent;
     public float textHeight = 4f;
     public float textSize = 0.1f;
 
     private void Start()
     {
-        actionDictionary = GetComponent<AgentActionWeightManager>();
+        actionDictionary = GetComponent<AgentActionUtilityManager>();
         agent = GetComponent<Agent>();
     }
 
@@ -35,7 +35,7 @@ public class AgentGizmos : MonoBehaviour
 
         if (actionDictionary != null)
         {
-            foreach (var actionProbability in actionDictionary.weights)
+            foreach (var actionProbability in actionDictionary.utilityScore)
             {
                 textPosition += Vector3.down * textHeight;
 

@@ -10,7 +10,7 @@ public class MoveAction : AgentAction
     [SerializeField]
     private int samples = 10;
 
-    public override void ExecuteAction(Transform firePoint, Agent agent)
+    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         //Vector3 bestPosition = EvaluateBestPosition(agent);
         Vector3 bestPosition = Player.Instance.playerMetrics.PredictPositionDynamically();
@@ -18,7 +18,7 @@ public class MoveAction : AgentAction
         agent.SetDestination(bestPosition);
 
         if (IsPositionGood(bestPosition))
-            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
+            agent.actionUtilityManager.AdjustUtilityScore(this, 10f * Time.deltaTime);
     }
 
     private Vector3 EvaluateBestPosition(Agent agent)

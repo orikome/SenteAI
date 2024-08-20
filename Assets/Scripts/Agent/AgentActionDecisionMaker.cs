@@ -31,7 +31,7 @@ public class AgentActionDecisionMaker : MonoBehaviour
 
         float weight = 0f;
 
-        if (agent.actionWeightManager.weights.TryGetValue(actionToUse, out float foundWeight))
+        if (agent.actionUtilityManager.utilityScore.TryGetValue(actionToUse, out float foundWeight))
         {
             weight = foundWeight;
         }

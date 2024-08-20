@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class ActionDictionaryDebugger : MonoBehaviour
 {
-    AgentActionWeightManager actionDictionary;
+    AgentActionUtilityManager actionDictionary;
     Vector2 scrollPosition = Vector2.zero;
 
     private void Start()
     {
-        actionDictionary = GetComponent<AgentActionWeightManager>();
+        actionDictionary = GetComponent<AgentActionUtilityManager>();
     }
 
     private void OnGUI()
@@ -42,7 +42,7 @@ public class ActionDictionaryDebugger : MonoBehaviour
                 GUILayout.Height(boxHeight)
             );
 
-            foreach (var actionProbability in actionDictionary.weights)
+            foreach (var actionProbability in actionDictionary.utilityScore)
             {
                 AgentAction action = actionProbability.Key;
                 float weight = actionProbability.Value;
@@ -89,7 +89,7 @@ public class ActionDictionaryDebugger : MonoBehaviour
 
     private void PrintProbabilitiesToConsole()
     {
-        foreach (var actionProbability in actionDictionary.weights)
+        foreach (var actionProbability in actionDictionary.utilityScore)
         {
             AgentAction action = actionProbability.Key;
             float weight = actionProbability.Value;

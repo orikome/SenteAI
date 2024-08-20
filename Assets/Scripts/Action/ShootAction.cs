@@ -25,7 +25,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         target = Player.Instance.transform;
     }
 
-    public override void ExecuteAction(Transform firePoint, Agent agent)
+    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         if (seeingModule.canSeeTarget)
         {
@@ -35,15 +35,25 @@ public class ShootAction : AgentAction, IFeedbackAction
                     - agent.firePoint.position,
                 agent
             );
-            agent.actionWeightManager.AdjustWeight(this, 10f * Time.deltaTime);
-        }
-        else
-        {
-            agent.actionWeightManager.AdjustWeight(this, -20f * Time.deltaTime);
         }
     }
 
-    private float CalculateUtility(float distance, float health, float energy)
+    public override void UpdateUtilityLoop(Agent agent)
+    {
+        float healthFactor = agent.CurrentHealth / agent.MaxHealth;
+
+        if (seeingModule.canSeeTarget)
+        {
+            float utility = CalculateUtilityScore(agent.distanceToPlayer, healthFactor, 0.5f);
+            agent.actionUtilityManager.AdjustUtilityScore(this, utility * Time.deltaTime);
+        }
+        else
+        {
+            agent.actionUtilityManager.AdjustUtilityScore(this, -10f * Time.deltaTime);
+        }
+    }
+
+    private float CalculateUtilityScore(float distance, float health, float energy)
     {
         return Mathf.Clamp01(1.0f - distance / 100f)
             * Mathf.Clamp01(health)
@@ -54,7 +64,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
-        agent.actionWeightManager.AdjustWeight(this, -effectivenessAdjustment);
+        agent.actionUtilityManager.AdjustUtilityScore(this, -effectivenessAdjustment);
         OnFailureCallback?.Invoke();
         //Debug.Log("HaNDLED FAILURE");
     }
@@ -62,7 +72,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleSuccess(Agent agent)
     {
         // Increase effectiveness when the projectile hits
-        agent.actionWeightManager.AdjustWeight(this, effectivenessAdjustment);
+        agent.actionUtilityManager.AdjustUtilityScore(this, effectivenessAdjustment);
         OnSuccessCallback?.Invoke();
         Debug.Log("Hit player");
     }
@@ -81,22 +91,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     private void HandleCloseMiss(Agent agent)
     {
-        agent.actionWeightManager.AdjustWeight(this, -(effectivenessAdjustment / 2));
-    }
-
-    public override void UpdateWeights(Agent agent)
-    {
-        float healthFactor = agent.CurrentHealth / agent.MaxHealth;
-
-        if (seeingModule.canSeeTarget)
-        {
-            float utility = CalculateUtility(agent.distanceToPlayer, healthFactor, 0.5f);
-            agent.actionWeightManager.AdjustWeight(this, utility * Time.deltaTime);
-        }
-        else
-        {
-            agent.actionWeightManager.AdjustWeight(this, -10f * Time.deltaTime);
-        }
+        agent.actionUtilityManager.AdjustUtilityScore(this, -(effectivenessAdjustment / 2));
     }
 
     void ShootProjectile(Transform firePoint, Vector3 direction, Agent agent)

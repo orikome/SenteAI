@@ -9,6 +9,6 @@ public class MaxWeightSelectionStrategy : ActionSelectionStrategy
 {
     public override AgentAction SelectAction(Agent agent)
     {
-        return agent.actionWeightManager.weights.OrderByDescending(w => w.Value).First().Key;
+        return agent.actionUtilityManager.utilityScore.OrderByDescending(w => w.Value).First().Key;
     }
 }

@@ -8,7 +8,7 @@ public class RandomSelectionStrategy : ActionSelectionStrategy
 {
     public override AgentAction SelectAction(Agent agent)
     {
-        int randomIndex = Random.Range(0, agent.actionWeightManager.actions.Count);
-        return agent.actionWeightManager.actions[randomIndex];
+        int randomIndex = Random.Range(0, agent.actionUtilityManager.actions.Count);
+        return agent.actionUtilityManager.actions[randomIndex];
     }
 }
