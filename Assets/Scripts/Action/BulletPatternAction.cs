@@ -9,14 +9,14 @@ public class BulletPatternAction : AgentAction
     public float bulletSpeed = 10f;
 
     SeeingModule seeingModule;
-    EnergyBasedReadinessModule energyBasedReadinessModule;
+    ActionReadinessModule actionReadinessModule;
 
     public override void Initialize(Agent agent)
     {
         seeingModule = agent.GetModule<SeeingModule>();
-        energyBasedReadinessModule = agent.GetModule<EnergyBasedReadinessModule>();
+        actionReadinessModule = agent.GetModule<ActionReadinessModule>();
         Debug.Assert(seeingModule != null, "SeeingModule is not set!");
-        Debug.Assert(energyBasedReadinessModule != null, "EnergyBasedReadinessModule is not set!");
+        Debug.Assert(actionReadinessModule != null, "ActionReadinessModule is not set!");
     }
 
     public override void ExecuteActionLoop(Transform firePoint, Agent agent) { }
@@ -32,6 +32,6 @@ public class BulletPatternAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return true;
+        return seeingModule.canSeeTarget && Time.time - lastExecutedTime >= cooldownTime;
     }
 }

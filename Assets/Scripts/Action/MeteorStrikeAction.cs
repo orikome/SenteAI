@@ -6,17 +6,24 @@ public class MeteorStrikeAction : AgentAction
     public GameObject meteorPrefab;
     public float dropDelay = 2f;
 
+    ActionReadinessModule actionReadinessModule;
+
+    public override void Initialize(Agent agent)
+    {
+        actionReadinessModule = agent.GetModule<ActionReadinessModule>();
+        Debug.Assert(actionReadinessModule != null, "ActionReadinessModule is not set!");
+    }
+
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         DropMeteor(firePoint, agent);
+        lastExecutedTime = Time.time;
     }
 
     public override bool CanExecute(Agent agent)
     {
-        return true;
+        return Time.time - lastExecutedTime >= cooldownTime;
     }
-
-    public override void Initialize(Agent agent) { }
 
     private void DropMeteor(Transform firePoint, Agent agent)
     {

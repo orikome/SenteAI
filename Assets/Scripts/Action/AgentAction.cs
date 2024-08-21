@@ -7,7 +7,16 @@ public abstract class AgentAction : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     public float utilityScore;
+    public float lastExecutedTime = 0f;
+    public float cooldownTime = 0.1f;
     public abstract bool CanExecute(Agent agent);
+
+    public float GetCooldownProgress()
+    {
+        // How far along the cooldown is between 0 and 1
+        return Mathf.Clamp01((Time.time - lastExecutedTime) / cooldownTime);
+    }
+
     public abstract void Initialize(Agent agent);
 
     /// <summary>

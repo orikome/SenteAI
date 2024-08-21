@@ -10,6 +10,14 @@ public class MoveAction : AgentAction
     [SerializeField]
     private int samples = 10;
 
+    ActionReadinessModule actionReadinessModule;
+
+    public override void Initialize(Agent agent)
+    {
+        actionReadinessModule = agent.GetModule<ActionReadinessModule>();
+        Debug.Assert(actionReadinessModule != null, "ActionReadinessModule is not set!");
+    }
+
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         //Vector3 bestPosition = EvaluateBestPosition(agent);
@@ -19,11 +27,13 @@ public class MoveAction : AgentAction
 
         if (IsPositionGood(bestPosition))
             agent.actionUtilityManager.AdjustUtilityScore(this, 10f * Time.deltaTime);
+
+        lastExecutedTime = Time.time;
     }
 
     public override bool CanExecute(Agent agent)
     {
-        return true;
+        return Time.time - lastExecutedTime >= cooldownTime;
     }
 
     private Vector3 EvaluateBestPosition(Agent agent)
@@ -70,6 +80,4 @@ public class MoveAction : AgentAction
     {
         return true;
     }
-
-    public override void Initialize(Agent agent) { }
 }

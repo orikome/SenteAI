@@ -15,15 +15,18 @@ public class ShootAction : AgentAction, IFeedbackAction
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
     SeeingModule seeingModule;
+    ActionReadinessModule actionReadinessModule;
 
     public override void Initialize(Agent agent)
     {
         seeingModule = agent.GetModule<SeeingModule>();
+        actionReadinessModule = agent.GetModule<ActionReadinessModule>();
+        Debug.Assert(actionReadinessModule != null, "ActionReadinessModule is not set!");
     }
 
     public override bool CanExecute(Agent agent)
     {
-        return seeingModule.canSeeTarget;
+        return seeingModule.canSeeTarget && Time.time - lastExecutedTime >= cooldownTime;
     }
 
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
@@ -33,6 +36,7 @@ public class ShootAction : AgentAction, IFeedbackAction
             Player.Instance.playerMetrics.PredictPositionDynamically() - agent.firePoint.position,
             agent
         );
+        lastExecutedTime = Time.time;
     }
 
     public override void UpdateUtilityLoop(Agent agent)
@@ -99,7 +103,7 @@ public class ShootAction : AgentAction, IFeedbackAction
             Quaternion.LookRotation(direction)
         );
 
-        Debug.DrawRay(firePoint.position, direction * 100, Color.blue, 1f);
+        Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
 
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.Initialize(direction, projectileSpeed, damage);

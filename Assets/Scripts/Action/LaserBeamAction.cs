@@ -10,38 +10,35 @@ public class LaserBeamAction : AgentAction
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
     SeeingModule seeingModule;
-    EnergyBasedReadinessModule energyBasedReadinessModule;
+    ActionReadinessModule actionReadinessModule;
 
     public override void Initialize(Agent agent)
     {
         seeingModule = agent.GetModule<SeeingModule>();
-        energyBasedReadinessModule = agent.GetModule<EnergyBasedReadinessModule>();
+        actionReadinessModule = agent.GetModule<ActionReadinessModule>();
         Debug.Assert(seeingModule != null, "SeeingModule is not set!");
     }
 
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         ShootLaser(firePoint, agent);
+        lastExecutedTime = Time.time;
     }
 
     public override bool CanExecute(Agent agent)
     {
-        return seeingModule.canSeeTarget;
+        return seeingModule.canSeeTarget && Time.time - lastExecutedTime >= cooldownTime;
     }
 
     public override void UpdateUtilityLoop(Agent agent)
     {
-        float energyFactor =
-            energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
+        //float energyFactor =
+        //energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
         float healthFactor = agent.CurrentHealth / agent.MaxHealth;
 
         if (seeingModule.canSeeTarget)
         {
-            float utility = CalculateUtility(
-                agent.distanceToPlayer,
-                healthFactor,
-                energyFactor * 3
-            );
+            float utility = CalculateUtility(agent.distanceToPlayer, healthFactor, 0.5f);
             agent.actionUtilityManager.AdjustUtilityScore(this, utility * Time.deltaTime);
         }
         else

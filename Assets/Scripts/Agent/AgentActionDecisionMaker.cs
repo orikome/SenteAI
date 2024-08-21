@@ -14,11 +14,17 @@ public class AgentActionDecisionMaker : MonoBehaviour
     {
         var actionToUse = agent.actionSelectionStrategy.SelectAction(agent);
 
-        if (agent.readinessModule.CanPerformAction(actionToUse))
+        if (actionToUse != null && actionToUse.CanExecute(agent))
         {
-            agent.readinessModule.OnActionPerformed(actionToUse);
+            actionToUse.lastExecutedTime = Time.time;
 
-            DebugLog(actionToUse);
+            foreach (var action in agent.actionUtilityManager.actions)
+            {
+                if (action != actionToUse)
+                {
+                    action.lastExecutedTime = Time.time;
+                }
+            }
 
             return actionToUse;
         }
