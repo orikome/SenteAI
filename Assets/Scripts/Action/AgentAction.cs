@@ -4,6 +4,9 @@ public abstract class AgentAction : ScriptableObject
 {
     [Range(0, 100)]
     public int cost;
+
+    [Range(0.0f, 1.0f)]
+    public float utilityScore;
     public abstract void Initialize(Agent agent);
 
     /// <summary>

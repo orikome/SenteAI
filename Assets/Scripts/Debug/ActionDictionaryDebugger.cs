@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class ActionDictionaryDebugger : MonoBehaviour
 {
-    AgentActionUtilityManager actionDictionary;
+    AgentActionUtilityManager actionUtilityManager;
     Vector2 scrollPosition = Vector2.zero;
 
     private void Start()
     {
-        actionDictionary = GetComponent<AgentActionUtilityManager>();
+        actionUtilityManager = GetComponent<AgentActionUtilityManager>();
     }
 
     private void OnGUI()
@@ -34,7 +34,7 @@ public class ActionDictionaryDebugger : MonoBehaviour
         GUILayout.BeginArea(new Rect(10, 10, boxWidth, boxHeight), boxStyle);
         GUILayout.BeginVertical();
 
-        if (actionDictionary != null)
+        if (actionUtilityManager != null && actionUtilityManager.actions != null)
         {
             scrollPosition = GUILayout.BeginScrollView(
                 scrollPosition,
@@ -42,19 +42,18 @@ public class ActionDictionaryDebugger : MonoBehaviour
                 GUILayout.Height(boxHeight)
             );
 
-            foreach (var actionProbability in actionDictionary.utilityScore)
+            foreach (var action in actionUtilityManager.actions)
             {
-                AgentAction action = actionProbability.Key;
-                float weight = actionProbability.Value;
+                float utilityScore = action.utilityScore;
                 int cost = action.cost;
 
                 GUIContent actionContent = new GUIContent($"Action: {action.name}");
-                GUIContent weightContent = new GUIContent($"Weight: {weight}");
+                GUIContent utilityScoreContent = new GUIContent($"UtilityScore: {utilityScore:F2}");
                 GUIContent costContent = new GUIContent($"Cost: {cost}");
 
                 float maxWidth = Mathf.Max(
                     labelStyle.CalcSize(actionContent).x,
-                    labelStyle.CalcSize(weightContent).x,
+                    labelStyle.CalcSize(utilityScoreContent).x,
                     labelStyle.CalcSize(costContent).x
                 );
 
@@ -62,7 +61,7 @@ public class ActionDictionaryDebugger : MonoBehaviour
                 GUILayout.Label(actionContent, labelStyle, GUILayout.Width(maxWidth));
 
                 labelStyle.normal.textColor = Color.magenta;
-                GUILayout.Label(weightContent, labelStyle, GUILayout.Width(maxWidth));
+                GUILayout.Label(utilityScoreContent, labelStyle, GUILayout.Width(maxWidth));
 
                 labelStyle.normal.textColor = Color.green;
                 GUILayout.Label(costContent, labelStyle, GUILayout.Width(maxWidth));
@@ -80,7 +79,7 @@ public class ActionDictionaryDebugger : MonoBehaviour
         else
         {
             labelStyle.normal.textColor = Color.red;
-            GUILayout.Label("Please assign the ActionDictionary component.", labelStyle);
+            GUILayout.Label("Please assign the ActionUtilityManager component.", labelStyle);
         }
 
         GUILayout.EndVertical();
@@ -89,13 +88,19 @@ public class ActionDictionaryDebugger : MonoBehaviour
 
     private void PrintProbabilitiesToConsole()
     {
-        foreach (var actionProbability in actionDictionary.utilityScore)
+        if (actionUtilityManager != null && actionUtilityManager.actions != null)
         {
-            AgentAction action = actionProbability.Key;
-            float weight = actionProbability.Value;
-            int cost = action.cost;
+            foreach (var action in actionUtilityManager.actions)
+            {
+                float utilityScore = action.utilityScore;
+                int cost = action.cost;
 
-            Debug.Log($"Action: {action.name}, Weight: {weight}, Cost: {cost}");
+                Debug.Log($"Action: {action.name}, UtilityScore: {utilityScore:F2}, Cost: {cost}");
+            }
+        }
+        else
+        {
+            Debug.LogError("ActionUtilityManager or actions list is null.");
         }
     }
 

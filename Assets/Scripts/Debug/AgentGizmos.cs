@@ -4,14 +4,14 @@ using UnityEditor;
 
 public class AgentGizmos : MonoBehaviour
 {
-    AgentActionUtilityManager actionDictionary;
+    AgentActionUtilityManager actionUtilityManager;
     Agent agent;
     public float textHeight = 4f;
     public float textSize = 0.1f;
 
     private void Start()
     {
-        actionDictionary = GetComponent<AgentActionUtilityManager>();
+        actionUtilityManager = GetComponent<AgentActionUtilityManager>();
         agent = GetComponent<Agent>();
     }
 
@@ -33,14 +33,18 @@ public class AgentGizmos : MonoBehaviour
         //string energyText = $"E: {agent.actionDecisionMaker.curEnergy:F0}";
         //Handles.Label(textPosition, energyText, style);
 
-        if (actionDictionary != null)
+        if (
+            agent != null
+            && agent.actionUtilityManager != null
+            && agent.actionUtilityManager.actions != null
+        )
         {
-            foreach (var actionProbability in actionDictionary.utilityScore)
+            foreach (var action in agent.actionUtilityManager.actions)
             {
                 textPosition += Vector3.down * textHeight;
 
                 string actionInfo =
-                    $"A: {actionProbability.Key.name}, W: {actionProbability.Value:F2}, C: {actionProbability.Key.cost}";
+                    $"A: {action.name}, W: {action.utilityScore:F2}, C: {action.cost}";
 
                 style.normal.textColor = Color.white;
                 Handles.Label(textPosition, actionInfo, style);
@@ -50,7 +54,7 @@ public class AgentGizmos : MonoBehaviour
         {
             textPosition += Vector3.down * textHeight;
             style.normal.textColor = Color.red;
-            Handles.Label(textPosition, "No ActionDictionary.", style);
+            Handles.Label(textPosition, "No Actions Found.", style);
         }
     }
 }

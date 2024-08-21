@@ -30,16 +30,11 @@ public class AgentActionDecisionMaker : MonoBehaviour
     {
         string actionName = actionToUse.name.Replace("(Clone)", "").Trim();
 
-        float weight = 0f;
-
-        if (agent.actionUtilityManager.utilityScore.TryGetValue(actionToUse, out float foundWeight))
-        {
-            weight = foundWeight;
-        }
+        float utilityScore = actionToUse.utilityScore;
 
         DebugManager.Instance.Log(
             transform,
-            $"{actionName} C:{actionToUse.cost} W:{weight:F2}",
+            $"{actionName} C:{actionToUse.cost} W:{utilityScore:F2}",
             Color.cyan
         );
     }

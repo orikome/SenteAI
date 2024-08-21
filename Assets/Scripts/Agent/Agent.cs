@@ -150,10 +150,9 @@ public class Agent : MonoBehaviour, IDamageable
 
         string debugInfo = "";
 
-        foreach (var actionProbability in actionUtilityManager.utilityScore)
+        foreach (var action in actionUtilityManager.actions)
         {
-            debugInfo +=
-                $"A: {actionProbability.Key.name}, W: {actionProbability.Value:F2}, C: {actionProbability.Key.cost}\n";
+            debugInfo += $"A: {action.name}, W: {action.utilityScore:F2}, C: {action.cost}\n";
         }
         DebugManager.Instance.Log(transform, debugInfo, Color.white);
     }
