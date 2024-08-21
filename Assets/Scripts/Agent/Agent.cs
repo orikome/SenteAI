@@ -39,9 +39,11 @@ public class Agent : MonoBehaviour, IDamageable
     #endregion
 
     public float distanceToPlayer;
+    public Transform target;
 
     public void Initialize()
     {
+        target = Player.Instance.transform;
         navMeshAgent = GetComponent<NavMeshAgent>();
         actionUtilityManager = GetComponent<AgentActionUtilityManager>();
         actionDecisionMaker = GetComponent<AgentActionDecisionMaker>();

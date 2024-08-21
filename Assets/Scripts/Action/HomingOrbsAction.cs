@@ -8,6 +8,11 @@ public class HomingOrbsAction : AgentAction
     public float spreadAngle = 45f;
     SeeingModule seeingModule;
 
+    public override void Initialize(Agent agent)
+    {
+        seeingModule = agent.GetModule<SeeingModule>();
+    }
+
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         if (seeingModule.canSeeTarget)
@@ -17,11 +22,6 @@ public class HomingOrbsAction : AgentAction
             ShootOrbs(firePoint);
             agent.actionUtilityManager.AdjustUtilityScore(this, 10f * Time.deltaTime);
         }
-    }
-
-    public override void Initialize(Agent agent)
-    {
-        seeingModule = agent.GetModule<SeeingModule>();
     }
 
     private void ShootOrbs(Transform firePoint)

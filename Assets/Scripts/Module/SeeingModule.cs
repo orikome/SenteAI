@@ -14,16 +14,15 @@ public class SeeingModule : PerceptionModule
     public override void Initialize()
     {
         layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy");
-        target = Player.Instance.transform;
     }
 
     public override void ExecuteLoop(Agent agent)
     {
-        Vector3 directionToTarget = target.position - agent.transform.position;
+        Vector3 directionToTarget = agent.target.position - agent.transform.position;
         Ray ray = new Ray(agent.transform.position, directionToTarget.normalized);
 
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, range, layerMask);
-        bool isVisible = hit && hitInfo.transform == target;
+        bool isVisible = hit && hitInfo.transform == agent.target;
 
         DebugRay(agent, directionToTarget, isVisible);
 
@@ -39,7 +38,7 @@ public class SeeingModule : PerceptionModule
         {
             canSeeTarget = true;
             Player.Instance.playerMetrics.UpdateCoverStatus(true);
-            lastKnownLocation = target.position;
+            lastKnownLocation = agent.target.position;
             lastSeen = Time.time;
             agent.actionUtilityManager.ResetUtilityScore();
             Player.Instance.playerMetrics.timeInCover = 0;

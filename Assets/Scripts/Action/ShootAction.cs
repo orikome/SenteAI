@@ -12,9 +12,6 @@ public class ShootAction : AgentAction, IFeedbackAction
     float effectivenessAdjustment = 10f;
     public float closeMissThreshold = 1f;
     public int damage = 10;
-
-    Transform target;
-
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
     SeeingModule seeingModule;
@@ -22,7 +19,6 @@ public class ShootAction : AgentAction, IFeedbackAction
     public override void Initialize(Agent agent)
     {
         seeingModule = agent.GetModule<SeeingModule>();
-        target = Player.Instance.transform;
     }
 
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)

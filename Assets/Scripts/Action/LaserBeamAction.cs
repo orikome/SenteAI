@@ -23,7 +23,7 @@ public class LaserBeamAction : AgentAction
     {
         if (seeingModule.canSeeTarget)
         {
-            ShootLaser(firePoint);
+            ShootLaser(firePoint, agent);
         }
     }
 
@@ -56,11 +56,11 @@ public class LaserBeamAction : AgentAction
             * Time.deltaTime;
     }
 
-    private void ShootLaser(Transform firePoint)
+    private void ShootLaser(Transform firePoint, Agent agent)
     {
         Vector3 directionToTarget = Helpers.PredictPosition(
             firePoint.position,
-            Player.Instance.transform,
+            agent.target,
             laserDistance,
             accuracy
         );

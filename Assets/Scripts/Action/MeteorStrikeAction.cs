@@ -8,17 +8,16 @@ public class MeteorStrikeAction : AgentAction
 
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
-        DropMeteor(firePoint);
+        DropMeteor(firePoint, agent);
     }
 
     public override void Initialize(Agent agent) { }
 
-    private void DropMeteor(Transform firePoint)
+    private void DropMeteor(Transform firePoint, Agent agent)
     {
-        Vector3 targetPosition = Player.Instance.transform.position;
         GameObject meteor = Instantiate(
             meteorPrefab,
-            targetPosition + (Vector3.up * 10),
+            agent.target.position + (Vector3.up * 10),
             Quaternion.identity
         );
         Destroy(meteor, dropDelay + 1f);
