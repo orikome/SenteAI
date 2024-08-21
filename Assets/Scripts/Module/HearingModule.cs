@@ -6,7 +6,7 @@ public class HearingModule : PerceptionModule
     //[SerializeField]
     //private float hearingRange = 15f;
 
-    public override void Execute(Agent agent)
+    public override void ExecuteLoop(Agent agent)
     {
         // Check if there are any sounds within hearingRange
         // If so, update lastKnownLocation

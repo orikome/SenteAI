@@ -9,6 +9,7 @@ public class AgentActionDecisionMaker : MonoBehaviour
         this.agent = agent;
     }
 
+    // Called in the agent's update loop
     public AgentAction MakeDecision()
     {
         var actionToUse = agent.actionSelectionStrategy.SelectAction(agent);

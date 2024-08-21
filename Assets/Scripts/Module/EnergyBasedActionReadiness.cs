@@ -22,7 +22,7 @@ public class EnergyBasedReadinessModule : ActionReadinessModule
         curEnergy -= action.cost;
     }
 
-    public override void Execute(Agent agent)
+    public override void ExecuteLoop(Agent agent)
     {
         curEnergy = Mathf.Min(curEnergy + energyRecoveryRate * Time.deltaTime, maxEnergy);
     }

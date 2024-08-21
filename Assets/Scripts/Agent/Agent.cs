@@ -98,7 +98,7 @@ public class Agent : MonoBehaviour, IDamageable
     {
         foreach (var module in modules)
         {
-            module.Execute(this);
+            module.ExecuteLoop(this);
         }
 
         foreach (var action in actionUtilityManager.actions)

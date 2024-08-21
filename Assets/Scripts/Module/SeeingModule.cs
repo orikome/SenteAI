@@ -17,7 +17,7 @@ public class SeeingModule : PerceptionModule
         target = Player.Instance.transform;
     }
 
-    public override void Execute(Agent agent)
+    public override void ExecuteLoop(Agent agent)
     {
         Vector3 directionToTarget = target.position - agent.transform.position;
         Ray ray = new Ray(agent.transform.position, directionToTarget.normalized);

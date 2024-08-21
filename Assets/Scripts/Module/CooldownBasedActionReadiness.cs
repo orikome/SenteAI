@@ -22,7 +22,7 @@ public class CooldownBasedActionReadiness : ActionReadinessModule
         lastActionTime[action] = Time.time;
     }
 
-    public override void Execute(Agent agent) { }
+    public override void ExecuteLoop(Agent agent) { }
 
     public override void Initialize() { }
 }
