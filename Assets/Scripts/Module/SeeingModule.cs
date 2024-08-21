@@ -1,12 +1,11 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SeeingModule", menuName = "Module/SeeingModule")]
-public class SeeingModule : PerceptionModule
+public class SeeingModule : SenseModule
 {
     [SerializeField]
     private float range = 10f;
     private LayerMask layerMask;
-    public bool canSeeTarget { get; private set; }
     private bool wasVisible;
     private float cooldownTime = 0.5f;
     private float lastVisibilityChangeTime;
@@ -36,9 +35,9 @@ public class SeeingModule : PerceptionModule
         // Update if visible
         if (isVisible && visibilityChanged)
         {
-            canSeeTarget = true;
+            CanSenseTarget = true;
             Player.Instance.playerMetrics.UpdateCoverStatus(true);
-            lastKnownLocation = agent.target.position;
+            LastKnownLocation = agent.target.position;
             lastSeen = Time.time;
             agent.actionUtilityManager.ResetUtilityScore();
             Player.Instance.playerMetrics.timeInCover = 0;
@@ -48,7 +47,7 @@ public class SeeingModule : PerceptionModule
         // Update if target was lost
         if (!isVisible && visibilityChanged)
         {
-            canSeeTarget = false;
+            CanSenseTarget = false;
             Player.Instance.playerMetrics.UpdateCoverStatus(false);
             Player.Instance.playerMetrics.timeInCover = 0;
             lastVisibilityChangeTime = Time.time;

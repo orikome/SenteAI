@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HearingModule", menuName = "Module/HearingModule")]
-public class HearingModule : PerceptionModule
+public class HearingModule : SenseModule
 {
     //[SerializeField]
     //private float hearingRange = 15f;

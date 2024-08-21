@@ -22,7 +22,7 @@ public class Agent : MonoBehaviour, IDamageable
     public ActionReadinessModule readinessModule;
 
     [HideInInspector]
-    public PerceptionModule perceptionModule;
+    public SenseModule perceptionModule;
     public ActionSelectionStrategy actionSelectionStrategy;
 
     [HideInInspector]
@@ -60,7 +60,7 @@ public class Agent : MonoBehaviour, IDamageable
         actionUtilityManager.Initialize();
 
         readinessModule = GetModule<ActionReadinessModule>();
-        perceptionModule = GetModule<PerceptionModule>();
+        perceptionModule = GetModule<SenseModule>();
 
         Debug.Assert(firePoint != null, "FirePoint is not set!");
         Debug.Assert(readinessModule != null, "ActionReadinessModule is not assigned!");

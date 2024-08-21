@@ -8,16 +8,7 @@ public class BulletPatternAction : AgentAction
     public float spreadAngle = 30f;
     public float bulletSpeed = 10f;
 
-    SeeingModule seeingModule;
-    ActionReadinessModule actionReadinessModule;
-
-    public override void Initialize(Agent agent)
-    {
-        seeingModule = agent.GetModule<SeeingModule>();
-        actionReadinessModule = agent.GetModule<ActionReadinessModule>();
-        Debug.Assert(seeingModule != null, "SeeingModule is not set!");
-        Debug.Assert(actionReadinessModule != null, "ActionReadinessModule is not set!");
-    }
+    public override void Initialize(Agent agent) { }
 
     public override void ExecuteActionLoop(Transform firePoint, Agent agent) { }
 
@@ -32,6 +23,7 @@ public class BulletPatternAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return seeingModule.canSeeTarget && Time.time - lastExecutedTime >= cooldownTime;
+        return agent.perceptionModule.CanSenseTarget
+            && Time.time - lastExecutedTime >= cooldownTime;
     }
 }

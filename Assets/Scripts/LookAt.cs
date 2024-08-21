@@ -6,16 +6,16 @@ public class LookAt : MonoBehaviour
     public Transform target;
     public float rotationSpeed = 60f;
     public float idleRotationSpeed = 10f;
-    SeeingModule seeingModule;
+    Agent agent;
 
     void Start()
     {
-        seeingModule = gameObject.GetComponent<Agent>().GetModule<SeeingModule>();
+        agent = gameObject.GetComponent<Agent>();
     }
 
     private void Update()
     {
-        if (seeingModule.canSeeTarget)
+        if (agent.perceptionModule.CanSenseTarget)
         {
             LookAtTransform(target);
         }
