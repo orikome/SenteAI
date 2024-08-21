@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(
@@ -8,7 +9,17 @@ public class RandomSelectionStrategy : ActionSelectionStrategy
 {
     public override AgentAction SelectAction(Agent agent)
     {
-        int randomIndex = Random.Range(0, agent.actionUtilityManager.actions.Count);
-        return agent.actionUtilityManager.actions[randomIndex];
+        var executableActions = agent
+            .actionUtilityManager.actions.Where(action => action.CanExecute(agent))
+            .ToList();
+
+        if (executableActions.Count == 0)
+        {
+            Debug.LogError("No executable actions available!");
+            return null;
+        }
+
+        int randomIndex = Random.Range(0, executableActions.Count);
+        return executableActions[randomIndex];
     }
 }

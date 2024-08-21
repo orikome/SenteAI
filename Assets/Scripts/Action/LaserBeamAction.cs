@@ -21,10 +21,12 @@ public class LaserBeamAction : AgentAction
 
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
-        if (seeingModule.canSeeTarget)
-        {
-            ShootLaser(firePoint, agent);
-        }
+        ShootLaser(firePoint, agent);
+    }
+
+    public override bool CanExecute(Agent agent)
+    {
+        return seeingModule.canSeeTarget;
     }
 
     public override void UpdateUtilityLoop(Agent agent)
@@ -58,12 +60,8 @@ public class LaserBeamAction : AgentAction
 
     private void ShootLaser(Transform firePoint, Agent agent)
     {
-        Vector3 directionToTarget = Helpers.PredictPosition(
-            firePoint.position,
-            agent.target,
-            laserDistance,
-            accuracy
-        );
+        Vector3 directionToTarget =
+            Player.Instance.playerMetrics.PredictNextPositionUsingMomentum();
 
         GameObject laser = Instantiate(
             laserPrefab,

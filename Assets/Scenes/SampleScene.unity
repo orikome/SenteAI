@@ -566,7 +566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &206466443
 Transform:
   m_ObjectHideFlags: 0
@@ -605,6 +605,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
   firePoint: {fileID: 874107140}
   distanceToPlayer: 0
+  target: {fileID: 0}
 --- !u!114 &206466445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1071,6 +1072,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 1872615904}
   distanceToPlayer: 0
+  target: {fileID: 0}
 --- !u!4 &341880543
 Transform:
   m_ObjectHideFlags: 0
@@ -3113,6 +3115,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 803972207}
   distanceToPlayer: 0
+  target: {fileID: 0}
 --- !u!4 &1558212486
 Transform:
   m_ObjectHideFlags: 0

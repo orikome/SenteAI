@@ -29,4 +29,9 @@ public class BulletPatternAction : AgentAction
     }
 
     private void GeneratePattern(Transform firePoint) { }
+
+    public override bool CanExecute(Agent agent)
+    {
+        return true;
+    }
 }

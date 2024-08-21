@@ -13,6 +13,11 @@ public class HomingOrbsAction : AgentAction
         seeingModule = agent.GetModule<SeeingModule>();
     }
 
+    public override bool CanExecute(Agent agent)
+    {
+        return true;
+    }
+
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
         if (seeingModule.canSeeTarget)

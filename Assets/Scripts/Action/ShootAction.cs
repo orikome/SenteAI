@@ -21,17 +21,18 @@ public class ShootAction : AgentAction, IFeedbackAction
         seeingModule = agent.GetModule<SeeingModule>();
     }
 
+    public override bool CanExecute(Agent agent)
+    {
+        return seeingModule.canSeeTarget;
+    }
+
     public override void ExecuteActionLoop(Transform firePoint, Agent agent)
     {
-        if (seeingModule.canSeeTarget)
-        {
-            ShootProjectile(
-                firePoint,
-                Player.Instance.playerMetrics.PredictPositionDynamically()
-                    - agent.firePoint.position,
-                agent
-            );
-        }
+        ShootProjectile(
+            firePoint,
+            Player.Instance.playerMetrics.PredictPositionDynamically() - agent.firePoint.position,
+            agent
+        );
     }
 
     public override void UpdateUtilityLoop(Agent agent)

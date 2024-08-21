@@ -21,6 +21,11 @@ public class MoveAction : AgentAction
             agent.actionUtilityManager.AdjustUtilityScore(this, 10f * Time.deltaTime);
     }
 
+    public override bool CanExecute(Agent agent)
+    {
+        return true;
+    }
+
     private Vector3 EvaluateBestPosition(Agent agent)
     {
         Vector3 bestPosition = Vector3.zero;

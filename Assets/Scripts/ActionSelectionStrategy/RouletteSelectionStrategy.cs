@@ -13,10 +13,20 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
 
         // TODO: If a low probability action gets picked
         // and its effectiveness is low -> trigger "oopsie" dialogue
-        float total = agent.actionUtilityManager.actions.Sum(action => action.utilityScore);
+        var executableActions = agent
+            .actionUtilityManager.actions.Where(action => action.CanExecute(agent))
+            .ToList();
+
+        if (executableActions.Count == 0)
+        {
+            Debug.LogError("No executable actions available!");
+            return null;
+        }
+
+        float total = executableActions.Sum(action => action.utilityScore);
         float randomPoint = Random.value * total;
 
-        foreach (var action in agent.actionUtilityManager.actions)
+        foreach (var action in executableActions)
         {
             if (randomPoint < action.utilityScore)
             {

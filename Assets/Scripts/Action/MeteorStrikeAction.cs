@@ -11,6 +11,11 @@ public class MeteorStrikeAction : AgentAction
         DropMeteor(firePoint, agent);
     }
 
+    public override bool CanExecute(Agent agent)
+    {
+        return true;
+    }
+
     public override void Initialize(Agent agent) { }
 
     private void DropMeteor(Transform firePoint, Agent agent)

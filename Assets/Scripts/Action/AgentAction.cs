@@ -7,6 +7,7 @@ public abstract class AgentAction : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     public float utilityScore;
+    public abstract bool CanExecute(Agent agent);
     public abstract void Initialize(Agent agent);
 
     /// <summary>
