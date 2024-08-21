@@ -15,7 +15,7 @@ MonoBehaviour:
   agentName: Bossman
   maxHealth: 100
   modules:
-  - {fileID: 11400000, guid: 6b1cd409ee2475e42bdc19bb6cbaec26, type: 2}
+  - {fileID: 11400000, guid: bda2150b2e83d54469052c562b100c85, type: 2}
   - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
   actions:
   - {fileID: 11400000, guid: 7aa4335195e2fb640b8928dffc395154, type: 2}

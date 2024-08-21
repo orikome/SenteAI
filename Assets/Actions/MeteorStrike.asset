@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: MeteorStrike
   m_EditorClassIdentifier: 
   cost: 80
+  utilityScore: 0
+  lastExecutedTime: 0
+  cooldownTime: 1
   meteorPrefab: {fileID: 2406367453882067487, guid: ed87fe88f4747014988e04c03bda2398, type: 3}
   dropDelay: 2

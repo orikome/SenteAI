@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Move
   m_EditorClassIdentifier: 
   cost: 10
-  evaluationFrequency: 4
+  utilityScore: 0
+  lastExecutedTime: 0
+  cooldownTime: 1
+  moveRadius: 10
+  samples: 10

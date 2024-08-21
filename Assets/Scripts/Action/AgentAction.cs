@@ -11,10 +11,20 @@ public abstract class AgentAction : ScriptableObject
     public float cooldownTime = 0.1f;
     public abstract bool CanExecute(Agent agent);
 
+    /// <summary>
+    /// Returns how far along the cooldown is between 0 and 1.
+    /// </summary>
     public float GetCooldownProgress()
     {
-        // How far along the cooldown is between 0 and 1
         return Mathf.Clamp01((Time.time - lastExecutedTime) / cooldownTime);
+    }
+
+    /// <summary>
+    /// Returns the direct value of how much time is left on a cooldown.
+    /// </summary>
+    public float GetCooldownTimeRemaining()
+    {
+        return cooldownTime - (Time.time - lastExecutedTime);
     }
 
     public abstract void Initialize(Agent agent);

@@ -9,6 +9,6 @@ public class TeleportAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return Time.time - lastExecutedTime >= cooldownTime;
+        return GetCooldownTimeRemaining() <= 0;
     }
 }

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 10
   utilityScore: 0
+  lastExecutedTime: 0
+  cooldownTime: 1
   bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
   numberOfBullets: 10
   spreadAngle: 30

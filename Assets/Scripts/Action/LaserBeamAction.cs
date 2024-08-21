@@ -20,8 +20,7 @@ public class LaserBeamAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.perceptionModule.CanSenseTarget
-            && Time.time - lastExecutedTime >= cooldownTime;
+        return agent.perceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
     public override void UpdateUtilityLoop(Agent agent)

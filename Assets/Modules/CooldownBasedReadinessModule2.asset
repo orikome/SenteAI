@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f34f56e5fd743044a7c4cd4f156e9d3, type: 3}
   m_Name: CooldownBasedReadinessModule2
   m_EditorClassIdentifier: 
-  cooldownDuration: 1
+  cooldownDuration: 3

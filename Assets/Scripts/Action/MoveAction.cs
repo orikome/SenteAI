@@ -33,7 +33,7 @@ public class MoveAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return Time.time - lastExecutedTime >= cooldownTime;
+        return GetCooldownTimeRemaining() <= 0;
     }
 
     private Vector3 EvaluateBestPosition(Agent agent)

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Laser
   m_EditorClassIdentifier: 
   cost: 60
-  predictedUtility: 0.5
+  utilityScore: 0
+  lastExecutedTime: 0
+  cooldownTime: 1
   laserPrefab: {fileID: 5423380317875475676, guid: dc296d75e435a654d92357db6f7bb082, type: 3}
   duration: 2
   laserDistance: 100
