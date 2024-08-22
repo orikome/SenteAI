@@ -20,6 +20,14 @@ public class AgentActionUtilityManager : MonoBehaviour
         }
     }
 
+    public void AdjustUtilityScores()
+    {
+        foreach (AgentAction action in actions)
+        {
+            //action.UpdateUtilityLoop();
+        }
+    }
+
     public void AdjustUtilityScore(AgentAction action, float amount)
     {
         if (action == null)
