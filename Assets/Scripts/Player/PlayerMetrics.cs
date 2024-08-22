@@ -38,6 +38,7 @@ public class PlayerMetrics : MonoBehaviour
 
     public PlayerBehavior currentBehavior;
     Agent closestEnemy;
+    public Vector3 PredictedPosition { get; private set; }
 
     void Start()
     {
@@ -194,6 +195,7 @@ public class PlayerMetrics : MonoBehaviour
             + velocity1
             + 0.5f * acceleration * Mathf.Pow(historyRecordInterval, 2);
 
+        PredictedPosition = predictedPosition;
         return predictedPosition;
     }
 
