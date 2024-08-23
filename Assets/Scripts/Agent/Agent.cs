@@ -46,7 +46,7 @@ public class Agent : MonoBehaviour, IDamageable
     {
         context = new AgentContext
         {
-            DistanceToPlayer = 0.5f,
+            DistanceToPlayer = distanceToPlayer,
             HealthFactor = 0.5f,
             EnergyLevel = 0.5f
         };

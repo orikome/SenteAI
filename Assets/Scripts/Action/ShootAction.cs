@@ -32,14 +32,15 @@ public class ShootAction : AgentAction, IFeedbackAction
         lastExecutedTime = Time.time;
     }
 
-    public override float CalculateUtility(Agent agent, AgentContext agentContext)
+    public override float CalculateUtility(Agent agent, AgentContext context)
     {
-        float healthFactor = agent.CurrentHealth / agent.MaxHealth;
+        //float healthFactor = agent.CurrentHealth / agent.MaxHealth;
+        Debug.Log(context.DistanceToPlayer);
 
         if (agent.perceptionModule.CanSenseTarget)
             return 0;
 
-        float utility = CalculateUtilityScore(agent.distanceToPlayer, healthFactor, 0.5f);
+        float utility = CalculateUtilityScore(context.DistanceToPlayer, context.HealthFactor, 0.5f);
         return utility;
     }
 

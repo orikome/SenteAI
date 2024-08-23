@@ -10,16 +10,16 @@ public class AgentActionUtilityManager : MonoBehaviour
     public void Initialize()
     {
         agent = GetComponent<Agent>();
-        InitializeUtilityScore();
+        ResetUtilityScores();
     }
 
-    private void InitializeUtilityScore()
+    public void ResetUtilityScores()
     {
-        // Equalize utility scores
         foreach (AgentAction action in actions)
         {
             action.utilityScore = 1.0f / actions.Count;
         }
+        DebugManager.Instance.Log(transform, "Reset utilScores", Color.red);
     }
 
     public void CalculateUtilityScores()
@@ -48,23 +48,18 @@ public class AgentActionUtilityManager : MonoBehaviour
         if (sum == 0)
             return;
 
-        // Normalize utility scores
+        // Scale each score relative to total sum
+        // Also ensure no score is below minScore
         foreach (AgentAction action in actions)
         {
             action.utilityScore = Mathf.Max(action.utilityScore / sum, minScore);
         }
 
-        // Ensure the scores sum to 1
+        // Ensure scores sum to exactly 1
         sum = actions.Sum(action => action.utilityScore);
         foreach (AgentAction action in actions)
         {
             action.utilityScore /= sum;
         }
-    }
-
-    public void ResetUtilityScore()
-    {
-        InitializeUtilityScore();
-        DebugManager.Instance.Log(transform, "Reset utililityScore", Color.red);
     }
 }

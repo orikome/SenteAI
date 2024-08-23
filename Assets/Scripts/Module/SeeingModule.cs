@@ -39,7 +39,7 @@ public class SeeingModule : SenseModule
             Player.Instance.playerMetrics.UpdateCoverStatus(true);
             LastKnownLocation = agent.target.position;
             LastSeen = Time.time;
-            agent.actionUtilityManager.ResetUtilityScore();
+            agent.actionUtilityManager.ResetUtilityScores();
             Player.Instance.playerMetrics.timeInCover = 0;
             lastVisibilityChangeTime = Time.time;
         }
