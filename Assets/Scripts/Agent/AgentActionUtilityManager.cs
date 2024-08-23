@@ -5,9 +5,11 @@ using UnityEngine;
 public class AgentActionUtilityManager : MonoBehaviour
 {
     public List<AgentAction> actions;
+    Agent agent;
 
     public void Initialize()
     {
+        agent = GetComponent<Agent>();
         InitializeUtilityScore();
     }
 
@@ -20,15 +22,15 @@ public class AgentActionUtilityManager : MonoBehaviour
         }
     }
 
-    public void AdjustUtilityScores()
+    public void CalculateUtilityScores()
     {
         foreach (AgentAction action in actions)
         {
-            //action.UpdateUtilityLoop();
+            action.CalculateUtility(agent, agent.context);
         }
     }
 
-    public void AdjustUtilityScore(AgentAction action, float amount)
+    void AdjustUtilityScore(AgentAction action, float amount)
     {
         if (action == null)
             return;

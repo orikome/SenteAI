@@ -40,9 +40,19 @@ public class Agent : MonoBehaviour, IDamageable
 
     public float distanceToPlayer;
     public Transform target;
+    public AgentContext context;
 
     public void Initialize()
     {
+        context = new AgentContext
+        {
+            DistanceToPlayer = 0.5f,
+            HealthFactor = 0.5f,
+            EnergyLevel = 0.5f
+        };
+
+        Debug.Log("AgentContext Initialized: " + context);
+
         target = Player.Instance.transform;
         navMeshAgent = GetComponent<NavMeshAgent>();
         actionUtilityManager = GetComponent<AgentActionUtilityManager>();
@@ -103,15 +113,12 @@ public class Agent : MonoBehaviour, IDamageable
             module.ExecuteLoop(this);
         }
 
-        foreach (var action in actionUtilityManager.actions)
-        {
-            action.UpdateUtilityLoop(this);
-        }
+        actionUtilityManager.CalculateUtilityScores();
 
         //DebugLog();
 
         AgentAction decidedAction = actionDecisionMaker.MakeDecision();
-        decidedAction?.ExecuteActionLoop(firePoint, this);
+        decidedAction?.ExecuteLoop(firePoint, this);
     }
 
     private void InitializeData()

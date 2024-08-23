@@ -14,15 +14,9 @@ public class HomingOrbsAction : AgentAction
         return agent.perceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
-    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
+    public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
-        if (agent.perceptionModule.CanSenseTarget)
-            agent.actionUtilityManager.AdjustUtilityScore(this, -10f * Time.deltaTime);
-        else
-        {
-            ShootOrbs(firePoint);
-            agent.actionUtilityManager.AdjustUtilityScore(this, 10f * Time.deltaTime);
-        }
+        ShootOrbs(firePoint);
 
         lastExecutedTime = Time.time;
     }

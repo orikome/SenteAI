@@ -10,14 +10,7 @@ public class BulletPatternAction : AgentAction
 
     public override void Initialize(Agent agent) { }
 
-    public override void ExecuteActionLoop(Transform firePoint, Agent agent) { }
-
-    public override void UpdateUtilityLoop(Agent agent) { }
-
-    private float CalculateUtility(float distance, float health, float energy)
-    {
-        return 0;
-    }
+    public override void ExecuteLoop(Transform firePoint, Agent agent) { }
 
     private void GeneratePattern(Transform firePoint) { }
 

@@ -22,7 +22,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         return agent.perceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
-    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
+    public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         ShootProjectile(
             firePoint,
@@ -32,19 +32,15 @@ public class ShootAction : AgentAction, IFeedbackAction
         lastExecutedTime = Time.time;
     }
 
-    public override void UpdateUtilityLoop(Agent agent)
+    public override float CalculateUtility(Agent agent, AgentContext agentContext)
     {
         float healthFactor = agent.CurrentHealth / agent.MaxHealth;
 
         if (agent.perceptionModule.CanSenseTarget)
-        {
-            float utility = CalculateUtilityScore(agent.distanceToPlayer, healthFactor, 0.5f);
-            agent.actionUtilityManager.AdjustUtilityScore(this, utility * Time.deltaTime);
-        }
-        else
-        {
-            agent.actionUtilityManager.AdjustUtilityScore(this, -10f * Time.deltaTime);
-        }
+            return 0;
+
+        float utility = CalculateUtilityScore(agent.distanceToPlayer, healthFactor, 0.5f);
+        return utility;
     }
 
     private float CalculateUtilityScore(float distance, float health, float energy)
@@ -58,7 +54,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
-        agent.actionUtilityManager.AdjustUtilityScore(this, -effectivenessAdjustment);
+        //agent.actionUtilityManager.AdjustUtilityScore(this, -effectivenessAdjustment);
         OnFailureCallback?.Invoke();
         //Debug.Log("HaNDLED FAILURE");
     }
@@ -66,7 +62,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleSuccess(Agent agent)
     {
         // Increase effectiveness when the projectile hits
-        agent.actionUtilityManager.AdjustUtilityScore(this, effectivenessAdjustment);
+        //agent.actionUtilityManager.AdjustUtilityScore(this, effectivenessAdjustment);
         OnSuccessCallback?.Invoke();
         Debug.Log("Hit player");
     }
@@ -85,7 +81,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     private void HandleCloseMiss(Agent agent)
     {
-        agent.actionUtilityManager.AdjustUtilityScore(this, -(effectivenessAdjustment / 2));
+        //agent.actionUtilityManager.AdjustUtilityScore(this, -(effectivenessAdjustment / 2));
     }
 
     void ShootProjectile(Transform firePoint, Vector3 direction, Agent agent)

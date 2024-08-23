@@ -18,15 +18,12 @@ public class MoveAction : AgentAction
         Debug.Assert(actionReadinessModule != null, "ActionReadinessModule is not set!");
     }
 
-    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
+    public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         //Vector3 bestPosition = EvaluateBestPosition(agent);
         Vector3 bestPosition = Player.Instance.playerMetrics.PredictPositionDynamically();
         //Vector3 bestPosition = Player.Instance.transform.position;
         agent.SetDestination(bestPosition);
-
-        if (IsPositionGood(bestPosition))
-            agent.actionUtilityManager.AdjustUtilityScore(this, 10f * Time.deltaTime);
 
         lastExecutedTime = Time.time;
     }

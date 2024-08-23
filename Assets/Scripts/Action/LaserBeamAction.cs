@@ -12,7 +12,7 @@ public class LaserBeamAction : AgentAction
 
     public override void Initialize(Agent agent) { }
 
-    public override void ExecuteActionLoop(Transform firePoint, Agent agent)
+    public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         ShootLaser(firePoint, agent);
         lastExecutedTime = Time.time;
@@ -23,24 +23,20 @@ public class LaserBeamAction : AgentAction
         return agent.perceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
-    public override void UpdateUtilityLoop(Agent agent)
+    public override float CalculateUtility(Agent agent, AgentContext agentContext)
     {
         //float energyFactor =
         //energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
         float healthFactor = agent.CurrentHealth / agent.MaxHealth;
 
         if (agent.perceptionModule.CanSenseTarget)
-        {
-            float utility = CalculateUtility(agent.distanceToPlayer, healthFactor, 0.5f);
-            agent.actionUtilityManager.AdjustUtilityScore(this, utility * Time.deltaTime);
-        }
-        else
-        {
-            agent.actionUtilityManager.AdjustUtilityScore(this, -10f * Time.deltaTime);
-        }
+            return 0;
+
+        float utility = CalcUtil(agent.distanceToPlayer, healthFactor, 0.5f);
+        return utility;
     }
 
-    private float CalculateUtility(float distance, float health, float energy)
+    private float CalcUtil(float distance, float health, float energy)
     {
         return Mathf.Clamp01(1.0f - distance / 100f)
             * Mathf.Clamp01(health)
