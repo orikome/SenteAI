@@ -10,39 +10,42 @@ using UnityEngine.AI;
 )]
 public class Agent : MonoBehaviour
 {
-    public AgentData Data; // Assign this in the editor
+    // Set these in the editor
+    public AgentData Data;
+    public Transform firePoint;
+
+    // These are set in code
     public AgentActionUtilityManager ActionUtilityManager { get; private set; }
     public AgentActionDecisionMaker ActionDecisionMaker { get; private set; }
     public ActionReadinessModule ReadinessModule { get; private set; }
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     public AgentEvents Events { get; private set; }
-    public List<AgentModule> modules = new();
-    public Transform firePoint;
-    public float distanceToPlayer;
-    public Transform target;
-    public AgentContext context;
+    public List<AgentModule> Modules { get; private set; } = new();
+    public Transform Target { get; private set; }
+    public AgentContext Context { get; private set; }
+    public float distanceToPlayer; // Set by playerMetrics
     private NavMeshAgent _navMeshAgent;
 
     public void Initialize()
     {
-        context = new AgentContext
+        Context = new AgentContext
         {
             DistanceToPlayer = distanceToPlayer,
             HealthFactor = 0.5f,
             EnergyLevel = 0.5f
         };
 
-        Debug.Log("AgentContext Initialized: " + context);
+        Debug.Log("AgentContext Initialized: " + Context);
 
-        target = Player.Instance.transform;
+        Target = Player.Instance.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         ActionUtilityManager = GetComponent<AgentActionUtilityManager>();
         ActionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
         Events = GetComponent<AgentEvents>();
 
         // Ensure we only use data from our AgentData file
-        modules.Clear();
+        Modules.Clear();
         ActionUtilityManager.actions.Clear();
         ActionSelectionStrategy = null;
 
@@ -66,7 +69,7 @@ public class Agent : MonoBehaviour
         }
 
         // Initialize modules
-        foreach (var module in modules)
+        foreach (var module in Modules)
         {
             module.Initialize(this);
         }
@@ -90,7 +93,7 @@ public class Agent : MonoBehaviour
 
     private void Update()
     {
-        foreach (var module in modules)
+        foreach (var module in Modules)
         {
             module.ExecuteLoop(this);
         }
@@ -117,7 +120,7 @@ public class Agent : MonoBehaviour
             if (module != null)
             {
                 AgentModule newModule = Instantiate(module);
-                modules.Add(newModule);
+                Modules.Add(newModule);
             }
         }
 
@@ -156,6 +159,6 @@ public class Agent : MonoBehaviour
     public T GetModule<T>()
         where T : AgentModule
     {
-        return modules.OfType<T>().FirstOrDefault();
+        return Modules.OfType<T>().FirstOrDefault();
     }
 }

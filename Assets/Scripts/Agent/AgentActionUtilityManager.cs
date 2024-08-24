@@ -26,7 +26,7 @@ public class AgentActionUtilityManager : MonoBehaviour
     {
         foreach (AgentAction action in actions)
         {
-            action.CalculateUtility(agent, agent.context);
+            action.CalculateUtility(agent, agent.Context);
         }
     }
 
