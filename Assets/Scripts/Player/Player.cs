@@ -3,28 +3,28 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement), typeof(PlayerMovement))]
 public class Player : MonoBehaviour, IDamageable
 {
+    public static Player Instance { get; private set; }
+    public PlayerMetrics PlayerMetrics { get; private set; }
     public float MaxHealth => 20000f;
     public float CurrentHealth => 20000f;
-    private float currentHealth;
-    public static Player Instance { get; private set; }
-    private PlayerMovement playerMovement;
-    public PlayerMetrics PlayerMetrics { get; private set; }
+    private float _currentHealth;
+    private PlayerMovement _playerMovement;
 
     void Awake()
     {
         Instance = this;
-        currentHealth = MaxHealth;
-        playerMovement = gameObject.GetComponent<PlayerMovement>();
+        _currentHealth = MaxHealth;
+        _playerMovement = gameObject.GetComponent<PlayerMovement>();
         PlayerMetrics = gameObject.GetComponent<PlayerMetrics>();
     }
 
     public void TakeDamage(int amount)
     {
         PlayerMetrics.damageTaken += amount;
-        currentHealth -= amount;
-        currentHealth = Mathf.Max(currentHealth, 0);
+        _currentHealth -= amount;
+        _currentHealth = Mathf.Max(_currentHealth, 0);
 
-        if (currentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             Die();
         }

@@ -595,14 +595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
   modules: []
-  actionUtilityManager: {fileID: 0}
-  actionDecisionMaker: {fileID: 0}
-  readinessModule: {fileID: 0}
-  perceptionModule: {fileID: 0}
-  actionSelectionStrategy: {fileID: 0}
-  events: {fileID: 0}
-  data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
   firePoint: {fileID: 874107140}
   distanceToPlayer: 0
   target: {fileID: 0}
@@ -1062,14 +1056,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   modules: []
-  actionUtilityManager: {fileID: 0}
-  actionDecisionMaker: {fileID: 0}
-  readinessModule: {fileID: 0}
-  perceptionModule: {fileID: 0}
-  actionSelectionStrategy: {fileID: 0}
-  events: {fileID: 0}
-  data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 1872615904}
   distanceToPlayer: 0
   target: {fileID: 0}
@@ -3105,14 +3093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   modules: []
-  actionUtilityManager: {fileID: 0}
-  actionDecisionMaker: {fileID: 0}
-  readinessModule: {fileID: 0}
-  perceptionModule: {fileID: 0}
-  actionSelectionStrategy: {fileID: 0}
-  events: {fileID: 0}
-  data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 803972207}
   distanceToPlayer: 0
   target: {fileID: 0}

@@ -10,13 +10,13 @@ using UnityEngine.AI;
 )]
 public class Agent : MonoBehaviour
 {
+    public AgentData Data; // Assign this in the editor
     public AgentActionUtilityManager ActionUtilityManager { get; private set; }
     public AgentActionDecisionMaker ActionDecisionMaker { get; private set; }
     public ActionReadinessModule ReadinessModule { get; private set; }
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     public AgentEvents Events { get; private set; }
-    public AgentData Data { get; private set; }
     public List<AgentModule> modules = new();
     public Transform firePoint;
     public float distanceToPlayer;
