@@ -11,7 +11,7 @@ public class HomingOrbsAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.perceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
+        return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)

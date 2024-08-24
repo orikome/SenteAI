@@ -21,7 +21,7 @@ public class MoveAction : AgentAction
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         //Vector3 bestPosition = EvaluateBestPosition(agent);
-        Vector3 bestPosition = Player.Instance.playerMetrics.PredictPositionDynamically();
+        Vector3 bestPosition = Player.Instance.PlayerMetrics.PredictPositionDynamically();
         //Vector3 bestPosition = Player.Instance.transform.position;
         agent.SetDestination(bestPosition);
 

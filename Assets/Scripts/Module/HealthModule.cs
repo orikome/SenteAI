@@ -12,7 +12,7 @@ public class HealthModule : AgentModule, IDamageable
     public override void Initialize(Agent agent)
     {
         _agent = agent;
-        MaxHealth = agent.data.maxHealth;
+        MaxHealth = agent.Data.maxHealth;
         CurrentHealth = MaxHealth;
     }
 

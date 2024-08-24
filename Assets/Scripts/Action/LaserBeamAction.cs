@@ -20,7 +20,7 @@ public class LaserBeamAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.perceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
+        return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
     public override float CalculateUtility(Agent agent, AgentContext agentContext)
@@ -29,7 +29,7 @@ public class LaserBeamAction : AgentAction
         //energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
         //float healthFactor = agent.CurrentHealth / agent.MaxHealth;
 
-        if (agent.perceptionModule.CanSenseTarget)
+        if (agent.PerceptionModule.CanSenseTarget)
             return 0;
 
         float utility = CalcUtil(agent.distanceToPlayer, 0.5f, 0.5f);
@@ -47,7 +47,7 @@ public class LaserBeamAction : AgentAction
     private void ShootLaser(Transform firePoint, Agent agent)
     {
         Vector3 directionToTarget =
-            Player.Instance.playerMetrics.PredictNextPositionUsingMomentum();
+            Player.Instance.PlayerMetrics.PredictNextPositionUsingMomentum();
 
         GameObject laser = Instantiate(
             laserPrefab,

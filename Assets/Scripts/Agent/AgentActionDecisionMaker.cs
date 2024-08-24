@@ -12,13 +12,13 @@ public class AgentActionDecisionMaker : MonoBehaviour
     // Called in the agent's update loop
     public AgentAction MakeDecision()
     {
-        var actionToUse = agent.actionSelectionStrategy.SelectAction(agent);
+        var actionToUse = agent.ActionSelectionStrategy.SelectAction(agent);
 
         if (actionToUse != null && actionToUse.CanExecute(agent))
         {
             actionToUse.lastExecutedTime = Time.time;
 
-            foreach (var action in agent.actionUtilityManager.actions)
+            foreach (var action in agent.ActionUtilityManager.actions)
             {
                 if (action != actionToUse)
                 {
@@ -48,6 +48,6 @@ public class AgentActionDecisionMaker : MonoBehaviour
     public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)
     {
         // If you need to change the strategy during runtime for some reason
-        agent.actionSelectionStrategy = strategy;
+        //agent.actionSelectionStrategy = strategy;
     }
 }

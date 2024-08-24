@@ -10,7 +10,7 @@ public class RandomSelectionStrategy : ActionSelectionStrategy
     public override AgentAction SelectAction(Agent agent)
     {
         var executableActions = agent
-            .actionUtilityManager.actions.Where(action => action.CanExecute(agent))
+            .ActionUtilityManager.actions.Where(action => action.CanExecute(agent))
             .ToList();
 
         if (executableActions.Count == 0)

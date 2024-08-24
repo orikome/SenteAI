@@ -19,14 +19,14 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.perceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
+        return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         ShootProjectile(
             firePoint,
-            Player.Instance.playerMetrics.PredictPositionDynamically() - agent.firePoint.position,
+            Player.Instance.PlayerMetrics.PredictPositionDynamically() - agent.firePoint.position,
             agent
         );
         lastExecutedTime = Time.time;
@@ -37,7 +37,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         //float healthFactor = agent.CurrentHealth / agent.MaxHealth;
         //Debug.Log(context.DistanceToPlayer);
 
-        if (agent.perceptionModule.CanSenseTarget)
+        if (agent.PerceptionModule.CanSenseTarget)
             return 0;
 
         float utility = CalculateUtilityScore(context.DistanceToPlayer, context.HealthFactor, 0.5f);

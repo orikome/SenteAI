@@ -6,21 +6,21 @@ public class Player : MonoBehaviour, IDamageable
     public float MaxHealth => 20000f;
     public float CurrentHealth => 20000f;
     private float currentHealth;
-    public static Player Instance;
+    public static Player Instance { get; private set; }
     private PlayerMovement playerMovement;
-    public PlayerMetrics playerMetrics { get; private set; }
+    public PlayerMetrics PlayerMetrics { get; private set; }
 
     void Awake()
     {
         Instance = this;
         currentHealth = MaxHealth;
         playerMovement = gameObject.GetComponent<PlayerMovement>();
-        playerMetrics = gameObject.GetComponent<PlayerMetrics>();
+        PlayerMetrics = gameObject.GetComponent<PlayerMetrics>();
     }
 
     public void TakeDamage(int amount)
     {
-        playerMetrics.damageTaken += amount;
+        PlayerMetrics.damageTaken += amount;
         currentHealth -= amount;
         currentHealth = Mathf.Max(currentHealth, 0);
 

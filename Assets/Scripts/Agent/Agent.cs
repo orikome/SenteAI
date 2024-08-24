@@ -10,30 +10,19 @@ using UnityEngine.AI;
 )]
 public class Agent : MonoBehaviour
 {
-    public List<AgentModule> modules = new List<AgentModule>();
-
-    [HideInInspector]
-    public AgentActionUtilityManager actionUtilityManager;
-
-    [HideInInspector]
-    public AgentActionDecisionMaker actionDecisionMaker;
-
-    [HideInInspector]
-    public ActionReadinessModule readinessModule;
-
-    [HideInInspector]
-    public SenseModule perceptionModule;
-    public ActionSelectionStrategy actionSelectionStrategy;
-
-    [HideInInspector]
-    public AgentEvents events;
-
-    public AgentData data;
+    public AgentActionUtilityManager ActionUtilityManager { get; private set; }
+    public AgentActionDecisionMaker ActionDecisionMaker { get; private set; }
+    public ActionReadinessModule ReadinessModule { get; private set; }
+    public SenseModule PerceptionModule { get; private set; }
+    public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
+    public AgentEvents Events { get; private set; }
+    public AgentData Data { get; private set; }
+    public List<AgentModule> modules = new();
     public Transform firePoint;
-    private NavMeshAgent navMeshAgent;
     public float distanceToPlayer;
     public Transform target;
     public AgentContext context;
+    private NavMeshAgent _navMeshAgent;
 
     public void Initialize()
     {
@@ -47,31 +36,31 @@ public class Agent : MonoBehaviour
         Debug.Log("AgentContext Initialized: " + context);
 
         target = Player.Instance.transform;
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        actionUtilityManager = GetComponent<AgentActionUtilityManager>();
-        actionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
-        events = GetComponent<AgentEvents>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        ActionUtilityManager = GetComponent<AgentActionUtilityManager>();
+        ActionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
+        Events = GetComponent<AgentEvents>();
 
         // Ensure we only use data from our AgentData file
         modules.Clear();
-        actionUtilityManager.actions.Clear();
-        actionSelectionStrategy = null;
+        ActionUtilityManager.actions.Clear();
+        ActionSelectionStrategy = null;
 
         InitializeData();
-        actionDecisionMaker.Initialize(this);
-        actionUtilityManager.Initialize();
+        ActionDecisionMaker.Initialize(this);
+        ActionUtilityManager.Initialize();
 
-        readinessModule = GetModule<ActionReadinessModule>();
-        perceptionModule = GetModule<SenseModule>();
+        ReadinessModule = GetModule<ActionReadinessModule>();
+        PerceptionModule = GetModule<SenseModule>();
 
         Debug.Assert(firePoint != null, "FirePoint is not set!");
-        Debug.Assert(readinessModule != null, "ActionReadinessModule is not assigned!");
+        Debug.Assert(ReadinessModule != null, "ActionReadinessModule is not assigned!");
         Debug.Assert(GetModule<HealthModule>() != null, "HealthModule is not assigned!");
-        Debug.Assert(perceptionModule != null, "PerceptionModule is not assigned!");
-        Debug.Assert(actionSelectionStrategy != null, "ActionSelectionStrategy is not assigned!");
-        Debug.Assert(events != null, "AgentEvents is not assigned!");
+        Debug.Assert(PerceptionModule != null, "PerceptionModule is not assigned!");
+        Debug.Assert(ActionSelectionStrategy != null, "ActionSelectionStrategy is not assigned!");
+        Debug.Assert(Events != null, "AgentEvents is not assigned!");
 
-        if (actionUtilityManager.actions.Count == 0)
+        if (ActionUtilityManager.actions.Count == 0)
         {
             Debug.LogError("No actions assigned!");
         }
@@ -83,7 +72,7 @@ public class Agent : MonoBehaviour
         }
 
         // Initialize actions
-        foreach (var action in actionUtilityManager.actions)
+        foreach (var action in ActionUtilityManager.actions)
         {
             action.Initialize(this);
         }
@@ -106,24 +95,24 @@ public class Agent : MonoBehaviour
             module.ExecuteLoop(this);
         }
 
-        actionUtilityManager.CalculateUtilityScores();
+        ActionUtilityManager.CalculateUtilityScores();
 
         //DebugLog();
 
-        AgentAction decidedAction = actionDecisionMaker.MakeDecision();
+        AgentAction decidedAction = ActionDecisionMaker.MakeDecision();
         decidedAction?.ExecuteLoop(firePoint, this);
     }
 
     private void InitializeData()
     {
-        if (data == null)
+        if (Data == null)
         {
             Debug.LogError("AgentData is not assigned!");
             return;
         }
 
         // Initialize modules
-        foreach (var module in data.modules)
+        foreach (var module in Data.modules)
         {
             if (module != null)
             {
@@ -133,16 +122,16 @@ public class Agent : MonoBehaviour
         }
 
         // Initialize actions
-        foreach (var action in data.actions)
+        foreach (var action in Data.actions)
         {
             if (action != null)
             {
                 AgentAction newAction = Instantiate(action);
-                actionUtilityManager.actions.Add(newAction);
+                ActionUtilityManager.actions.Add(newAction);
             }
         }
 
-        actionSelectionStrategy = data.actionSelectionStrategy;
+        ActionSelectionStrategy = Data.actionSelectionStrategy;
     }
 
     private void DebugLog()
@@ -152,7 +141,7 @@ public class Agent : MonoBehaviour
 
         string debugInfo = "";
 
-        foreach (var action in actionUtilityManager.actions)
+        foreach (var action in ActionUtilityManager.actions)
         {
             debugInfo += $"A: {action.name}, W: {action.utilityScore:F2}, C: {action.cost}\n";
         }
@@ -161,7 +150,7 @@ public class Agent : MonoBehaviour
 
     public void SetDestination(Vector3 destination)
     {
-        navMeshAgent.SetDestination(destination);
+        _navMeshAgent.SetDestination(destination);
     }
 
     public T GetModule<T>()

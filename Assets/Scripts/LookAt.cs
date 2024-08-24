@@ -15,14 +15,14 @@ public class LookAt : MonoBehaviour
 
     private void Update()
     {
-        if (agent.perceptionModule.CanSenseTarget)
+        if (agent.PerceptionModule.CanSenseTarget)
         {
             LookAtTransform(target);
         }
         else
         {
             PanTowardsPredictedPosition(
-                Player.Instance.playerMetrics.PredictNextPositionUsingAverage()
+                Player.Instance.PlayerMetrics.PredictNextPositionUsingAverage()
             );
         }
     }

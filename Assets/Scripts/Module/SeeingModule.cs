@@ -36,11 +36,11 @@ public class SeeingModule : SenseModule
         if (isVisible && visibilityChanged)
         {
             CanSenseTarget = true;
-            Player.Instance.playerMetrics.UpdateCoverStatus(true);
+            Player.Instance.PlayerMetrics.UpdateCoverStatus(true);
             LastKnownLocation = agent.target.position;
             LastSeen = Time.time;
-            agent.actionUtilityManager.ResetUtilityScores();
-            Player.Instance.playerMetrics.timeInCover = 0;
+            agent.ActionUtilityManager.ResetUtilityScores();
+            Player.Instance.PlayerMetrics.timeInCover = 0;
             lastVisibilityChangeTime = Time.time;
         }
 
@@ -48,8 +48,8 @@ public class SeeingModule : SenseModule
         if (!isVisible && visibilityChanged)
         {
             CanSenseTarget = false;
-            Player.Instance.playerMetrics.UpdateCoverStatus(false);
-            Player.Instance.playerMetrics.timeInCover = 0;
+            Player.Instance.PlayerMetrics.UpdateCoverStatus(false);
+            Player.Instance.PlayerMetrics.timeInCover = 0;
             lastVisibilityChangeTime = Time.time;
         }
 

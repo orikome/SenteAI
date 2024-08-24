@@ -35,11 +35,11 @@ public class AgentGizmos : MonoBehaviour
 
         if (
             agent != null
-            && agent.actionUtilityManager != null
-            && agent.actionUtilityManager.actions != null
+            && agent.ActionUtilityManager != null
+            && agent.ActionUtilityManager.actions != null
         )
         {
-            foreach (var action in agent.actionUtilityManager.actions)
+            foreach (var action in agent.ActionUtilityManager.actions)
             {
                 textPosition += Vector3.down * textHeight;
 
