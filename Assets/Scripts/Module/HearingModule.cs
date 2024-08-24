@@ -12,5 +12,5 @@ public class HearingModule : SenseModule
         // If so, update lastKnownLocation
     }
 
-    public override void Initialize() { }
+    public override void Initialize(Agent agent) { }
 }

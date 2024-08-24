@@ -35,7 +35,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public override float CalculateUtility(Agent agent, AgentContext context)
     {
         //float healthFactor = agent.CurrentHealth / agent.MaxHealth;
-        Debug.Log(context.DistanceToPlayer);
+        //Debug.Log(context.DistanceToPlayer);
 
         if (agent.perceptionModule.CanSenseTarget)
             return 0;

@@ -8,7 +8,7 @@ using UnityEngine.AI;
     typeof(AgentActionUtilityManager),
     typeof(AgentActionDecisionMaker)
 )]
-public class Agent : MonoBehaviour, IDamageable
+public class Agent : MonoBehaviour
 {
     public List<AgentModule> modules = new List<AgentModule>();
 
@@ -31,13 +31,6 @@ public class Agent : MonoBehaviour, IDamageable
     public AgentData data;
     public Transform firePoint;
     private NavMeshAgent navMeshAgent;
-
-    #region IDamageable Properties
-    private float currentHealth;
-    public float MaxHealth => data.maxHealth;
-    public float CurrentHealth => currentHealth;
-    #endregion
-
     public float distanceToPlayer;
     public Transform target;
     public AgentContext context;
@@ -65,7 +58,6 @@ public class Agent : MonoBehaviour, IDamageable
         actionSelectionStrategy = null;
 
         InitializeData();
-        currentHealth = MaxHealth;
         actionDecisionMaker.Initialize(this);
         actionUtilityManager.Initialize();
 
@@ -74,6 +66,7 @@ public class Agent : MonoBehaviour, IDamageable
 
         Debug.Assert(firePoint != null, "FirePoint is not set!");
         Debug.Assert(readinessModule != null, "ActionReadinessModule is not assigned!");
+        Debug.Assert(GetModule<HealthModule>() != null, "HealthModule is not assigned!");
         Debug.Assert(perceptionModule != null, "PerceptionModule is not assigned!");
         Debug.Assert(actionSelectionStrategy != null, "ActionSelectionStrategy is not assigned!");
         Debug.Assert(events != null, "AgentEvents is not assigned!");
@@ -86,7 +79,7 @@ public class Agent : MonoBehaviour, IDamageable
         // Initialize modules
         foreach (var module in modules)
         {
-            module.Initialize();
+            module.Initialize(this);
         }
 
         // Initialize actions
@@ -175,21 +168,5 @@ public class Agent : MonoBehaviour, IDamageable
         where T : AgentModule
     {
         return modules.OfType<T>().FirstOrDefault();
-    }
-
-    public void TakeDamage(int amount)
-    {
-        currentHealth -= amount;
-        currentHealth = Mathf.Max(currentHealth, 0);
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void Die()
-    {
-        Destroy(gameObject);
     }
 }

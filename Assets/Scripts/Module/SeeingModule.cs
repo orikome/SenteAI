@@ -10,7 +10,7 @@ public class SeeingModule : SenseModule
     private float cooldownTime = 0.5f;
     private float lastVisibilityChangeTime;
 
-    public override void Initialize()
+    public override void Initialize(Agent agent)
     {
         layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy");
     }

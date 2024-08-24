@@ -5,5 +5,5 @@ public class LearningModule : AgentModule
 {
     public override void ExecuteLoop(Agent agent) { }
 
-    public override void Initialize() { }
+    public override void Initialize(Agent agent) { }
 }

@@ -27,12 +27,12 @@ public class LaserBeamAction : AgentAction
     {
         //float energyFactor =
         //energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
-        float healthFactor = agent.CurrentHealth / agent.MaxHealth;
+        //float healthFactor = agent.CurrentHealth / agent.MaxHealth;
 
         if (agent.perceptionModule.CanSenseTarget)
             return 0;
 
-        float utility = CalcUtil(agent.distanceToPlayer, healthFactor, 0.5f);
+        float utility = CalcUtil(agent.distanceToPlayer, 0.5f, 0.5f);
         return utility;
     }
 
