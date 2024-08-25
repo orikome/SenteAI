@@ -1367,7 +1367,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1956,8 +1956,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 6377726187542555592, guid: ea9245bb968494f45bfcaaa297fe9a3a, type: 3}
   firePoint: {fileID: 1233430627}
-  shootingRate: 2
-  projectileSpeed: 15
+  shootingRate: 0.5
+  projectileSpeed: 30
 --- !u!1 &916691272
 GameObject:
   m_ObjectHideFlags: 0
