@@ -27,7 +27,7 @@ public class BulletHellExperiment : MonoBehaviour
 
             float angleInRadians = angle * (Mathf.PI / 180);
 
-            Vector3 direction = new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+            Vector3 direction = new(Mathf.Cos(angleInRadians), 0f, Mathf.Sin(angleInRadians));
 
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
@@ -43,7 +43,7 @@ public class BulletHellExperiment : MonoBehaviour
         {
             float angleInRadians = angle * (Mathf.PI / 180);
 
-            Vector3 direction = new Vector3(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+            Vector3 direction = new(Mathf.Cos(angleInRadians), 0f, Mathf.Sin(angleInRadians));
 
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 

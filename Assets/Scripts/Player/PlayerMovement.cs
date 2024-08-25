@@ -5,26 +5,26 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 10.0f;
     public float jumpHeight = 2.0f;
     public float gravity = -9.81f;
-    private CharacterController controller;
-    private Vector3 velocity;
-    private bool isGrounded;
+    private CharacterController _controller;
+    private Vector3 _velocity;
+    private bool _isGrounded;
 
     private void Awake()
     {
-        controller = gameObject.AddComponent<CharacterController>();
+        _controller = gameObject.AddComponent<CharacterController>();
     }
 
     private void Update()
     {
-        isGrounded = controller.isGrounded;
-        if (isGrounded && velocity.y < 0)
+        _isGrounded = _controller.isGrounded;
+        if (_isGrounded && _velocity.y < 0)
         {
-            velocity.y = 0f;
+            _velocity.y = 0f;
         }
 
         HandleMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
             Jump();
         }
@@ -36,13 +36,13 @@ public class PlayerMovement : MonoBehaviour
         float moveZ = Input.GetAxis("Vertical");
 
         Vector3 move = new Vector3(moveX, 0, moveZ);
-        controller.Move(moveSpeed * Time.deltaTime * move);
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        _controller.Move(moveSpeed * Time.deltaTime * move);
+        _velocity.y += gravity * Time.deltaTime;
+        _controller.Move(_velocity * Time.deltaTime);
     }
 
     private void Jump()
     {
-        velocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
+        _velocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
     }
 }

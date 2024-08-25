@@ -36,10 +36,10 @@ public class AgentActionUtilityManager : MonoBehaviour
             return;
 
         action.utilityScore = Mathf.Clamp(action.utilityScore + amount * Time.deltaTime, 0, 1);
-        NormalizeUtilityScore();
+        NormalizeUtilityScores();
     }
 
-    public void NormalizeUtilityScore()
+    public void NormalizeUtilityScores()
     {
         float sum = actions.Sum(action => action.utilityScore);
         float minScore = 0.01f;
