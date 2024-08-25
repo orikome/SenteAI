@@ -41,6 +41,10 @@ public class Agent : MonoBehaviour
 
         Target = Player.Instance.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.acceleration = 100;
+        _navMeshAgent.angularSpeed = 50;
+        _navMeshAgent.speed = 10;
+        _navMeshAgent.autoBraking = false;
         ActionUtilityManager = GetComponent<AgentActionUtilityManager>();
         ActionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
         Events = GetComponent<AgentEvents>();
