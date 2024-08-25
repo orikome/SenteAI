@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 206466449}
   - component: {fileID: 206466452}
   - component: {fileID: 206466453}
+  - component: {fileID: 206466454}
   m_Layer: 10
   m_Name: EnemyBoss
   m_TagString: Untagged
@@ -597,7 +598,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
   firePoint: {fileID: 874107140}
-  distanceToPlayer: 0
 --- !u!114 &206466445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -685,6 +685,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f31bffa50b29f0945838296fced7bc16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &206466454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206466441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &245425506
@@ -946,6 +958,7 @@ GameObject:
   - component: {fileID: 341880538}
   - component: {fileID: 341880537}
   - component: {fileID: 341880536}
+  - component: {fileID: 341880544}
   m_Layer: 10
   m_Name: EnemyMinion (1)
   m_TagString: Untagged
@@ -1056,7 +1069,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 1872615904}
-  distanceToPlayer: 0
 --- !u!4 &341880543
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,6 +1085,18 @@ Transform:
   - {fileID: 1469941227}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &341880544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341880535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &449448141
 GameObject:
   m_ObjectHideFlags: 0
@@ -3042,6 +3066,7 @@ GameObject:
   - component: {fileID: 1558212481}
   - component: {fileID: 1558212480}
   - component: {fileID: 1558212487}
+  - component: {fileID: 1558212488}
   m_Layer: 10
   m_Name: EnemyMinion
   m_TagString: Untagged
@@ -3140,7 +3165,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 803972207}
-  distanceToPlayer: 0
 --- !u!4 &1558212486
 Transform:
   m_ObjectHideFlags: 0
@@ -3167,6 +3191,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f31bffa50b29f0945838296fced7bc16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1558212488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558212479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1588642007

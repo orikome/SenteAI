@@ -15,12 +15,12 @@ public class ShootAction : AgentAction, IFeedbackAction
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
 
-    public override void Initialize(Agent agent) { }
-
     public override bool CanExecute(Agent agent)
     {
         return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
+
+    public override void Initialize(Agent agent) { }
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
@@ -30,26 +30,19 @@ public class ShootAction : AgentAction, IFeedbackAction
             agent
         );
         lastExecutedTime = Time.time;
+        CalculateUtility(agent, agent.AgentMetrics);
     }
 
-    public override float CalculateUtility(Agent agent, AgentContext context)
+    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        //float healthFactor = agent.CurrentHealth / agent.MaxHealth;
-        //Debug.Log(context.DistanceToPlayer);
-
         if (agent.PerceptionModule.CanSenseTarget)
-            return 0;
+            return 1.0f;
 
-        float utility = CalculateUtilityScore(context.DistanceToPlayer, context.HealthFactor, 0.5f);
-        return utility;
-    }
+        float distance = agent.AgentMetrics.DistanceToPlayer;
 
-    private float CalculateUtilityScore(float distance, float health, float energy)
-    {
         return Mathf.Clamp01(1.0f - distance / 100f)
-            * Mathf.Clamp01(health)
-            * Mathf.Clamp01(energy)
-            * Time.deltaTime;
+            * Mathf.Clamp01(agent.AgentMetrics.HealthFactor)
+            * Mathf.Clamp01(0.5f);
     }
 
     public void HandleFailure(Agent agent)

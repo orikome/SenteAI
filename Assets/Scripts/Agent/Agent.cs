@@ -24,54 +24,43 @@ public class Agent : MonoBehaviour
     public AgentEvents Events { get; private set; }
     public List<AgentModule> Modules { get; private set; } = new();
     public Transform Target { get; private set; }
-    public AgentContext Context { get; private set; }
-    public float distanceToPlayer; // Set by playerMetrics
+    public AgentMetrics AgentMetrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
 
     public void Initialize()
     {
-        Context = new AgentContext
-        {
-            DistanceToPlayer = distanceToPlayer,
-            HealthFactor = 0.5f,
-            EnergyLevel = 0.5f
-        };
-
-        Debug.Log("AgentContext Initialized: " + Context);
-
+        // Set target as player
         Target = Player.Instance.transform;
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+
+        // Ensure all components exist
+        _navMeshAgent = EnsureComponent<NavMeshAgent>();
+        ActionUtilityManager = EnsureComponent<AgentActionUtilityManager>();
+        ActionDecisionMaker = EnsureComponent<AgentActionDecisionMaker>();
+        Events = EnsureComponent<AgentEvents>();
+        AgentMetrics = EnsureComponent<AgentMetrics>();
+
+        // Set navmesh properties
         _navMeshAgent.acceleration = 100;
         _navMeshAgent.angularSpeed = 50;
         _navMeshAgent.speed = 10;
         _navMeshAgent.autoBraking = false;
-        ActionUtilityManager = GetComponent<AgentActionUtilityManager>();
-        ActionDecisionMaker = GetComponent<AgentActionDecisionMaker>();
-        Events = GetComponent<AgentEvents>();
 
         // Ensure we only use data from our AgentData file
         Modules.Clear();
         ActionUtilityManager.actions.Clear();
         ActionSelectionStrategy = null;
 
+        // Initialize data and other components
         InitializeData();
         ActionDecisionMaker.Initialize(this);
         ActionUtilityManager.Initialize();
 
+        // Get modules
         ReadinessModule = GetModule<ActionReadinessModule>();
         PerceptionModule = GetModule<SenseModule>();
 
-        Debug.Assert(firePoint != null, "FirePoint is not set!");
-        Debug.Assert(ReadinessModule != null, "ActionReadinessModule is not assigned!");
-        Debug.Assert(GetModule<HealthModule>() != null, "HealthModule is not assigned!");
-        Debug.Assert(PerceptionModule != null, "PerceptionModule is not assigned!");
-        Debug.Assert(ActionSelectionStrategy != null, "ActionSelectionStrategy is not assigned!");
-        Debug.Assert(Events != null, "AgentEvents is not assigned!");
-
         if (ActionUtilityManager.actions.Count == 0)
-        {
             Debug.LogError("No actions assigned!");
-        }
 
         // Initialize modules
         foreach (var module in Modules)
@@ -165,6 +154,17 @@ public class Agent : MonoBehaviour
         where T : AgentModule
     {
         return Modules.OfType<T>().FirstOrDefault();
+    }
+
+    private T EnsureComponent<T>()
+        where T : Component
+    {
+        if (!TryGetComponent<T>(out var component))
+        {
+            Debug.LogWarning($"Component of type {typeof(T).Name} was missing and has been added.");
+            component = gameObject.AddComponent<T>();
+        }
+        return component;
     }
 
     void OnDrawGizmos()

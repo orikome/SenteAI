@@ -103,7 +103,7 @@ public class PlayerMetrics : MonoBehaviour
                 transform.position
             );
 
-            agent.distanceToPlayer = distance;
+            agent.AgentMetrics.SetDistanceToPlayer(distance);
 
             if (distance < closestEnemyDistance)
             {

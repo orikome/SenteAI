@@ -23,16 +23,12 @@ public class LaserBeamAction : AgentAction
         return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
-    public override float CalculateUtility(Agent agent, AgentContext agentContext)
+    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        //float energyFactor =
-        //energyBasedReadinessModule.curEnergy / energyBasedReadinessModule.maxEnergy;
-        //float healthFactor = agent.CurrentHealth / agent.MaxHealth;
-
         if (agent.PerceptionModule.CanSenseTarget)
             return 0;
 
-        float utility = CalcUtil(agent.distanceToPlayer, 0.5f, 0.5f);
+        float utility = CalcUtil(metrics.DistanceToPlayer, 0.5f, 0.5f);
         return utility;
     }
 

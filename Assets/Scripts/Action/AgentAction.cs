@@ -7,6 +7,7 @@ public abstract class AgentAction : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     public float utilityScore;
+    private readonly float _baseUtility; // Keep between 0.0f - 1.0f
     public float lastExecutedTime = 0f;
     public float cooldownTime = 0.1f;
     public abstract bool CanExecute(Agent agent);
@@ -37,7 +38,7 @@ public abstract class AgentAction : ScriptableObject
     /// <summary>
     /// Called every frame in the agent's update loop.
     /// </summary>
-    public virtual float CalculateUtility(Agent agent, AgentContext context)
+    public virtual float CalculateUtility(Agent agent, AgentMetrics context)
     {
         return 1.0f;
     }

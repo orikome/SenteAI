@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions.Must;
 
 [CreateAssetMenu(fileName = "MoveAction", menuName = "AgentAction/MoveAction")]
 public class MoveAction : AgentAction
@@ -8,15 +9,15 @@ public class MoveAction : AgentAction
     private readonly int _samples = 10;
     private ActionReadinessModule _actionReadinessModule;
 
+    public override bool CanExecute(Agent agent)
+    {
+        return GetCooldownTimeRemaining() <= 0;
+    }
+
     public override void Initialize(Agent agent)
     {
         _actionReadinessModule = agent.GetModule<ActionReadinessModule>();
         Debug.Assert(_actionReadinessModule != null, "ActionReadinessModule is not set!");
-    }
-
-    public override bool CanExecute(Agent agent)
-    {
-        return GetCooldownTimeRemaining() <= 0;
     }
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
@@ -29,6 +30,7 @@ public class MoveAction : AgentAction
         agent.SetDestination(bestPosition);
 
         lastExecutedTime = Time.time;
+        CalculateUtility(agent, agent.AgentMetrics);
     }
 
     private Vector3 EvaluateBestPosition(Agent agent, Vector3 predictedPlayerPosition)
@@ -96,6 +98,18 @@ public class MoveAction : AgentAction
         }
 
         return score;
+    }
+
+    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
+    {
+        if (!agent.PerceptionModule.CanSenseTarget)
+            return 1.0f;
+
+        float distance = agent.AgentMetrics.DistanceToPlayer;
+
+        return Mathf.Clamp01(1.0f - distance / 100f)
+            * Mathf.Clamp01(agent.AgentMetrics.HealthFactor)
+            * Mathf.Clamp01(0.5f);
     }
 
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)
