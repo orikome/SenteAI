@@ -34,7 +34,7 @@ public class AgentActionDecisionMaker : MonoBehaviour
 
     private void DebugLog(AgentAction actionToUse)
     {
-        string actionName = actionToUse.name.Replace("(Clone)", "").Trim();
+        string actionName = Helpers.CleanName(actionToUse.name);
 
         float utilityScore = actionToUse.utilityScore;
 

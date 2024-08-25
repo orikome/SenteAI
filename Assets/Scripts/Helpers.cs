@@ -105,4 +105,9 @@ public static class Helpers
 
         GameObject.Destroy(particles, main.startLifetime.constant + 0.5f);
     }
+
+    public static string CleanName(string name)
+    {
+        return name.Replace("(Clone)", "").Trim();
+    }
 }

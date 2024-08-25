@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 4683117824904254821}
   - component: {fileID: 8260426564064744415}
   - component: {fileID: 7647761431826965084}
-  - component: {fileID: 9012706733649401351}
   - component: {fileID: 6813460512607680389}
+  - component: {fileID: 1944069632872197587}
   m_Layer: 7
-  m_Name: SphereBullet
+  m_Name: PlayerSphereBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,20 +108,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9012706733649401351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6377726187542555592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4d8778cb71e42149b2ba0168818cd1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  lifetime: 5
 --- !u!54 &6813460512607680389
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -149,6 +135,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &1944069632872197587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6377726187542555592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac245f0cb0a4e384a99d015dd77953e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  lifetime: 5
 --- !u!1 &8846840010466921054
 GameObject:
   m_ObjectHideFlags: 0
