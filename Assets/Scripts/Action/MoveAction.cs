@@ -8,14 +8,14 @@ public class MoveAction : AgentAction
     private float moveRadius = 10f;
 
     [SerializeField]
-    private int samples = 10;
+    private int _samples = 10;
 
-    ActionReadinessModule actionReadinessModule;
+    private ActionReadinessModule _actionReadinessModule;
 
     public override void Initialize(Agent agent)
     {
-        actionReadinessModule = agent.GetModule<ActionReadinessModule>();
-        Debug.Assert(actionReadinessModule != null, "ActionReadinessModule is not set!");
+        _actionReadinessModule = agent.GetModule<ActionReadinessModule>();
+        Debug.Assert(_actionReadinessModule != null, "ActionReadinessModule is not set!");
     }
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
@@ -42,7 +42,7 @@ public class MoveAction : AgentAction
         // Use a scoring system to eval pos
         // If agent some state, prefer ranged, melee or seek cover?
 
-        for (int i = 0; i < samples; i++)
+        for (int i = 0; i < _samples; i++)
         {
             Vector3 randomPoint = agent.transform.position + Random.insideUnitSphere * moveRadius;
             NavMeshHit hit;

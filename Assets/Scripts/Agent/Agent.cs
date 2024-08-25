@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +11,7 @@ using UnityEngine.AI;
 )]
 public class Agent : MonoBehaviour
 {
-    // Set these in the editor
+    // Set these in editor
     public AgentData Data;
     public Transform firePoint;
 
@@ -160,5 +161,28 @@ public class Agent : MonoBehaviour
         where T : AgentModule
     {
         return Modules.OfType<T>().FirstOrDefault();
+    }
+
+    void OnDrawGizmos()
+    {
+        if (!EditorApplication.isPlaying || _navMeshAgent.path == null)
+            return;
+
+        Gizmos.color = Color.cyan;
+
+        NavMeshPath path = _navMeshAgent.path;
+
+        // Draw path
+        for (int i = 0; i < path.corners.Length - 1; i++)
+        {
+            Gizmos.DrawLine(path.corners[i], path.corners[i + 1]);
+        }
+
+        // Draw spheres at path corners
+        Gizmos.color = Color.red;
+        foreach (Vector3 corner in path.corners)
+        {
+            Gizmos.DrawSphere(corner, 0.2f);
+        }
     }
 }

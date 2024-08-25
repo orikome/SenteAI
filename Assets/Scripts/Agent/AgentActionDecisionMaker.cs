@@ -2,23 +2,23 @@ using UnityEngine;
 
 public class AgentActionDecisionMaker : MonoBehaviour
 {
-    private Agent agent;
+    private Agent _agent;
 
     public void Initialize(Agent agent)
     {
-        this.agent = agent;
+        _agent = agent;
     }
 
     // Called in the agent's update loop
     public AgentAction MakeDecision()
     {
-        var actionToUse = agent.ActionSelectionStrategy.SelectAction(agent);
+        var actionToUse = _agent.ActionSelectionStrategy.SelectAction(_agent);
 
-        if (actionToUse != null && actionToUse.CanExecute(agent))
+        if (actionToUse != null && actionToUse.CanExecute(_agent))
         {
             actionToUse.lastExecutedTime = Time.time;
 
-            foreach (var action in agent.ActionUtilityManager.actions)
+            foreach (var action in _agent.ActionUtilityManager.actions)
             {
                 if (action != actionToUse)
                 {

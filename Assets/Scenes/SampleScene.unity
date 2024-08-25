@@ -596,10 +596,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
-  modules: []
   firePoint: {fileID: 874107140}
   distanceToPlayer: 0
-  target: {fileID: 0}
 --- !u!114 &206466445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,10 +1055,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
-  modules: []
   firePoint: {fileID: 1872615904}
   distanceToPlayer: 0
-  target: {fileID: 0}
 --- !u!4 &341880543
 Transform:
   m_ObjectHideFlags: 0
@@ -2158,8 +2154,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 10000
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -3094,10 +3090,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
-  modules: []
   firePoint: {fileID: 803972207}
   distanceToPlayer: 0
-  target: {fileID: 0}
 --- !u!4 &1558212486
 Transform:
   m_ObjectHideFlags: 0
