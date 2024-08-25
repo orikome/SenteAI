@@ -3,13 +3,6 @@ using UnityEngine;
 
 public class PlayerMetrics : MonoBehaviour
 {
-    public enum PlayerBehavior
-    {
-        Aggressive,
-        Defensive,
-        Balanced
-    }
-
     [Header("Player Metrics")]
     public float shootingFrequency;
     public float dodgeRatio;
@@ -22,7 +15,7 @@ public class PlayerMetrics : MonoBehaviour
     public Vector3 lastPosition = Vector3.zero;
 
     [Header("Player Position History")]
-    public List<Vector3> positionHistory = new List<Vector3>();
+    public List<Vector3> positionHistory = new();
     private readonly float historyRecordInterval = 0.2f;
     private float timeSinceLastRecord = 0f;
     private readonly int maxHistoryCount = 200;
@@ -35,8 +28,7 @@ public class PlayerMetrics : MonoBehaviour
 
     [SerializeField]
     private float defensiveThreshold = 0.3f;
-
-    public PlayerBehavior currentBehavior;
+    public Behavior currentBehavior;
     Agent closestEnemy;
     public Vector3 PredictedPosition { get; private set; }
 
@@ -229,15 +221,15 @@ public class PlayerMetrics : MonoBehaviour
         return averageDisplacement < detectionThreshold;
     }
 
-    PlayerBehavior ClassifyBehavior()
+    Behavior ClassifyBehavior()
     {
         if (shootingFrequency > aggressiveThreshold && distanceToClosestEnemy < defensiveThreshold)
-            return PlayerBehavior.Aggressive;
+            return Behavior.Aggressive;
 
         if (dodgeRatio > aggressiveThreshold)
-            return PlayerBehavior.Defensive;
+            return Behavior.Defensive;
 
-        return PlayerBehavior.Balanced;
+        return Behavior.Balanced;
     }
 
     void OnDrawGizmos()
@@ -290,13 +282,13 @@ public class PlayerMetrics : MonoBehaviour
 
         switch (currentBehavior)
         {
-            case PlayerBehavior.Aggressive:
+            case Behavior.Aggressive:
                 DebugManager.Instance.Log(transform, "Player is Aggressive", Color.red);
                 break;
-            case PlayerBehavior.Defensive:
+            case Behavior.Defensive:
                 DebugManager.Instance.Log(transform, "Player is Defensive", Color.blue);
                 break;
-            case PlayerBehavior.Balanced:
+            case Behavior.Balanced:
                 DebugManager.Instance.Log(transform, "Player is Balanced", Color.green);
                 break;
         }

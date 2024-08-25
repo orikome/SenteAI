@@ -4,7 +4,7 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "MoveAction", menuName = "AgentAction/MoveAction")]
 public class MoveAction : AgentAction
 {
-    private readonly float _moveRadius = 10f;
+    private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;
     private ActionReadinessModule _actionReadinessModule;
 
@@ -22,7 +22,7 @@ public class MoveAction : AgentAction
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition =
-            Player.Instance.PlayerMetrics.PredictNextPositionUsingMomentum();
+            Player.Instance.PlayerMetrics.PredictPositionDynamically();
 
         Vector3 bestPosition = EvaluateBestPosition(agent, predictedPlayerPosition);
 
@@ -39,8 +39,14 @@ public class MoveAction : AgentAction
         for (int i = 0; i < _samples; i++)
         {
             Vector3 randomPoint = agent.transform.position + Random.insideUnitSphere * _moveRadius;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPoint, out hit, _moveRadius, NavMesh.AllAreas))
+            if (
+                NavMesh.SamplePosition(
+                    randomPoint,
+                    out NavMeshHit hit,
+                    _moveRadius,
+                    NavMesh.AllAreas
+                )
+            )
             {
                 Vector3 samplePosition = hit.position;
                 float score = ScorePosition(samplePosition, agent, predictedPlayerPosition);
@@ -64,15 +70,15 @@ public class MoveAction : AgentAction
 
         switch (Player.Instance.PlayerMetrics.currentBehavior)
         {
-            case PlayerMetrics.PlayerBehavior.Aggressive:
+            case Behavior.Aggressive:
                 score -= Mathf.Clamp(distanceToPredictedPlayer, 0, 15);
                 break;
 
-            case PlayerMetrics.PlayerBehavior.Defensive:
+            case Behavior.Defensive:
                 score += Mathf.Clamp(distanceToPredictedPlayer, 10, 30);
                 break;
 
-            case PlayerMetrics.PlayerBehavior.Balanced:
+            case Behavior.Balanced:
                 score += Mathf.Clamp(distanceToPredictedPlayer, 5, 20);
                 break;
         }
