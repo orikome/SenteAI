@@ -5,8 +5,8 @@ public class Player : MonoBehaviour, IDamageable
 {
     public static Player Instance { get; private set; }
     public PlayerMetrics PlayerMetrics { get; private set; }
-    public float MaxHealth => 20000f;
-    public float CurrentHealth => 20000f;
+    public float MaxHealth => 100f;
+    public float CurrentHealth => 100f;
     private float _currentHealth;
     private PlayerMovement _playerMovement;
 
