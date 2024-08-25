@@ -3,32 +3,31 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField]
-    protected int damage = 10;
-    public float lifetime = 5f;
-    protected float timer;
     public Action OnHitCallback;
     public Action OnMissCallback;
-    protected Vector3 moveDirection;
-    protected LayerMask collisionMask;
-    protected float speed;
-    protected Vector3 rotationDirection;
+    protected int _damage = 10;
+    public float lifetime = 5f;
+    protected float _timer;
+    protected Vector3 _moveDirection;
+    protected LayerMask _collisionMask;
+    protected float _speed;
+    protected Vector3 _rotationDirection;
 
     protected virtual void Start()
     {
-        timer = lifetime;
+        _timer = lifetime;
     }
 
     protected virtual void FixedUpdate()
     {
-        transform.Translate(speed * Time.fixedDeltaTime * moveDirection, Space.World);
-        transform.Rotate(speed * Time.fixedDeltaTime * rotationDirection, Space.World);
+        transform.Translate(_speed * Time.fixedDeltaTime * _moveDirection, Space.World);
+        transform.Rotate(_speed * Time.fixedDeltaTime * _rotationDirection, Space.World);
     }
 
     protected virtual void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
+        _timer -= Time.deltaTime;
+        if (_timer <= 0f)
         {
             OnMissCallback?.Invoke();
             Destroy(gameObject);
@@ -46,20 +45,20 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        damageable.TakeDamage(damage);
+        damageable.TakeDamage(_damage);
         OnHitCallback?.Invoke();
         Helpers.SpawnParticles(transform.position, Color.red);
         Debug.Log(
-            $"{Helpers.CleanName(gameObject.name)} dealt {damage} damage to {Helpers.CleanName(collision.gameObject.name)}"
+            $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.gameObject.name)}"
         );
         Destroy(gameObject);
     }
 
     public void Initialize(Vector3 direction, float projectileSpeed, int dmg)
     {
-        moveDirection = direction.normalized;
-        rotationDirection = direction.normalized;
-        speed = projectileSpeed;
-        damage = dmg;
+        _moveDirection = direction.normalized;
+        _rotationDirection = direction.normalized;
+        _speed = projectileSpeed;
+        _damage = dmg;
     }
 }

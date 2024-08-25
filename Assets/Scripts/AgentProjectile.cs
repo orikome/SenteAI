@@ -5,12 +5,12 @@ public class AgentProjectile : Projectile
     protected override void Start()
     {
         base.Start();
-        collisionMask = LayerMask.GetMask("Player");
+        _collisionMask = LayerMask.GetMask("Player");
     }
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (!OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, collisionMask))
+        if (!OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
             return;
 
         base.OnCollisionEnter(collision);

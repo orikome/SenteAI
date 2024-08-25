@@ -6,16 +6,15 @@ public class PlayerAutoShoot : MonoBehaviour
     public Transform firePoint;
     public float shootingRate = 2.0f;
     public float projectileSpeed = 15f;
-
-    private float shootingTimer;
+    private float _shootingTimer;
 
     void Update()
     {
-        shootingTimer -= Time.deltaTime;
-        if (shootingTimer <= 0f)
+        _shootingTimer -= Time.deltaTime;
+        if (_shootingTimer <= 0f)
         {
             ShootAtNearestEnemy();
-            shootingTimer = shootingRate;
+            _shootingTimer = shootingRate;
         }
     }
 
