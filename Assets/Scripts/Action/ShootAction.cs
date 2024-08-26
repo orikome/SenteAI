@@ -36,7 +36,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
         if (agent.PerceptionModule.CanSenseTarget)
-            return 1.0f;
+            return 0.5f;
 
         float distance = agent.AgentMetrics.DistanceToPlayer;
 

@@ -16,6 +16,7 @@ public class BulletPatternAction : AgentAction
     {
         GeneratePattern(agent.transform);
         currentSpiralAngleOffset += (int)angleIncrement;
+        lastExecutedTime = Time.time;
     }
 
     private void GeneratePattern(Transform firePoint)
@@ -47,6 +48,6 @@ public class BulletPatternAction : AgentAction
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
+        return !IsOnCooldown();
     }
 }

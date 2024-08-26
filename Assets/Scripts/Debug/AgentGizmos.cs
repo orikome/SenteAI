@@ -44,7 +44,7 @@ public class AgentGizmos : MonoBehaviour
                 textPosition += Vector3.down * textHeight;
 
                 string actionInfo =
-                    $"A: {action.name}, W: {action.utilityScore:F2}, C: {action.cost}";
+                    $"A: {action.name}, U: {action.utilityScore:F2}, C: {action.cost}";
 
                 style.normal.textColor = Color.white;
                 Handles.Label(textPosition, actionInfo, style);

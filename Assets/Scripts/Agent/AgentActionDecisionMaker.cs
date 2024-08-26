@@ -12,25 +12,24 @@ public class AgentActionDecisionMaker : MonoBehaviour
     // Called in the agent's update loop
     public AgentAction MakeDecision()
     {
-        var actionToUse = _agent.ActionSelectionStrategy.SelectAction(_agent);
+        float bestUtility = -1f;
+        AgentAction bestAction = null;
 
-        if (actionToUse != null && actionToUse.CanExecute(_agent))
+        foreach (var action in _agent.ActionUtilityManager.actions)
         {
-            actionToUse.lastExecutedTime = Time.time;
-
-            foreach (var action in _agent.ActionUtilityManager.actions)
+            if (action.CanExecute(_agent))
             {
-                if (action != actionToUse)
+                float utility = action.CalculateUtility(_agent, _agent.AgentMetrics);
+
+                if (utility > bestUtility)
                 {
-                    action.lastExecutedTime = Time.time;
+                    bestUtility = utility;
+                    bestAction = action;
                 }
             }
-
-            DebugLog(actionToUse);
-            return actionToUse;
         }
-
-        return null;
+        DebugLog(bestAction);
+        return bestAction;
     }
 
     private void DebugLog(AgentAction actionToUse)

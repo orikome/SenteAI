@@ -28,6 +28,11 @@ public abstract class AgentAction : ScriptableObject
         return cooldownTime - (Time.time - lastExecutedTime);
     }
 
+    public virtual bool IsOnCooldown()
+    {
+        return Time.time - lastExecutedTime < cooldownTime;
+    }
+
     public abstract void Initialize(Agent agent);
 
     /// <summary>

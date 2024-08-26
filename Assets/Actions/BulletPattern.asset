@@ -15,9 +15,9 @@ MonoBehaviour:
   cost: 10
   utilityScore: 0
   lastExecutedTime: 0
-  cooldownTime: 0.2
+  cooldownTime: 0.4
   bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
-  numberOfBullets: 10
+  numberOfBullets: 8
   bulletSpeed: 10
-  angleIncrement: 10
+  angleIncrement: 40
   spawnRadius: 6
