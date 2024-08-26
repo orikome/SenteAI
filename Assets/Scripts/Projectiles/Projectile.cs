@@ -42,5 +42,6 @@ public class Projectile : MonoBehaviour
         _rotationDirection = direction.normalized;
         _speed = projectileSpeed;
         _damage = dmg;
+        _timer = lifetime;
     }
 }
