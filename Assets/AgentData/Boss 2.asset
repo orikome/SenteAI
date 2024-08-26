@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boss 2
   m_EditorClassIdentifier: 
   agentName: Bossman
-  maxHealth: 100
+  maxHealth: 10000
   modules:
   - {fileID: 11400000, guid: cf5a60785112ee54a9320d3655c7d1a8, type: 2}
   - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}

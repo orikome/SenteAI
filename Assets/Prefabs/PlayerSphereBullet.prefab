@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3180509386655610321}
   - component: {fileID: 4210801288293458819}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 7647761431826965084}
   - component: {fileID: 6813460512607680389}
   - component: {fileID: 1944069632872197587}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: PlayerSphereBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3306018133560295034}
   - component: {fileID: 4576312796886098794}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

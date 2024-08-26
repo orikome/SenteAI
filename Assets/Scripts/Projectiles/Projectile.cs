@@ -34,25 +34,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    protected virtual void OnCollisionEnter(Collision collision)
-    {
-        int otherLayer = collision.gameObject.layer;
-        if (!collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
-        {
-            OnMissCallback?.Invoke();
-            Helpers.SpawnParticles(transform.position, Color.white);
-            Destroy(gameObject);
-            return;
-        }
-
-        damageable.TakeDamage(_damage);
-        OnHitCallback?.Invoke();
-        Helpers.SpawnParticles(transform.position, Color.red);
-        Debug.Log(
-            $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.gameObject.name)}"
-        );
-        Destroy(gameObject);
-    }
+    protected virtual void OnCollisionEnter(Collision collision) { }
 
     public void Initialize(Vector3 direction, float projectileSpeed, int dmg)
     {

@@ -10,9 +10,21 @@ public class AgentProjectile : Projectile
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (!OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
+        int otherLayer = collision.gameObject.layer;
+        if (!collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
+        {
+            OnMissCallback?.Invoke();
+            Helpers.SpawnParticles(transform.position, Color.white);
+            Destroy(gameObject);
             return;
+        }
 
-        base.OnCollisionEnter(collision);
+        damageable.TakeDamage(_damage);
+        OnHitCallback?.Invoke();
+        Helpers.SpawnParticles(transform.position, Color.red);
+        Debug.Log(
+            $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.gameObject.name)}"
+        );
+        Destroy(gameObject);
     }
 }

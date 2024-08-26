@@ -17,5 +17,10 @@ public class PlayerProjectile : Projectile
             Helpers.SpawnParticles(transform.position, Color.white);
             Destroy(gameObject);
         }
+        else
+        {
+            Helpers.SpawnParticles(transform.position, Color.white);
+            Destroy(gameObject);
+        }
     }
 }

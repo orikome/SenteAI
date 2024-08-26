@@ -26,6 +26,7 @@ public class AgentActionDecisionMaker : MonoBehaviour
                 }
             }
 
+            DebugLog(actionToUse);
             return actionToUse;
         }
 

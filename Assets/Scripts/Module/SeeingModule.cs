@@ -18,7 +18,7 @@ public class SeeingModule : SenseModule
     public override void ExecuteLoop(Agent agent)
     {
         Vector3 directionToTarget = agent.Target.position - agent.transform.position;
-        Ray ray = new Ray(agent.transform.position, directionToTarget.normalized);
+        Ray ray = new(agent.transform.position, directionToTarget.normalized);
 
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, range, layerMask);
         bool isVisible = hit && hitInfo.transform == agent.Target;

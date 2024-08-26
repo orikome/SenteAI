@@ -51,7 +51,7 @@ public class Agent : MonoBehaviour
         ActionSelectionStrategy = null;
 
         // Initialize data and other components
-        InitializeData();
+        LoadAgentData();
         ActionDecisionMaker.Initialize(this);
         ActionUtilityManager.Initialize();
 
@@ -100,7 +100,7 @@ public class Agent : MonoBehaviour
         decidedAction?.ExecuteLoop(firePoint, this);
     }
 
-    private void InitializeData()
+    private void LoadAgentData()
     {
         if (Data == null)
         {
@@ -108,7 +108,7 @@ public class Agent : MonoBehaviour
             return;
         }
 
-        // Initialize modules
+        // Add modules
         foreach (var module in Data.modules)
         {
             if (module != null)
@@ -118,7 +118,7 @@ public class Agent : MonoBehaviour
             }
         }
 
-        // Initialize actions
+        // Add actions
         foreach (var action in Data.actions)
         {
             if (action != null)
