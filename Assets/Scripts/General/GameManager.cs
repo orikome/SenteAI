@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-1000)]
 public class GameManager : MonoBehaviour
@@ -18,5 +19,16 @@ public class GameManager : MonoBehaviour
         {
             agent.Initialize();
         }
+    }
+
+    public void RestartScene()
+    {
+        Debug.Log(
+            "DamageDone: "
+                + Player.Instance.PlayerMetrics.DamageDone
+                + "TimeAlive: "
+                + Player.Instance.PlayerMetrics.TimeAlive
+        );
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

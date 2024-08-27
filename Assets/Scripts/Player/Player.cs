@@ -35,7 +35,7 @@ public class Player : MonoBehaviour, IDamageable
     public void Die()
     {
         IsAlive = false;
-        Debug.Log("DMG: " + PlayerMetrics.DamageDone + "ALI: " + PlayerMetrics.TimeAlive);
-        Destroy(gameObject);
+        GameManager.Instance.RestartScene();
+        //Destroy(gameObject);
     }
 }
