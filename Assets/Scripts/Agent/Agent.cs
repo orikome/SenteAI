@@ -4,11 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(
-    typeof(NavMeshAgent),
-    typeof(AgentActionUtilityManager),
-    typeof(AgentActionDecisionMaker)
-)]
+[RequireComponent(typeof(NavMeshAgent), typeof(AgentActionUtilityManager))]
 public class Agent : MonoBehaviour
 {
     // Set these in editor
@@ -17,7 +13,6 @@ public class Agent : MonoBehaviour
 
     // These are set in code
     public AgentActionUtilityManager ActionUtilityManager { get; private set; }
-    public AgentActionDecisionMaker ActionDecisionMaker { get; private set; }
     public ActionReadinessModule ReadinessModule { get; private set; }
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
@@ -35,7 +30,6 @@ public class Agent : MonoBehaviour
         // Ensure all components exist
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
         ActionUtilityManager = EnsureComponent<AgentActionUtilityManager>();
-        ActionDecisionMaker = EnsureComponent<AgentActionDecisionMaker>();
         Events = EnsureComponent<AgentEvents>();
         AgentMetrics = EnsureComponent<AgentMetrics>();
 
@@ -52,7 +46,6 @@ public class Agent : MonoBehaviour
 
         // Initialize data and other components
         LoadAgentData();
-        ActionDecisionMaker.Initialize(this);
         ActionUtilityManager.Initialize();
 
         // Get modules
@@ -96,8 +89,36 @@ public class Agent : MonoBehaviour
 
         //DebugLog();
 
-        AgentAction decidedAction = ActionDecisionMaker.MakeDecision();
+        AgentAction decidedAction = MakeDecision();
         decidedAction?.ExecuteLoop(firePoint, this);
+    }
+
+    public AgentAction MakeDecision()
+    {
+        float bestUtility = -1f;
+        AgentAction bestAction = null;
+
+        foreach (var action in ActionUtilityManager.actions)
+        {
+            if (action.CanExecute(this))
+            {
+                float utility = action.CalculateUtility(this, this.AgentMetrics);
+
+                if (utility > bestUtility)
+                {
+                    bestUtility = utility;
+                    bestAction = action;
+                    Helpers.DebugLog(bestAction, transform);
+                }
+            }
+        }
+        return bestAction;
+    }
+
+    public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)
+    {
+        // If you need to change the strategy during runtime for some reason
+        ActionSelectionStrategy = strategy;
     }
 
     private void LoadAgentData()
