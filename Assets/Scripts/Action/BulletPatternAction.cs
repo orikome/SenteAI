@@ -38,7 +38,11 @@ public class BulletPatternAction : AgentAction
                 );
 
             Vector3 direction = (spawnPosition - firePoint.position).normalized;
-            GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+            GameObject bullet = Instantiate(
+                bulletPrefab,
+                spawnPosition + new Vector3(0f, -4f, 0f),
+                Quaternion.identity
+            );
             bullet.GetComponent<Projectile>().Initialize(direction, bulletSpeed, 1);
 
             // Increment angle to evenly space bullets

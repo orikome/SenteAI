@@ -47,7 +47,7 @@ public class Agent : MonoBehaviour
 
         // Ensure we only use data from our AgentData file
         Modules.Clear();
-        ActionUtilityManager.actions.Clear();
+        ActionUtilityManager.ClearActions();
         ActionSelectionStrategy = null;
 
         // Initialize data and other components
@@ -124,7 +124,7 @@ public class Agent : MonoBehaviour
             if (action != null)
             {
                 AgentAction newAction = Instantiate(action);
-                ActionUtilityManager.actions.Add(newAction);
+                ActionUtilityManager.AddAction(newAction);
             }
         }
 

@@ -25,10 +25,10 @@ public class AgentActionDecisionMaker : MonoBehaviour
                 {
                     bestUtility = utility;
                     bestAction = action;
+                    DebugLog(bestAction);
                 }
             }
         }
-        DebugLog(bestAction);
         return bestAction;
     }
 

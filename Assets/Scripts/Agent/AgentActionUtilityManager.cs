@@ -7,6 +7,21 @@ public class AgentActionUtilityManager : MonoBehaviour
     public List<AgentAction> actions;
     Agent _agent;
 
+    public void AddAction(AgentAction action)
+    {
+        actions.Add(action);
+    }
+
+    public void RemoveAction(AgentAction action)
+    {
+        actions.Remove(action);
+    }
+
+    public void ClearActions()
+    {
+        actions.Clear();
+    }
+
     public void Initialize()
     {
         _agent = GetComponent<Agent>();
