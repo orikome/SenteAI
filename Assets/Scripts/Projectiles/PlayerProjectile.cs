@@ -14,6 +14,7 @@ public class PlayerProjectile : Projectile
         {
             collision.transform.root.gameObject.TryGetComponent<Agent>(out var agent);
             agent.GetModule<HealthModule>().TakeDamage(10);
+            Player.Instance.PlayerMetrics.UpdateDamageDone(10);
             Helpers.SpawnParticles(transform.position, Color.white);
             Destroy(gameObject);
         }

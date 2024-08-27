@@ -58,7 +58,6 @@ public class ShootAction : AgentAction, IFeedbackAction
         // Increase effectiveness when the projectile hits
         //agent.actionUtilityManager.AdjustUtilityScore(this, effectivenessAdjustment);
         OnSuccessCallback?.Invoke();
-        Debug.Log("Hit player");
     }
 
     public void HandleMiss(Agent agent, float distanceToPlayer)

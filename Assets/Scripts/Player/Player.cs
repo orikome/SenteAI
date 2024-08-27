@@ -5,10 +5,11 @@ public class Player : MonoBehaviour, IDamageable
 {
     public static Player Instance { get; private set; }
     public PlayerMetrics PlayerMetrics { get; private set; }
-    public float MaxHealth => 200f;
-    public float CurrentHealth => 200f;
+    public float MaxHealth => 100f;
+    public float CurrentHealth => 100f;
     private float _currentHealth;
     private PlayerMovement _playerMovement;
+    public bool IsAlive { get; set; }
 
     void Awake()
     {
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour, IDamageable
         _currentHealth = MaxHealth;
         _playerMovement = gameObject.GetComponent<PlayerMovement>();
         PlayerMetrics = gameObject.GetComponent<PlayerMetrics>();
+        IsAlive = true;
     }
 
     public void TakeDamage(int amount)
@@ -32,6 +34,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Die()
     {
+        IsAlive = false;
+        Debug.Log("DMG: " + PlayerMetrics.DamageDone + "ALI: " + PlayerMetrics.TimeAlive);
         Destroy(gameObject);
     }
 }

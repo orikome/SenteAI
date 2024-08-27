@@ -31,6 +31,8 @@ public class PlayerMetrics : MonoBehaviour
     public Behavior currentBehavior;
     Agent closestEnemy;
     public Vector3 PredictedPosition { get; private set; }
+    public float DamageDone { get; private set; }
+    public float TimeAlive { get; private set; }
 
     void Start()
     {
@@ -49,11 +51,19 @@ public class PlayerMetrics : MonoBehaviour
         TrackPlayerPositionHistory();
         currentBehavior = ClassifyBehavior();
         RespondToPlayerBehavior();
+
+        if (Player.Instance.IsAlive)
+            TimeAlive += Time.deltaTime;
     }
 
     public void UpdateCoverStatus(bool canAnyEnemySeePlayer)
     {
         IsInCover = !canAnyEnemySeePlayer;
+    }
+
+    public void UpdateDamageDone(float dmgDone)
+    {
+        DamageDone += dmgDone;
     }
 
     void UpdatePlayerMetrics()
