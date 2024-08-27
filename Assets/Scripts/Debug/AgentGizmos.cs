@@ -1,31 +1,24 @@
-#if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 public class AgentGizmos : MonoBehaviour
 {
-    AgentActionUtilityManager actionUtilityManager;
-    Agent agent;
+    public Agent agent;
     public float textHeight = 4f;
     public float textSize = 0.1f;
-
-    private void Start()
-    {
-        actionUtilityManager = GetComponent<AgentActionUtilityManager>();
-        agent = GetComponent<Agent>();
-    }
 
     private void OnDrawGizmos()
     {
         if (!EditorApplication.isPlaying)
             return;
 
-        GUIStyle style = new GUIStyle
-        {
-            normal = { textColor = Color.yellow },
-            alignment = TextAnchor.MiddleCenter,
-            fontSize = 20 // Adjust as needed
-        };
+        GUIStyle style =
+            new()
+            {
+                normal = { textColor = Color.yellow },
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = 20
+            };
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
 
@@ -44,4 +37,3 @@ public class AgentGizmos : MonoBehaviour
         }
     }
 }
-#endif

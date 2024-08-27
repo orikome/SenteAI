@@ -52,8 +52,9 @@ public class BulletPatternAction : AgentAction
 
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        agent.ActionUtilityManager.NormalizeUtilityScores();
-        return 1.0f;
+        //agent.ActionUtilityManager.NormalizeUtilityScores();
+        utilityScore = 1.0f;
+        return utilityScore;
     }
 
     public override bool CanExecute(Agent agent)

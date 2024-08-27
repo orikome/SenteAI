@@ -17,7 +17,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
+        return agent.PerceptionModule.CanSenseTarget && !IsOnCooldown();
     }
 
     public override void Initialize(Agent agent) { }
@@ -51,6 +51,7 @@ public class ShootAction : AgentAction, IFeedbackAction
             );
 
         Debug.Log("Utility calculated: " + calculatedUtil);
+        utilityScore = calculatedUtil;
         return calculatedUtil;
     }
 
