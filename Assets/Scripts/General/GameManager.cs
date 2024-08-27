@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(
             "DamageDone: "
                 + Player.Instance.PlayerMetrics.DamageDone
+                + " - "
                 + "TimeAlive: "
                 + Player.Instance.PlayerMetrics.TimeAlive
         );

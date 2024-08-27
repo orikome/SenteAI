@@ -45,6 +45,6 @@ public abstract class AgentAction : ScriptableObject
     /// </summary>
     public virtual float CalculateUtility(Agent agent, AgentMetrics context)
     {
-        return 1.0f;
+        return -1.0f;
     }
 }

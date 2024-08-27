@@ -102,7 +102,7 @@ public class Agent : MonoBehaviour
         {
             if (action.CanExecute(this))
             {
-                float utility = action.CalculateUtility(this, this.AgentMetrics);
+                float utility = action.CalculateUtility(this, AgentMetrics);
 
                 if (utility > bestUtility)
                 {

@@ -33,28 +33,14 @@ public class AgentGizmos : MonoBehaviour
         //string energyText = $"E: {agent.actionDecisionMaker.curEnergy:F0}";
         //Handles.Label(textPosition, energyText, style);
 
-        if (
-            agent != null
-            && agent.ActionUtilityManager != null
-            && agent.ActionUtilityManager.actions != null
-        )
-        {
-            foreach (var action in agent.ActionUtilityManager.actions)
-            {
-                textPosition += Vector3.down * textHeight;
-
-                string actionInfo =
-                    $"A: {action.name}, U: {action.utilityScore:F2}, C: {action.cost}";
-
-                style.normal.textColor = Color.white;
-                Handles.Label(textPosition, actionInfo, style);
-            }
-        }
-        else
+        foreach (var action in agent.ActionUtilityManager.actions)
         {
             textPosition += Vector3.down * textHeight;
-            style.normal.textColor = Color.red;
-            Handles.Label(textPosition, "No Actions Found.", style);
+
+            string actionInfo = $"A: {action.name}, U: {action.utilityScore:F2}, C: {action.cost}";
+
+            style.normal.textColor = Color.white;
+            Handles.Label(textPosition, actionInfo, style);
         }
     }
 }

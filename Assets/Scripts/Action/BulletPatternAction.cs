@@ -50,6 +50,12 @@ public class BulletPatternAction : AgentAction
         }
     }
 
+    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
+    {
+        agent.ActionUtilityManager.NormalizeUtilityScores();
+        return 1.0f;
+    }
+
     public override bool CanExecute(Agent agent)
     {
         return !IsOnCooldown();

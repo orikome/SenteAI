@@ -108,10 +108,7 @@ public class PlayerMetrics : MonoBehaviour
 
         foreach (Agent agent in GameManager.Instance.activeAgents)
         {
-            float distance = OrikomeUtils.GeneralUtils.GetDistanceSquared(
-                agent.transform.position,
-                transform.position
-            );
+            float distance = Vector3.Distance(agent.transform.position, transform.position);
 
             agent.AgentMetrics.SetDistanceToPlayer(distance);
 

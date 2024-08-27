@@ -35,14 +35,23 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        if (agent.PerceptionModule.CanSenseTarget)
-            return 0.5f;
-
         float distance = agent.AgentMetrics.DistanceToPlayer;
+        float maxDistance = 200f;
+        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : 0.2f;
 
-        return Mathf.Clamp01(1.0f - distance / 100f)
-            * Mathf.Clamp01(agent.AgentMetrics.HealthFactor)
-            * Mathf.Clamp01(0.5f);
+        float distanceFactor = 1.0f - (distance / maxDistance);
+        float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
+
+        if (calculatedUtil <= 0)
+            Debug.LogError(
+                "UTILITY IS ZERO OR NEGATIVE, CHECK PARAMETERS: Distance="
+                    + distance
+                    + ", CanSense="
+                    + agent.PerceptionModule.CanSenseTarget
+            );
+
+        Debug.Log("Utility calculated: " + calculatedUtil);
+        return calculatedUtil;
     }
 
     public void HandleFailure(Agent agent)
