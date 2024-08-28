@@ -17,7 +17,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.PerceptionModule.CanSenseTarget && !IsOnCooldown();
+        return !IsOnCooldown();
     }
 
     public override void Initialize(Agent agent) { }
@@ -37,7 +37,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     {
         float distance = agent.AgentMetrics.DistanceToPlayer;
         float maxDistance = 200f;
-        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : 0.2f;
+        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
 
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;

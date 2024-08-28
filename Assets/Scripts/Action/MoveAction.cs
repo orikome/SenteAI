@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Assertions.Must;
 
 [CreateAssetMenu(fileName = "MoveAction", menuName = "AgentAction/MoveAction")]
 public class MoveAction : AgentAction
@@ -104,7 +103,7 @@ public class MoveAction : AgentAction
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
         float maxDistance = 100f;
-        float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : 0.2f;
+        float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 0.8f;
 
         float distance = agent.AgentMetrics.DistanceToPlayer;
         float distanceFactor = 1.0f - distance / maxDistance;
