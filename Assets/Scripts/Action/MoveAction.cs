@@ -16,6 +16,7 @@ public class MoveAction : AgentAction
 
     public override void Initialize(Agent agent)
     {
+        _baseUtility = 0.3f;
         _actionReadinessModule = agent.GetModule<ActionReadinessModule>();
         Debug.Assert(_actionReadinessModule != null, "ActionReadinessModule is not set!");
     }
@@ -102,14 +103,34 @@ public class MoveAction : AgentAction
 
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        if (!agent.PerceptionModule.CanSenseTarget)
-            return 1.0f;
+        float maxDistance = 100f;
+        float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : 0.2f;
 
         float distance = agent.AgentMetrics.DistanceToPlayer;
+        float distanceFactor = 1.0f - distance / maxDistance;
 
-        return Mathf.Clamp01(1.0f - distance / 100f)
-            * Mathf.Clamp01(agent.AgentMetrics.HealthFactor)
-            * Mathf.Clamp01(0.5f);
+        float healthFactor = 0.3f;
+        float calculatedUtil = distanceFactor * healthFactor * _baseUtility * canSenseFactor;
+
+        if (calculatedUtil <= 0)
+        {
+            Debug.LogError(
+                "UTILITY IS ZERO OR NEGATIVE, CHECK PARAMETERS: Distance="
+                    + distance
+                    + ", CanSense="
+                    + agent.PerceptionModule.CanSenseTarget
+                    + ", HealthFactor="
+                    + healthFactor
+            );
+        }
+        else
+        {
+            Debug.Log("Utility calculated: " + calculatedUtil);
+        }
+
+        utilityScore = calculatedUtil;
+
+        return calculatedUtil;
     }
 
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)

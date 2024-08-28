@@ -7,7 +7,8 @@ public abstract class AgentAction : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     public float utilityScore;
-    private readonly float _baseUtility; // Keep between 0.0f - 1.0f
+    public float _baseUtility; // Keep between 0.01f - 1.0f
+    public readonly float MIN_SCORE = 0.01f;
     public float lastExecutedTime = 0f;
     public float cooldownTime = 0.1f;
     public abstract bool CanExecute(Agent agent);
