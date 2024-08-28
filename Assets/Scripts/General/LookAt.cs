@@ -6,23 +6,24 @@ public class LookAt : MonoBehaviour
     public Transform target;
     public float rotationSpeed = 60f;
     public float idleRotationSpeed = 10f;
-    Agent agent;
+    Agent _agent;
 
     void Start()
     {
-        agent = gameObject.GetComponent<Agent>();
+        _agent = gameObject.GetComponent<Agent>();
     }
 
     private void Update()
     {
-        if (agent.PerceptionModule.CanSenseTarget)
+        if (_agent.PerceptionModule.CanSenseTarget)
         {
             LookAtTransform(target);
         }
         else
         {
             PanTowardsPredictedPosition(
-                Player.Instance.PlayerMetrics.PredictNextPositionUsingAverage()
+                //Player.Instance.PlayerMetrics.PredictNextPositionUsingAverage()
+                _agent.GetModule<SeeingModule>().LastKnownVelocity
             );
         }
     }

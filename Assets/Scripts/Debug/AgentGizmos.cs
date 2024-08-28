@@ -3,9 +3,14 @@ using UnityEngine;
 
 public class AgentGizmos : MonoBehaviour
 {
-    public Agent agent;
+    private Agent _agent;
     public float textHeight = 4f;
     public float textSize = 0.1f;
+
+    private void Start()
+    {
+        _agent = gameObject.GetComponent<Agent>();
+    }
 
     private void OnDrawGizmos()
     {
@@ -26,7 +31,7 @@ public class AgentGizmos : MonoBehaviour
         //string energyText = $"E: {agent.actionDecisionMaker.curEnergy:F0}";
         //Handles.Label(textPosition, energyText, style);
 
-        foreach (var action in agent.ActionUtilityManager.actions)
+        foreach (var action in _agent.ActionUtilityManager.actions)
         {
             textPosition += Vector3.down * textHeight;
 

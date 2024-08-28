@@ -38,6 +38,7 @@ public class SeeingModule : SenseModule
             CanSenseTarget = true;
             Player.Instance.PlayerMetrics.UpdateCoverStatus(true);
             LastKnownLocation = agent.Target.position;
+            LastKnownVelocity = Player.Instance.PlayerMetrics.velocity;
             LastSeen = Time.time;
             agent.ActionUtilityManager.ResetUtilityScores();
             Player.Instance.PlayerMetrics.timeInCover = 0;

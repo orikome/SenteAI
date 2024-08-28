@@ -971,7 +971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
   textHeight: 8
   textSize: 0.1
 --- !u!114 &206466451
@@ -1557,7 +1556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 277862018}
   textHeight: 8
   textSize: 0.1
 --- !u!195 &277862015
@@ -1700,7 +1698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
   textHeight: 8
   textSize: 0.1
 --- !u!195 &332212268
@@ -1831,7 +1828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
   textHeight: 8
   textSize: 0.1
 --- !u!195 &341880539
@@ -2426,7 +2422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
   textHeight: 8
   textSize: 0.1
 --- !u!195 &762331706
@@ -4308,7 +4303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1558212480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4337,7 +4332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
   textHeight: 8
   textSize: 0.1
 --- !u!195 &1558212482
