@@ -49,7 +49,7 @@ public class ProjectilePooler : MonoBehaviour
 
             projectile.transform.position = position;
             projectile.transform.rotation = rotation;
-            projectile.Initialize(direction, speed, damage);
+            projectile.SetParameters(direction, speed, damage);
 
             projectile.OnMissCallback = () => ReturnProjectile(projectile);
 

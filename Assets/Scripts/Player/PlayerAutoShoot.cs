@@ -37,6 +37,6 @@ public class PlayerAutoShoot : MonoBehaviour
         );
 
         if (projectile.TryGetComponent<Projectile>(out var projectileComponent))
-            projectileComponent.Initialize(direction, projectileSpeed, 10);
+            projectileComponent.SetParameters(direction, projectileSpeed, 10);
     }
 }

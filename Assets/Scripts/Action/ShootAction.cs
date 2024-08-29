@@ -98,7 +98,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
 
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
-        projectileComponent.Initialize(direction, projectileSpeed, damage);
+        projectileComponent.SetParameters(direction, projectileSpeed, damage);
 
         if (projectileComponent != null)
         {
