@@ -16,6 +16,7 @@ public class LaserBeamAction : AgentAction
     {
         ShootLaser(firePoint, agent);
         lastExecutedTime = Time.time;
+        CalculateUtility(agent, agent.AgentMetrics);
     }
 
     public override bool CanExecute(Agent agent)

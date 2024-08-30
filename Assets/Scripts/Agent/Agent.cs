@@ -89,30 +89,8 @@ public class Agent : MonoBehaviour
 
         //DebugLog();
 
-        AgentAction decidedAction = MakeDecision();
+        AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
         decidedAction?.ExecuteLoop(firePoint, this);
-    }
-
-    public AgentAction MakeDecision()
-    {
-        float bestUtility = -1f;
-        AgentAction bestAction = null;
-
-        foreach (var action in ActionUtilityManager.actions)
-        {
-            if (action.CanExecute(this))
-            {
-                float utility = action.CalculateUtility(this, AgentMetrics);
-
-                if (utility > bestUtility)
-                {
-                    bestUtility = utility;
-                    bestAction = action;
-                    Helpers.DebugLog(bestAction, transform);
-                }
-            }
-        }
-        return bestAction;
     }
 
     public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)

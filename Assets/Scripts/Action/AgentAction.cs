@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public abstract class AgentAction : ScriptableObject
@@ -32,6 +33,16 @@ public abstract class AgentAction : ScriptableObject
     public virtual bool IsOnCooldown()
     {
         return Time.time - lastExecutedTime < cooldownTime;
+    }
+
+    public virtual void AddCooldown()
+    {
+        cooldownTime = lastExecutedTime;
+    }
+
+    public virtual void ResetCooldown()
+    {
+        cooldownTime = 0;
     }
 
     public abstract void Initialize(Agent agent);

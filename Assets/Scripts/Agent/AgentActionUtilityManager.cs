@@ -46,6 +46,14 @@ public class AgentActionUtilityManager : MonoBehaviour
         }
     }
 
+    public void AddCooldowns()
+    {
+        foreach (AgentAction action in actions)
+        {
+            action.AddCooldown();
+        }
+    }
+
     void AdjustUtilityScore(AgentAction action, float amount)
     {
         if (action == null)

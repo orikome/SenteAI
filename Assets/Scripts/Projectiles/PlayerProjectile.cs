@@ -6,6 +6,7 @@ public class PlayerProjectile : Projectile
     {
         base.Start();
         _collisionMask = LayerMask.GetMask("Enemy");
+        SetColor(Color.green);
     }
 
     protected override void OnCollisionEnter(Collision collision)
