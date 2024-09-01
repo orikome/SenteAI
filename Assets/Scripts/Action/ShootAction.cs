@@ -50,7 +50,7 @@ public class ShootAction : AgentAction, IFeedbackAction
                     + agent.PerceptionModule.CanSenseTarget
             );
 
-        Debug.Log("Utility calculated: " + calculatedUtil);
+        //Debug.Log("Utility calculated: " + calculatedUtil);
         utilityScore = calculatedUtil;
         return calculatedUtil;
     }
