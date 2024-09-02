@@ -30,7 +30,10 @@ public class CircularMovement : MonoBehaviour
             return;
         }
 
-        transform.RotateAround(centerPoint, Vector3.up, moveSpeed * Time.deltaTime);
+        float angularVelocity = moveSpeed / circleRadius;
+        float angle = angularVelocity * Time.deltaTime;
+
+        transform.RotateAround(centerPoint, Vector3.up, angle * Mathf.Rad2Deg);
 
         if (pauseTimer <= 0f)
         {
