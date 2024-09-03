@@ -9,12 +9,11 @@ public class CircularMovement : MonoBehaviour
 
     private float pauseTimer = 0f;
     private bool isPaused = false;
-    private Vector3 centerPoint;
+    private float angle = 0f;
 
     private void Start()
     {
         transform.position = new Vector3(circleRadius, 0, 0);
-        centerPoint = Vector3.zero;
     }
 
     private void Update()
@@ -30,11 +29,15 @@ public class CircularMovement : MonoBehaviour
             return;
         }
 
-        float angularVelocity = moveSpeed / circleRadius;
-        float angle = angularVelocity * Time.deltaTime;
+        angle += moveSpeed * Time.deltaTime / circleRadius;
 
-        transform.RotateAround(centerPoint, Vector3.up, angle * Mathf.Rad2Deg);
+        angle %= 2 * Mathf.PI;
 
+        float x = Mathf.Cos(angle) * circleRadius;
+        float z = Mathf.Sin(angle) * circleRadius;
+        transform.position = new Vector3(x, 0, z);
+
+        pauseTimer -= Time.deltaTime;
         if (pauseTimer <= 0f)
         {
             isPaused = true;
