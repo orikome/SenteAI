@@ -22,20 +22,16 @@ public class AgentGizmos : MonoBehaviour
             {
                 normal = { textColor = Color.yellow },
                 alignment = TextAnchor.MiddleCenter,
-                fontSize = 20
+                fontSize = 20,
             };
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
-
-        // Display energy
-        //string energyText = $"E: {agent.actionDecisionMaker.curEnergy:F0}";
-        //Handles.Label(textPosition, energyText, style);
 
         foreach (var action in _agent.ActionUtilityManager.actions)
         {
             textPosition += Vector3.down * textHeight;
 
-            string actionInfo = $"A: {action.name}, U: {action.utilityScore:F2}, C: {action.cost}";
+            string actionInfo = $"{Helpers.CleanName(action.name)}={action.utilityScore:F2}";
 
             style.normal.textColor = Color.white;
             Handles.Label(textPosition, actionInfo, style);
