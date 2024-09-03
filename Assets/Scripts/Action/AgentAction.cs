@@ -10,7 +10,7 @@ public abstract class AgentAction : ScriptableObject
     public float utilityScore;
     public float _baseUtility; // Keep between 0.01f - 1.0f
     public readonly float MIN_UTILITY = 0.01f;
-    public float lastExecutedTime = 0f;
+    public float LastExecutedTime { get; protected set; }
     public float cooldownTime = 0.1f;
     public abstract bool CanExecute(Agent agent);
 
@@ -19,7 +19,7 @@ public abstract class AgentAction : ScriptableObject
     /// </summary>
     public float GetCooldownProgress()
     {
-        return Mathf.Clamp01((Time.time - lastExecutedTime) / cooldownTime);
+        return Mathf.Clamp01((Time.time - LastExecutedTime) / cooldownTime);
     }
 
     /// <summary>
@@ -27,22 +27,22 @@ public abstract class AgentAction : ScriptableObject
     /// </summary>
     public float GetCooldownTimeRemaining()
     {
-        return cooldownTime - (Time.time - lastExecutedTime);
+        return cooldownTime - (Time.time - LastExecutedTime);
     }
 
     public virtual bool IsOnCooldown()
     {
-        return Time.time - lastExecutedTime < cooldownTime;
+        return Time.time - LastExecutedTime < cooldownTime;
     }
 
     public virtual void AddCooldown()
     {
-        cooldownTime = lastExecutedTime;
+        LastExecutedTime = Time.time;
     }
 
     public virtual void ResetCooldown()
     {
-        cooldownTime = 0;
+        LastExecutedTime = Time.time - cooldownTime;
     }
 
     public abstract void Initialize(Agent agent);

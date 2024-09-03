@@ -30,10 +30,6 @@ public class AgentUtilityManagerInspector : Editor
             EditorGUILayout.LabelField(action.name, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Utility Score", action.utilityScore.ToString("F2"));
             EditorGUILayout.LabelField(
-                "Last Executed Time",
-                action.lastExecutedTime.ToString("F2") + " seconds"
-            );
-            EditorGUILayout.LabelField(
                 "Cooldown Time Remaining",
                 action.GetCooldownTimeRemaining().ToString("F2") + " seconds"
             );

@@ -17,10 +17,7 @@ public class CooldownBasedActionReadiness : ActionReadinessModule
         return Time.time - lastActionTime[action] >= cooldownDuration;
     }
 
-    public override void OnActionPerformed(AgentAction action)
-    {
-        action.lastExecutedTime = Time.time;
-    }
+    public override void OnActionPerformed(AgentAction action) { }
 
     public override void ExecuteLoop(Agent agent) { }
 

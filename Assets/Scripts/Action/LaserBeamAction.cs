@@ -15,8 +15,8 @@ public class LaserBeamAction : AgentAction
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         ShootLaser(firePoint, agent);
-        lastExecutedTime = Time.time;
         CalculateUtility(agent, agent.AgentMetrics);
+        AddCooldown();
     }
 
     public override bool CanExecute(Agent agent)

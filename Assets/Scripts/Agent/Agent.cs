@@ -90,10 +90,10 @@ public class Agent : MonoBehaviour
         //DebugLog();
 
         AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
-        if (decidedAction)
+        if (decidedAction != null)
         {
             AgentMetrics.AddActionToHistory(decidedAction);
-            decidedAction?.ExecuteLoop(firePoint, this);
+            decidedAction.ExecuteLoop(firePoint, this);
         }
     }
 

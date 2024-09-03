@@ -17,8 +17,7 @@ public class HomingOrbsAction : AgentAction
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         ShootOrbs(firePoint);
-
-        lastExecutedTime = Time.time;
+        AddCooldown();
     }
 
     private void ShootOrbs(Transform firePoint)

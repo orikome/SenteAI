@@ -11,7 +11,7 @@ public class MeteorStrikeAction : AgentAction
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
         DropMeteor(firePoint, agent);
-        lastExecutedTime = Time.time;
+        AddCooldown();
     }
 
     public override bool CanExecute(Agent agent)

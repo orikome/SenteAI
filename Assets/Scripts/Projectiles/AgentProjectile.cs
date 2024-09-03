@@ -15,7 +15,7 @@ public class AgentProjectile : Projectile
         if (!collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
         {
             OnMissCallback?.Invoke();
-            Helpers.SpawnParticles(transform.position, Color.white);
+            Helpers.SpawnParticles(transform.position, Color.red);
             Destroy(gameObject);
             return;
         }

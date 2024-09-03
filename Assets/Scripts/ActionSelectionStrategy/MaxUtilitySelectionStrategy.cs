@@ -14,8 +14,6 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
             .OrderByDescending(action => action.utilityScore)
             .FirstOrDefault();
 
-        agent.ActionUtilityManager.AddCooldowns();
-
         return selectedAction;
     }
 }

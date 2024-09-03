@@ -16,7 +16,7 @@ public class BulletPatternAction : AgentAction
     {
         GeneratePattern(agent.transform);
         currentSpiralAngleOffset += (int)angleIncrement;
-        lastExecutedTime = Time.time;
+        AddCooldown();
     }
 
     private void GeneratePattern(Transform firePoint)

@@ -29,8 +29,8 @@ public class ShootAction : AgentAction, IFeedbackAction
             Player.Instance.PlayerMetrics.PredictPositionDynamically() - agent.firePoint.position,
             agent
         );
-        lastExecutedTime = Time.time;
         CalculateUtility(agent, agent.AgentMetrics);
+        AddCooldown();
     }
 
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
