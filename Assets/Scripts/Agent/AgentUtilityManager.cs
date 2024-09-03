@@ -30,8 +30,6 @@ public class AgentUtilityManager : MonoBehaviour
 
     public void ResetUtilityScores()
     {
-        return;
-
         foreach (AgentAction action in actions)
         {
             action.utilityScore = 1.0f / actions.Count;

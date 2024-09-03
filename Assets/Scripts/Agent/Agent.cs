@@ -23,6 +23,7 @@ public class Agent : MonoBehaviour
     private NavMeshAgent _navMeshAgent;
     private float _lastActionTime;
     private readonly float _globalCooldown = 0.4f;
+    private readonly float _minThreshold = 0.2f;
 
     public void Initialize()
     {
@@ -87,6 +88,7 @@ public class Agent : MonoBehaviour
             module.ExecuteLoop(this);
         }
 
+        ActionUtilityManager.CalculateUtilityScores();
         SelectAndExecuteAction();
     }
 
@@ -95,9 +97,8 @@ public class Agent : MonoBehaviour
         if (Time.time < _lastActionTime + _globalCooldown)
             return;
 
-        ActionUtilityManager.CalculateUtilityScores();
         AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
-        if (decidedAction != null)
+        if (decidedAction != null && decidedAction.utilityScore > _minThreshold)
         {
             AgentMetrics.AddActionToHistory(decidedAction);
             decidedAction.ExecuteLoop(firePoint, this);
