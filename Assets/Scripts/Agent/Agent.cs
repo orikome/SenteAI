@@ -85,10 +85,12 @@ public class Agent : MonoBehaviour
             module.ExecuteLoop(this);
         }
 
+        SelectAndExecuteAction();
+    }
+
+    private void SelectAndExecuteAction()
+    {
         ActionUtilityManager.CalculateUtilityScores();
-
-        //DebugLog();
-
         AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
         if (decidedAction != null)
         {
@@ -132,20 +134,6 @@ public class Agent : MonoBehaviour
         }
 
         ActionSelectionStrategy = Data.actionSelectionStrategy;
-    }
-
-    private void DebugLog()
-    {
-        if (Time.frameCount % 300 != 0)
-            return;
-
-        string debugInfo = "";
-
-        foreach (var action in ActionUtilityManager.actions)
-        {
-            debugInfo += $"A: {action.name}, W: {action.utilityScore:F2}, C: {action.cost}\n";
-        }
-        DebugManager.Instance.Log(transform, debugInfo, Color.white);
     }
 
     public void SetDestination(Vector3 destination)
