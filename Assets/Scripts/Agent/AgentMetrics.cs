@@ -12,4 +12,13 @@ public class AgentMetrics : MonoBehaviour
     {
         DistanceToPlayer = disToPlayer;
     }
+
+    public void AddActionToHistory(AgentAction action)
+    {
+        actionHistory.Add(action);
+        if (actionHistory.Count > 20)
+        {
+            actionHistory.RemoveAt(0);
+        }
+    }
 }
