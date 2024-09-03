@@ -16,12 +16,13 @@ public class AgentUtilityManagerInspector : Editor
 
     public override void OnInspectorGUI()
     {
+        if (!Application.isPlaying)
+            EditorGUILayout.LabelField(
+                "Data displayed by an editor script (AgentActionStatus.cs)",
+                EditorStyles.boldLabel
+            );
+
         AgentUtilityManager manager = (AgentUtilityManager)target;
-
-        //DrawDefaultInspector();
-        //EditorGUILayout.Space();
-
-        EditorGUILayout.LabelField("Action Status", EditorStyles.boldLabel);
 
         foreach (var action in manager.actions)
         {
@@ -29,14 +30,24 @@ public class AgentUtilityManagerInspector : Editor
 
             EditorGUILayout.LabelField(action.name, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Utility Score", action.utilityScore.ToString("F2"));
+            EditorGUILayout.LabelField("Cooldown", action.cooldownTime.ToString("F2"));
+
+            float cooldownProgress = action.GetCooldownProgress();
+            float cooldownTimeRemaining = action.GetCooldownTimeRemaining();
+
+            EditorGUILayout.LabelField("Cooldown Progress");
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.HorizontalSlider(cooldownProgress, 0f, 1f);
             EditorGUILayout.LabelField(
-                "Cooldown Time Remaining",
-                action.GetCooldownTimeRemaining().ToString("F2") + " seconds"
+                (cooldownProgress * 100).ToString("F0") + "%",
+                GUILayout.Width(50)
             );
             EditorGUILayout.LabelField(
-                "Cooldown Progress",
-                (action.GetCooldownProgress() * 100).ToString("F0") + "%"
+                cooldownTimeRemaining.ToString("F1") + "s",
+                GUILayout.Width(50)
             );
+            EditorGUILayout.EndHorizontal();
 
             if (action.IsOnCooldown())
             {
