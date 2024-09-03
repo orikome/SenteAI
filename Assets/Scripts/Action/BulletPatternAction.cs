@@ -17,6 +17,7 @@ public class BulletPatternAction : AgentAction
         GeneratePattern(agent.transform);
         currentSpiralAngleOffset += (int)angleIncrement;
         AddCooldown();
+        ApplyDecay();
     }
 
     private void GeneratePattern(Transform firePoint)
@@ -48,13 +49,6 @@ public class BulletPatternAction : AgentAction
             // Increment angle to evenly space bullets
             angle += angleStep;
         }
-    }
-
-    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
-    {
-        //agent.ActionUtilityManager.NormalizeUtilityScores();
-        utilityScore = 0.8f;
-        return utilityScore;
     }
 
     public override bool CanExecute(Agent agent)

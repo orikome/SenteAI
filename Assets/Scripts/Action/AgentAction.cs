@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using UnityEngine;
 
 public abstract class AgentAction : ScriptableObject
@@ -12,6 +11,10 @@ public abstract class AgentAction : ScriptableObject
     public readonly float MIN_UTILITY = 0.01f;
     public float LastExecutedTime { get; protected set; }
     public float cooldownTime = 0.1f;
+
+    [Range(0.0f, 1.0f)]
+    public float decayFactor = 0.9f; // Retain 90% of utility after execution
+    public float restoreRate = 0.2f;
     public abstract bool CanExecute(Agent agent);
 
     /// <summary>
@@ -57,6 +60,22 @@ public abstract class AgentAction : ScriptableObject
     /// </summary>
     public virtual float CalculateUtility(Agent agent, AgentMetrics context)
     {
-        return -1.0f;
+        return utilityScore;
+    }
+
+    /// <summary>
+    /// Applies decay to the utilityScore.
+    /// </summary>
+    protected void ApplyDecay()
+    {
+        utilityScore = Mathf.Max(utilityScore * decayFactor, MIN_UTILITY);
+    }
+
+    public void RestoreUtilityOverTime()
+    {
+        if (Time.time - LastExecutedTime > cooldownTime)
+        {
+            utilityScore = Mathf.Min(utilityScore + restoreRate * Time.deltaTime, 1.0f);
+        }
     }
 }

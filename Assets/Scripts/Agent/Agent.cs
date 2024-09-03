@@ -21,8 +21,8 @@ public class Agent : MonoBehaviour
     public Transform Target { get; private set; }
     public AgentMetrics AgentMetrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
-    public float lastActionTime;
-    public float globalCooldown = 0.4f;
+    private float _lastActionTime;
+    private readonly float _globalCooldown = 0.4f;
 
     public void Initialize()
     {
@@ -92,7 +92,7 @@ public class Agent : MonoBehaviour
 
     private void SelectAndExecuteAction()
     {
-        if (Time.time < lastActionTime + globalCooldown)
+        if (Time.time < _lastActionTime + _globalCooldown)
             return;
 
         ActionUtilityManager.CalculateUtilityScores();
@@ -101,7 +101,7 @@ public class Agent : MonoBehaviour
         {
             AgentMetrics.AddActionToHistory(decidedAction);
             decidedAction.ExecuteLoop(firePoint, this);
-            lastActionTime = Time.time;
+            _lastActionTime = Time.time;
         }
     }
 
