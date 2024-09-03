@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(AgentActionUtilityManager))]
+[RequireComponent(typeof(NavMeshAgent), typeof(AgentUtilityManager))]
 public class Agent : MonoBehaviour
 {
     // Set these in editor
@@ -12,7 +12,7 @@ public class Agent : MonoBehaviour
     public Transform firePoint;
 
     // These are set in code
-    public AgentActionUtilityManager ActionUtilityManager { get; private set; }
+    public AgentUtilityManager ActionUtilityManager { get; private set; }
     public ActionReadinessModule ReadinessModule { get; private set; }
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
@@ -29,7 +29,7 @@ public class Agent : MonoBehaviour
 
         // Ensure all components exist
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
-        ActionUtilityManager = EnsureComponent<AgentActionUtilityManager>();
+        ActionUtilityManager = EnsureComponent<AgentUtilityManager>();
         Events = EnsureComponent<AgentEvents>();
         AgentMetrics = EnsureComponent<AgentMetrics>();
 

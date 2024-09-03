@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AgentActionUtilityManager : MonoBehaviour
+public class AgentUtilityManager : MonoBehaviour
 {
     public List<AgentAction> actions;
     Agent _agent;

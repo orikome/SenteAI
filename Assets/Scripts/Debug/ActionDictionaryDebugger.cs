@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class ActionDictionaryDebugger : MonoBehaviour
 {
-    AgentActionUtilityManager actionUtilityManager;
+    AgentUtilityManager actionUtilityManager;
     Vector2 scrollPosition = Vector2.zero;
 
     private void Start()
     {
-        actionUtilityManager = GetComponent<AgentActionUtilityManager>();
+        actionUtilityManager = GetComponent<AgentUtilityManager>();
     }
 
     private void OnGUI()
@@ -16,16 +16,16 @@ public class ActionDictionaryDebugger : MonoBehaviour
         {
             fontSize = 30,
             fontStyle = FontStyle.Bold,
-            alignment = TextAnchor.MiddleLeft
+            alignment = TextAnchor.MiddleLeft,
         };
         GUIStyle buttonStyle = new GUIStyle(GUI.skin.button)
         {
             fontSize = 20,
-            fontStyle = FontStyle.Bold
+            fontStyle = FontStyle.Bold,
         };
         GUIStyle boxStyle = new GUIStyle(GUI.skin.box)
         {
-            normal = { background = MakeTex(2, 2, new Color(0, 0, 0, 0.5f)) }
+            normal = { background = MakeTex(2, 2, new Color(0, 0, 0, 0.5f)) },
         };
 
         float boxWidth = 800;
