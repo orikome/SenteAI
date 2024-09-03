@@ -40,7 +40,7 @@ public static class Helpers
         int burstCount = 15
     )
     {
-        GameObject particles = new GameObject("CustomParticles");
+        GameObject particles = new("CustomParticles");
         ParticleSystem particleSystem = particles.AddComponent<ParticleSystem>();
         particles.transform.position = position;
 
@@ -58,18 +58,10 @@ public static class Helpers
         // Fade out smoothly
         var colorOverLifetime = particleSystem.colorOverLifetime;
         colorOverLifetime.enabled = true;
-        Gradient gradient = new Gradient();
+        Gradient gradient = new();
         gradient.SetKeys(
-            new GradientColorKey[]
-            {
-                new GradientColorKey(color, 0.0f),
-                new GradientColorKey(color, 1.0f)
-            },
-            new GradientAlphaKey[]
-            {
-                new GradientAlphaKey(1.0f, 0.0f),
-                new GradientAlphaKey(0.0f, 1.0f)
-            }
+            new GradientColorKey[] { new(color, 0.0f), new(color, 1.0f) },
+            new GradientAlphaKey[] { new(1.0f, 0.0f), new(0.0f, 1.0f) }
         );
         colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
 

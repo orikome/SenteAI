@@ -192,7 +192,7 @@ public class PlayerMetrics : MonoBehaviour
         Vector3 predictedPosition =
             transform.position
             + velocity1
-            + 0.5f * acceleration * Mathf.Pow(historyRecordInterval, 2);
+            + 0.5f * Mathf.Pow(historyRecordInterval, 2) * acceleration;
 
         PredictedPosition = predictedPosition;
         return predictedPosition;
@@ -202,12 +202,8 @@ public class PlayerMetrics : MonoBehaviour
     {
         // If player is cheesing (circling or moving in a small area), use average position prediction
         if (IsClusteredMovement())
-        {
-            //DebugManager.Instance.Log(transform, "CHEESE", Color.yellow);
             return GetAveragePosition(recentHistorySize);
-        }
 
-        //DebugManager.Instance.Log(transform, "MOMENTUM", Color.blue);
         return PredictNextPositionUsingMomentum();
     }
 
