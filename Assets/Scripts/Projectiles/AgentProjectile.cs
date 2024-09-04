@@ -6,7 +6,6 @@ public class AgentProjectile : Projectile
     {
         base.Start();
         _collisionMask = LayerMask.GetMask("Player");
-        SetColor(Color.red);
     }
 
     protected override void OnCollisionEnter(Collision collision)
