@@ -124,7 +124,7 @@ public class MoveAction : AgentAction
         }
         else
         {
-            Debug.Log("Utility calculated: " + calculatedUtil);
+            //Debug.Log("Utility calculated: " + calculatedUtil);
         }
 
         utilityScore = calculatedUtil;

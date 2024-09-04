@@ -13,6 +13,7 @@ public class HomingOrbBehaviour : MonoBehaviour
     {
         player = Player.Instance.transform;
         rb = GetComponent<Rigidbody>();
+        Destroy(gameObject, 12f);
     }
 
     void Update()
@@ -31,9 +32,18 @@ public class HomingOrbBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, playerMask))
+        if (collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
         {
+            damageable.TakeDamage(10);
+            Helpers.SpawnParticles(transform.position, Color.red);
+            Debug.Log(
+                $"{Helpers.CleanName(gameObject.name)} dealt {10} damage to {Helpers.CleanName(collision.gameObject.name)}"
+            );
             Destroy(gameObject);
+            return;
         }
+
+        Helpers.SpawnParticles(transform.position, Color.red);
+        Destroy(gameObject);
     }
 }
