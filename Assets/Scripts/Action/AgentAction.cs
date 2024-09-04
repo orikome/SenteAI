@@ -58,10 +58,7 @@ public abstract class AgentAction : ScriptableObject
     /// <summary>
     /// Called every frame in the agent's update loop.
     /// </summary>
-    public virtual float CalculateUtility(Agent agent, AgentMetrics context)
-    {
-        return utilityScore;
-    }
+    public virtual void CalculateUtility(Agent agent, AgentMetrics context) { }
 
     /// <summary>
     /// Applies decay to the utilityScore.

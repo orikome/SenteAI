@@ -20,6 +20,26 @@ public class HomingOrbsAction : AgentAction
         AddCooldown();
     }
 
+    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
+    {
+        float distance = agent.AgentMetrics.DistanceToPlayer;
+        float maxDistance = 100f;
+        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.6f : 1f;
+        float distanceFactor = 1.0f - (distance / maxDistance);
+        float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
+
+        if (calculatedUtil <= 0)
+            Debug.LogError(
+                "Utility is zero or negative, check parameters: Distance="
+                    + distance
+                    + ", CanSense="
+                    + agent.PerceptionModule.CanSenseTarget
+            );
+
+        //Debug.Log("Utility calculated: " + calculatedUtil);
+        utilityScore = calculatedUtil;
+    }
+
     private void ShootOrbs(Transform firePoint)
     {
         float distanceBetweenOrbs = 3.0f;

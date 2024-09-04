@@ -50,7 +50,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         AddCooldown();
     }
 
-    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
+    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
     {
         float distance = agent.AgentMetrics.DistanceToPlayer;
         float maxDistance = 100f;
@@ -73,7 +73,6 @@ public class ShootAction : AgentAction, IFeedbackAction
 
         //Debug.Log("Utility calculated: " + calculatedUtil);
         utilityScore = calculatedUtil;
-        return calculatedUtil;
     }
 
     public void HandleFailure(Agent agent)

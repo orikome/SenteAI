@@ -16,6 +16,7 @@ MonoBehaviour:
   utilityScore: 0
   _baseUtility: 0
   cooldownTime: 4
-  decayFactor: 0.9
+  decayFactor: 0.1
+  restoreRate: 0.2
   meteorPrefab: {fileID: 2406367453882067487, guid: ed87fe88f4747014988e04c03bda2398, type: 3}
   dropDelay: 2

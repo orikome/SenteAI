@@ -19,6 +19,22 @@ public class MeteorStrikeAction : AgentAction
         return GetCooldownTimeRemaining() <= 0;
     }
 
+    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
+    {
+        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 1f;
+        float calculatedUtil = 0.5f * CanSenseFactor;
+
+        if (calculatedUtil <= 0)
+            Debug.LogError(
+                "Utility is zero or negative, check parameters: "
+                    + "CanSense="
+                    + agent.PerceptionModule.CanSenseTarget
+            );
+
+        //Debug.Log("Utility calculated: " + calculatedUtil);
+        utilityScore = calculatedUtil;
+    }
+
     private void DropMeteor(Transform firePoint, Agent agent)
     {
         GameObject meteor = Instantiate(

@@ -44,7 +44,7 @@ public class LaserBeamAction : AgentAction
         return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
-    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
+    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
     {
         float distance = agent.AgentMetrics.DistanceToPlayer;
         float maxDistance = 100f;
@@ -62,7 +62,6 @@ public class LaserBeamAction : AgentAction
 
         //Debug.Log("Utility calculated: " + calculatedUtil);
         utilityScore = calculatedUtil;
-        return calculatedUtil;
     }
 
     private float CalcUtil(float distance, float health, float energy)

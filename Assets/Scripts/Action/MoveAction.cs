@@ -97,7 +97,7 @@ public class MoveAction : AgentAction
         return score;
     }
 
-    public override float CalculateUtility(Agent agent, AgentMetrics metrics)
+    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
     {
         float maxDistance = 100f;
         float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 0.8f;
@@ -125,8 +125,6 @@ public class MoveAction : AgentAction
         }
 
         utilityScore = calculatedUtil;
-
-        return calculatedUtil;
     }
 
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)

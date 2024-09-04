@@ -51,6 +51,26 @@ public class BulletPatternAction : AgentAction
         }
     }
 
+    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
+    {
+        float distance = agent.AgentMetrics.DistanceToPlayer;
+        float maxDistance = 100f;
+        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : 0.8f;
+        float distanceFactor = 1.0f - (distance / maxDistance);
+        float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
+
+        if (calculatedUtil <= 0)
+            Debug.LogError(
+                "Utility is zero or negative, check parameters: Distance="
+                    + distance
+                    + ", CanSense="
+                    + agent.PerceptionModule.CanSenseTarget
+            );
+
+        //Debug.Log("Utility calculated: " + calculatedUtil);
+        utilityScore = calculatedUtil;
+    }
+
     public override bool CanExecute(Agent agent)
     {
         return !IsOnCooldown();
