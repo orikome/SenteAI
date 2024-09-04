@@ -24,19 +24,36 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
-        ShootProjectile(
-            firePoint,
-            Player.Instance.PlayerMetrics.PredictPositionDynamically() - agent.firePoint.position,
-            agent
-        );
-        CalculateUtility(agent, agent.AgentMetrics);
+        Vector3 predictedPlayerPosition =
+            Player.Instance.PlayerMetrics.PredictPositionDynamically();
+        Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
+        LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
+
+        // Check if walls are in the way
+        if (Physics.Raycast(firePoint.position, directionToPlayer, out RaycastHit hit))
+        {
+            if (
+                OrikomeUtils.LayerMaskUtils.IsLayerInMask(
+                    hit.transform.gameObject.layer,
+                    obstacleLayerMask
+                )
+            )
+            {
+                //Debug.Log("Shot blocked by: " + hit.transform.name);
+                HandleFailure(agent);
+                return;
+            }
+        }
+
+        // If shot is clear, shoot
+        ShootProjectile(firePoint, directionToPlayer, agent);
         AddCooldown();
     }
 
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
         float distance = agent.AgentMetrics.DistanceToPlayer;
-        float maxDistance = 200f;
+        float maxDistance = 100f;
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
 
         float distanceFactor = 1.0f - (distance / maxDistance);

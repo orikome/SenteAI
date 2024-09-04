@@ -10,21 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
-  m_Name: Boss 2
+  m_Name: ShootFastAgent
   m_EditorClassIdentifier: 
-  agentName: Bossman
+  agentName: ShootAgent
   maxHealth: 10000
   modules:
   - {fileID: 11400000, guid: cf5a60785112ee54a9320d3655c7d1a8, type: 2}
   - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
   - {fileID: 11400000, guid: 6c3f87f2b19ef21489345553df6ecf3b, type: 2}
   actions:
-  - {fileID: 11400000, guid: 7aa4335195e2fb640b8928dffc395154, type: 2}
-  - {fileID: 11400000, guid: 18fd8b1955206f44196709b394095265, type: 2}
-  - {fileID: 11400000, guid: aa679f3063eb1a548929c84acffdfb54, type: 2}
   - {fileID: 11400000, guid: b773d7be901db6d439982c672d0a1bd2, type: 2}
-  - {fileID: 11400000, guid: 449744e7dc6e66a47aa113b8c59e89d5, type: 2}
-  - {fileID: 11400000, guid: 24f5354ecb1c38744a6cb31e65fec5ea, type: 2}
-  - {fileID: 11400000, guid: c80ba10ee38d2b4418f1284758ef7026, type: 2}
-  - {fileID: 11400000, guid: 2cfce2468a1d80d4189ea0dcf9191205, type: 2}
   actionSelectionStrategy: {fileID: 11400000, guid: 1047add231d697d4fa102d5823469b1d, type: 2}
