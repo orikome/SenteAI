@@ -46,6 +46,9 @@ public class ShootAction : AgentAction, IFeedbackAction
         }
 
         // If shot is clear, shoot
+        // If distance is less than 30, directly shoot at player instead of predicting position
+        if (agent.AgentMetrics.DistanceToPlayer < 30f)
+            directionToPlayer = Player.Instance.transform.position;
         ShootProjectile(firePoint, directionToPlayer, agent);
         AddCooldown();
     }
