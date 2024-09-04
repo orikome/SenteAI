@@ -14,8 +14,28 @@ public class LaserBeamAction : AgentAction
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
+        Vector3 predictedPlayerPosition =
+            Player.Instance.PlayerMetrics.PredictPositionDynamically();
+        Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
+        LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
+
+        // Check if walls are in the way
+        if (Physics.Raycast(firePoint.position, directionToPlayer, out RaycastHit hit))
+        {
+            if (
+                OrikomeUtils.LayerMaskUtils.IsLayerInMask(
+                    hit.transform.gameObject.layer,
+                    obstacleLayerMask
+                )
+            )
+            {
+                //Debug.Log("Laser blocked by: " + hit.transform.name);
+                return;
+            }
+        }
+
+        // If laser is clear, shoot
         ShootLaser(firePoint, agent);
-        CalculateUtility(agent, agent.AgentMetrics);
         AddCooldown();
     }
 
