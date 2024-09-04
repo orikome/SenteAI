@@ -55,13 +55,17 @@ public class ShootAction : AgentAction, IFeedbackAction
         float distance = agent.AgentMetrics.DistanceToPlayer;
         float maxDistance = 100f;
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
+        float maxProjectileSpeed = 30f; // Fast projectile speed
+        float speedFactor = Mathf.Clamp01(projectileSpeed / maxProjectileSpeed);
 
+        // Weigh speed more for longer distances, because slower projectiles have less chance of hitting at range
         float distanceFactor = 1.0f - (distance / maxDistance);
-        float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
+        float speedDistanceFactor = distanceFactor * speedFactor;
+        float calculatedUtil = speedDistanceFactor * 0.5f * CanSenseFactor;
 
         if (calculatedUtil <= 0)
             Debug.LogError(
-                "UTILITY IS ZERO OR NEGATIVE, CHECK PARAMETERS: Distance="
+                "Utility is zero or negative, check parameters: Distance="
                     + distance
                     + ", CanSense="
                     + agent.PerceptionModule.CanSenseTarget
