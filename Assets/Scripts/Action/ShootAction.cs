@@ -9,7 +9,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
-    float effectivenessAdjustment = 10f;
+    float effectivenessAdjustment = 20f;
     public float closeMissThreshold = 1f;
     public int damage = 10;
     public Action OnSuccessCallback { get; set; }
@@ -79,7 +79,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
-        //agent.actionUtilityManager.AdjustUtilityScore(this, -effectivenessAdjustment);
+        agent.ActionUtilityManager.AdjustUtilityScore(this, -effectivenessAdjustment);
         OnFailureCallback?.Invoke();
         //Debug.Log("HaNDLED FAILURE");
     }
@@ -87,7 +87,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleSuccess(Agent agent)
     {
         // Increase effectiveness when the projectile hits
-        //agent.actionUtilityManager.AdjustUtilityScore(this, effectivenessAdjustment);
+        agent.ActionUtilityManager.AdjustUtilityScore(this, effectivenessAdjustment);
         OnSuccessCallback?.Invoke();
     }
 

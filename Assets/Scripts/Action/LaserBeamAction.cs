@@ -26,11 +26,23 @@ public class LaserBeamAction : AgentAction
 
     public override float CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        if (agent.PerceptionModule.CanSenseTarget)
-            return 0;
+        float distance = agent.AgentMetrics.DistanceToPlayer;
+        float maxDistance = 100f;
+        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
+        float distanceFactor = 1.0f - (distance / maxDistance);
+        float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 
-        float utility = CalcUtil(metrics.DistanceToPlayer, 0.5f, 0.5f);
-        return utility;
+        if (calculatedUtil <= 0)
+            Debug.LogError(
+                "Utility is zero or negative, check parameters: Distance="
+                    + distance
+                    + ", CanSense="
+                    + agent.PerceptionModule.CanSenseTarget
+            );
+
+        //Debug.Log("Utility calculated: " + calculatedUtil);
+        utilityScore = calculatedUtil;
+        return calculatedUtil;
     }
 
     private float CalcUtil(float distance, float health, float energy)

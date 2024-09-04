@@ -55,7 +55,7 @@ public class AgentUtilityManager : MonoBehaviour
         }
     }
 
-    void AdjustUtilityScore(AgentAction action, float amount)
+    public void AdjustUtilityScore(AgentAction action, float amount)
     {
         if (action == null)
             return;
