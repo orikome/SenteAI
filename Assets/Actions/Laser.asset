@@ -15,7 +15,9 @@ MonoBehaviour:
   cost: 60
   utilityScore: 0
   _baseUtility: 0
-  cooldownTime: 3
+  cooldownTime: 0.5
+  decayFactor: 0.9
+  restoreRate: 0.2
   laserPrefab: {fileID: 5423380317875475676, guid: dc296d75e435a654d92357db6f7bb082, type: 3}
   duration: 2
   laserDistance: 100

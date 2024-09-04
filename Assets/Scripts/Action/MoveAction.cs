@@ -6,7 +6,6 @@ public class MoveAction : AgentAction
 {
     private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;
-    private ActionReadinessModule _actionReadinessModule;
 
     public override bool CanExecute(Agent agent)
     {
@@ -16,8 +15,6 @@ public class MoveAction : AgentAction
     public override void Initialize(Agent agent)
     {
         _baseUtility = 0.3f;
-        _actionReadinessModule = agent.GetModule<ActionReadinessModule>();
-        Debug.Assert(_actionReadinessModule != null, "ActionReadinessModule is not set!");
     }
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)

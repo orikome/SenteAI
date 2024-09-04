@@ -13,7 +13,6 @@ public class Agent : MonoBehaviour
 
     // These are set in code
     public AgentUtilityManager ActionUtilityManager { get; private set; }
-    public ActionReadinessModule ReadinessModule { get; private set; }
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     public AgentEvents Events { get; private set; }
@@ -52,7 +51,6 @@ public class Agent : MonoBehaviour
         ActionUtilityManager.Initialize();
 
         // Get modules
-        ReadinessModule = GetModule<ActionReadinessModule>();
         PerceptionModule = GetModule<SenseModule>();
 
         if (ActionUtilityManager.actions.Count == 0)
