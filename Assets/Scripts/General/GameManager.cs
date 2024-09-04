@@ -25,10 +25,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(
             "DamageDone: "
-                + Player.Instance.PlayerMetrics.DamageDone
+                + Player.Instance.Metrics.DamageDone
                 + " - "
                 + "TimeAlive: "
-                + Player.Instance.PlayerMetrics.TimeAlive
+                + Player.Instance.Metrics.TimeAlive
         );
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

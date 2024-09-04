@@ -14,8 +14,7 @@ public class LaserBeamAction : AgentAction
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
-        Vector3 predictedPlayerPosition =
-            Player.Instance.PlayerMetrics.PredictPositionDynamically();
+        Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 
@@ -46,7 +45,7 @@ public class LaserBeamAction : AgentAction
 
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        float distance = agent.AgentMetrics.DistanceToPlayer;
+        float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
         float distanceFactor = 1.0f - (distance / maxDistance);
@@ -74,8 +73,7 @@ public class LaserBeamAction : AgentAction
 
     private void ShootLaser(Transform firePoint, Agent agent)
     {
-        Vector3 directionToTarget =
-            Player.Instance.PlayerMetrics.PredictNextPositionUsingMomentum();
+        Vector3 directionToTarget = Player.Instance.Metrics.PredictNextPositionUsingMomentum();
 
         GameObject laser = Instantiate(
             laserPrefab,

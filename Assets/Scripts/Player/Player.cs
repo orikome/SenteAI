@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable
 {
     public static Player Instance { get; private set; }
-    public PlayerMetrics PlayerMetrics { get; private set; }
+    public PlayerMetrics Metrics { get; private set; }
     public float MaxHealth => 100f;
     public float CurrentHealth => 100f;
     private float _currentHealth;
@@ -16,13 +16,13 @@ public class Player : MonoBehaviour, IDamageable
         Instance = this;
         _currentHealth = MaxHealth;
         _playerMovement = gameObject.GetComponent<PlayerMovement>();
-        PlayerMetrics = gameObject.GetComponent<PlayerMetrics>();
+        Metrics = gameObject.GetComponent<PlayerMetrics>();
         IsAlive = true;
     }
 
     public void TakeDamage(int amount)
     {
-        PlayerMetrics.damageTaken += amount;
+        Metrics.damageTaken += amount;
         _currentHealth -= amount;
         _currentHealth = Mathf.Max(_currentHealth, 0);
 

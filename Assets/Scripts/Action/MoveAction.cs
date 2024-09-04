@@ -19,14 +19,13 @@ public class MoveAction : AgentAction
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
-        Vector3 predictedPlayerPosition =
-            Player.Instance.PlayerMetrics.PredictPositionDynamically();
+        Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
 
         Vector3 bestPosition = EvaluateBestPosition(agent, predictedPlayerPosition);
 
         agent.SetDestination(bestPosition);
 
-        CalculateUtility(agent, agent.AgentMetrics);
+        CalculateUtility(agent, agent.Metrics);
         AddCooldown();
     }
 
@@ -67,7 +66,7 @@ public class MoveAction : AgentAction
 
         float distanceToPredictedPlayer = Vector3.Distance(position, predictedPlayerPosition);
 
-        switch (Player.Instance.PlayerMetrics.currentBehavior)
+        switch (Player.Instance.Metrics.currentBehavior)
         {
             case Behavior.Aggressive:
                 score -= Mathf.Clamp(distanceToPredictedPlayer, 0, 15);
@@ -82,7 +81,7 @@ public class MoveAction : AgentAction
                 break;
         }
 
-        if (Player.Instance.PlayerMetrics.IsInCover)
+        if (Player.Instance.Metrics.IsInCover)
         {
             if (HasLineOfSight(position, predictedPlayerPosition))
             {
@@ -102,7 +101,7 @@ public class MoveAction : AgentAction
         float maxDistance = 100f;
         float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 0.8f;
 
-        float distance = agent.AgentMetrics.DistanceToPlayer;
+        float distance = agent.Metrics.DistanceToPlayer;
         float distanceFactor = 1.0f - distance / maxDistance;
 
         float healthFactor = 0.3f;

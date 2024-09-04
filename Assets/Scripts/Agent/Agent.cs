@@ -18,7 +18,7 @@ public class Agent : MonoBehaviour
     public AgentEvents Events { get; private set; }
     public List<AgentModule> Modules { get; private set; } = new();
     public Transform Target { get; private set; }
-    public AgentMetrics AgentMetrics { get; private set; }
+    public AgentMetrics Metrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
     private float _lastActionTime;
     private readonly float _globalCooldown = 0.4f;
@@ -33,7 +33,7 @@ public class Agent : MonoBehaviour
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
         ActionUtilityManager = EnsureComponent<AgentUtilityManager>();
         Events = EnsureComponent<AgentEvents>();
-        AgentMetrics = EnsureComponent<AgentMetrics>();
+        Metrics = EnsureComponent<AgentMetrics>();
 
         // Set navmesh properties
         _navMeshAgent.acceleration = 100;
@@ -98,7 +98,7 @@ public class Agent : MonoBehaviour
         AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
         if (decidedAction != null && decidedAction.utilityScore > _minThreshold)
         {
-            AgentMetrics.AddActionToHistory(decidedAction);
+            Metrics.AddActionToHistory(decidedAction);
             decidedAction.ExecuteLoop(firePoint, this);
             _lastActionTime = Time.time;
         }

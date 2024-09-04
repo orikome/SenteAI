@@ -41,7 +41,7 @@ public class AgentUtilityManager : MonoBehaviour
     {
         foreach (AgentAction action in actions)
         {
-            action.CalculateUtility(_agent, _agent.AgentMetrics);
+            action.CalculateUtility(_agent, _agent.Metrics);
             action.RestoreUtilityOverTime();
             NormalizeUtilityScores();
         }

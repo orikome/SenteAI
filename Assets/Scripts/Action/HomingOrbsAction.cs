@@ -22,7 +22,7 @@ public class HomingOrbsAction : AgentAction
 
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        float distance = agent.AgentMetrics.DistanceToPlayer;
+        float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.6f : 1f;
         float distanceFactor = 1.0f - (distance / maxDistance);

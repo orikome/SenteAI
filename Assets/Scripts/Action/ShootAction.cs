@@ -24,8 +24,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void ExecuteLoop(Transform firePoint, Agent agent)
     {
-        Vector3 predictedPlayerPosition =
-            Player.Instance.PlayerMetrics.PredictPositionDynamically();
+        Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 
@@ -47,7 +46,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
         // If shot is clear, shoot
         // If distance is less than 30, directly shoot at player instead of predicting position
-        if (agent.AgentMetrics.DistanceToPlayer < 30f)
+        if (agent.Metrics.DistanceToPlayer < 30f)
             directionToPlayer = Player.Instance.transform.position;
         ShootProjectile(firePoint, directionToPlayer, agent);
         AddCooldown();
@@ -55,7 +54,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)
     {
-        float distance = agent.AgentMetrics.DistanceToPlayer;
+        float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
         float maxProjectileSpeed = 30f; // Fast projectile speed

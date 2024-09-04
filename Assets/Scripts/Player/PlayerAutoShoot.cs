@@ -20,7 +20,7 @@ public class PlayerAutoShoot : MonoBehaviour
 
     void ShootAtNearestEnemy()
     {
-        var nearestEnemy = Player.Instance.PlayerMetrics.FindClosestEnemyToPlayer();
+        var nearestEnemy = Player.Instance.Metrics.FindClosestEnemyToPlayer();
         if (nearestEnemy != null)
         {
             var direction = nearestEnemy.transform.position - firePoint.position;

@@ -1,18 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMetrics : MonoBehaviour
+public class PlayerMetrics : Metrics
 {
     [Header("Player Metrics")]
     public float shootingFrequency;
     public float dodgeRatio;
     public float distanceToClosestEnemy;
-    public float movementSpeed;
-    public Vector3 velocity;
     public float damageTaken;
     public bool IsInCover { get; private set; }
     public float timeInCover;
-    public Vector3 lastPosition = Vector3.zero;
 
     [Header("Player Position History")]
     public List<Vector3> positionHistory = new();
@@ -21,14 +18,6 @@ public class PlayerMetrics : MonoBehaviour
     private readonly int maxHistoryCount = 200;
     private readonly float detectionThreshold = 1.5f;
     private readonly int recentHistorySize = 6;
-
-    [Header("Behavior Thresholds")]
-    [SerializeField]
-    private float aggressiveThreshold = 0.7f;
-
-    [SerializeField]
-    private float defensiveThreshold = 0.3f;
-    public Behavior currentBehavior;
     Agent closestEnemy;
     public Vector3 PredictedPosition { get; private set; }
     public float DamageDone { get; private set; }
@@ -36,7 +25,7 @@ public class PlayerMetrics : MonoBehaviour
 
     void Start()
     {
-        lastPosition = transform.position;
+        LastPosition = transform.position;
         closestEnemy = null;
 
         for (int i = 0; i < recentHistorySize; i++)
@@ -76,9 +65,7 @@ public class PlayerMetrics : MonoBehaviour
 
         FindClosestEnemyToPlayer();
 
-        movementSpeed = Vector3.Distance(transform.position, lastPosition) / Time.deltaTime;
-        velocity = (transform.position - lastPosition) / Time.deltaTime;
-        lastPosition = transform.position;
+        UpdateVelocity();
     }
 
     void TrackPlayerPositionHistory()
@@ -110,7 +97,7 @@ public class PlayerMetrics : MonoBehaviour
         {
             float distance = Vector3.Distance(agent.transform.position, transform.position);
 
-            agent.AgentMetrics.SetDistanceToPlayer(distance);
+            agent.Metrics.SetDistanceToPlayer(distance);
 
             if (distance < closestEnemyDistance)
             {
@@ -224,7 +211,7 @@ public class PlayerMetrics : MonoBehaviour
         return averageDisplacement < detectionThreshold;
     }
 
-    Behavior ClassifyBehavior()
+    protected override Behavior ClassifyBehavior()
     {
         if (shootingFrequency > aggressiveThreshold && distanceToClosestEnemy < defensiveThreshold)
             return Behavior.Aggressive;
