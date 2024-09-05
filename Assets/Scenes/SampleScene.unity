@@ -1026,9 +1026,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBehavior: 0
   actionHistory: []
-  velocity: {x: 0, y: 0, z: 0}
-  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &245425506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,9 +1563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBehavior: 0
   actionHistory: []
-  velocity: {x: 0, y: 0, z: 0}
-  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &277862012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1594,7 +1592,7 @@ MonoBehaviour:
   model: {fileID: 1568206499}
   target: {fileID: 915808712}
   rotationSpeed: 120
-  idleRotationSpeed: 40
+  idleRotationSpeed: 100
 --- !u!114 &277862014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1709,9 +1707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBehavior: 0
   actionHistory: []
-  velocity: {x: 0, y: 0, z: 0}
-  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &332212265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1961,9 +1958,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBehavior: 0
   actionHistory: []
-  velocity: {x: 0, y: 0, z: 0}
-  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &449448141
 GameObject:
   m_ObjectHideFlags: 0
@@ -2439,9 +2435,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBehavior: 0
   actionHistory: []
-  velocity: {x: 0, y: 0, z: 0}
-  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &762331703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2869,18 +2864,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486d82cdb17af664b86bf95ace849612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBehavior: 0
   shootingFrequency: 0
   dodgeRatio: 0
   distanceToClosestEnemy: 0
-  movementSpeed: 0
-  velocity: {x: 0, y: 0, z: 0}
   damageTaken: 0
   timeInCover: 0
-  lastPosition: {x: 0, y: 0, z: 0}
   positionHistory: []
-  aggressiveThreshold: 0.7
-  defensiveThreshold: 0.3
-  currentBehavior: 0
 --- !u!65 &915808716
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4490,9 +4480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61cbcbed1a1b242429dc24fe1279294c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBehavior: 0
   actionHistory: []
-  velocity: {x: 0, y: 0, z: 0}
-  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1568206498
 GameObject:
   m_ObjectHideFlags: 0

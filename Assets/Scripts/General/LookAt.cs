@@ -17,21 +17,21 @@ public class LookAt : MonoBehaviour
     {
         if (_agent.PerceptionModule.CanSenseTarget)
         {
-            LookAtTransform(target);
+            LookAtTransform(target, rotationSpeed);
         }
         else
         {
-            PanTowardsPredictedPosition(
-                //Player.Instance.PlayerMetrics.PredictNextPositionUsingAverage()
-                _agent.GetModule<SeeingModule>().LastKnownVelocity
-            );
+            // PanTowardsPredictedPosition(
+            //     _agent.GetModule<SeeingModule>().LastKnownVelocity
+            // );
+            LookAtTransform(target, rotationSpeed / 8);
         }
     }
 
-    public void LookAtTransform(Transform point)
+    public void LookAtTransform(Transform point, float rotSpeed)
     {
         Vector3 direction = (point.position - model.position).normalized;
-        RotateTowards(direction, rotationSpeed);
+        RotateTowards(direction, rotSpeed);
     }
 
     private void PanTowardsPredictedPosition(Vector3 predictedPosition)
