@@ -105,6 +105,12 @@ public class MoveAction : AgentAction
         float healthFactor = 0.3f;
         float calculatedUtil = distanceFactor * healthFactor * _baseUtility * canSenseFactor;
 
+        if (GetCooldownProgress() < 1.0f)
+        {
+            // If on cooldown, scaled by cooldown progress
+            calculatedUtil *= GetCooldownProgress();
+        }
+
         if (calculatedUtil <= 0)
         {
             Debug.LogError(

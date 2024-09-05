@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab22ca717389d604e8c76ae7361c8ccf, type: 3}
   m_Name: HomingOrbs
   m_EditorClassIdentifier: 
-  cost: 40
-  utilityScore: 0
-  _baseUtility: 0
   cooldownTime: 1
+  _baseUtility: 0.4
   decayFactor: 0.9
   restoreRate: 0.2
+  utilityScore: 0
   orbPrefab: {fileID: 8895309130385202063, guid: c3dafc5b7d1872b4b8b8e34119b31397, type: 3}
   numberOfOrbs: 2
   spreadAngle: 45

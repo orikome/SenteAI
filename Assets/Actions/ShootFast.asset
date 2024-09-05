@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7407242f5216ca84685fc6e114ad5cae, type: 3}
   m_Name: ShootFast
   m_EditorClassIdentifier: 
-  cost: 15
-  utilityScore: 0
-  _baseUtility: 0
   cooldownTime: 0.5
+  _baseUtility: 0.8
+  decayFactor: 0.9
+  restoreRate: 0.2
+  utilityScore: 0
   projectilePrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
   projectileSpeed: 30
   accuracy: 1

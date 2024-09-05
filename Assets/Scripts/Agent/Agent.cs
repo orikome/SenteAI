@@ -93,16 +93,39 @@ public class Agent : MonoBehaviour
     private void SelectAndExecuteAction()
     {
         if (Time.time < _lastActionTime + _globalCooldown)
+        {
+            Debug.Log(
+                $"[Frame {Time.frameCount}] Global cooldown active, waiting to select action."
+            );
             return;
+        }
 
         AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
-        if (decidedAction != null && decidedAction.utilityScore > _minThreshold)
+        if (decidedAction == null)
         {
-            Metrics.AddActionToHistory(decidedAction);
-            decidedAction.Execute(firePoint, this);
-            Helpers.DebugLog(decidedAction, transform);
-            _lastActionTime = Time.time;
+            Debug.Log($"[Frame {Time.frameCount}] No valid action selected.");
+            return;
         }
+
+        Debug.Log(
+            $"[Frame {Time.frameCount}] Selected: {decidedAction} with utilScore: {decidedAction.utilityScore}"
+        );
+
+        if (decidedAction.utilityScore <= _minThreshold)
+        {
+            Debug.Log(
+                $"[Frame {Time.frameCount}] Action '{decidedAction}' does not meet the utility threshold {_minThreshold}, skipping."
+            );
+            return;
+        }
+
+        Debug.Log(
+            $"[Frame {Time.frameCount}] Action '{decidedAction}' exceeds utility threshold {_minThreshold}, executing."
+        );
+        Metrics.AddActionToHistory(decidedAction);
+        Helpers.DebugLog(decidedAction, transform, decidedAction.utilityScore);
+        decidedAction.Execute(firePoint, this);
+        _lastActionTime = Time.time;
     }
 
     public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)

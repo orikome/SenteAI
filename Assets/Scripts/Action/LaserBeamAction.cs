@@ -14,11 +14,19 @@ public class LaserBeamAction : AgentAction
 
     public override void Execute(Transform firePoint, Agent agent)
     {
+        if (!HasClearShot(firePoint, agent))
+            return;
+
+        ShootLaser(firePoint, agent);
+        AfterExecution();
+    }
+
+    private bool HasClearShot(Transform firePoint, Agent agent)
+    {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 
-        // Check if walls are in the way
         if (Physics.Raycast(firePoint.position, directionToPlayer, out RaycastHit hit))
         {
             if (
@@ -28,19 +36,20 @@ public class LaserBeamAction : AgentAction
                 )
             )
             {
-                //Debug.Log("Laser blocked by: " + hit.transform.name);
-                return;
+                // Obstacle detected, return false
+                return false;
             }
         }
 
-        // If laser is clear, shoot
-        ShootLaser(firePoint, agent);
-        AfterExecution();
+        // No obstacles, clear shot
+        return true;
     }
 
     public override bool CanExecute(Agent agent)
     {
-        return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
+        return agent.PerceptionModule.CanSenseTarget
+            && GetCooldownTimeRemaining() <= 0
+            && HasClearShot(agent.firePoint, agent);
     }
 
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)
@@ -51,6 +60,12 @@ public class LaserBeamAction : AgentAction
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 
+        if (GetCooldownProgress() < 1.0f)
+        {
+            // If on cooldown, scaled by cooldown progress
+            calculatedUtil *= GetCooldownProgress();
+        }
+
         if (calculatedUtil <= 0)
             Debug.LogError(
                 "Utility is zero or negative, check parameters: Distance="
@@ -60,15 +75,7 @@ public class LaserBeamAction : AgentAction
             );
 
         //Debug.Log("Utility calculated: " + calculatedUtil);
-        utilityScore = calculatedUtil;
-    }
-
-    private float CalcUtil(float distance, float health, float energy)
-    {
-        return Mathf.Clamp01(1.0f - distance / 100f)
-            * Mathf.Clamp01(health)
-            * Mathf.Clamp01(energy)
-            * Time.deltaTime;
+        utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, 1.0f);
     }
 
     private void ShootLaser(Transform firePoint, Agent agent)

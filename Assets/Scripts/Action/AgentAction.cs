@@ -8,6 +8,7 @@ public abstract class AgentAction : ScriptableObject
     public float cooldownTime = 0.1f;
 
     [SerializeField]
+    [Range(0.0f, 1.0f)]
     protected float _baseUtility; // Keep between 0.01f - 1.0f
 
     [Range(0.0f, 1.0f)]
@@ -18,6 +19,7 @@ public abstract class AgentAction : ScriptableObject
 
     // Handled in code
     public readonly float MIN_UTILITY = 0.01f;
+    public readonly float MAX_UTILITY = 1.0f;
     public float LastExecutedTime { get; protected set; }
 
     [Range(0.0f, 1.0f)]
@@ -80,7 +82,7 @@ public abstract class AgentAction : ScriptableObject
     {
         if (Time.time - LastExecutedTime > cooldownTime)
         {
-            utilityScore = Mathf.Min(utilityScore + restoreRate * Time.deltaTime, 1.0f);
+            utilityScore = Mathf.Min(utilityScore + restoreRate * Time.deltaTime, _baseUtility);
         }
     }
 

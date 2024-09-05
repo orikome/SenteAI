@@ -103,12 +103,10 @@ public static class Helpers
         return name.Replace("(Clone)", "").Trim();
     }
 
-    public static void DebugLog(AgentAction actionToUse, Transform transform)
+    public static void DebugLog(AgentAction actionToUse, Transform transform, float utilScore)
     {
         string actionName = CleanName(actionToUse.name);
 
-        float utilityScore = actionToUse.utilityScore;
-
-        DebugManager.Instance.Log(transform, $"{actionName}={utilityScore:F2}", Color.cyan);
+        DebugManager.Instance.Log(transform, $"{actionName}={utilScore:F2}", Color.cyan);
     }
 }

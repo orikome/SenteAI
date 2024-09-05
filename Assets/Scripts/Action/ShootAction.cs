@@ -26,9 +26,23 @@ public class ShootAction : AgentAction, IFeedbackAction
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
+
+        if (!HasClearShot(firePoint, agent))
+            return;
+
+        // If distance is less than 30, directly shoot at player instead of predicting position
+        if (agent.Metrics.DistanceToPlayer < 30f)
+            directionToPlayer = Player.Instance.transform.position;
+        ShootProjectile(firePoint, directionToPlayer, agent);
+        AfterExecution();
+    }
+
+    private bool HasClearShot(Transform firePoint, Agent agent)
+    {
+        Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
+        Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 
-        // Check if walls are in the way
         if (Physics.Raycast(firePoint.position, directionToPlayer, out RaycastHit hit))
         {
             if (
@@ -38,18 +52,13 @@ public class ShootAction : AgentAction, IFeedbackAction
                 )
             )
             {
-                //Debug.Log("Shot blocked by: " + hit.transform.name);
-                HandleFailure(agent);
-                return;
+                // Obstacle detected, return false
+                return false;
             }
         }
 
-        // If shot is clear, shoot
-        // If distance is less than 30, directly shoot at player instead of predicting position
-        if (agent.Metrics.DistanceToPlayer < 30f)
-            directionToPlayer = Player.Instance.transform.position;
-        ShootProjectile(firePoint, directionToPlayer, agent);
-        AfterExecution();
+        // No obstacles, clear shot
+        return true;
     }
 
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)
@@ -65,6 +74,12 @@ public class ShootAction : AgentAction, IFeedbackAction
         float speedDistanceFactor = distanceFactor * speedFactor;
         float calculatedUtil = speedDistanceFactor * 0.5f * CanSenseFactor;
 
+        if (GetCooldownProgress() < 1.0f)
+        {
+            // If on cooldown, scaled by cooldown progress
+            calculatedUtil *= GetCooldownProgress();
+        }
+
         if (calculatedUtil <= 0)
             Debug.LogError(
                 "Utility is zero or negative, check parameters: Distance="
@@ -74,7 +89,7 @@ public class ShootAction : AgentAction, IFeedbackAction
             );
 
         //Debug.Log("Utility calculated: " + calculatedUtil);
-        utilityScore = calculatedUtil;
+        utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, 1.0f);
     }
 
     public void HandleFailure(Agent agent)

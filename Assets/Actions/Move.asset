@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2925c89f683e5464da5be92bd6ecb1c8, type: 3}
   m_Name: Move
   m_EditorClassIdentifier: 
-  cost: 10
-  utilityScore: 0
-  lastExecutedTime: 0
   cooldownTime: 1
-  moveRadius: 10
-  samples: 10
+  _baseUtility: 0.4
+  decayFactor: 0.9
+  restoreRate: 0.2
+  utilityScore: 0
