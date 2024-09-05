@@ -12,7 +12,7 @@ public class LaserBeamAction : AgentAction
 
     public override void Initialize(Agent agent) { }
 
-    public override void ExecuteLoop(Transform firePoint, Agent agent)
+    public override void Execute(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;

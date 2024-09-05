@@ -43,19 +43,11 @@ public class AgentUtilityManager : MonoBehaviour
         {
             action.CalculateUtility(_agent, _agent.Metrics);
             action.RestoreUtilityOverTime();
-            NormalizeUtilityScores();
         }
+        NormalizeUtilityScores();
     }
 
-    public void AddCooldowns()
-    {
-        foreach (AgentAction action in actions)
-        {
-            action.AddCooldown();
-        }
-    }
-
-    public void AdjustUtilityScore(AgentAction action, float amount)
+    public void FeedbackUtilityAdjustment(AgentAction action, float amount)
     {
         if (action == null)
             return;
@@ -67,6 +59,7 @@ public class AgentUtilityManager : MonoBehaviour
     public void NormalizeUtilityScores()
     {
         float sum = actions.Sum(action => action.utilityScore);
+        //Debug.Log($"Total util sum before normalization: {sum}");
         float minScore = 0.01f;
 
         // Prevent division by zero

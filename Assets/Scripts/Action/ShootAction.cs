@@ -22,7 +22,7 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public override void Initialize(Agent agent) { }
 
-    public override void ExecuteLoop(Transform firePoint, Agent agent)
+    public override void Execute(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
@@ -80,7 +80,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
-        agent.ActionUtilityManager.AdjustUtilityScore(this, -effectivenessAdjustment);
+        agent.UtilityManager.FeedbackUtilityAdjustment(this, -effectivenessAdjustment);
         OnFailureCallback?.Invoke();
         //Debug.Log("HaNDLED FAILURE");
     }
@@ -88,7 +88,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleSuccess(Agent agent)
     {
         // Increase effectiveness when the projectile hits
-        agent.ActionUtilityManager.AdjustUtilityScore(this, effectivenessAdjustment);
+        agent.UtilityManager.FeedbackUtilityAdjustment(this, effectivenessAdjustment);
         OnSuccessCallback?.Invoke();
     }
 

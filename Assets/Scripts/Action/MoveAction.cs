@@ -17,7 +17,7 @@ public class MoveAction : AgentAction
         _baseUtility = 0.3f;
     }
 
-    public override void ExecuteLoop(Transform firePoint, Agent agent)
+    public override void Execute(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
 

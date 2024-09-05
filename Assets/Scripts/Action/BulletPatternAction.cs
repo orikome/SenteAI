@@ -12,7 +12,7 @@ public class BulletPatternAction : AgentAction
 
     public override void Initialize(Agent agent) { }
 
-    public override void ExecuteLoop(Transform firePoint, Agent agent)
+    public override void Execute(Transform firePoint, Agent agent)
     {
         GeneratePattern(agent.transform);
         currentSpiralAngleOffset += (int)angleIncrement;

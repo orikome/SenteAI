@@ -12,7 +12,7 @@ public class Agent : MonoBehaviour
     public Transform firePoint;
 
     // These are set in code
-    public AgentUtilityManager ActionUtilityManager { get; private set; }
+    public AgentUtilityManager UtilityManager { get; private set; }
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     public AgentEvents Events { get; private set; }
@@ -31,7 +31,7 @@ public class Agent : MonoBehaviour
 
         // Ensure all components exist
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
-        ActionUtilityManager = EnsureComponent<AgentUtilityManager>();
+        UtilityManager = EnsureComponent<AgentUtilityManager>();
         Events = EnsureComponent<AgentEvents>();
         Metrics = EnsureComponent<AgentMetrics>();
 
@@ -43,17 +43,17 @@ public class Agent : MonoBehaviour
 
         // Ensure we only use data from our AgentData file
         Modules.Clear();
-        ActionUtilityManager.ClearActions();
+        UtilityManager.ClearActions();
         ActionSelectionStrategy = null;
 
         // Initialize data and other components
         LoadAgentData();
-        ActionUtilityManager.Initialize();
+        UtilityManager.Initialize();
 
         // Get modules
         PerceptionModule = GetModule<SenseModule>();
 
-        if (ActionUtilityManager.actions.Count == 0)
+        if (UtilityManager.actions.Count == 0)
             Debug.LogError("No actions assigned!");
 
         // Initialize modules
@@ -63,7 +63,7 @@ public class Agent : MonoBehaviour
         }
 
         // Initialize actions
-        foreach (var action in ActionUtilityManager.actions)
+        foreach (var action in UtilityManager.actions)
         {
             action.Initialize(this);
         }
@@ -83,10 +83,10 @@ public class Agent : MonoBehaviour
     {
         foreach (var module in Modules)
         {
-            module.ExecuteLoop(this);
+            module.Execute(this);
         }
 
-        ActionUtilityManager.CalculateUtilityScores();
+        UtilityManager.CalculateUtilityScores();
         SelectAndExecuteAction();
     }
 
@@ -99,7 +99,7 @@ public class Agent : MonoBehaviour
         if (decidedAction != null && decidedAction.utilityScore > _minThreshold)
         {
             Metrics.AddActionToHistory(decidedAction);
-            decidedAction.ExecuteLoop(firePoint, this);
+            decidedAction.Execute(firePoint, this);
             _lastActionTime = Time.time;
         }
     }
@@ -134,7 +134,7 @@ public class Agent : MonoBehaviour
             if (action != null)
             {
                 AgentAction newAction = Instantiate(action);
-                ActionUtilityManager.AddAction(newAction);
+                UtilityManager.AddAction(newAction);
             }
         }
 

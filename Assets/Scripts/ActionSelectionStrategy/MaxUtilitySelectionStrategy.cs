@@ -10,7 +10,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
     public override AgentAction SelectAction(Agent agent)
     {
         AgentAction selectedAction = agent
-            .ActionUtilityManager.actions.Where(action => action.CanExecute(agent))
+            .UtilityManager.actions.Where(action => action.CanExecute(agent))
             .OrderByDescending(action => action.utilityScore)
             .FirstOrDefault();
 

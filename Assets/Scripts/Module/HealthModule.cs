@@ -7,7 +7,7 @@ public class HealthModule : AgentModule, IDamageable
     public float CurrentHealth { get; private set; }
     Agent _agent;
 
-    public override void ExecuteLoop(Agent agent) { }
+    public override void Execute(Agent agent) { }
 
     public override void Initialize(Agent agent)
     {

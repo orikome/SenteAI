@@ -14,7 +14,7 @@ public class HomingOrbsAction : AgentAction
         return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
     }
 
-    public override void ExecuteLoop(Transform firePoint, Agent agent)
+    public override void Execute(Transform firePoint, Agent agent)
     {
         ShootOrbs(firePoint);
         AddCooldown();

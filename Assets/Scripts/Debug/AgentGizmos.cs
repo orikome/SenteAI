@@ -27,7 +27,7 @@ public class AgentGizmos : MonoBehaviour
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
 
-        foreach (var action in _agent.ActionUtilityManager.actions)
+        foreach (var action in _agent.UtilityManager.actions)
         {
             textPosition += Vector3.down * textHeight;
 
