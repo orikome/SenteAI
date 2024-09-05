@@ -49,7 +49,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         if (agent.Metrics.DistanceToPlayer < 30f)
             directionToPlayer = Player.Instance.transform.position;
         ShootProjectile(firePoint, directionToPlayer, agent);
-        AddCooldown();
+        AfterExecution();
     }
 
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)

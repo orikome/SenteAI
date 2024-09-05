@@ -11,7 +11,7 @@ public class MeteorStrikeAction : AgentAction
     public override void Execute(Transform firePoint, Agent agent)
     {
         DropMeteor(firePoint, agent);
-        AddCooldown();
+        AfterExecution();
     }
 
     public override bool CanExecute(Agent agent)

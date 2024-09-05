@@ -100,6 +100,7 @@ public class Agent : MonoBehaviour
         {
             Metrics.AddActionToHistory(decidedAction);
             decidedAction.Execute(firePoint, this);
+            Helpers.DebugLog(decidedAction, transform);
             _lastActionTime = Time.time;
         }
     }

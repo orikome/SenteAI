@@ -109,10 +109,6 @@ public static class Helpers
 
         float utilityScore = actionToUse.utilityScore;
 
-        DebugManager.Instance.Log(
-            transform,
-            $"{actionName} C:{actionToUse.cost} W:{utilityScore:F2}",
-            Color.cyan
-        );
+        DebugManager.Instance.Log(transform, $"{actionName}={utilityScore:F2}", Color.cyan);
     }
 }

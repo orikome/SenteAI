@@ -45,16 +45,13 @@ public class ActionDictionaryDebugger : MonoBehaviour
             foreach (var action in actionUtilityManager.actions)
             {
                 float utilityScore = action.utilityScore;
-                int cost = action.cost;
 
                 GUIContent actionContent = new GUIContent($"Action: {action.name}");
                 GUIContent utilityScoreContent = new GUIContent($"UtilityScore: {utilityScore:F2}");
-                GUIContent costContent = new GUIContent($"Cost: {cost}");
 
                 float maxWidth = Mathf.Max(
                     labelStyle.CalcSize(actionContent).x,
-                    labelStyle.CalcSize(utilityScoreContent).x,
-                    labelStyle.CalcSize(costContent).x
+                    labelStyle.CalcSize(utilityScoreContent).x
                 );
 
                 labelStyle.normal.textColor = Color.white;
@@ -62,9 +59,6 @@ public class ActionDictionaryDebugger : MonoBehaviour
 
                 labelStyle.normal.textColor = Color.magenta;
                 GUILayout.Label(utilityScoreContent, labelStyle, GUILayout.Width(maxWidth));
-
-                labelStyle.normal.textColor = Color.green;
-                GUILayout.Label(costContent, labelStyle, GUILayout.Width(maxWidth));
 
                 labelStyle.normal.textColor = Color.blue;
             }
@@ -93,9 +87,8 @@ public class ActionDictionaryDebugger : MonoBehaviour
             foreach (var action in actionUtilityManager.actions)
             {
                 float utilityScore = action.utilityScore;
-                int cost = action.cost;
 
-                Debug.Log($"Action: {action.name}, UtilityScore: {utilityScore:F2}, Cost: {cost}");
+                Debug.Log($"Action: {action.name}, UtilityScore: {utilityScore:F2}");
             }
         }
         else

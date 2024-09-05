@@ -2,19 +2,27 @@ using UnityEngine;
 
 public abstract class AgentAction : ScriptableObject
 {
-    [Range(0, 100)]
-    public int cost;
-
-    [Range(0.0f, 1.0f)]
-    public float utilityScore;
-    public float _baseUtility; // Keep between 0.01f - 1.0f
-    public readonly float MIN_UTILITY = 0.01f;
-    public float LastExecutedTime { get; protected set; }
+    // Set these in editor
+    //[Range(0, 100)]
+    //public int cost;
     public float cooldownTime = 0.1f;
+
+    [SerializeField]
+    protected float _baseUtility; // Keep between 0.01f - 1.0f
 
     [Range(0.0f, 1.0f)]
     public float decayFactor = 0.9f; // Retain 90% of utility after execution
+
+    [Range(0.0f, 1.0f)]
     public float restoreRate = 0.2f;
+
+    // Handled in code
+    public readonly float MIN_UTILITY = 0.01f;
+    public float LastExecutedTime { get; protected set; }
+
+    [Range(0.0f, 1.0f)]
+    public float utilityScore;
+
     public abstract bool CanExecute(Agent agent);
 
     /// <summary>
@@ -74,5 +82,12 @@ public abstract class AgentAction : ScriptableObject
         {
             utilityScore = Mathf.Min(utilityScore + restoreRate * Time.deltaTime, 1.0f);
         }
+    }
+
+    public void AfterExecution()
+    {
+        AddCooldown();
+        ApplyDecay();
+        RestoreUtilityOverTime();
     }
 }

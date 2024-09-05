@@ -24,9 +24,7 @@ public class MoveAction : AgentAction
         Vector3 bestPosition = EvaluateBestPosition(agent, predictedPlayerPosition);
 
         agent.SetDestination(bestPosition);
-
-        CalculateUtility(agent, agent.Metrics);
-        AddCooldown();
+        AfterExecution();
     }
 
     private Vector3 EvaluateBestPosition(Agent agent, Vector3 predictedPlayerPosition)

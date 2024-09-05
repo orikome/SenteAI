@@ -17,7 +17,7 @@ public class HomingOrbsAction : AgentAction
     public override void Execute(Transform firePoint, Agent agent)
     {
         ShootOrbs(firePoint);
-        AddCooldown();
+        AfterExecution();
     }
 
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)

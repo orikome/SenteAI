@@ -35,7 +35,7 @@ public class LaserBeamAction : AgentAction
 
         // If laser is clear, shoot
         ShootLaser(firePoint, agent);
-        AddCooldown();
+        AfterExecution();
     }
 
     public override bool CanExecute(Agent agent)
