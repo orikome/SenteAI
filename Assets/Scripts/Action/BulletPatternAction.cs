@@ -10,8 +10,6 @@ public class BulletPatternAction : AgentAction
     public float spawnRadius = 6f;
     private int currentSpiralAngleOffset = 0;
 
-    public override void Initialize(Agent agent) { }
-
     public override void Execute(Transform firePoint, Agent agent)
     {
         GeneratePattern(agent.transform);

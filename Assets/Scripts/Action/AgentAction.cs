@@ -58,7 +58,10 @@ public abstract class AgentAction : ScriptableObject
         LastExecutedTime = Time.time - cooldownTime;
     }
 
-    public abstract void Initialize(Agent agent);
+    public virtual void Initialize(Agent agent)
+    {
+        ResetCooldown();
+    }
 
     /// <summary>
     /// Called every frame in the agent's update loop.

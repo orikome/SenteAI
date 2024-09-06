@@ -7,11 +7,9 @@ public class HomingOrbsAction : AgentAction
     public int numberOfOrbs = 3;
     public float spreadAngle = 45f;
 
-    public override void Initialize(Agent agent) { }
-
     public override bool CanExecute(Agent agent)
     {
-        return agent.PerceptionModule.CanSenseTarget && GetCooldownTimeRemaining() <= 0;
+        return GetCooldownTimeRemaining() <= 0;
     }
 
     public override void Execute(Transform firePoint, Agent agent)

@@ -12,11 +12,6 @@ public class MoveAction : AgentAction
         return GetCooldownTimeRemaining() <= 0;
     }
 
-    public override void Initialize(Agent agent)
-    {
-        _baseUtility = 0.3f;
-    }
-
     public override void Execute(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
