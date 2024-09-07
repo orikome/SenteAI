@@ -67,31 +67,7 @@ public class ShootAction : AgentAction, IFeedbackAction
         float speedDistanceFactor = distanceFactor * speedFactor;
         float calculatedUtil = speedDistanceFactor * 0.5f * CanSenseFactor;
 
-        // 1. Apply cooldown progress
-        if (GetCooldownProgress() < 1.0f)
-        {
-            // If on cooldown, scaled by cooldown progress
-            calculatedUtil *= GetCooldownProgress();
-        }
-
-        // 2. Apply base utility
-        calculatedUtil *= baseUtility;
-
-        // 3. Apply penalty factor
-        calculatedUtil *= Mathf.Max(MAX_UTILITY - PenaltyFactor, MIN_UTILITY);
-
-        // 4. Restore penalty factor based on restore rate
-        RestorePenaltyOverTime();
-
-        if (calculatedUtil <= 0)
-            Debug.LogWarning(
-                $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters: Distance="
-                    + distance
-                    + ", CanSense="
-                    + agent.PerceptionModule.CanSenseTarget
-            );
-
-        utilityScore = Mathf.Max(calculatedUtil, MIN_UTILITY);
+        SetCalculatedUtility(calculatedUtil);
     }
 
     public void HandleFailure(Agent agent)

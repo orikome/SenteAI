@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTime: 0.4
   baseUtility: 0.4
-  decayPerExecution: 0.05
-  restoreRate: 0.2
+  penaltyPerExecution: 0.1
+  penaltyRestoreRate: 0.4
   utilityScore: 0
   projectilePrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
   projectileSpeed: 10

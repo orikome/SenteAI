@@ -95,29 +95,7 @@ public class MoveAction : AgentAction
         float healthFactor = 0.3f;
         float calculatedUtil = distanceFactor * healthFactor * baseUtility * canSenseFactor;
 
-        if (GetCooldownProgress() < 1.0f)
-        {
-            // If on cooldown, scaled by cooldown progress
-            calculatedUtil *= GetCooldownProgress();
-        }
-
-        if (calculatedUtil <= 0)
-        {
-            Debug.LogError(
-                "UTILITY IS ZERO OR NEGATIVE, CHECK PARAMETERS: Distance="
-                    + distance
-                    + ", CanSense="
-                    + agent.PerceptionModule.CanSenseTarget
-                    + ", HealthFactor="
-                    + healthFactor
-            );
-        }
-        else
-        {
-            //Debug.Log("Utility calculated: " + calculatedUtil);
-        }
-
-        utilityScore = calculatedUtil;
+        SetCalculatedUtility(calculatedUtil);
     }
 
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)

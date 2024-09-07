@@ -92,6 +92,32 @@ public abstract class AgentAction : ScriptableObject
             PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
     }
 
+    public virtual void SetCalculatedUtility(float util)
+    {
+        // 1. Apply cooldown progress
+        if (GetCooldownProgress() < 1.0f)
+        {
+            // If on cooldown, scaled by cooldown progress
+            util *= GetCooldownProgress();
+        }
+
+        // 2. Apply base utility
+        util *= baseUtility;
+
+        // 3. Apply penalty factor
+        util *= Mathf.Max(MAX_UTILITY - PenaltyFactor, MIN_UTILITY);
+
+        // 4. Restore penalty factor based on restore rate
+        RestorePenaltyOverTime();
+
+        if (util <= 0)
+            Debug.LogWarning(
+                $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
+            );
+
+        utilityScore = Mathf.Max(util, MIN_UTILITY);
+    }
+
     public void AfterExecution()
     {
         DebugManager.Instance.Log($"Cooldown and penalty applied to: {Helpers.CleanName(name)}.");

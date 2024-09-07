@@ -21,22 +21,7 @@ public class HomingOrbsAction : AgentAction
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 
-        if (GetCooldownProgress() < 1.0f)
-        {
-            // If on cooldown, scaled by cooldown progress
-            calculatedUtil *= GetCooldownProgress();
-        }
-
-        if (calculatedUtil <= 0)
-            Debug.LogError(
-                "Utility is zero or negative, check parameters: Distance="
-                    + distance
-                    + ", CanSense="
-                    + agent.PerceptionModule.CanSenseTarget
-            );
-
-        //Debug.Log("Utility calculated: " + calculatedUtil);
-        utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, 1.0f);
+        SetCalculatedUtility(calculatedUtil);
     }
 
     private void ShootOrbs(Transform firePoint)
