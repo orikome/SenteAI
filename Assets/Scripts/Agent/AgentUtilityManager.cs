@@ -43,7 +43,7 @@ public class AgentUtilityManager : MonoBehaviour
         {
             action.CalculateUtility(_agent, _agent.Metrics);
         }
-        NormalizeUtilityScores();
+        //NormalizeUtilityScores();
     }
 
     public void FeedbackUtilityAdjustment(AgentAction action, float amount)
@@ -57,7 +57,9 @@ public class AgentUtilityManager : MonoBehaviour
 
     public void NormalizeUtilityScores()
     {
-        float sum = actions.Sum(action => action.utilityScore * action.baseUtility);
+        float sum = actions.Sum(action =>
+            action.utilityScore * action.baseUtility * action.DecayFactor
+        );
         //Debug.Log($"Total util sum before normalization: {sum}");
         float minScore = 0.01f;
 
@@ -69,7 +71,7 @@ public class AgentUtilityManager : MonoBehaviour
         {
             // Scale by base utility to preserve differences
             action.utilityScore = Mathf.Max(
-                action.utilityScore * action.baseUtility / sum,
+                action.utilityScore * action.baseUtility * action.DecayFactor / sum,
                 minScore
             );
         }

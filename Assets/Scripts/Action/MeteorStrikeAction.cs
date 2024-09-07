@@ -12,11 +12,6 @@ public class MeteorStrikeAction : AgentAction
         AfterExecution();
     }
 
-    public override bool CanExecute(Agent agent)
-    {
-        return GetCooldownTimeRemaining() <= 0;
-    }
-
     public override void CalculateUtility(Agent agent, AgentMetrics metrics)
     {
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 1f;

@@ -46,7 +46,8 @@ public class LaserBeamAction : AgentAction
     public override bool CanExecute(Agent agent)
     {
         return agent.PerceptionModule.CanSenseTarget
-            && GetCooldownTimeRemaining() <= 0
+            && !IsOnCooldown()
+            && utilityScore > MIN_UTILITY
             && HasClearShot(agent.firePoint, agent);
     }
 

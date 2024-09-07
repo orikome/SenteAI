@@ -7,11 +7,6 @@ public class HomingOrbsAction : AgentAction
     public int numberOfOrbs = 3;
     public float spreadAngle = 45f;
 
-    public override bool CanExecute(Agent agent)
-    {
-        return GetCooldownTimeRemaining() <= 0;
-    }
-
     public override void Execute(Transform firePoint, Agent agent)
     {
         ShootOrbs(firePoint);

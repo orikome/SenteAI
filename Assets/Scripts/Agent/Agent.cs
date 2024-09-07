@@ -103,24 +103,12 @@ public class Agent : MonoBehaviour
         AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
         if (decidedAction == null)
         {
-            Debug.Log($"[Frame {Time.frameCount}] No valid action selected.");
+            Debug.LogError($"[Frame {Time.frameCount}] No valid action selected.");
             return;
         }
 
         Debug.Log(
             $"[Frame {Time.frameCount}] Selected: {decidedAction} with utilScore: {decidedAction.utilityScore}"
-        );
-
-        if (decidedAction.utilityScore <= _minThreshold)
-        {
-            Debug.Log(
-                $"[Frame {Time.frameCount}] Action '{decidedAction}' does not meet the utility threshold {_minThreshold}, skipping."
-            );
-            return;
-        }
-
-        Debug.Log(
-            $"[Frame {Time.frameCount}] Action '{decidedAction}' exceeds utility threshold {_minThreshold}, executing."
         );
         Metrics.AddActionToHistory(decidedAction);
         Helpers.DebugLog(decidedAction, transform, decidedAction.utilityScore);

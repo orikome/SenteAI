@@ -7,11 +7,6 @@ public class MoveAction : AgentAction
     private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;
 
-    public override bool CanExecute(Agent agent)
-    {
-        return GetCooldownTimeRemaining() <= 0;
-    }
-
     public override void Execute(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();

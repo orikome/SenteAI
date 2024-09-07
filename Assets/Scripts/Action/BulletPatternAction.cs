@@ -73,9 +73,4 @@ public class BulletPatternAction : AgentAction
         //Debug.Log("Utility calculated: " + calculatedUtil);
         utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, 1.0f);
     }
-
-    public override bool CanExecute(Agent agent)
-    {
-        return !IsOnCooldown();
-    }
 }

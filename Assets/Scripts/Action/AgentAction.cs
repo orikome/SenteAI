@@ -13,7 +13,7 @@ public abstract class AgentAction : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     public float decayPerExecution = 0.2f;
-    public float DecayFactor { get; protected set; } = 0.0f;
+    public float DecayFactor { get; private set; } = 0.0f;
 
     [Range(0.0f, 1.0f)]
     public float restoreRate = 0.2f;
@@ -26,7 +26,10 @@ public abstract class AgentAction : ScriptableObject
     [Range(0.0f, 1.0f)]
     public float utilityScore;
 
-    public abstract bool CanExecute(Agent agent);
+    public virtual bool CanExecute(Agent agent)
+    {
+        return !IsOnCooldown() && utilityScore > MIN_UTILITY;
+    }
 
     /// <summary>
     /// Returns how far along the cooldown is between 0 and 1.
@@ -75,20 +78,23 @@ public abstract class AgentAction : ScriptableObject
     public virtual void CalculateUtility(Agent agent, AgentMetrics context) { }
 
     /// <summary>
-    /// Applies decay to the utilityScore.
+    /// Applies decay to the decay factor.
     /// </summary>
     public void AddDecay()
     {
-        DecayFactor = Mathf.Min(DecayFactor + decayPerExecution, MIN_UTILITY);
+        if (DecayFactor < MAX_UTILITY)
+            DecayFactor += decayPerExecution;
     }
 
     public void RestoreUtilityOverTime()
     {
-        DecayFactor = Mathf.Min(DecayFactor + (restoreRate * Time.deltaTime), baseUtility);
+        if (DecayFactor > 0.0f)
+            DecayFactor -= restoreRate * Time.deltaTime;
     }
 
     public void AfterExecution()
     {
+        Debug.Log($"[Frame {Time.frameCount}] Applied cooldown and decay to: {name}.");
         AddCooldown();
         AddDecay();
     }

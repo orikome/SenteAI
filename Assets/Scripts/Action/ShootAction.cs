@@ -15,11 +15,6 @@ public class ShootAction : AgentAction, IFeedbackAction
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
 
-    public override bool CanExecute(Agent agent)
-    {
-        return !IsOnCooldown();
-    }
-
     public override void Execute(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
@@ -79,12 +74,12 @@ public class ShootAction : AgentAction, IFeedbackAction
         }
 
         calculatedUtil *= baseUtility;
-        calculatedUtil *= DecayFactor;
-        RestoreUtilityOverTime();
+        //calculatedUtil *= Mathf.Max(1.0f - DecayFactor * 0.5f, MIN_UTILITY);
+        //RestoreUtilityOverTime();
 
         if (calculatedUtil <= 0)
-            Debug.LogError(
-                "Utility is zero or negative, check parameters: Distance="
+            Debug.LogWarning(
+                $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters: Distance="
                     + distance
                     + ", CanSense="
                     + agent.PerceptionModule.CanSenseTarget
@@ -92,34 +87,34 @@ public class ShootAction : AgentAction, IFeedbackAction
 
         //Debug.Log("Utility calculated: " + calculatedUtil);
         //utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
-        utilityScore = Mathf.Min(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
+        utilityScore = Mathf.Max(calculatedUtil, MIN_UTILITY);
     }
 
     public void HandleFailure(Agent agent)
     {
         // Decrease effectiveness when the projectile misses
-        agent.UtilityManager.FeedbackUtilityAdjustment(this, -effectivenessAdjustment);
-        OnFailureCallback?.Invoke();
+        //agent.UtilityManager.FeedbackUtilityAdjustment(this, -effectivenessAdjustment);
+        //OnFailureCallback?.Invoke();
         //Debug.Log("HaNDLED FAILURE");
     }
 
     public void HandleSuccess(Agent agent)
     {
         // Increase effectiveness when the projectile hits
-        agent.UtilityManager.FeedbackUtilityAdjustment(this, effectivenessAdjustment);
-        OnSuccessCallback?.Invoke();
+        //agent.UtilityManager.FeedbackUtilityAdjustment(this, effectivenessAdjustment);
+        //OnSuccessCallback?.Invoke();
     }
 
     public void HandleMiss(Agent agent, float distanceToPlayer)
     {
-        if (distanceToPlayer <= closeMissThreshold)
-        {
-            HandleCloseMiss(agent);
-        }
-        else
-        {
-            HandleFailure(agent);
-        }
+        // if (distanceToPlayer <= closeMissThreshold)
+        // {
+        //     HandleCloseMiss(agent);
+        // }
+        // else
+        // {
+        //     HandleFailure(agent);
+        // }
     }
 
     private void HandleCloseMiss(Agent agent)
