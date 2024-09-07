@@ -31,10 +31,10 @@ public class AgentUtilityManagerInspector : Editor
             EditorGUILayout.LabelField(action.name, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Base Utility Score", action.baseUtility.ToString("F2"));
             EditorGUILayout.LabelField("Utility Score", action.utilityScore.ToString("F2"));
-            EditorGUILayout.LabelField("Decay Factor", action.DecayFactor.ToString("F2"));
+            EditorGUILayout.LabelField("Penalty Factor", action.PenaltyFactor.ToString("F2"));
             EditorGUILayout.LabelField(
-                "Decay Per Execution",
-                action.decayPerExecution.ToString("F2")
+                "Penalty Per Execution",
+                action.penaltyPerExecution.ToString("F2")
             );
             EditorGUILayout.LabelField("Cooldown", action.cooldownTime.ToString("F2"));
 

@@ -12,11 +12,11 @@ public abstract class AgentAction : ScriptableObject
     public float baseUtility;
 
     [Range(0.0f, 1.0f)]
-    public float decayPerExecution = 0.2f;
-    public float DecayFactor { get; private set; } = 0.0f;
+    public float penaltyPerExecution = 0.2f;
+    public float PenaltyFactor { get; private set; } = 0.0f;
 
     [Range(0.0f, 1.0f)]
-    public float restoreRate = 0.2f;
+    public float penaltyRestoreRate = 0.2f;
 
     // Handled in code
     public readonly float MIN_UTILITY = 0.01f;
@@ -78,24 +78,24 @@ public abstract class AgentAction : ScriptableObject
     public virtual void CalculateUtility(Agent agent, AgentMetrics context) { }
 
     /// <summary>
-    /// Applies decay to the decay factor.
+    /// Apply a penalty, a value between 0f to 1f.
     /// </summary>
-    public void AddDecay()
+    public void AddPenalty()
     {
-        if (DecayFactor < MAX_UTILITY)
-            DecayFactor += decayPerExecution;
+        if (PenaltyFactor < MAX_UTILITY)
+            PenaltyFactor += penaltyPerExecution;
     }
 
-    public void RestoreUtilityOverTime()
+    public void RestorePenaltyOverTime()
     {
-        if (DecayFactor > 0.0f)
-            DecayFactor -= restoreRate * Time.deltaTime;
+        if (PenaltyFactor > 0.0f)
+            PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
     }
 
     public void AfterExecution()
     {
-        DebugManager.Instance.Log($"Added cooldown and decay to: {Helpers.CleanName(name)}.");
+        DebugManager.Instance.Log($"Cooldown and penalty applied to: {Helpers.CleanName(name)}.");
         AddCooldown();
-        AddDecay();
+        AddPenalty();
     }
 }
