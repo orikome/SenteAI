@@ -78,6 +78,10 @@ public class ShootAction : AgentAction, IFeedbackAction
             calculatedUtil *= GetCooldownProgress();
         }
 
+        calculatedUtil *= baseUtility;
+        calculatedUtil *= DecayFactor;
+        RestoreUtilityOverTime();
+
         if (calculatedUtil <= 0)
             Debug.LogError(
                 "Utility is zero or negative, check parameters: Distance="
@@ -87,7 +91,8 @@ public class ShootAction : AgentAction, IFeedbackAction
             );
 
         //Debug.Log("Utility calculated: " + calculatedUtil);
-        utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, 1.0f);
+        //utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
+        utilityScore = Mathf.Min(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
     }
 
     public void HandleFailure(Agent agent)

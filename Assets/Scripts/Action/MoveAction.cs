@@ -98,7 +98,7 @@ public class MoveAction : AgentAction
         float distanceFactor = 1.0f - distance / maxDistance;
 
         float healthFactor = 0.3f;
-        float calculatedUtil = distanceFactor * healthFactor * _baseUtility * canSenseFactor;
+        float calculatedUtil = distanceFactor * healthFactor * baseUtility * canSenseFactor;
 
         if (GetCooldownProgress() < 1.0f)
         {

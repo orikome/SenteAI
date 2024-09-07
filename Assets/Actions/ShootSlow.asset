@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ShootSlow
   m_EditorClassIdentifier: 
   cooldownTime: 0.4
-  _baseUtility: 0.2
-  decayFactor: 0.9
+  baseUtility: 0.4
+  decayPerExecution: 0.05
   restoreRate: 0.2
   utilityScore: 0
   projectilePrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}

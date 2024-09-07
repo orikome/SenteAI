@@ -7,12 +7,13 @@ public abstract class AgentAction : ScriptableObject
     //public int cost;
     public float cooldownTime = 0.1f;
 
-    [SerializeField]
+    // Keep between 0.01f - 1.0f
     [Range(0.0f, 1.0f)]
-    protected float _baseUtility; // Keep between 0.01f - 1.0f
+    public float baseUtility;
 
     [Range(0.0f, 1.0f)]
-    public float decayFactor = 0.9f; // Retain 90% of utility after execution
+    public float decayPerExecution = 0.2f;
+    public float DecayFactor { get; protected set; } = 0.0f;
 
     [Range(0.0f, 1.0f)]
     public float restoreRate = 0.2f;
@@ -76,23 +77,19 @@ public abstract class AgentAction : ScriptableObject
     /// <summary>
     /// Applies decay to the utilityScore.
     /// </summary>
-    protected void ApplyDecay()
+    public void AddDecay()
     {
-        utilityScore = Mathf.Max(utilityScore * decayFactor, MIN_UTILITY);
+        DecayFactor = Mathf.Min(DecayFactor + decayPerExecution, MIN_UTILITY);
     }
 
     public void RestoreUtilityOverTime()
     {
-        if (Time.time - LastExecutedTime > cooldownTime)
-        {
-            utilityScore = Mathf.Min(utilityScore + restoreRate * Time.deltaTime, _baseUtility);
-        }
+        DecayFactor = Mathf.Min(DecayFactor + (restoreRate * Time.deltaTime), baseUtility);
     }
 
     public void AfterExecution()
     {
         AddCooldown();
-        ApplyDecay();
-        RestoreUtilityOverTime();
+        AddDecay();
     }
 }

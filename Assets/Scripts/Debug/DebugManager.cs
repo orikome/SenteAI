@@ -14,9 +14,9 @@ public class DebugManager : MonoBehaviour
     {
         Vector3 position = OrikomeUtils.GeneralUtils.GetPositionWithOffset(
             agentTransform,
-            Random.Range(-3.0f, 3.0f),
-            Random.Range(3.0f, 3.0f),
-            Random.Range(-3.0f, 3.0f)
+            Random.Range(-4.0f, 4.0f),
+            Random.Range(4.0f, 4.0f),
+            Random.Range(-4.0f, 4.0f)
         );
 
         GameObject debugTextObj = Instantiate(
