@@ -32,7 +32,7 @@ public abstract class AgentAction : ScriptableObject
     }
 
     /// <summary>
-    /// Returns how far along the cooldown is between 0 and 1.
+    /// Returns how far along the cooldown is between 0f and 1f.
     /// </summary>
     public float GetCooldownProgress()
     {
@@ -78,12 +78,20 @@ public abstract class AgentAction : ScriptableObject
     public virtual void CalculateUtility(Agent agent, AgentMetrics context) { }
 
     /// <summary>
-    /// Apply a penalty, a value between 0f to 1f.
+    /// Apply a penalty, a value between 0f and 1f.
     /// </summary>
     public void AddPenalty()
     {
-        if (PenaltyFactor < MAX_UTILITY)
-            PenaltyFactor += penaltyPerExecution;
+        PenaltyFactor = Mathf.Min(PenaltyFactor + penaltyPerExecution, MAX_UTILITY);
+
+        // If penalty limit is reached, apply a quadruple cooldown
+        if (PenaltyFactor >= MAX_UTILITY)
+        {
+            DebugManager.Instance.Log(
+                $"Penalty exceeded, applying QUADRUPLE cooldown to: {Helpers.CleanName(name)}."
+            );
+            LastExecutedTime = Time.time - cooldownTime + (cooldownTime * 4);
+        }
     }
 
     public void RestorePenaltyOverTime()
@@ -94,20 +102,20 @@ public abstract class AgentAction : ScriptableObject
 
     public virtual void SetCalculatedUtility(float util)
     {
-        // 1. Apply cooldown progress
+        // 1. Apply cooldown factor
         if (GetCooldownProgress() < 1.0f)
         {
-            // If on cooldown, scaled by cooldown progress
+            // If on cooldown, scale by cooldown progress
             util *= GetCooldownProgress();
         }
 
         // 2. Apply base utility
         util *= baseUtility;
 
-        // 3. Apply penalty factor
+        // 3. Apply penalty factor, if any
         util *= Mathf.Max(MAX_UTILITY - PenaltyFactor, MIN_UTILITY);
 
-        // 4. Restore penalty factor based on restore rate
+        // 4. Restore penalty back to normal
         RestorePenaltyOverTime();
 
         if (util <= 0)
@@ -115,6 +123,7 @@ public abstract class AgentAction : ScriptableObject
                 $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
             );
 
+        // 5. Set utility
         utilityScore = Mathf.Max(util, MIN_UTILITY);
     }
 
