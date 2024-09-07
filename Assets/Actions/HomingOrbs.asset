@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HomingOrbs
   m_EditorClassIdentifier: 
   cooldownTime: 1
-  _baseUtility: 0.6
-  decayFactor: 0.9
+  baseUtility: 0.6
+  decayPerExecution: 0.2
   restoreRate: 0.2
   utilityScore: 0
   orbPrefab: {fileID: 8895309130385202063, guid: c3dafc5b7d1872b4b8b8e34119b31397, type: 3}

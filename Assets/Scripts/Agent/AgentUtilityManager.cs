@@ -34,7 +34,7 @@ public class AgentUtilityManager : MonoBehaviour
         {
             action.utilityScore = 1.0f / actions.Count;
         }
-        DebugManager.Instance.Log(transform, "Reset utilScores", Color.red);
+        DebugManager.Instance.SpawnTextLog(transform, "Reset utilScores", Color.red);
     }
 
     public void CalculateUtilityScores()

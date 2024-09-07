@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BulletPattern
   m_EditorClassIdentifier: 
   cooldownTime: 0.4
-  _baseUtility: 1
-  decayFactor: 0.6
+  baseUtility: 0.8
+  decayPerExecution: 0.2
   restoreRate: 0.2
   utilityScore: 0
   bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}

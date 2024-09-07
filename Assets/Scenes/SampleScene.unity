@@ -2993,6 +2993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugTextPrefab: {fileID: 6733593529429614273, guid: 3d5ace0ad8556ee47b377991e98d6757, type: 3}
+  enableLogging: 1
 --- !u!4 &916691274
 Transform:
   m_ObjectHideFlags: 0

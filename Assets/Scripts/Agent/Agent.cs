@@ -22,7 +22,6 @@ public class Agent : MonoBehaviour
     private NavMeshAgent _navMeshAgent;
     private float _lastActionTime;
     private readonly float _globalCooldown = 0.4f;
-    private readonly float _minThreshold = 0.2f;
 
     public void Initialize()
     {
@@ -54,7 +53,7 @@ public class Agent : MonoBehaviour
         PerceptionModule = GetModule<SenseModule>();
 
         if (UtilityManager.actions.Count == 0)
-            Debug.LogError("No actions assigned!");
+            DebugManager.Instance.LogError("No actions assigned!");
 
         // Initialize modules
         foreach (var module in Modules)
@@ -94,24 +93,26 @@ public class Agent : MonoBehaviour
     {
         if (Time.time < _lastActionTime + _globalCooldown)
         {
-            Debug.Log(
-                $"[Frame {Time.frameCount}] Global cooldown active, waiting to select action."
-            );
+            DebugManager.Instance.Log("Global cooldown active, waiting to select action...");
             return;
         }
 
         AgentAction decidedAction = ActionSelectionStrategy.SelectAction(this);
         if (decidedAction == null)
         {
-            Debug.LogError($"[Frame {Time.frameCount}] No valid action selected.");
+            DebugManager.Instance.LogWarning("No valid action selected.");
             return;
         }
 
-        Debug.Log(
-            $"[Frame {Time.frameCount}] Selected: {decidedAction} with utilScore: {decidedAction.utilityScore}"
+        DebugManager.Instance.Log(
+            $"Selected: {Helpers.CleanName(decidedAction.name)} with utilScore: {decidedAction.utilityScore}"
         );
         Metrics.AddActionToHistory(decidedAction);
-        Helpers.DebugLog(decidedAction, transform, decidedAction.utilityScore);
+        // DebugManager.Instance.SpawnTextLog(
+        //     transform,
+        //     $"{Helpers.CleanName(decidedAction.name)}={decidedAction.utilityScore:F2}",
+        //     Color.cyan
+        // );
         decidedAction.Execute(firePoint, this);
         _lastActionTime = Time.time;
     }
@@ -126,7 +127,7 @@ public class Agent : MonoBehaviour
     {
         if (Data == null)
         {
-            Debug.LogError("AgentData is not assigned!");
+            DebugManager.Instance.LogError("AgentData is not assigned!");
             return;
         }
 
@@ -169,7 +170,9 @@ public class Agent : MonoBehaviour
     {
         if (!TryGetComponent<T>(out var component))
         {
-            Debug.LogWarning($"Component of type {typeof(T).Name} was missing and has been added.");
+            DebugManager.Instance.LogWarning(
+                $"Component of type {typeof(T).Name} was missing and has been added."
+            );
             component = gameObject.AddComponent<T>();
         }
         return component;

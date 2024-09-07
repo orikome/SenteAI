@@ -94,7 +94,7 @@ public abstract class AgentAction : ScriptableObject
 
     public void AfterExecution()
     {
-        Debug.Log($"[Frame {Time.frameCount}] Applied cooldown and decay to: {name}.");
+        DebugManager.Instance.Log($"Added cooldown and decay to: {Helpers.CleanName(name)}.");
         AddCooldown();
         AddDecay();
     }

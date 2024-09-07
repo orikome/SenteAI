@@ -273,13 +273,13 @@ public class PlayerMetrics : Metrics
         switch (currentBehavior)
         {
             case Behavior.Aggressive:
-                DebugManager.Instance.Log(transform, "Player is Aggressive", Color.red);
+                DebugManager.Instance.SpawnTextLog(transform, "Player is Aggressive", Color.red);
                 break;
             case Behavior.Defensive:
-                DebugManager.Instance.Log(transform, "Player is Defensive", Color.blue);
+                DebugManager.Instance.SpawnTextLog(transform, "Player is Defensive", Color.blue);
                 break;
             case Behavior.Balanced:
-                DebugManager.Instance.Log(transform, "Player is Balanced", Color.green);
+                DebugManager.Instance.SpawnTextLog(transform, "Player is Balanced", Color.green);
                 break;
         }
     }

@@ -85,8 +85,6 @@ public class ShootAction : AgentAction, IFeedbackAction
                     + agent.PerceptionModule.CanSenseTarget
             );
 
-        //Debug.Log("Utility calculated: " + calculatedUtil);
-        //utilityScore = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
         utilityScore = Mathf.Max(calculatedUtil, MIN_UTILITY);
     }
 

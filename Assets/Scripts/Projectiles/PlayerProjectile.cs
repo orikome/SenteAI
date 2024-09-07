@@ -17,8 +17,8 @@ public class PlayerProjectile : Projectile
             agent.GetModule<HealthModule>().TakeDamage(10);
             Player.Instance.Metrics.UpdateDamageDone(10);
             Helpers.SpawnParticles(transform.position, Color.green);
-            Debug.Log(
-                $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.gameObject.name)}"
+            DebugManager.Instance.Log(
+                $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}"
             );
             Destroy(gameObject);
         }
