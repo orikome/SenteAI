@@ -36,10 +36,16 @@ public class PlayerMetrics : Metrics
 
     void Update()
     {
-        UpdatePlayerMetrics();
+        shootingFrequency = Random.Range(0f, 1f);
+        dodgeRatio = Random.Range(0f, 1f);
+
+        if (IsInCover)
+            timeInCover += Time.deltaTime;
+
+        FindClosestEnemyToPlayer();
+        UpdateVelocity();
         TrackPlayerPositionHistory();
         currentBehavior = ClassifyBehavior();
-        RespondToPlayerBehavior();
 
         if (Player.Instance.IsAlive)
             TimeAlive += Time.deltaTime;
@@ -53,19 +59,6 @@ public class PlayerMetrics : Metrics
     public void UpdateDamageDone(float dmgDone)
     {
         DamageDone += dmgDone;
-    }
-
-    void UpdatePlayerMetrics()
-    {
-        shootingFrequency = Random.Range(0f, 1f);
-        dodgeRatio = Random.Range(0f, 1f);
-
-        if (IsInCover)
-            timeInCover += Time.deltaTime;
-
-        FindClosestEnemyToPlayer();
-
-        UpdateVelocity();
     }
 
     void TrackPlayerPositionHistory()
@@ -137,26 +130,6 @@ public class PlayerMetrics : Metrics
         return averagePosition / validHistoryCount;
     }
 
-    public Vector3 PredictNextPositionUsingAverage()
-    {
-        Vector3 avgPosition = GetAveragePosition();
-        return (avgPosition + transform.position) / 2;
-    }
-
-    public Vector3 PredictNextPositionUsingVelocity()
-    {
-        Vector3 lastVelocity =
-            (
-                positionHistory[positionHistory.Count - 1]
-                - positionHistory[positionHistory.Count - 2]
-            ) / historyRecordInterval;
-
-        // Add velocity to current position
-        Vector3 predictedPosition = transform.position + lastVelocity * historyRecordInterval;
-
-        return predictedPosition;
-    }
-
     public Vector3 PredictNextPositionUsingMomentum()
     {
         // Calculate velocity between last two positions
@@ -213,12 +186,22 @@ public class PlayerMetrics : Metrics
 
     protected override Behavior ClassifyBehavior()
     {
+        if (Time.frameCount % 500 != 0)
+            return Behavior.Balanced;
+
         if (shootingFrequency > aggressiveThreshold && distanceToClosestEnemy < defensiveThreshold)
+        {
+            DebugManager.Instance.SpawnTextLog(transform, "Player is Aggressive", Color.red);
             return Behavior.Aggressive;
+        }
 
         if (dodgeRatio > aggressiveThreshold)
+        {
+            DebugManager.Instance.SpawnTextLog(transform, "Player is Defensive", Color.blue);
             return Behavior.Defensive;
+        }
 
+        DebugManager.Instance.SpawnTextLog(transform, "Player is Balanced", Color.green);
         return Behavior.Balanced;
     }
 
@@ -262,25 +245,6 @@ public class PlayerMetrics : Metrics
 
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(closestEnemy.transform.position, 0.5f);
-        }
-    }
-
-    void RespondToPlayerBehavior()
-    {
-        if (Time.frameCount % 300 != 0)
-            return;
-
-        switch (currentBehavior)
-        {
-            case Behavior.Aggressive:
-                DebugManager.Instance.SpawnTextLog(transform, "Player is Aggressive", Color.red);
-                break;
-            case Behavior.Defensive:
-                DebugManager.Instance.SpawnTextLog(transform, "Player is Defensive", Color.blue);
-                break;
-            case Behavior.Balanced:
-                DebugManager.Instance.SpawnTextLog(transform, "Player is Balanced", Color.green);
-                break;
         }
     }
 }
