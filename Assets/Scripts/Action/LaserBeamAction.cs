@@ -60,7 +60,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
             && HasClearShot(agent.firePoint, agent);
     }
 
-    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
+    public override void CalculateUtility(Agent agent)
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
@@ -99,7 +99,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         BoxCollider laserCollider = laser.AddComponent<BoxCollider>();
         laserCollider.isTrigger = true;
         laserCollider.center = new Vector3(0, 0, laserDistance / 2f);
-        laserCollider.size = new Vector3(0.2f, 0.2f, laserDistance);
+        laserCollider.size = new Vector3(1.5f, 1.5f, laserDistance);
         LaserBehavior laserCollision = laser.AddComponent<LaserBehavior>();
         laserCollision.Initialize(agent, 100);
         laserCollision.OnHitCallback = () => HandleSuccess(agent);

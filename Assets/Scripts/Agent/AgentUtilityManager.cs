@@ -41,18 +41,9 @@ public class AgentUtilityManager : MonoBehaviour
     {
         foreach (AgentAction action in actions)
         {
-            action.CalculateUtility(_agent, _agent.Metrics);
+            action.CalculateUtility(_agent);
         }
         //NormalizeUtilityScores();
-    }
-
-    public void FeedbackUtilityAdjustment(AgentAction action, float amount)
-    {
-        if (action == null)
-            return;
-
-        action.utilityScore = Mathf.Clamp(action.utilityScore + amount * Time.deltaTime, 0, 1);
-        NormalizeUtilityScores();
     }
 
     public void NormalizeUtilityScores()

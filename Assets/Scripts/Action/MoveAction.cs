@@ -84,7 +84,7 @@ public class MoveAction : AgentAction
         return score;
     }
 
-    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
+    public override void CalculateUtility(Agent agent)
     {
         float maxDistance = 100f;
         float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 0.8f;

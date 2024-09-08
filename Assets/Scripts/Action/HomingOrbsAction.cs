@@ -13,7 +13,7 @@ public class HomingOrbsAction : AgentAction
         AfterExecution();
     }
 
-    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
+    public override void CalculateUtility(Agent agent)
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;

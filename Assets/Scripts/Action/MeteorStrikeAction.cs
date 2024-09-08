@@ -12,7 +12,7 @@ public class MeteorStrikeAction : AgentAction
         AfterExecution();
     }
 
-    public override void CalculateUtility(Agent agent, AgentMetrics metrics)
+    public override void CalculateUtility(Agent agent)
     {
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 1f;
         float calculatedUtil = 0.5f * CanSenseFactor;
