@@ -119,7 +119,7 @@ public abstract class AgentAction : ScriptableObject
         RestorePenaltyOverTime();
 
         if (util <= 0)
-            Debug.LogWarning(
+            DebugManager.Instance.LogWarning(
                 $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
             );
 

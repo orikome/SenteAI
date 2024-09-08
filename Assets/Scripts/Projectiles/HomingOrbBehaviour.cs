@@ -36,7 +36,7 @@ public class HomingOrbBehaviour : MonoBehaviour
         {
             damageable.TakeDamage(10);
             Helpers.SpawnParticles(transform.position, Color.red);
-            Debug.Log(
+            DebugManager.Instance.Log(
                 $"{Helpers.CleanName(gameObject.name)} dealt {10} damage to {Helpers.CleanName(collision.gameObject.name)}"
             );
             Destroy(gameObject);

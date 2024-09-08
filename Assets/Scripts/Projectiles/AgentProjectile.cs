@@ -22,7 +22,7 @@ public class AgentProjectile : Projectile
         damageable.TakeDamage(_damage);
         OnHitCallback?.Invoke();
         Helpers.SpawnParticles(transform.position, Color.red);
-        Debug.Log(
+        DebugManager.Instance.Log(
             $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.gameObject.name)}"
         );
         Destroy(gameObject);

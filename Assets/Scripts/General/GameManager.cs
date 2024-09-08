@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartScene()
     {
-        Debug.Log(
+        DebugManager.Instance.Log(
             "DamageDone: "
                 + Player.Instance.Metrics.DamageDone
                 + " - "
