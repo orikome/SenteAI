@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(AgentUtilityManager))]
-public class AgentUtilityManagerInspector : Editor
+[CustomEditor(typeof(Agent))]
+public class ActionStatusDebug : Editor
 {
     private void OnEnable()
     {
@@ -16,15 +16,14 @@ public class AgentUtilityManagerInspector : Editor
 
     public override void OnInspectorGUI()
     {
+        DrawDefaultInspector();
+
         if (!Application.isPlaying)
-            EditorGUILayout.LabelField(
-                "Data displayed by an editor script (AgentActionStatus.cs)",
-                EditorStyles.boldLabel
-            );
+            return;
 
-        AgentUtilityManager manager = (AgentUtilityManager)target;
+        Agent agent = (Agent)target;
 
-        foreach (var action in manager.actions)
+        foreach (var action in agent.actions)
         {
             EditorGUILayout.BeginVertical("box");
 

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(AgentUtilityManager))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class Agent : MonoBehaviour
 {
     // Set these in editor
@@ -12,7 +12,7 @@ public class Agent : MonoBehaviour
     public Transform firePoint;
 
     // These are set in code
-    public AgentUtilityManager UtilityManager { get; private set; }
+    public List<AgentAction> actions;
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     public AgentEvents Events { get; private set; }
@@ -30,7 +30,6 @@ public class Agent : MonoBehaviour
 
         // Ensure all components exist
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
-        UtilityManager = EnsureComponent<AgentUtilityManager>();
         Events = EnsureComponent<AgentEvents>();
         Metrics = EnsureComponent<AgentMetrics>();
 
@@ -42,17 +41,23 @@ public class Agent : MonoBehaviour
 
         // Ensure we only use data from our AgentData file
         Modules.Clear();
-        UtilityManager.ClearActions();
+        actions.Clear();
         ActionSelectionStrategy = null;
 
         // Initialize data and other components
         LoadAgentData();
-        UtilityManager.Initialize();
+
+        // Reset utility scores
+        foreach (AgentAction action in actions)
+        {
+            action.utilityScore = 1.0f / actions.Count;
+        }
+        DebugManager.Instance.SpawnTextLog(transform, "Reset utilScores", Color.red);
 
         // Get modules
         PerceptionModule = GetModule<SenseModule>();
 
-        if (UtilityManager.actions.Count == 0)
+        if (actions.Count == 0)
             DebugManager.Instance.LogError("No actions assigned!");
 
         // Initialize modules
@@ -62,7 +67,7 @@ public class Agent : MonoBehaviour
         }
 
         // Initialize actions
-        foreach (var action in UtilityManager.actions)
+        foreach (var action in actions)
         {
             action.Initialize(this);
         }
@@ -85,7 +90,11 @@ public class Agent : MonoBehaviour
             module.Execute(this);
         }
 
-        UtilityManager.CalculateUtilityScores();
+        foreach (AgentAction action in actions)
+        {
+            action.CalculateUtility(this);
+        }
+
         SelectAndExecuteAction();
     }
 
@@ -123,6 +132,30 @@ public class Agent : MonoBehaviour
         ActionSelectionStrategy = strategy;
     }
 
+    public void NormalizeUtilityScores()
+    {
+        float sum = actions.Sum(action => action.utilityScore);
+        //Debug.Log($"Total util sum before normalization: {sum}");
+        float minScore = 0.01f;
+
+        // Prevent division by zero
+        if (sum == 0)
+            return;
+
+        foreach (AgentAction action in actions)
+        {
+            // Scale by base utility to preserve differences
+            action.utilityScore = Mathf.Max(action.utilityScore / sum, minScore);
+        }
+
+        // Ensure scores sum to exactly 1
+        sum = actions.Sum(action => action.utilityScore);
+        foreach (AgentAction action in actions)
+        {
+            action.utilityScore /= sum;
+        }
+    }
+
     private void LoadAgentData()
     {
         if (Data == null)
@@ -147,7 +180,7 @@ public class Agent : MonoBehaviour
             if (action != null)
             {
                 AgentAction newAction = Instantiate(action);
-                UtilityManager.AddAction(newAction);
+                actions.Add(newAction);
             }
         }
 

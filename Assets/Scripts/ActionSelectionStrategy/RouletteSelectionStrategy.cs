@@ -13,9 +13,7 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
 
         // TODO: If a low probability action gets picked
         // and its effectiveness is low -> trigger "oopsie" dialogue
-        var executableActions = agent
-            .UtilityManager.actions.Where(action => action.CanExecute(agent))
-            .ToList();
+        var executableActions = agent.actions.Where(action => action.CanExecute(agent)).ToList();
 
         if (executableActions.Count == 0)
         {
