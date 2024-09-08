@@ -15,6 +15,13 @@ public class ShootAction : AgentAction, IFeedbackAction
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
 
+    // Track success
+    private int successCount = 0;
+    private int failureCount = 0;
+    private float successRate = 1.0f;
+    private float historicalPenalty = 0.0f;
+    private float historicalPenaltyWeight = 0.5f;
+
     public override void Execute(Transform firePoint, Agent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
@@ -67,22 +74,27 @@ public class ShootAction : AgentAction, IFeedbackAction
         float speedDistanceFactor = distanceFactor * speedFactor;
         float calculatedUtil = speedDistanceFactor * 0.5f * CanSenseFactor;
 
+        // Apply penalty based on feedback
+        historicalPenalty = Mathf.Lerp(0.2f, 1.0f, successRate) * historicalPenaltyWeight;
+        calculatedUtil *= Mathf.Max(historicalPenalty, MIN_UTILITY);
+
         SetCalculatedUtility(calculatedUtil);
     }
 
     public void HandleFailure(Agent agent)
     {
-        // Decrease effectiveness when the projectile misses
-        //agent.UtilityManager.FeedbackUtilityAdjustment(this, -effectivenessAdjustment);
-        //OnFailureCallback?.Invoke();
-        //Debug.Log("HaNDLED FAILURE");
+        // Decrease utility if projectile misses
+        failureCount++;
+        UpdateSuccessRate();
+        OnFailureCallback?.Invoke();
     }
 
     public void HandleSuccess(Agent agent)
     {
-        // Increase effectiveness when the projectile hits
-        //agent.UtilityManager.FeedbackUtilityAdjustment(this, effectivenessAdjustment);
-        //OnSuccessCallback?.Invoke();
+        // Increase utility if projectile hits
+        successCount++;
+        UpdateSuccessRate();
+        OnSuccessCallback?.Invoke();
     }
 
     public void HandleMiss(Agent agent, float distanceToPlayer)
@@ -97,9 +109,16 @@ public class ShootAction : AgentAction, IFeedbackAction
         // }
     }
 
-    private void HandleCloseMiss(Agent agent)
+    public void UpdateSuccessRate()
     {
-        //agent.actionUtilityManager.AdjustUtilityScore(this, -(effectivenessAdjustment / 2));
+        int totalAttempts = successCount + failureCount;
+        if (totalAttempts > 0)
+        {
+            successRate = (float)successCount / totalAttempts;
+        }
+        DebugManager.Instance.Log(
+            $"Action {Helpers.CleanName(name)} has success rate of: {successRate}, which adds a penalty of: {1.0f - historicalPenalty}."
+        );
     }
 
     void ShootProjectile(Transform firePoint, Vector3 direction, Agent agent)

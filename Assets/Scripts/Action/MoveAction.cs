@@ -91,9 +91,7 @@ public class MoveAction : AgentAction
 
         float distance = agent.Metrics.DistanceToPlayer;
         float distanceFactor = 1.0f - distance / maxDistance;
-
-        float healthFactor = 0.3f;
-        float calculatedUtil = distanceFactor * healthFactor * baseUtility * canSenseFactor;
+        float calculatedUtil = distanceFactor * canSenseFactor;
 
         SetCalculatedUtility(calculatedUtil);
     }

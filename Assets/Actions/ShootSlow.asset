@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7407242f5216ca84685fc6e114ad5cae, type: 3}
   m_Name: ShootSlow
   m_EditorClassIdentifier: 
-  cooldownTime: 0.4
+  cooldownTime: 0.2
   baseUtility: 0.4
-  penaltyPerExecution: 0.1
-  penaltyRestoreRate: 0.4
+  penaltyPerExecution: 0.05
+  penaltyRestoreRate: 0.6
   utilityScore: 0
   projectilePrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
   projectileSpeed: 10

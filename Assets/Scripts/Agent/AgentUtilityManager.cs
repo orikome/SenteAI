@@ -57,9 +57,7 @@ public class AgentUtilityManager : MonoBehaviour
 
     public void NormalizeUtilityScores()
     {
-        float sum = actions.Sum(action =>
-            action.utilityScore * action.baseUtility * action.PenaltyFactor
-        );
+        float sum = actions.Sum(action => action.utilityScore);
         //Debug.Log($"Total util sum before normalization: {sum}");
         float minScore = 0.01f;
 
@@ -70,10 +68,7 @@ public class AgentUtilityManager : MonoBehaviour
         foreach (AgentAction action in actions)
         {
             // Scale by base utility to preserve differences
-            action.utilityScore = Mathf.Max(
-                action.utilityScore * action.baseUtility * action.PenaltyFactor / sum,
-                minScore
-            );
+            action.utilityScore = Mathf.Max(action.utilityScore / sum, minScore);
         }
 
         // Ensure scores sum to exactly 1

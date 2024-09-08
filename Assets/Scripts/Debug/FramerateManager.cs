@@ -19,11 +19,6 @@ public class FramerateManager : MonoBehaviour
 
     public FramerateOptions targetFramerate = FramerateOptions.FPS_60;
 
-    private void OnValidate()
-    {
-        SetFramerate((int)targetFramerate);
-    }
-
     private void Start()
     {
         SetFramerate((int)targetFramerate);
@@ -32,6 +27,6 @@ public class FramerateManager : MonoBehaviour
     public void SetFramerate(int framerate)
     {
         Application.targetFrameRate = framerate;
-        Debug.Log($"Framerate set to: {framerate} FPS");
+        DebugManager.Instance.Log($"Framerate set to: {framerate} FPS");
     }
 }
