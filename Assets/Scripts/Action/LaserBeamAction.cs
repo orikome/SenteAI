@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AgentAction/LaserBeam")]
-public class LaserBeamAction : AgentAction
+public class LaserBeamAction : AgentAction, IFeedbackAction
 {
     public GameObject laserPrefab;
     public float duration = 2f;
@@ -9,6 +10,14 @@ public class LaserBeamAction : AgentAction
 
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
+    public Action OnSuccessCallback { get; set; }
+    public Action OnFailureCallback { get; set; }
+
+    // Track success
+    private int _successCount = 0;
+    private int _failureCount = 0;
+    private float _successRate = 1.0f;
+    private float _feedbackModifier = 0.0f;
 
     public override void Execute(Transform firePoint, Agent agent)
     {
@@ -59,6 +68,16 @@ public class LaserBeamAction : AgentAction
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 
+        if (_successRate >= 0.5f)
+            // Success rate is good, boost utility
+            _feedbackModifier = Mathf.Lerp(1.0f, 1.5f, _successRate);
+        else
+            // Success rate is low, add penalty
+            _feedbackModifier = Mathf.Lerp(0.5f, 1.0f, _successRate);
+
+        // Add feedback modifier
+        calculatedUtil *= Mathf.Max(_feedbackModifier, MIN_UTILITY);
+
         SetCalculatedUtility(calculatedUtil);
     }
 
@@ -75,6 +94,50 @@ public class LaserBeamAction : AgentAction
         LineRenderer line = laser.GetComponent<LineRenderer>();
         line.SetPosition(0, firePoint.position);
         line.SetPosition(1, firePoint.position + directionToTarget * laserDistance);
+
+        // Add laser collider
+        BoxCollider laserCollider = laser.AddComponent<BoxCollider>();
+        laserCollider.isTrigger = true;
+        laserCollider.center = new Vector3(0, 0, laserDistance / 2f);
+        laserCollider.size = new Vector3(0.2f, 0.2f, laserDistance);
+        LaserBehavior laserCollision = laser.AddComponent<LaserBehavior>();
+        laserCollision.Initialize(agent, 100);
+        laserCollision.OnHitCallback = () => HandleSuccess(agent);
+        laserCollision.OnMissCallback = () => HandleFailure(agent);
+
         Destroy(laser, duration);
+    }
+
+    public void HandleSuccess(Agent agent)
+    {
+        // Increase utility if projectile hits
+        _successCount++;
+        UpdateSuccessRate();
+        OnSuccessCallback?.Invoke();
+    }
+
+    public void HandleFailure(Agent agent)
+    {
+        // Decrease utility if projectile misses
+        _failureCount++;
+        UpdateSuccessRate();
+        OnFailureCallback?.Invoke();
+    }
+
+    public void UpdateSuccessRate()
+    {
+        int totalAttempts = _successCount + _failureCount;
+        if (totalAttempts > 0)
+        {
+            _successRate = (float)_successCount / totalAttempts;
+        }
+        DebugManager.Instance.Log(
+            $"Action {Helpers.CleanName(name)} has success rate of: {_successRate}, which adds a modifier of: {_feedbackModifier}."
+        );
+    }
+
+    public void HandleMiss(Agent agent, float distanceToPlayer)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1549,7 +1549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: 3e02036dd1e33294983b3a2752f212d4, type: 2}
+  Data: {fileID: 11400000, guid: d4f9d9f9cae619f4298efe15470d9fc0, type: 2}
   firePoint: {fileID: 157775742}
 --- !u!4 &277862019
 Transform:
@@ -2806,7 +2806,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 40, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1098865936}
   - {fileID: 649956652}
