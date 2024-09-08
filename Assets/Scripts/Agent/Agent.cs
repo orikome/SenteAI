@@ -12,11 +12,11 @@ public class Agent : MonoBehaviour
     public Transform firePoint;
 
     // These are set in code
-    public List<AgentAction> actions;
+    public List<AgentModule> Modules { get; private set; } = new();
     public SenseModule PerceptionModule { get; private set; }
+    public List<AgentAction> Actions { get; private set; } = new();
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     public AgentEvents Events { get; private set; }
-    public List<AgentModule> Modules { get; private set; } = new();
     public Transform Target { get; private set; }
     public AgentMetrics Metrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
@@ -41,23 +41,23 @@ public class Agent : MonoBehaviour
 
         // Ensure we only use data from our AgentData file
         Modules.Clear();
-        actions.Clear();
+        Actions.Clear();
         ActionSelectionStrategy = null;
 
         // Initialize data and other components
         LoadAgentData();
 
         // Reset utility scores
-        foreach (AgentAction action in actions)
+        foreach (AgentAction action in Actions)
         {
-            action.utilityScore = 1.0f / actions.Count;
+            action.utilityScore = 1.0f / Actions.Count;
         }
         DebugManager.Instance.SpawnTextLog(transform, "Reset utilScores", Color.red);
 
         // Get modules
         PerceptionModule = GetModule<SenseModule>();
 
-        if (actions.Count == 0)
+        if (Actions.Count == 0)
             DebugManager.Instance.LogError("No actions assigned!");
 
         // Initialize modules
@@ -67,7 +67,7 @@ public class Agent : MonoBehaviour
         }
 
         // Initialize actions
-        foreach (var action in actions)
+        foreach (var action in Actions)
         {
             action.Initialize(this);
         }
@@ -90,7 +90,7 @@ public class Agent : MonoBehaviour
             module.Execute(this);
         }
 
-        foreach (AgentAction action in actions)
+        foreach (var action in Actions)
         {
             action.CalculateUtility(this);
         }
@@ -134,7 +134,7 @@ public class Agent : MonoBehaviour
 
     public void NormalizeUtilityScores()
     {
-        float sum = actions.Sum(action => action.utilityScore);
+        float sum = Actions.Sum(action => action.utilityScore);
         //Debug.Log($"Total util sum before normalization: {sum}");
         float minScore = 0.01f;
 
@@ -142,15 +142,15 @@ public class Agent : MonoBehaviour
         if (sum == 0)
             return;
 
-        foreach (AgentAction action in actions)
+        foreach (AgentAction action in Actions)
         {
             // Scale by base utility to preserve differences
             action.utilityScore = Mathf.Max(action.utilityScore / sum, minScore);
         }
 
         // Ensure scores sum to exactly 1
-        sum = actions.Sum(action => action.utilityScore);
-        foreach (AgentAction action in actions)
+        sum = Actions.Sum(action => action.utilityScore);
+        foreach (AgentAction action in Actions)
         {
             action.utilityScore /= sum;
         }
@@ -180,7 +180,7 @@ public class Agent : MonoBehaviour
             if (action != null)
             {
                 AgentAction newAction = Instantiate(action);
-                actions.Add(newAction);
+                Actions.Add(newAction);
             }
         }
 

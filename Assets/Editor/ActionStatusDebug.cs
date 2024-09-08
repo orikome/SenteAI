@@ -23,7 +23,7 @@ public class ActionStatusDebug : Editor
 
         Agent agent = (Agent)target;
 
-        foreach (var action in agent.actions)
+        foreach (var action in agent.Actions)
         {
             EditorGUILayout.BeginVertical("box");
 

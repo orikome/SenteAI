@@ -18,7 +18,7 @@ public class PlayerMetrics : Metrics
     private readonly int maxHistoryCount = 200;
     private readonly float detectionThreshold = 1.5f;
     private readonly int recentHistorySize = 6;
-    Agent closestEnemy;
+    private Agent closestEnemy;
     public Vector3 PredictedPosition { get; private set; }
     public float DamageDone { get; private set; }
     public float TimeAlive { get; private set; }
