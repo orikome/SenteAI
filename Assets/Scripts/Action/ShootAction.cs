@@ -9,18 +9,15 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
-    float effectivenessAdjustment = 20f;
-    public float closeMissThreshold = 1f;
     public int damage = 10;
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
 
     // Track success
-    private int successCount = 0;
-    private int failureCount = 0;
-    private float successRate = 1.0f;
-    private float historicalPenalty = 0.0f;
-    private float historicalPenaltyWeight = 0.5f;
+    private int _successCount = 0;
+    private int _failureCount = 0;
+    private float _successRate = 1.0f;
+    private float _feedbackModifier = 0.0f;
 
     public override void Execute(Transform firePoint, Agent agent)
     {
@@ -74,9 +71,15 @@ public class ShootAction : AgentAction, IFeedbackAction
         float speedDistanceFactor = distanceFactor * speedFactor;
         float calculatedUtil = speedDistanceFactor * 0.5f * CanSenseFactor;
 
-        // Apply penalty based on feedback
-        historicalPenalty = Mathf.Lerp(0.2f, 1.0f, successRate) * historicalPenaltyWeight;
-        calculatedUtil *= Mathf.Max(historicalPenalty, MIN_UTILITY);
+        if (_successRate >= 0.5f)
+            // Success rate is good, boost utility
+            _feedbackModifier = Mathf.Lerp(1.0f, 1.5f, _successRate);
+        else
+            // Success rate is low, add penalty
+            _feedbackModifier = Mathf.Lerp(0.5f, 1.0f, _successRate);
+
+        // Add feedback modifier
+        calculatedUtil *= Mathf.Max(_feedbackModifier, MIN_UTILITY);
 
         SetCalculatedUtility(calculatedUtil);
     }
@@ -84,7 +87,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleFailure(Agent agent)
     {
         // Decrease utility if projectile misses
-        failureCount++;
+        _failureCount++;
         UpdateSuccessRate();
         OnFailureCallback?.Invoke();
     }
@@ -92,32 +95,25 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleSuccess(Agent agent)
     {
         // Increase utility if projectile hits
-        successCount++;
+        _successCount++;
         UpdateSuccessRate();
         OnSuccessCallback?.Invoke();
     }
 
     public void HandleMiss(Agent agent, float distanceToPlayer)
     {
-        // if (distanceToPlayer <= closeMissThreshold)
-        // {
-        //     HandleCloseMiss(agent);
-        // }
-        // else
-        // {
-        //     HandleFailure(agent);
-        // }
+        // Calculate when trajectory is past player and cannot hit
     }
 
     public void UpdateSuccessRate()
     {
-        int totalAttempts = successCount + failureCount;
+        int totalAttempts = _successCount + _failureCount;
         if (totalAttempts > 0)
         {
-            successRate = (float)successCount / totalAttempts;
+            _successRate = (float)_successCount / totalAttempts;
         }
         DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has success rate of: {successRate}, which adds a penalty of: {1.0f - historicalPenalty}."
+            $"Action {Helpers.CleanName(name)} has success rate of: {_successRate}, which adds a modifier of: {_feedbackModifier}."
         );
     }
 
