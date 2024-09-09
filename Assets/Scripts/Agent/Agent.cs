@@ -12,7 +12,7 @@ public class Agent : MonoBehaviour
     public Transform firePoint;
 
     // These are set in code
-    public List<AgentModule> Modules { get; private set; } = new();
+    public List<Module> Modules { get; private set; } = new();
     public SenseModule PerceptionModule { get; private set; }
     public List<AgentAction> Actions { get; private set; } = new();
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
@@ -169,7 +169,7 @@ public class Agent : MonoBehaviour
         {
             if (module != null)
             {
-                AgentModule newModule = Instantiate(module);
+                Module newModule = Instantiate(module);
                 Modules.Add(newModule);
             }
         }
@@ -194,7 +194,7 @@ public class Agent : MonoBehaviour
     }
 
     public T GetModule<T>()
-        where T : AgentModule
+        where T : Module
     {
         return Modules.OfType<T>().FirstOrDefault();
     }

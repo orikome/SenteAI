@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MemoryModule", menuName = "Module/MemoryModule")]
-public class MemoryModule : AgentModule
+public class MemoryModule : Module
 {
     public override void Execute(Agent agent) { }
 

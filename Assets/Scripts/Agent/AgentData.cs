@@ -6,7 +6,7 @@ public class AgentData : ScriptableObject
 {
     public string agentName;
     public int maxHealth = 100;
-    public List<AgentModule> modules;
+    public List<Module> modules;
     public List<AgentAction> actions;
     public ActionSelectionStrategy actionSelectionStrategy;
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class SenseModule : AgentModule
+public abstract class SenseModule : Module
 {
     [SerializeField]
     public Vector3 LastKnownPosition { get; protected set; }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HealthModule", menuName = "Module/HealthModule")]
-public class HealthModule : AgentModule, IDamageable
+public class HealthModule : Module, IDamageable
 {
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
