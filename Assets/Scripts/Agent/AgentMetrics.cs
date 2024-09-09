@@ -5,7 +5,7 @@ public class AgentMetrics : Metrics
     public float DistanceToPlayer { get; private set; }
     public float HealthFactor { get; private set; }
     public float EnergyLevel { get; private set; }
-    public List<AgentAction> actionHistory = new();
+    public List<AgentAction> ActionHistory { get; private set; } = new();
 
     void Update()
     {
@@ -20,10 +20,10 @@ public class AgentMetrics : Metrics
 
     public void AddActionToHistory(AgentAction action)
     {
-        actionHistory.Add(action);
-        if (actionHistory.Count > 20)
+        ActionHistory.Add(action);
+        if (ActionHistory.Count > 20)
         {
-            actionHistory.RemoveAt(0);
+            ActionHistory.RemoveAt(0);
         }
     }
 }
