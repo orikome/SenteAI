@@ -10,14 +10,14 @@ public class ShootAction : AgentAction, IFeedbackAction
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
     public int damage = 10;
+
+    // Feedback interface
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
-
-    // Track success
-    private int _successCount = 0;
-    private int _failureCount = 0;
-    private float _successRate = 1.0f;
-    private float _feedbackModifier = 0.0f;
+    public int SuccessCount { get; set; } = 0;
+    public int FailureCount { get; set; } = 0;
+    public float SuccessRate { get; set; } = 1.0f;
+    public float FeedbackModifier { get; set; } = 1.0f;
 
     public override void Execute(Transform firePoint, Agent agent)
     {
@@ -78,14 +78,14 @@ public class ShootAction : AgentAction, IFeedbackAction
     {
         float modifiedUtility = utility;
 
-        if (_successRate >= 0.5f)
+        if (SuccessRate >= 0.5f)
             // Success rate is good, boost utility
-            _feedbackModifier = Mathf.Lerp(1.0f, 1.5f, _successRate);
+            FeedbackModifier = Mathf.Lerp(1.0f, 1.5f, SuccessRate);
         else
             // Success rate is low, add penalty
-            _feedbackModifier = Mathf.Lerp(0.5f, 1.0f, _successRate);
+            FeedbackModifier = Mathf.Lerp(0.5f, 1.0f, SuccessRate);
 
-        modifiedUtility *= Mathf.Max(_feedbackModifier, MIN_UTILITY);
+        modifiedUtility *= Mathf.Max(FeedbackModifier, MIN_UTILITY);
 
         return modifiedUtility;
     }
@@ -93,7 +93,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleFailure(Agent agent)
     {
         // Decrease utility if projectile misses
-        _failureCount++;
+        FailureCount++;
         UpdateSuccessRate();
         OnFailureCallback?.Invoke();
     }
@@ -101,7 +101,7 @@ public class ShootAction : AgentAction, IFeedbackAction
     public void HandleSuccess(Agent agent)
     {
         // Increase utility if projectile hits
-        _successCount++;
+        SuccessCount++;
         UpdateSuccessRate();
         OnSuccessCallback?.Invoke();
     }
@@ -113,13 +113,13 @@ public class ShootAction : AgentAction, IFeedbackAction
 
     public void UpdateSuccessRate()
     {
-        int totalAttempts = _successCount + _failureCount;
+        int totalAttempts = SuccessCount + FailureCount;
         if (totalAttempts > 0)
         {
-            _successRate = (float)_successCount / totalAttempts;
+            SuccessRate = (float)SuccessCount / totalAttempts;
         }
         DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has success rate of: {_successRate}, which adds a modifier of: {_feedbackModifier}."
+            $"Action {Helpers.CleanName(name)} has success rate of: {SuccessRate}, which adds a modifier of: {FeedbackModifier}."
         );
     }
 

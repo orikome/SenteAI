@@ -99,6 +99,25 @@ public abstract class AgentAction : ScriptableObject
     {
         if (PenaltyFactor > 0.0f)
             PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
+
+        if (this is not IFeedbackAction feedbackAction)
+            return;
+
+        // Restore feedback modifier slower
+        float feedbackRestoreRate = penaltyRestoreRate / 4.0f;
+        float feedbackModifier = feedbackAction.FeedbackModifier;
+
+        // Restore feedback modifier to 1.0f
+        if (feedbackModifier > 1.0f)
+            feedbackAction.FeedbackModifier = Mathf.Max(
+                1.0f,
+                feedbackModifier - feedbackRestoreRate * Time.deltaTime
+            );
+        else if (feedbackModifier < 1.0f)
+            feedbackAction.FeedbackModifier = Mathf.Min(
+                1.0f,
+                feedbackModifier + feedbackRestoreRate * Time.deltaTime
+            );
     }
 
     public virtual void SetUtilityWithModifiers(float util)
@@ -138,7 +157,6 @@ public abstract class AgentAction : ScriptableObject
 
     public void AfterExecution()
     {
-        DebugManager.Instance.Log($"Cooldown and penalty applied to: {Helpers.CleanName(name)}.");
         AddCooldown();
         AddPenalty();
     }

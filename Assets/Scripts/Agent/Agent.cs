@@ -102,7 +102,7 @@ public class Agent : MonoBehaviour
     {
         if (Time.time < _lastActionTime + _globalCooldown)
         {
-            DebugManager.Instance.Log("Global cooldown active, waiting to select action...");
+            //DebugManager.Instance.Log("Global cooldown active, waiting to select action...");
             return;
         }
 
