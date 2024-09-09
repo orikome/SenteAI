@@ -95,7 +95,7 @@ public abstract class AgentAction : ScriptableObject
         }
     }
 
-    public void RestorePenaltyOverTime()
+    public void RestorePenaltyAndFeedback()
     {
         if (PenaltyFactor > 0.0f)
             PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
@@ -143,8 +143,8 @@ public abstract class AgentAction : ScriptableObject
             util *= feedbackAction.ApplyFeedbackModifier(util, feedbackAction);
         }
 
-        // 5. Restore penalty back to normal
-        RestorePenaltyOverTime();
+        // 5. Restore penalty and feedback modifiers back to default
+        RestorePenaltyAndFeedback();
 
         if (util <= 0)
             DebugManager.Instance.LogWarning(
