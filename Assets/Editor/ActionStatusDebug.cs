@@ -28,6 +28,7 @@ public class ActionStatusDebug : Editor
             EditorGUILayout.BeginVertical("box");
 
             EditorGUILayout.LabelField(action.name, EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Times Executed", action.TimesExecuted.ToString());
             EditorGUILayout.LabelField("Base Utility Score", action.baseUtility.ToString("F2"));
             EditorGUILayout.LabelField(
                 "Unscaled Utility Score",

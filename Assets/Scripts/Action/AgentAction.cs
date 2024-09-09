@@ -26,6 +26,7 @@ public abstract class AgentAction : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     public float utilityScore;
+    public int TimesExecuted { get; private set; } = 0;
 
     public virtual bool CanExecute(Agent agent)
     {
@@ -159,5 +160,6 @@ public abstract class AgentAction : ScriptableObject
     {
         AddCooldown();
         AddPenalty();
+        TimesExecuted++;
     }
 }
