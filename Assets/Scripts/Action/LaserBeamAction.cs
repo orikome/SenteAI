@@ -71,22 +71,6 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
-    public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)
-    {
-        float modifiedUtility = utility;
-
-        if (SuccessRate >= 0.5f)
-            // Success rate is good, boost utility
-            FeedbackModifier = Mathf.Lerp(1.0f, 1.5f, SuccessRate);
-        else
-            // Success rate is low, add penalty
-            FeedbackModifier = Mathf.Lerp(0.5f, 1.0f, SuccessRate);
-
-        modifiedUtility *= Mathf.Max(FeedbackModifier, MIN_UTILITY);
-
-        return modifiedUtility;
-    }
-
     private void ShootLaser(Transform firePoint, Agent agent)
     {
         Vector3 directionToTarget = Player.Instance.Metrics.PredictNextPositionUsingMomentum();
@@ -112,6 +96,22 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         laserCollision.OnMissCallback = () => HandleFailure(agent);
 
         Destroy(laser, duration);
+    }
+
+    public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)
+    {
+        float modifiedUtility = utility;
+
+        if (SuccessRate >= 0.5f)
+            // Success rate is good, boost utility
+            FeedbackModifier = Mathf.Lerp(1.0f, 1.5f, SuccessRate);
+        else
+            // Success rate is low, add penalty
+            FeedbackModifier = Mathf.Lerp(0.5f, 1.0f, SuccessRate);
+
+        modifiedUtility *= Mathf.Max(FeedbackModifier, MIN_UTILITY);
+
+        return modifiedUtility;
     }
 
     public void HandleFailure(Agent agent)

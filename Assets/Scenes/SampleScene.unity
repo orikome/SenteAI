@@ -930,7 +930,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -25.228016, y: -35.376244, z: 47.759087}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1488014732}
@@ -1534,7 +1534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
+  Data: {fileID: 11400000, guid: 7e20a2fa13ee904488c9d4dcc4be5cde, type: 2}
   firePoint: {fileID: 157775742}
 --- !u!4 &277862019
 Transform:
