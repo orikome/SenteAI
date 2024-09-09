@@ -31,7 +31,7 @@ public class AgentGizmos : MonoBehaviour
         {
             textPosition += Vector3.down * textHeight;
 
-            string actionInfo = $"{Helpers.CleanName(action.name)}={action.utilityScore:F2}";
+            string actionInfo = $"{Helpers.CleanName(action.name)}={action.ScaledUtilityScore:F2}";
 
             style.normal.textColor = Color.white;
             Handles.Label(textPosition, actionInfo, style);

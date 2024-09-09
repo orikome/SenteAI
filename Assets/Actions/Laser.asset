@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Laser
   m_EditorClassIdentifier: 
   cooldownTime: 3
-  baseUtility: 0.6
-  decayPerExecution: 0.2
-  restoreRate: 0.2
-  utilityScore: 0
+  biasWeight: 0.6
+  penaltyPerExecution: 0.2
+  penaltyRestoreRate: 0.2
   laserPrefab: {fileID: 5423380317875475676, guid: dc296d75e435a654d92357db6f7bb082, type: 3}
   duration: 2
   laserDistance: 100

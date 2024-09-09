@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Move
   m_EditorClassIdentifier: 
   cooldownTime: 1
-  baseUtility: 0.4
-  decayPerExecution: 0.2
-  restoreRate: 0.2
-  utilityScore: 0
+  biasWeight: 0.4
+  penaltyPerExecution: 0.2
+  penaltyRestoreRate: 0.2

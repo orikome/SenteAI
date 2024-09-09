@@ -50,7 +50,7 @@ public class Agent : MonoBehaviour
         // Reset utility scores
         foreach (AgentAction action in Actions)
         {
-            action.utilityScore = 1.0f / Actions.Count;
+            action.ScaledUtilityScore = 1.0f / Actions.Count;
         }
         DebugManager.Instance.SpawnTextLog(transform, "Reset utilScores", Color.red);
 
@@ -114,7 +114,7 @@ public class Agent : MonoBehaviour
         }
 
         DebugManager.Instance.Log(
-            $"Selected: {Helpers.CleanName(decidedAction.name)} with utilScore: {decidedAction.utilityScore}"
+            $"Selected: {Helpers.CleanName(decidedAction.name)} with utilScore: {decidedAction.ScaledUtilityScore}"
         );
         Metrics.AddActionToHistory(decidedAction);
         // DebugManager.Instance.SpawnTextLog(
@@ -134,7 +134,7 @@ public class Agent : MonoBehaviour
 
     public void NormalizeUtilityScores()
     {
-        float sum = Actions.Sum(action => action.utilityScore);
+        float sum = Actions.Sum(action => action.ScaledUtilityScore);
         //Debug.Log($"Total util sum before normalization: {sum}");
         float minScore = 0.01f;
 
@@ -145,14 +145,14 @@ public class Agent : MonoBehaviour
         foreach (AgentAction action in Actions)
         {
             // Scale by base utility to preserve differences
-            action.utilityScore = Mathf.Max(action.utilityScore / sum, minScore);
+            action.ScaledUtilityScore = Mathf.Max(action.ScaledUtilityScore / sum, minScore);
         }
 
         // Ensure scores sum to exactly 1
-        sum = Actions.Sum(action => action.utilityScore);
+        sum = Actions.Sum(action => action.ScaledUtilityScore);
         foreach (AgentAction action in Actions)
         {
-            action.utilityScore /= sum;
+            action.ScaledUtilityScore /= sum;
         }
     }
 

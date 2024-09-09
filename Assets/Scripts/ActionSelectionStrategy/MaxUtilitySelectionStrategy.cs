@@ -11,7 +11,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
     {
         AgentAction selectedAction = agent
             .Actions.Where(action => action.CanExecute(agent))
-            .OrderByDescending(action => action.utilityScore)
+            .OrderByDescending(action => action.ScaledUtilityScore)
             .FirstOrDefault();
 
         return selectedAction;

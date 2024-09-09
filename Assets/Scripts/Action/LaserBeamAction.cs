@@ -56,7 +56,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
     {
         return agent.PerceptionModule.CanSenseTarget
             && !IsOnCooldown()
-            && utilityScore > MIN_UTILITY
+            && ScaledUtilityScore > MIN_UTILITY
             && HasClearShot(agent.firePoint, agent);
     }
 

@@ -21,23 +21,23 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
 
         // Find the action with the highest utility
         var maxUtilityAction = executableActions
-            .OrderByDescending(action => action.utilityScore)
+            .OrderByDescending(action => action.ScaledUtilityScore)
             .First();
-        float total = executableActions.Sum(action => action.utilityScore);
+        float total = executableActions.Sum(action => action.ScaledUtilityScore);
         float randomPoint = Random.value * total;
 
         AgentAction selectedAction = null;
 
         foreach (var action in executableActions)
         {
-            if (randomPoint < action.utilityScore)
+            if (randomPoint < action.ScaledUtilityScore)
             {
                 selectedAction = action;
                 break;
             }
             else
             {
-                randomPoint -= action.utilityScore;
+                randomPoint -= action.ScaledUtilityScore;
             }
         }
 
@@ -52,23 +52,23 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
         {
             Debug.LogWarning(
                 $"Roulette selection picked a lower utility action: {selectedAction.name} "
-                    + $"(Utility: {selectedAction.utilityScore}) vs Max Utility Action: {maxUtilityAction.name} "
-                    + $"(Utility: {maxUtilityAction.utilityScore})."
+                    + $"(Utility: {selectedAction.ScaledUtilityScore}) vs Max Utility Action: {maxUtilityAction.name} "
+                    + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
             );
         }
 
         // Check if the selected action has a super low utility score
         if (
-            selectedAction.utilityScore < total * 0.1f
-            || selectedAction.utilityScore < maxUtilityAction.utilityScore * 0.1f
+            selectedAction.ScaledUtilityScore < total * 0.1f
+            || selectedAction.ScaledUtilityScore < maxUtilityAction.ScaledUtilityScore * 0.1f
         )
         {
             // TODO: If a low probability action gets picked
             // and its effectiveness is low -> trigger "oopsie" dialogue
             Debug.LogError(
-                $"Super low utility action selected! Action: {selectedAction.name} (Utility: {selectedAction.utilityScore}) "
+                $"Super low utility action selected! Action: {selectedAction.name} (Utility: {selectedAction.ScaledUtilityScore}) "
                     + $"vs Max Utility Action: {maxUtilityAction.name} "
-                    + $"(Utility: {maxUtilityAction.utilityScore})."
+                    + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
             );
         }
 

@@ -2,35 +2,30 @@ using UnityEngine;
 
 public abstract class AgentAction : ScriptableObject
 {
-    // Set these in editor
-    //[Range(0, 100)]
-    //public int cost;
+    // -- Set these in editor --
     public float cooldownTime = 0.1f;
 
-    // Keep between 0.01f - 1.0f
     [Range(0.0f, 1.0f)]
-    public float baseUtility;
-    public float unscaledUtility;
+    public float biasWeight;
 
     [Range(0.0f, 1.0f)]
     public float penaltyPerExecution = 0.2f;
-    public float PenaltyFactor { get; private set; } = 0.0f;
 
     [Range(0.0f, 1.0f)]
     public float penaltyRestoreRate = 0.2f;
 
-    // Handled in code
-    public readonly float MIN_UTILITY = 0.01f;
-    public readonly float MAX_UTILITY = 1.0f;
+    // -- Handled in code --
+    public const float MIN_UTILITY = 0.01f;
+    public const float MAX_UTILITY = 1.0f;
+    public float PenaltyFactor { get; private set; } = 0.0f;
+    public float UnscaledUtilityScore { get; private set; }
     public float LastExecutedTime { get; protected set; }
-
-    [Range(0.0f, 1.0f)]
-    public float utilityScore;
+    public float ScaledUtilityScore { get; set; }
     public int TimesExecuted { get; private set; } = 0;
 
     public virtual bool CanExecute(Agent agent)
     {
-        return !IsOnCooldown() && utilityScore > MIN_UTILITY;
+        return !IsOnCooldown() && ScaledUtilityScore > MIN_UTILITY;
     }
 
     /// <summary>
@@ -123,7 +118,7 @@ public abstract class AgentAction : ScriptableObject
 
     public virtual void SetUtilityWithModifiers(float util)
     {
-        unscaledUtility = util;
+        UnscaledUtilityScore = util;
 
         // 1. Apply cooldown factor
         if (GetCooldownProgress() < 1.0f)
@@ -132,8 +127,8 @@ public abstract class AgentAction : ScriptableObject
             util *= GetCooldownProgress();
         }
 
-        // 2. Apply base utility
-        util *= baseUtility;
+        // 2. Apply bias
+        util *= biasWeight;
 
         // 3. Apply penalty factor, if any
         util *= Mathf.Max(MAX_UTILITY - PenaltyFactor, MIN_UTILITY);
@@ -152,8 +147,8 @@ public abstract class AgentAction : ScriptableObject
                 $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
             );
 
-        // 6. Set utility
-        utilityScore = Mathf.Max(util, MIN_UTILITY);
+        // 6. Utility has been scaled, set it
+        ScaledUtilityScore = Mathf.Max(util, MIN_UTILITY);
     }
 
     public void AfterExecution()
