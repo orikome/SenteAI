@@ -185,6 +185,7 @@ public class Agent : MonoBehaviour
         }
 
         ActionSelectionStrategy = Data.actionSelectionStrategy;
+        transform.gameObject.name = Data.agentName;
     }
 
     public void SetDestination(Vector3 destination)
