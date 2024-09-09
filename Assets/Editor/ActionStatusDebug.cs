@@ -29,6 +29,10 @@ public class ActionStatusDebug : Editor
 
             EditorGUILayout.LabelField(action.name, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Base Utility Score", action.baseUtility.ToString("F2"));
+            EditorGUILayout.LabelField(
+                "Unscaled Utility Score",
+                action.unscaledUtility.ToString("F2")
+            );
             EditorGUILayout.LabelField("Utility Score", action.utilityScore.ToString("F2"));
             EditorGUILayout.LabelField("Penalty Factor", action.PenaltyFactor.ToString("F2"));
             EditorGUILayout.LabelField(

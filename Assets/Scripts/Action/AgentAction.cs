@@ -10,6 +10,7 @@ public abstract class AgentAction : ScriptableObject
     // Keep between 0.01f - 1.0f
     [Range(0.0f, 1.0f)]
     public float baseUtility;
+    public float unscaledUtility;
 
     [Range(0.0f, 1.0f)]
     public float penaltyPerExecution = 0.2f;
@@ -102,6 +103,8 @@ public abstract class AgentAction : ScriptableObject
 
     public virtual void SetCalculatedUtility(float util)
     {
+        unscaledUtility = util;
+
         // 1. Apply cooldown factor
         if (GetCooldownProgress() < 1.0f)
         {
