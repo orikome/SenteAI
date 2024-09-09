@@ -1534,7 +1534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: 8717678d37803a24cb0b51e246ffe613, type: 2}
+  Data: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
   firePoint: {fileID: 157775742}
 --- !u!4 &277862019
 Transform:

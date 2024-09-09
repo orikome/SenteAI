@@ -114,25 +114,27 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         Destroy(laser, duration);
     }
 
-    public void HandleSuccess(Agent agent)
-    {
-        // Increase utility if projectile hits
-        SuccessCount++;
-        OnSuccessCallback?.Invoke();
-        UpdateSuccessRate();
-        DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has succeeded. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
-        );
-    }
-
     public void HandleFailure(Agent agent)
     {
         // Decrease utility if projectile misses
         FailureCount++;
         OnFailureCallback?.Invoke();
         UpdateSuccessRate();
+        int totalAttempts = SuccessCount + FailureCount;
         DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has failed. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+            $"Action {Helpers.CleanName(name)} has failed. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+        );
+    }
+
+    public void HandleSuccess(Agent agent)
+    {
+        // Increase utility if projectile hits
+        SuccessCount++;
+        OnSuccessCallback?.Invoke();
+        UpdateSuccessRate();
+        int totalAttempts = SuccessCount + FailureCount;
+        DebugManager.Instance.Log(
+            $"Action {Helpers.CleanName(name)} has succeeded. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
         );
     }
 

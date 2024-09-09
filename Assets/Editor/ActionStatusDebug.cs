@@ -39,6 +39,11 @@ public class ActionStatusDebug : Editor
                 "Penalty Per Execution",
                 action.penaltyPerExecution.ToString("F2")
             );
+            if (action is IFeedbackAction feedbackAction)
+                EditorGUILayout.LabelField(
+                    "Feedback Modifier",
+                    feedbackAction.FeedbackModifier.ToString("F2")
+                );
             EditorGUILayout.LabelField("Cooldown", action.cooldownTime.ToString("F2"));
 
             float cooldownProgress = action.GetCooldownProgress();
