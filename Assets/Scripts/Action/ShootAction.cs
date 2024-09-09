@@ -77,8 +77,9 @@ public class ShootAction : AgentAction, IFeedbackAction
     public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)
     {
         float modifiedUtility = utility;
+        int totalAttempts = SuccessCount + FailureCount;
 
-        if (SuccessRate >= 0.5f)
+        if (SuccessRate >= 0.5f && totalAttempts != 0)
             // Success rate is good, boost utility
             FeedbackModifier = Mathf.Lerp(1.0f, 1.5f, SuccessRate);
         else
@@ -94,21 +95,24 @@ public class ShootAction : AgentAction, IFeedbackAction
     {
         // Decrease utility if projectile misses
         FailureCount++;
-        UpdateSuccessRate();
         OnFailureCallback?.Invoke();
+        UpdateSuccessRate();
+        int totalAttempts = SuccessCount + FailureCount;
+        DebugManager.Instance.Log(
+            $"Action {Helpers.CleanName(name)} has failed. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+        );
     }
 
     public void HandleSuccess(Agent agent)
     {
         // Increase utility if projectile hits
         SuccessCount++;
-        UpdateSuccessRate();
         OnSuccessCallback?.Invoke();
-    }
-
-    public void HandleMiss(Agent agent, float distanceToPlayer)
-    {
-        // Calculate when trajectory is past player and cannot hit
+        UpdateSuccessRate();
+        int totalAttempts = SuccessCount + FailureCount;
+        DebugManager.Instance.Log(
+            $"Action {Helpers.CleanName(name)} has succeeded. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+        );
     }
 
     public void UpdateSuccessRate()
@@ -118,9 +122,6 @@ public class ShootAction : AgentAction, IFeedbackAction
         {
             SuccessRate = (float)SuccessCount / totalAttempts;
         }
-        DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has success rate of: {SuccessRate}, which adds a modifier of: {FeedbackModifier}."
-        );
     }
 
     void ShootProjectile(Transform firePoint, Vector3 direction, Agent agent)

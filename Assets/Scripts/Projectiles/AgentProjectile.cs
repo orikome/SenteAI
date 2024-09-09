@@ -2,29 +2,69 @@ using UnityEngine;
 
 public class AgentProjectile : Projectile
 {
+    private bool hasCompleted = false;
+    private bool hasPassedPlayer = false;
+
     protected override void Start()
     {
         base.Start();
         _collisionMask = LayerMask.GetMask("Player");
     }
 
-    protected override void OnCollisionEnter(Collision collision)
+    protected override void Update()
     {
-        int otherLayer = collision.gameObject.layer;
-        if (!collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
-        {
-            OnMissCallback?.Invoke();
-            Helpers.SpawnParticles(transform.position, Color.red);
-            Destroy(gameObject);
+        _timer -= Time.deltaTime;
+
+        if (hasCompleted)
             return;
+
+        // Check if projectile has passed player, but don't destroy it yet
+        if (!hasPassedPlayer && HasPassedPlayer())
+        {
+            hasPassedPlayer = true;
+            OnMissCallback?.Invoke();
         }
 
-        damageable.TakeDamage(_damage);
-        OnHitCallback?.Invoke();
-        Helpers.SpawnParticles(transform.position, Color.red);
-        DebugManager.Instance.Log(
-            $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.gameObject.name)}"
-        );
-        Destroy(gameObject);
+        // Destroy projectile when the timer runs out
+        if (_timer <= 0f)
+        {
+            hasCompleted = true;
+            Destroy(gameObject);
+        }
+    }
+
+    private bool HasPassedPlayer()
+    {
+        Vector3 toPlayer = Player.Instance.transform.position - transform.position;
+        // If dot product is negative, projectile is facing away from the player
+        return Vector3.Dot(transform.forward, toPlayer) < 0;
+    }
+
+    protected override void OnCollisionEnter(Collision collision)
+    {
+        if (hasCompleted)
+            return;
+
+        if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
+        {
+            if (collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
+            {
+                damageable.TakeDamage(10);
+                Helpers.SpawnParticles(transform.position, Color.red);
+                DebugManager.Instance.Log(
+                    $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}"
+                );
+                OnHitCallback?.Invoke();
+                hasCompleted = true;
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            Helpers.SpawnParticles(transform.position, Color.blue);
+            hasCompleted = true;
+            OnMissCallback?.Invoke();
+            Destroy(gameObject);
+        }
     }
 }

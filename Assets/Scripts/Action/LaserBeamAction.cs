@@ -118,16 +118,22 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
     {
         // Increase utility if projectile hits
         SuccessCount++;
-        UpdateSuccessRate();
         OnSuccessCallback?.Invoke();
+        UpdateSuccessRate();
+        DebugManager.Instance.Log(
+            $"Action {Helpers.CleanName(name)} has succeeded. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+        );
     }
 
     public void HandleFailure(Agent agent)
     {
         // Decrease utility if projectile misses
         FailureCount++;
-        UpdateSuccessRate();
         OnFailureCallback?.Invoke();
+        UpdateSuccessRate();
+        DebugManager.Instance.Log(
+            $"Action {Helpers.CleanName(name)} has failed. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+        );
     }
 
     public void UpdateSuccessRate()
@@ -137,13 +143,5 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         {
             SuccessRate = (float)SuccessCount / totalAttempts;
         }
-        DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has success rate of: {SuccessRate}, which adds a modifier of: {FeedbackModifier}."
-        );
-    }
-
-    public void HandleMiss(Agent agent, float distanceToPlayer)
-    {
-        throw new NotImplementedException();
     }
 }

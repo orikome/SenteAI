@@ -10,7 +10,6 @@ public interface IFeedbackAction
     float FeedbackModifier { get; set; }
     void HandleSuccess(Agent agent);
     void HandleFailure(Agent agent);
-    void HandleMiss(Agent agent, float distanceToPlayer);
     void UpdateSuccessRate();
     float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction);
 }
