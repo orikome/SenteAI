@@ -738,7 +738,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: a7796e3af80f83147b3e8db5a607ba11, type: 2}
   firePoint: {fileID: 874107140}
-  actions: []
 --- !u!195 &206466447
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -787,8 +786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246323a6449d0234d8cbc8e3a8e9a8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
-  _agent: {fileID: 0}
 --- !u!114 &206466452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1539,7 +1536,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
   firePoint: {fileID: 157775742}
-  actions: []
 --- !u!4 &277862019
 Transform:
   m_ObjectHideFlags: 0
@@ -1670,8 +1666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246323a6449d0234d8cbc8e3a8e9a8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
-  _agent: {fileID: 0}
 --- !u!114 &332212271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1686,7 +1680,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 40319921}
-  actions: []
 --- !u!4 &332212272
 Transform:
   m_ObjectHideFlags: 0
@@ -1802,8 +1795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246323a6449d0234d8cbc8e3a8e9a8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
-  _agent: {fileID: 0}
 --- !u!114 &341880542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,7 +1809,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 1872615904}
-  actions: []
 --- !u!4 &341880543
 Transform:
   m_ObjectHideFlags: 0
@@ -2485,8 +2475,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246323a6449d0234d8cbc8e3a8e9a8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
-  _agent: {fileID: 0}
 --- !u!114 &762331709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,7 +2489,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 152743027}
-  actions: []
 --- !u!4 &762331710
 Transform:
   m_ObjectHideFlags: 0
@@ -2686,6 +2673,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeAgents: []
+  runTests: 1
+  numberOfTestsToRun: 3
 --- !u!4 &831283630
 Transform:
   m_ObjectHideFlags: 0
@@ -4575,8 +4564,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246323a6449d0234d8cbc8e3a8e9a8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
-  _agent: {fileID: 0}
 --- !u!114 &1558212485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4591,7 +4578,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 80ad1ee60a45b7441a4cba6a6ab664d1, type: 2}
   firePoint: {fileID: 803972207}
-  actions: []
 --- !u!4 &1558212486
 Transform:
   m_ObjectHideFlags: 0
