@@ -63,9 +63,12 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
             || selectedAction.ScaledUtilityScore < maxUtilityAction.ScaledUtilityScore * 0.1f
         )
         {
-            // TODO: If a low probability action gets picked
-            // and its effectiveness is low -> trigger "oopsie" dialogue
-            Debug.LogError(
+            DebugManager.Instance.SpawnTextLog(
+                agent.transform,
+                "LOW utility action chosen!",
+                Color.red
+            );
+            Debug.LogWarning(
                 $"Super low utility action selected! Action: {selectedAction.name} (Utility: {selectedAction.ScaledUtilityScore}) "
                     + $"vs Max Utility Action: {maxUtilityAction.name} "
                     + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."

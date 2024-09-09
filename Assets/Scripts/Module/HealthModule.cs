@@ -5,7 +5,7 @@ public class HealthModule : Module, IDamageable
 {
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
-    Agent _agent;
+    private Agent _agent;
 
     public override void Execute(Agent agent) { }
 
