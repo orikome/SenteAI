@@ -68,6 +68,13 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 
+        SetUtilityWithModifiers(calculatedUtil);
+    }
+
+    public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)
+    {
+        float modifiedUtility = utility;
+
         if (_successRate >= 0.5f)
             // Success rate is good, boost utility
             _feedbackModifier = Mathf.Lerp(1.0f, 1.5f, _successRate);
@@ -75,10 +82,9 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
             // Success rate is low, add penalty
             _feedbackModifier = Mathf.Lerp(0.5f, 1.0f, _successRate);
 
-        // Add feedback modifier
-        calculatedUtil *= Mathf.Max(_feedbackModifier, MIN_UTILITY);
+        modifiedUtility *= Mathf.Max(_feedbackModifier, MIN_UTILITY);
 
-        SetCalculatedUtility(calculatedUtil);
+        return modifiedUtility;
     }
 
     private void ShootLaser(Transform firePoint, Agent agent)

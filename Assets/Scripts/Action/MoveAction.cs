@@ -93,7 +93,7 @@ public class MoveAction : AgentAction
         float distanceFactor = 1.0f - distance / maxDistance;
         float calculatedUtil = distanceFactor * canSenseFactor;
 
-        SetCalculatedUtility(calculatedUtil);
+        SetUtilityWithModifiers(calculatedUtil);
     }
 
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)

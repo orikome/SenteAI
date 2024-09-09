@@ -17,7 +17,7 @@ public class MeteorStrikeAction : AgentAction
         float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 1f;
         float calculatedUtil = 0.5f * CanSenseFactor;
 
-        SetCalculatedUtility(calculatedUtil);
+        SetUtilityWithModifiers(calculatedUtil);
     }
 
     private void DropMeteor(Transform firePoint, Agent agent)

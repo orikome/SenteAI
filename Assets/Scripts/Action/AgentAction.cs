@@ -101,7 +101,7 @@ public abstract class AgentAction : ScriptableObject
             PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
     }
 
-    public virtual void SetCalculatedUtility(float util)
+    public virtual void SetUtilityWithModifiers(float util)
     {
         unscaledUtility = util;
 
@@ -118,7 +118,13 @@ public abstract class AgentAction : ScriptableObject
         // 3. Apply penalty factor, if any
         util *= Mathf.Max(MAX_UTILITY - PenaltyFactor, MIN_UTILITY);
 
-        // 4. Restore penalty back to normal
+        // 4. Apply feedback modifier, if action has feedback methods
+        if (this is IFeedbackAction feedbackAction)
+        {
+            util *= feedbackAction.ApplyFeedbackModifier(util, feedbackAction);
+        }
+
+        // 5. Restore penalty back to normal
         RestorePenaltyOverTime();
 
         if (util <= 0)
@@ -126,7 +132,7 @@ public abstract class AgentAction : ScriptableObject
                 $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
             );
 
-        // 5. Set utility
+        // 6. Set utility
         utilityScore = Mathf.Max(util, MIN_UTILITY);
     }
 

@@ -21,7 +21,7 @@ public class HomingOrbsAction : AgentAction
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 
-        SetCalculatedUtility(calculatedUtil);
+        SetUtilityWithModifiers(calculatedUtil);
     }
 
     private void ShootOrbs(Transform firePoint)
