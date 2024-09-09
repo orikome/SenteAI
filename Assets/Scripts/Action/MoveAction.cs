@@ -54,7 +54,7 @@ public class MoveAction : AgentAction
 
         float distanceToPredictedPlayer = Vector3.Distance(position, predictedPlayerPosition);
 
-        switch (Player.Instance.Metrics.currentBehavior)
+        switch (Player.Instance.Metrics.CurrentBehavior)
         {
             case Behavior.Aggressive:
                 score -= Mathf.Clamp(distanceToPredictedPlayer, 0, 15);

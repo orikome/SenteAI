@@ -3,25 +3,24 @@ using UnityEngine;
 
 public class PlayerMetrics : Metrics
 {
-    [Header("Player Metrics")]
-    public float shootingFrequency;
-    public float dodgeRatio;
-    public float distanceToClosestEnemy;
-    public float damageTaken;
     public bool IsInCover { get; private set; }
-    public float timeInCover;
+    public Vector3 PredictedPosition { get; private set; }
+    public float DamageDone { get; private set; }
+    public float TimeAlive { get; private set; }
+    public float TimeInCover { get; private set; }
+    public float ShootingFrequency { get; private set; }
+    public float DodgeRatio { get; private set; }
+    public float DistanceToClosestEnemy { get; private set; }
+    public float DamageTaken { get; private set; }
 
-    [Header("Player Position History")]
-    public List<Vector3> positionHistory = new();
+    // Player position related
+    public List<Vector3> PositionHistory { get; private set; } = new();
     private readonly float historyRecordInterval = 0.2f;
     private float timeSinceLastRecord = 0f;
     private readonly int maxHistoryCount = 200;
     private readonly float detectionThreshold = 1.5f;
     private readonly int recentHistorySize = 6;
     private Agent closestEnemy;
-    public Vector3 PredictedPosition { get; private set; }
-    public float DamageDone { get; private set; }
-    public float TimeAlive { get; private set; }
 
     void Start()
     {
@@ -30,22 +29,22 @@ public class PlayerMetrics : Metrics
 
         for (int i = 0; i < recentHistorySize; i++)
         {
-            positionHistory.Add(transform.position);
+            PositionHistory.Add(transform.position);
         }
     }
 
     void Update()
     {
-        shootingFrequency = Random.Range(0f, 1f);
-        dodgeRatio = Random.Range(0f, 1f);
+        ShootingFrequency = Random.Range(0f, 1f);
+        DodgeRatio = Random.Range(0f, 1f);
 
         if (IsInCover)
-            timeInCover += Time.deltaTime;
+            TimeInCover += Time.deltaTime;
 
         FindClosestEnemyToPlayer();
         UpdateVelocity();
         TrackPlayerPositionHistory();
-        currentBehavior = ClassifyBehavior();
+        CurrentBehavior = ClassifyBehavior();
 
         if (Player.Instance.IsAlive)
             TimeAlive += Time.deltaTime;
@@ -54,11 +53,17 @@ public class PlayerMetrics : Metrics
     public void UpdateCoverStatus(bool canAnyEnemySeePlayer)
     {
         IsInCover = !canAnyEnemySeePlayer;
+        TimeInCover = 0;
     }
 
     public void UpdateDamageDone(float dmgDone)
     {
         DamageDone += dmgDone;
+    }
+
+    public void UpdateDamageTaken(float dmgTaken)
+    {
+        DamageTaken += dmgTaken;
     }
 
     void TrackPlayerPositionHistory()
@@ -67,12 +72,12 @@ public class PlayerMetrics : Metrics
 
         if (timeSinceLastRecord >= historyRecordInterval)
         {
-            positionHistory.Add(transform.position);
+            PositionHistory.Add(transform.position);
 
             // If over limit, start removing past records
-            if (positionHistory.Count > maxHistoryCount)
+            if (PositionHistory.Count > maxHistoryCount)
             {
-                positionHistory.RemoveAt(0);
+                PositionHistory.RemoveAt(0);
             }
 
             timeSinceLastRecord = 0f;
@@ -96,7 +101,7 @@ public class PlayerMetrics : Metrics
             {
                 closestEnemyDistance = distance;
                 closestEnemy = agent;
-                distanceToClosestEnemy = distance;
+                DistanceToClosestEnemy = distance;
             }
         }
 
@@ -106,25 +111,25 @@ public class PlayerMetrics : Metrics
     public Vector3 GetAveragePosition()
     {
         Vector3 averagePosition = Vector3.zero;
-        foreach (Vector3 pos in positionHistory)
+        foreach (Vector3 pos in PositionHistory)
         {
             averagePosition += pos;
         }
-        return averagePosition / positionHistory.Count;
+        return averagePosition / PositionHistory.Count;
     }
 
     public Vector3 GetAveragePosition(int historyCount)
     {
-        int validHistoryCount = Mathf.Min(historyCount, positionHistory.Count);
+        int validHistoryCount = Mathf.Min(historyCount, PositionHistory.Count);
 
         if (validHistoryCount == 0)
             return transform.position;
 
         Vector3 averagePosition = Vector3.zero;
 
-        for (int i = positionHistory.Count - validHistoryCount; i < positionHistory.Count; i++)
+        for (int i = PositionHistory.Count - validHistoryCount; i < PositionHistory.Count; i++)
         {
-            averagePosition += positionHistory[i];
+            averagePosition += PositionHistory[i];
         }
 
         return averagePosition / validHistoryCount;
@@ -135,15 +140,15 @@ public class PlayerMetrics : Metrics
         // Calculate velocity between last two positions
         Vector3 velocity1 =
             (
-                positionHistory[positionHistory.Count - 1]
-                - positionHistory[positionHistory.Count - 2]
+                PositionHistory[PositionHistory.Count - 1]
+                - PositionHistory[PositionHistory.Count - 2]
             ) / historyRecordInterval;
 
         // Calculate velocity one step further back
         Vector3 velocity2 =
             (
-                positionHistory[positionHistory.Count - 2]
-                - positionHistory[positionHistory.Count - 3]
+                PositionHistory[PositionHistory.Count - 2]
+                - PositionHistory[PositionHistory.Count - 3]
             ) / historyRecordInterval;
 
         Vector3 acceleration = (velocity1 - velocity2) / historyRecordInterval;
@@ -173,9 +178,9 @@ public class PlayerMetrics : Metrics
         Vector3 averagePosition = GetAveragePosition(recentHistorySize);
         float totalDisplacement = 0f;
 
-        for (int i = positionHistory.Count - recentHistorySize; i < positionHistory.Count; i++)
+        for (int i = PositionHistory.Count - recentHistorySize; i < PositionHistory.Count; i++)
         {
-            totalDisplacement += Vector3.Distance(positionHistory[i], averagePosition);
+            totalDisplacement += Vector3.Distance(PositionHistory[i], averagePosition);
         }
 
         float averageDisplacement = totalDisplacement / recentHistorySize;
@@ -189,13 +194,13 @@ public class PlayerMetrics : Metrics
         if (Time.frameCount % 500 != 0)
             return Behavior.Balanced;
 
-        if (shootingFrequency > aggressiveThreshold && distanceToClosestEnemy < defensiveThreshold)
+        if (ShootingFrequency > AggressiveThreshold && DistanceToClosestEnemy < DefensiveThreshold)
         {
             DebugManager.Instance.SpawnTextLog(transform, "Player is Aggressive", Color.red);
             return Behavior.Aggressive;
         }
 
-        if (dodgeRatio > aggressiveThreshold)
+        if (DodgeRatio > AggressiveThreshold)
         {
             DebugManager.Instance.SpawnTextLog(transform, "Player is Defensive", Color.blue);
             return Behavior.Defensive;
@@ -224,10 +229,10 @@ public class PlayerMetrics : Metrics
         }
 
         // Visualize player history with small spheres
-        if (positionHistory.Count > 0)
+        if (PositionHistory.Count > 0)
         {
             Gizmos.color = Color.red;
-            foreach (Vector3 pos in positionHistory)
+            foreach (Vector3 pos in PositionHistory)
             {
                 Gizmos.DrawSphere(pos, 0.4f);
             }

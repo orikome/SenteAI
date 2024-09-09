@@ -22,7 +22,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount)
     {
-        Metrics.damageTaken += amount;
+        Metrics.UpdateDamageDone(amount);
         _currentHealth -= amount;
         _currentHealth = Mathf.Max(_currentHealth, 0);
 

@@ -9,7 +9,7 @@ public class AgentMetrics : Metrics
 
     void Update()
     {
-        currentBehavior = ClassifyBehavior();
+        CurrentBehavior = ClassifyBehavior();
         UpdateVelocity();
     }
 

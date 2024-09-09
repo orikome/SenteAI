@@ -40,8 +40,6 @@ public class SeeingModule : SenseModule
             LastKnownPosition = agent.Target.position;
             LastKnownVelocity = Player.Instance.Metrics.Velocity;
             LastSeenTime = Time.time;
-            //agent.ActionUtilityManager.ResetUtilityScores();
-            Player.Instance.Metrics.timeInCover = 0;
             _lastVisibilityChangeTime = Time.time;
         }
 
@@ -50,7 +48,6 @@ public class SeeingModule : SenseModule
         {
             CanSenseTarget = false;
             Player.Instance.Metrics.UpdateCoverStatus(false);
-            Player.Instance.Metrics.timeInCover = 0;
             _lastVisibilityChangeTime = Time.time;
         }
 
