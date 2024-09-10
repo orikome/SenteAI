@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteAlways]
 public class FramerateManager : MonoBehaviour
 {
     public enum FramerateOptions

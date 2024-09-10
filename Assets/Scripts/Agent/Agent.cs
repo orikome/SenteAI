@@ -7,16 +7,15 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Agent : MonoBehaviour
 {
-    // Set these in editor
+    // -- Set these in editor --
     public AgentData Data;
     public Transform firePoint;
 
-    // These are set in code
+    // -- These are set in code --
     public List<Module> Modules { get; private set; } = new();
     public SenseModule PerceptionModule { get; private set; }
     public List<AgentAction> Actions { get; private set; } = new();
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
-    public AgentEvents Events { get; private set; }
     public Transform Target { get; private set; }
     public AgentMetrics Metrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
@@ -30,7 +29,6 @@ public class Agent : MonoBehaviour
 
         // Ensure all components exist
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
-        Events = EnsureComponent<AgentEvents>();
         Metrics = EnsureComponent<AgentMetrics>();
 
         // Set navmesh properties
