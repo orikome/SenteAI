@@ -29,6 +29,12 @@ public class ActionStatusDebug : Editor
 
             EditorGUILayout.LabelField(action.name, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Times Executed", action.TimesExecuted.ToString());
+
+            // Used Per Minute
+            float timeAliveInMinutes = agent.GetModule<HealthModule>().TimeAlive / 60f;
+            int actionUsedPerMinute = Mathf.RoundToInt(action.TimesExecuted / timeAliveInMinutes);
+            EditorGUILayout.LabelField("Used Per Minute", actionUsedPerMinute.ToString());
+
             EditorGUILayout.LabelField("Bias Weight", action.biasWeight.ToString("F2"));
             EditorGUILayout.LabelField(
                 "Unscaled Utility Score",
