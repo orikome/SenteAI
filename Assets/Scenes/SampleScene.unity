@@ -1211,15 +1211,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915808710}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0204719cc870e144aa49547e3517a82e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 6377726187542555592, guid: ea9245bb968494f45bfcaaa297fe9a3a, type: 3}
   firePoint: {fileID: 1233430627}
-  shootingRate: 0.5
+  shootingRate: 0.2
   projectileSpeed: 30
+  selectionStrategy: {fileID: 11400000, guid: 4154d7b73542ae943bd7f77902744bd1, type: 2}
 --- !u!143 &915808721
 CharacterController:
   m_ObjectHideFlags: 0

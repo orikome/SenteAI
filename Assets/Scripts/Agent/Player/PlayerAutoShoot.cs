@@ -7,11 +7,13 @@ public class PlayerAutoShoot : MonoBehaviour
     public float shootingRate = 2.0f;
     public float projectileSpeed = 15f;
     private float _shootingTimer;
+    public PlayerInputSelectionStrategy selectionStrategy;
 
     void Update()
     {
         _shootingTimer -= Time.deltaTime;
-        if (_shootingTimer <= 0f)
+
+        if (_shootingTimer <= 0f && selectionStrategy.IsInputHeld())
         {
             ShootAtNearestEnemy();
             _shootingTimer = shootingRate;

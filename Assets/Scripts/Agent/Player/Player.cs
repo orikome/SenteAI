@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Player : Agent
 {
     public static Player Instance { get; private set; }
