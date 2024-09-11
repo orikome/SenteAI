@@ -50,9 +50,9 @@ public class HomingOrbBehaviour : MonoBehaviour
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
-            if (collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
+            if (collision.transform.root.gameObject.TryGetComponent<Player>(out var player))
             {
-                damageable.TakeDamage(10);
+                player.GetModule<HealthModule>().TakeDamage(10);
                 Helpers.SpawnParticles(transform.position, Color.red);
                 DebugManager.Instance.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {10} damage to {Helpers.CleanName(collision.transform.root.name)}"

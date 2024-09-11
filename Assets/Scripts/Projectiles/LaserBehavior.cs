@@ -25,7 +25,7 @@ public class LaserBehavior : MonoBehaviour
         )
         {
             float damage = _damagePerSecond * Time.deltaTime;
-            Player.Instance.TakeDamage((int)damage);
+            Player.Instance.GetModule<HealthModule>().TakeDamage((int)damage);
 
             // Invoke success callback once if hit
             if (!hasHitPlayer)

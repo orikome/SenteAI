@@ -6,7 +6,6 @@ public class PlayerMetrics : Metrics
     public bool IsInCover { get; private set; }
     public Vector3 PredictedPosition { get; private set; }
     public float DamageDone { get; private set; }
-    public float TimeAlive { get; private set; }
     public float TimeInCover { get; private set; }
     public float ShootingFrequency { get; private set; }
     public float DodgeRatio { get; private set; }
@@ -45,9 +44,6 @@ public class PlayerMetrics : Metrics
         UpdateVelocity();
         TrackPlayerPositionHistory();
         CurrentBehavior = ClassifyBehavior();
-
-        if (Player.Instance.IsAlive)
-            TimeAlive += Time.deltaTime;
     }
 
     public void UpdateCoverStatus(bool canAnyEnemySeePlayer)
