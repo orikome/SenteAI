@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyAgent : Agent
+public class Enemy : Agent
 {
     // -- These are set in code --
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
-    public EnemyAgentMetrics Metrics { get; private set; }
+    public EnemyMetrics Metrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
     private float _lastActionTime;
     private readonly float _globalCooldown = 0.4f;
@@ -21,7 +21,7 @@ public class EnemyAgent : Agent
 
         // Ensure all components exist
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
-        Metrics = EnsureComponent<EnemyAgentMetrics>();
+        Metrics = EnsureComponent<EnemyMetrics>();
 
         // Set navmesh properties
         _navMeshAgent.acceleration = 100;

@@ -8,8 +8,8 @@ public interface IFeedbackAction
     int FailureCount { get; set; }
     float SuccessRate { get; set; }
     float FeedbackModifier { get; set; }
-    void HandleSuccess(EnemyAgent agent);
-    void HandleFailure(EnemyAgent agent);
+    void HandleSuccess(Enemy agent);
+    void HandleFailure(Enemy agent);
     void UpdateSuccessRate();
     float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction);
 }

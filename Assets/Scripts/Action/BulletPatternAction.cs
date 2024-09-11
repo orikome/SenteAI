@@ -10,7 +10,7 @@ public class BulletPatternAction : AgentAction
     public float spawnRadius = 6f;
     private int currentSpiralAngleOffset = 0;
 
-    public override void Execute(Transform firePoint, EnemyAgent agent)
+    public override void Execute(Transform firePoint, Enemy agent)
     {
         GeneratePattern(agent.transform);
         currentSpiralAngleOffset += (int)angleIncrement;
@@ -48,7 +48,7 @@ public class BulletPatternAction : AgentAction
         }
     }
 
-    public override void CalculateUtility(EnemyAgent agent)
+    public override void CalculateUtility(Enemy agent)
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;

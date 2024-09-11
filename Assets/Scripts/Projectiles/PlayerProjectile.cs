@@ -13,7 +13,7 @@ public class PlayerProjectile : Projectile
     {
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
-            collision.transform.root.gameObject.TryGetComponent<EnemyAgent>(out var agent);
+            collision.transform.root.gameObject.TryGetComponent<Enemy>(out var agent);
             agent.GetModule<HealthModule>().TakeDamage(10);
             Player.Instance.Metrics.UpdateDamageDone(10);
             Helpers.SpawnParticles(transform.position, Color.blue);

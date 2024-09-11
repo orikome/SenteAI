@@ -19,7 +19,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
 
-    public override void Execute(Transform firePoint, EnemyAgent agent)
+    public override void Execute(Transform firePoint, Enemy agent)
     {
         if (!HasClearShot(firePoint, agent))
             return;
@@ -28,7 +28,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         AfterExecution();
     }
 
-    private bool HasClearShot(Transform firePoint, EnemyAgent agent)
+    private bool HasClearShot(Transform firePoint, Enemy agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
@@ -52,7 +52,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         return true;
     }
 
-    public override bool CanExecute(EnemyAgent agent)
+    public override bool CanExecute(Enemy agent)
     {
         return agent.PerceptionModule.CanSenseTarget
             && !IsOnCooldown()
@@ -60,7 +60,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
             && HasClearShot(agent.firePoint, agent);
     }
 
-    public override void CalculateUtility(EnemyAgent agent)
+    public override void CalculateUtility(Enemy agent)
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
@@ -71,7 +71,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
-    private void ShootLaser(Transform firePoint, EnemyAgent agent)
+    private void ShootLaser(Transform firePoint, Enemy agent)
     {
         Vector3 directionToTarget = Player.Instance.Metrics.PredictNextPositionUsingMomentum();
 
@@ -114,7 +114,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         return modifiedUtility;
     }
 
-    public void HandleFailure(EnemyAgent agent)
+    public void HandleFailure(Enemy agent)
     {
         // Decrease utility if projectile misses
         FailureCount++;
@@ -126,7 +126,7 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
         );
     }
 
-    public void HandleSuccess(EnemyAgent agent)
+    public void HandleSuccess(Enemy agent)
     {
         // Increase utility if projectile hits
         SuccessCount++;

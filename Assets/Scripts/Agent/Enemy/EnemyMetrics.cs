@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class EnemyAgentMetrics : Metrics
+public class EnemyMetrics : Metrics
 {
     public float DistanceToPlayer { get; private set; }
     public float HealthFactor { get; private set; }
