@@ -50,11 +50,7 @@ public class EnemyAgent : Agent
         if (Actions.Count == 0)
             DebugManager.Instance.LogError("No actions assigned!");
 
-        // Initialize modules
-        foreach (var module in Modules)
-        {
-            module.Initialize(this);
-        }
+        InitModules();
 
         // Initialize actions
         foreach (var action in Actions)
@@ -122,31 +118,7 @@ public class EnemyAgent : Agent
         ActionSelectionStrategy = strategy;
     }
 
-    public void NormalizeUtilityScores()
-    {
-        float sum = Actions.Sum(action => action.ScaledUtilityScore);
-        //Debug.Log($"Total util sum before normalization: {sum}");
-        float minScore = 0.01f;
-
-        // Prevent division by zero
-        if (sum == 0)
-            return;
-
-        foreach (AgentAction action in Actions)
-        {
-            // Scale by base utility to preserve differences
-            action.ScaledUtilityScore = Mathf.Max(action.ScaledUtilityScore / sum, minScore);
-        }
-
-        // Ensure scores sum to exactly 1
-        sum = Actions.Sum(action => action.ScaledUtilityScore);
-        foreach (AgentAction action in Actions)
-        {
-            action.ScaledUtilityScore /= sum;
-        }
-    }
-
-    private void LoadAgentData()
+    public override void LoadAgentData()
     {
         if (Data == null)
         {
@@ -176,6 +148,30 @@ public class EnemyAgent : Agent
 
         ActionSelectionStrategy = Data.actionSelectionStrategy;
         transform.gameObject.name = Data.agentName;
+    }
+
+    public void NormalizeUtilityScores()
+    {
+        float sum = Actions.Sum(action => action.ScaledUtilityScore);
+        //Debug.Log($"Total util sum before normalization: {sum}");
+        float minScore = 0.01f;
+
+        // Prevent division by zero
+        if (sum == 0)
+            return;
+
+        foreach (AgentAction action in Actions)
+        {
+            // Scale by base utility to preserve differences
+            action.ScaledUtilityScore = Mathf.Max(action.ScaledUtilityScore / sum, minScore);
+        }
+
+        // Ensure scores sum to exactly 1
+        sum = Actions.Sum(action => action.ScaledUtilityScore);
+        foreach (AgentAction action in Actions)
+        {
+            action.ScaledUtilityScore /= sum;
+        }
     }
 
     public void SetDestination(Vector3 destination)

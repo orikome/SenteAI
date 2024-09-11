@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 57d2cc4c42b05f148980ca6bb274036f, type: 3}
+  m_Name: PlayerMovement
   m_EditorClassIdentifier: 
-  agentName: Player
-  maxHealth: 100
-  modules:
-  - {fileID: 11400000, guid: 4bc9ba95c663c5643b478594362f5f67, type: 2}
-  actions: []
-  actionSelectionStrategy: {fileID: 0}
+  moveSpeed: 10
+  jumpHeight: 2
+  gravity: -9.81

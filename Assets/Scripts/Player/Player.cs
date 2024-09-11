@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement), typeof(PlayerMovement))]
 public class Player : Agent, IDamageable
 {
     public static Player Instance { get; private set; }
@@ -9,15 +8,23 @@ public class Player : Agent, IDamageable
     public float MaxHealth => 1000f;
     public float CurrentHealth => 1000f;
     private float _currentHealth;
-    private PlayerMovement _playerMovement;
 
     void Awake()
     {
         Instance = this;
         _currentHealth = MaxHealth;
-        _playerMovement = gameObject.GetComponent<PlayerMovement>();
         Metrics = gameObject.GetComponent<PlayerMetrics>();
         IsAlive = true;
+        LoadAgentData();
+        InitModules();
+    }
+
+    public override void Update()
+    {
+        foreach (var module in Modules)
+        {
+            module.Execute(null);
+        }
     }
 
     public void TakeDamage(int amount)

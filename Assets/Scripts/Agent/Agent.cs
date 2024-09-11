@@ -20,4 +20,34 @@ public class Agent : MonoBehaviour
             module.Execute(null);
         }
     }
+
+    public virtual void LoadAgentData()
+    {
+        if (Data == null)
+        {
+            DebugManager.Instance.LogError("AgentData is not assigned!");
+            return;
+        }
+
+        // Add modules
+        foreach (var module in Data.modules)
+        {
+            if (module != null)
+            {
+                Module newModule = Instantiate(module);
+                Modules.Add(newModule);
+            }
+        }
+
+        transform.gameObject.name = Data.agentName;
+    }
+
+    public void InitModules()
+    {
+        // Initialize modules
+        foreach (var module in Modules)
+        {
+            module.Initialize(this);
+        }
+    }
 }

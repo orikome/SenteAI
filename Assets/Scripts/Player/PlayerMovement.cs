@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+[CreateAssetMenu(fileName = "PlayerMovement", menuName = "Module/PlayerMovement")]
+public class PlayerMovement : Module
 {
     public float moveSpeed = 10.0f;
     public float jumpHeight = 2.0f;
@@ -9,13 +10,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _velocity;
     private bool _isGrounded;
 
-    private void Awake()
+    public override void Execute(Agent agent)
     {
-        _controller = gameObject.AddComponent<CharacterController>();
-    }
-
-    private void Update()
-    {
+        if (_controller == null)
+        {
+            Debug.LogError("CharacterController is not assigned!");
+            return;
+        }
         _isGrounded = _controller.isGrounded;
         if (_isGrounded && _velocity.y < 0)
         {
@@ -28,6 +29,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    public override void Initialize(Agent agent)
+    {
+        _controller = agent.gameObject.GetComponent<CharacterController>();
     }
 
     private void HandleMovement()
