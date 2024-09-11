@@ -3,5 +3,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TeleportAction", menuName = "AgentAction/TeleportAction")]
 public class TeleportAction : AgentAction
 {
-    public override void Execute(Transform firePoint, Agent agent) { }
+    public override void Execute(Transform firePoint, EnemyAgent agent) { }
 }

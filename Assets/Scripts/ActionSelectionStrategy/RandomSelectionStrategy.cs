@@ -7,7 +7,7 @@ using UnityEngine;
 )]
 public class RandomSelectionStrategy : ActionSelectionStrategy
 {
-    public override AgentAction SelectAction(Agent agent)
+    public override AgentAction SelectAction(EnemyAgent agent)
     {
         var executableActions = agent.Actions.Where(action => action.CanExecute(agent)).ToList();
 

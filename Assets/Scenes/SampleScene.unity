@@ -1190,6 +1190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600de24eae2423246a2ab93f476fad3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: 3aacfd0753f969444ac44d0d67d0cb3b, type: 2}
+  firePoint: {fileID: 1233430627}
 --- !u!54 &915808719
 Rigidbody:
   m_ObjectHideFlags: 0

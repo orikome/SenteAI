@@ -7,7 +7,7 @@ public class MoveAction : AgentAction
     private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;
 
-    public override void Execute(Transform firePoint, Agent agent)
+    public override void Execute(Transform firePoint, EnemyAgent agent)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
 
@@ -17,7 +17,7 @@ public class MoveAction : AgentAction
         AfterExecution();
     }
 
-    private Vector3 EvaluateBestPosition(Agent agent, Vector3 predictedPlayerPosition)
+    private Vector3 EvaluateBestPosition(EnemyAgent agent, Vector3 predictedPlayerPosition)
     {
         Vector3 bestPosition = Vector3.zero;
         float bestScore = float.MinValue;
@@ -48,7 +48,7 @@ public class MoveAction : AgentAction
         return bestPosition;
     }
 
-    private float ScorePosition(Vector3 position, Agent agent, Vector3 predictedPlayerPosition)
+    private float ScorePosition(Vector3 position, EnemyAgent agent, Vector3 predictedPlayerPosition)
     {
         float score = 0f;
 
@@ -84,7 +84,7 @@ public class MoveAction : AgentAction
         return score;
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility(EnemyAgent agent)
     {
         float maxDistance = 100f;
         float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 0.8f;

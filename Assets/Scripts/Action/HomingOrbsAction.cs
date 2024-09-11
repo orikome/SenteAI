@@ -16,13 +16,13 @@ public class HomingOrbsAction : AgentAction, IFeedbackAction
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
 
-    public override void Execute(Transform firePoint, Agent agent)
+    public override void Execute(Transform firePoint, EnemyAgent agent)
     {
         ShootOrbs(firePoint, agent);
         AfterExecution();
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility(EnemyAgent agent)
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
@@ -33,7 +33,7 @@ public class HomingOrbsAction : AgentAction, IFeedbackAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
-    private void ShootOrbs(Transform firePoint, Agent agent)
+    private void ShootOrbs(Transform firePoint, EnemyAgent agent)
     {
         float distanceBetweenOrbs = 3.0f;
         Vector3 rightOffset = firePoint.right * distanceBetweenOrbs;
@@ -73,7 +73,7 @@ public class HomingOrbsAction : AgentAction, IFeedbackAction
         return modifiedUtility;
     }
 
-    public void HandleFailure(Agent agent)
+    public void HandleFailure(EnemyAgent agent)
     {
         // Decrease utility if projectile misses
         FailureCount++;
@@ -85,7 +85,7 @@ public class HomingOrbsAction : AgentAction, IFeedbackAction
         );
     }
 
-    public void HandleSuccess(Agent agent)
+    public void HandleSuccess(EnemyAgent agent)
     {
         // Increase utility if projectile hits
         SuccessCount++;

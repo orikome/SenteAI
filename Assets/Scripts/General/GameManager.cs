@@ -24,7 +24,7 @@ public class RunData
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public List<Agent> activeAgents = new();
+    public List<EnemyAgent> activeAgents = new();
     private string filePath;
     private TestData testData;
 
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        foreach (Agent agent in activeAgents)
+        foreach (EnemyAgent agent in activeAgents)
         {
             agent.Initialize();
         }

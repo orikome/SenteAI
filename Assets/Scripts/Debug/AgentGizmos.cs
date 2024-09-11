@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class AgentGizmos : MonoBehaviour
 {
-    private Agent _agent;
+    private EnemyAgent _agent;
     public float textHeight = 4f;
     public float textSize = 0.1f;
 
     private void Start()
     {
-        _agent = gameObject.GetComponent<Agent>();
+        _agent = gameObject.GetComponent<EnemyAgent>();
     }
 
     private void OnDrawGizmos()

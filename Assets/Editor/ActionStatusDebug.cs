@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Agent))]
+[CustomEditor(typeof(EnemyAgent))]
 public class ActionStatusDebug : Editor
 {
     private void OnEnable()
@@ -21,7 +21,7 @@ public class ActionStatusDebug : Editor
         if (!Application.isPlaying)
             return;
 
-        Agent agent = (Agent)target;
+        EnemyAgent agent = (EnemyAgent)target;
 
         foreach (var action in agent.Actions)
         {

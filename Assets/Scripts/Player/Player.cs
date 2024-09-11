@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement), typeof(PlayerMovement))]
-public class Player : MonoBehaviour, IDamageable
+public class Player : Agent, IDamageable
 {
     public static Player Instance { get; private set; }
     public PlayerMetrics Metrics { get; private set; }

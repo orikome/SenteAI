@@ -7,7 +7,7 @@ using UnityEngine;
 )]
 public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
 {
-    public override AgentAction SelectAction(Agent agent)
+    public override AgentAction SelectAction(EnemyAgent agent)
     {
         AgentAction selectedAction = agent
             .Actions.Where(action => action.CanExecute(agent))

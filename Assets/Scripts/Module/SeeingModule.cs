@@ -10,12 +10,12 @@ public class SeeingModule : SenseModule
     private readonly float _cooldownTime = 0.5f;
     private float _lastVisibilityChangeTime;
 
-    public override void Initialize(Agent agent)
+    public override void Initialize(EnemyAgent agent)
     {
         _layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy");
     }
 
-    public override void Execute(Agent agent)
+    public override void Execute(EnemyAgent agent)
     {
         Vector3 directionToTarget = agent.Target.position - agent.transform.position;
         Ray ray = new(agent.transform.position, directionToTarget.normalized);
@@ -56,7 +56,7 @@ public class SeeingModule : SenseModule
     }
 
     private void DebugRay(
-        Agent agent,
+        EnemyAgent agent,
         Vector3 directionToTarget,
         bool targetVisible,
         bool hit,

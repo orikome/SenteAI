@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class LaserBehavior : MonoBehaviour
 {
-    private Agent _agent;
+    private EnemyAgent _agent;
     private float _damagePerSecond;
     public Action OnHitCallback;
     public Action OnMissCallback;
     private bool hasHitPlayer = false;
 
-    public void Initialize(Agent agent, float damagePerSecond)
+    public void Initialize(EnemyAgent agent, float damagePerSecond)
     {
         _agent = agent;
         _damagePerSecond = damagePerSecond;
