@@ -9,7 +9,7 @@ public class EnemyAgent : Agent
     // -- These are set in code --
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
-    public AgentMetrics Metrics { get; private set; }
+    public EnemyAgentMetrics Metrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
     private float _lastActionTime;
     private readonly float _globalCooldown = 0.4f;
@@ -21,7 +21,7 @@ public class EnemyAgent : Agent
 
         // Ensure all components exist
         _navMeshAgent = EnsureComponent<NavMeshAgent>();
-        Metrics = EnsureComponent<AgentMetrics>();
+        Metrics = EnsureComponent<EnemyAgentMetrics>();
 
         // Set navmesh properties
         _navMeshAgent.acceleration = 100;
@@ -120,21 +120,7 @@ public class EnemyAgent : Agent
 
     public override void LoadAgentData()
     {
-        if (Data == null)
-        {
-            DebugManager.Instance.LogError("AgentData is not assigned!");
-            return;
-        }
-
-        // Add modules
-        foreach (var module in Data.modules)
-        {
-            if (module != null)
-            {
-                Module newModule = Instantiate(module);
-                Modules.Add(newModule);
-            }
-        }
+        base.LoadAgentData();
 
         // Add actions
         foreach (var action in Data.actions)
@@ -147,7 +133,6 @@ public class EnemyAgent : Agent
         }
 
         ActionSelectionStrategy = Data.actionSelectionStrategy;
-        transform.gameObject.name = Data.agentName;
     }
 
     public void NormalizeUtilityScores()
@@ -177,25 +162,6 @@ public class EnemyAgent : Agent
     public void SetDestination(Vector3 destination)
     {
         _navMeshAgent.SetDestination(destination);
-    }
-
-    public T GetModule<T>()
-        where T : Module
-    {
-        return Modules.OfType<T>().FirstOrDefault();
-    }
-
-    private T EnsureComponent<T>()
-        where T : Component
-    {
-        if (!TryGetComponent<T>(out var component))
-        {
-            DebugManager.Instance.LogWarning(
-                $"Component of type {typeof(T).Name} was missing and has been added."
-            );
-            component = gameObject.AddComponent<T>();
-        }
-        return component;
     }
 
     void OnDrawGizmos()

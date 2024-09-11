@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Agent : MonoBehaviour
@@ -49,5 +50,24 @@ public class Agent : MonoBehaviour
         {
             module.Initialize(this);
         }
+    }
+
+    public T GetModule<T>()
+        where T : Module
+    {
+        return Modules.OfType<T>().FirstOrDefault();
+    }
+
+    public T EnsureComponent<T>()
+        where T : Component
+    {
+        if (!TryGetComponent<T>(out var component))
+        {
+            DebugManager.Instance.LogWarning(
+                $"Component of type {typeof(T).Name} was missing and has been added."
+            );
+            component = gameObject.AddComponent<T>();
+        }
+        return component;
     }
 }
