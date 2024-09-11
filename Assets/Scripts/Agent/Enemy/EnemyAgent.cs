@@ -10,6 +10,7 @@ public class Enemy : Agent
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     public EnemyMetrics Metrics { get; private set; }
+    public Vector3 CurrentDestination { get; private set; }
     private NavMeshAgent _navMeshAgent;
     private float _lastActionTime;
     private readonly float _globalCooldown = 0.4f;
@@ -162,6 +163,7 @@ public class Enemy : Agent
     public void SetDestination(Vector3 destination)
     {
         _navMeshAgent.SetDestination(destination);
+        CurrentDestination = destination;
     }
 
     void OnDrawGizmos()

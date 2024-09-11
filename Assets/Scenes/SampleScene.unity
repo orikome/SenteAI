@@ -1211,7 +1211,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915808710}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0204719cc870e144aa49547e3517a82e, type: 3}
   m_Name: 
@@ -1690,7 +1690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1307982173
 Transform:
   m_ObjectHideFlags: 0
@@ -1990,6 +1990,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 2952177845325692102, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737356123614060790, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
+      propertyPath: Data
+      value: 
+      objectReference: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
     - target: {fileID: 5722667563602715230, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
       propertyPath: target
       value: 

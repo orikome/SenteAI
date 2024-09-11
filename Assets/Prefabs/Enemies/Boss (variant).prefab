@@ -457,7 +457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a42a498eedcbc44bec46470cf830f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: 7e20a2fa13ee904488c9d4dcc4be5cde, type: 2}
+  Data: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
   firePoint: {fileID: 1389219864144260825}
 --- !u!114 &1133725695267956018
 MonoBehaviour:

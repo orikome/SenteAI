@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class LookAt : MonoBehaviour
 {
-    public Transform model;
+    public Transform model; // Head
+    public Transform body;
     public Transform target;
     public float rotationSpeed = 60f;
     public float idleRotationSpeed = 10f;
@@ -11,6 +12,7 @@ public class LookAt : MonoBehaviour
     void Start()
     {
         _agent = gameObject.GetComponent<Enemy>();
+        target = Player.Instance.transform;
     }
 
     private void Update()
@@ -21,35 +23,44 @@ public class LookAt : MonoBehaviour
         }
         else
         {
-            // PanTowardsPredictedPosition(
-            //     _agent.GetModule<SeeingModule>().LastKnownVelocity
-            // );
-            LookAtTransform(target, rotationSpeed / 8);
+            LookAtTransform(target, idleRotationSpeed);
         }
     }
 
     public void LookAtTransform(Transform point, float rotSpeed)
     {
         Vector3 direction = (point.position - model.position).normalized;
-        RotateTowards(direction, rotSpeed);
+
+        RotateTowards(model, direction, rotSpeed);
+        float angle = Vector3.SignedAngle(body.forward, direction, Vector3.up);
+
+        if (Mathf.Abs(angle) > 30f)
+        {
+            RotateTowards(body, direction, rotSpeed / 2);
+        }
     }
 
-    private void PanTowardsPredictedPosition(Vector3 predictedPosition)
-    {
-        if (predictedPosition == Vector3.zero)
-            return;
-
-        Vector3 directionToPredictedPosition = (predictedPosition - model.position).normalized;
-        RotateTowards(directionToPredictedPosition, idleRotationSpeed);
-    }
-
-    private void RotateTowards(Vector3 direction, float speed)
+    private void RotateTowards(Transform part, Vector3 direction, float speed)
     {
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        model.rotation = Quaternion.RotateTowards(
-            model.rotation,
+        part.rotation = Quaternion.RotateTowards(
+            part.rotation,
             lookRotation,
             speed * Time.deltaTime
         );
+
+        if (part == model)
+        {
+            float headAngle = Vector3.SignedAngle(body.forward, model.forward, Vector3.up);
+            if (Mathf.Abs(headAngle) > 30f)
+            {
+                float constrainedAngle = Mathf.Clamp(headAngle, -30f, 30f);
+                model.rotation = Quaternion.Euler(
+                    model.eulerAngles.x,
+                    body.eulerAngles.y + constrainedAngle,
+                    model.eulerAngles.z
+                );
+            }
+        }
     }
 }

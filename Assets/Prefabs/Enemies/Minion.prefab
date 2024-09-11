@@ -426,7 +426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96af76340e6cc7948b96da2b2e6237f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 2134939894791878312}
+  model: {fileID: 194340805370230383}
+  body: {fileID: 2338769993576395493}
   target: {fileID: 0}
   rotationSpeed: 120
   idleRotationSpeed: 10

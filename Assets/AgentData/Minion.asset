@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
   m_Name: Minion
   m_EditorClassIdentifier: 
-  agentName: Bossman
+  agentName: Minion
   maxHealth: 100
   modules:
   - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
