@@ -9,7 +9,6 @@ public class EnemyAgent : Agent
     // -- These are set in code --
     public SenseModule PerceptionModule { get; private set; }
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
-    public Transform Target { get; private set; }
     public AgentMetrics Metrics { get; private set; }
     private NavMeshAgent _navMeshAgent;
     private float _lastActionTime;

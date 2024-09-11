@@ -11,6 +11,7 @@ public class Agent : MonoBehaviour
     // -- These are set in code --
     public List<Module> Modules { get; private set; } = new();
     public List<AgentAction> Actions { get; private set; } = new();
+    public Transform Target { get; protected set; }
 
     public virtual void Update()
     {

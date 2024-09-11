@@ -7,15 +7,15 @@ public class HealthModule : Module, IDamageable
     public float CurrentHealth { get; private set; }
     public bool IsAlive { get; private set; } = true;
     public float TimeAlive { get; private set; } = 0;
-    private EnemyAgent _agent;
+    private Agent _agent;
 
-    public override void Execute(EnemyAgent agent)
+    public override void Execute(Agent agent)
     {
         if (IsAlive)
             TimeAlive += Time.deltaTime;
     }
 
-    public override void Initialize(EnemyAgent agent)
+    public override void Initialize(Agent agent)
     {
         _agent = agent;
         MaxHealth = agent.Data.maxHealth;
