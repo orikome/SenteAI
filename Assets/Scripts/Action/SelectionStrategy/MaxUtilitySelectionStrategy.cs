@@ -7,10 +7,10 @@ using UnityEngine;
 )]
 public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
 {
-    public override AgentAction SelectAction(Enemy agent)
+    public override AgentAction SelectAction(Agent agent)
     {
         AgentAction selectedAction = agent
-            .Actions.Where(action => action.CanExecute(agent))
+            .Actions.Where(action => action.CanExecute((Enemy)agent))
             .OrderByDescending(action => action.ScaledUtilityScore)
             .FirstOrDefault();
 

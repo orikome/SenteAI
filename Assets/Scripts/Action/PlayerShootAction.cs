@@ -10,18 +10,25 @@ public class PlayerShootAction : AgentAction
 
     public override void Initialize(Agent agent)
     {
-        base.Initialize(agent);
-        _agent = (Enemy)agent;
+        _agent = agent;
+        Debug.Log("PlayerShootAction initialized for " + agent.name);
     }
 
     public override void Execute(Transform firePoint)
     {
-        Vector3 dir = _agent.transform.forward;
-        ShootProjectile(firePoint, dir, _agent);
+        var nearestEnemy = Player.Instance.Metrics.FindClosestEnemyToPlayer();
+
+        if (nearestEnemy != null)
+        {
+            var direction = nearestEnemy.position - firePoint.position;
+            ShootProjectile(firePoint, direction.normalized);
+        }
+
         AfterExecution();
+        Debug.Log("PlayerShootAction executed.");
     }
 
-    void ShootProjectile(Transform firePoint, Vector3 direction, Agent agent)
+    private void ShootProjectile(Transform firePoint, Vector3 direction)
     {
         GameObject projectile = Instantiate(
             projectilePrefab,
@@ -29,10 +36,13 @@ public class PlayerShootAction : AgentAction
             Quaternion.LookRotation(direction)
         );
 
-        Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
+        Debug.DrawRay(firePoint.position, direction * 5f, Color.blue, 1f);
 
-        Projectile projectileComponent = projectile.GetComponent<Projectile>();
-        projectileComponent.SetParameters(direction, projectileSpeed, damage);
+        if (projectile.TryGetComponent<Projectile>(out var projectileComponent))
+        {
+            projectileComponent.SetParameters(direction, projectileSpeed, damage);
+        }
+
         Destroy(projectile, 4f);
     }
 }

@@ -7,11 +7,13 @@ using UnityEngine;
 )]
 public class RouletteSelectionStrategy : ActionSelectionStrategy
 {
-    public override AgentAction SelectAction(Enemy agent)
+    public override AgentAction SelectAction(Agent agent)
     {
         // Roulette wheel picker with sizes proportional to utility scores
 
-        var executableActions = agent.Actions.Where(action => action.CanExecute(agent)).ToList();
+        var executableActions = agent
+            .Actions.Where(action => action.CanExecute((Enemy)agent))
+            .ToList();
 
         if (executableActions.Count == 0)
         {

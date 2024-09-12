@@ -24,6 +24,10 @@ public class Agent : MonoBehaviour
 
     public virtual void LoadAgentData()
     {
+        // Ensure we only use data from our AgentData file
+        Modules.Clear();
+        Actions.Clear();
+
         if (Data == null)
         {
             DebugManager.Instance.LogError("AgentData is not assigned!");
@@ -40,15 +44,38 @@ public class Agent : MonoBehaviour
             }
         }
 
+        // Add actions
+        foreach (var action in Data.actions)
+        {
+            if (action != null)
+            {
+                AgentAction newAction = Instantiate(action);
+                Actions.Add(newAction);
+            }
+        }
+
         transform.gameObject.name = Data.agentName;
     }
 
     public void InitModules()
     {
+        if (Modules.Count == 0)
+            DebugManager.Instance.LogError("No modules assigned!");
         // Initialize modules
         foreach (var module in Modules)
         {
             module.Initialize(this);
+        }
+    }
+
+    public void InitActions()
+    {
+        if (Actions.Count == 0)
+            DebugManager.Instance.LogError("No actions assigned!");
+        // Initialize actions
+        foreach (var action in Actions)
+        {
+            action.Initialize(this);
         }
     }
 

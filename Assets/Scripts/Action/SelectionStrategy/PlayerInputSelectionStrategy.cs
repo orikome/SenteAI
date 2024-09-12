@@ -9,9 +9,9 @@ public class PlayerInputSelectionStrategy : ActionSelectionStrategy
 {
     public KeyCode selectionKey = KeyCode.Mouse0;
 
-    public override AgentAction SelectAction(Enemy agent)
+    public override AgentAction SelectAction(Agent agent)
     {
-        return null;
+        return agent.Actions.FirstOrDefault();
     }
 
     public bool IsInputHeld()

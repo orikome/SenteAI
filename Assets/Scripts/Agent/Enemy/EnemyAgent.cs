@@ -30,13 +30,10 @@ public class Enemy : Agent
         _navMeshAgent.speed = 10;
         _navMeshAgent.autoBraking = false;
 
-        // Ensure we only use data from our AgentData file
-        Modules.Clear();
-        Actions.Clear();
         ActionSelectionStrategy = null;
-
         // Initialize data and other components
         LoadAgentData();
+        ActionSelectionStrategy = Data.actionSelectionStrategy;
 
         // Reset utility scores
         foreach (AgentAction action in Actions)
@@ -48,16 +45,8 @@ public class Enemy : Agent
         // Get modules
         PerceptionModule = GetModule<SenseModule>();
 
-        if (Actions.Count == 0)
-            DebugManager.Instance.LogError("No actions assigned!");
-
         InitModules();
-
-        // Initialize actions
-        foreach (var action in Actions)
-        {
-            action.Initialize(this);
-        }
+        InitActions();
     }
 
     void OnEnable()
@@ -117,23 +106,6 @@ public class Enemy : Agent
     {
         // If you need to change the strategy during runtime for some reason
         ActionSelectionStrategy = strategy;
-    }
-
-    public override void LoadAgentData()
-    {
-        base.LoadAgentData();
-
-        // Add actions
-        foreach (var action in Data.actions)
-        {
-            if (action != null)
-            {
-                AgentAction newAction = Instantiate(action);
-                Actions.Add(newAction);
-            }
-        }
-
-        ActionSelectionStrategy = Data.actionSelectionStrategy;
     }
 
     public void NormalizeUtilityScores()
