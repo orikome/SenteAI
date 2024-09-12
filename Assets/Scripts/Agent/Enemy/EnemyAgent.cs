@@ -109,7 +109,7 @@ public class Enemy : Agent
         //     $"{Helpers.CleanName(decidedAction.name)}={decidedAction.utilityScore:F2}",
         //     Color.cyan
         // );
-        decidedAction.Execute(firePoint, this);
+        decidedAction.Execute(firePoint);
         _lastActionTime = Time.time;
     }
 

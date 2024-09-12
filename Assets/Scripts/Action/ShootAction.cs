@@ -18,19 +18,26 @@ public class ShootAction : AgentAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
+    private Enemy _enemy;
 
-    public override void Execute(Transform firePoint, Enemy agent)
+    public override void Initialize(Agent agent)
+    {
+        base.Initialize(agent);
+        _enemy = (Enemy)agent;
+    }
+
+    public override void Execute(Transform firePoint)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
-        Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
+        Vector3 directionToPlayer = predictedPlayerPosition - _enemy.firePoint.position;
 
-        if (!HasClearShot(firePoint, agent))
+        if (!HasClearShot(firePoint, _enemy))
             return;
 
         // If distance is less than 30, directly shoot at player instead of predicting position
-        if (agent.Metrics.DistanceToPlayer < 30f)
+        if (_enemy.Metrics.DistanceToPlayer < 30f)
             directionToPlayer = Player.Instance.transform.position;
-        ShootProjectile(firePoint, directionToPlayer, agent);
+        ShootProjectile(firePoint, directionToPlayer, _enemy);
         AfterExecution();
     }
 

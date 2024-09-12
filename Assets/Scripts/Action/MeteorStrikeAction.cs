@@ -5,10 +5,17 @@ public class MeteorStrikeAction : AgentAction
 {
     public GameObject meteorPrefab;
     public float dropDelay = 2f;
+    private Enemy _enemy;
 
-    public override void Execute(Transform firePoint, Enemy agent)
+    public override void Initialize(Agent agent)
     {
-        DropMeteor(firePoint, agent);
+        base.Initialize(agent);
+        _enemy = (Enemy)agent;
+    }
+
+    public override void Execute(Transform firePoint)
+    {
+        DropMeteor(firePoint, _enemy);
         AfterExecution();
     }
 

@@ -18,13 +18,20 @@ public class LaserBeamAction : AgentAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
+    private Enemy _enemy;
 
-    public override void Execute(Transform firePoint, Enemy agent)
+    public override void Initialize(Agent agent)
     {
-        if (!HasClearShot(firePoint, agent))
+        base.Initialize(agent);
+        _enemy = (Enemy)agent;
+    }
+
+    public override void Execute(Transform firePoint)
+    {
+        if (!HasClearShot(firePoint, _enemy))
             return;
 
-        ShootLaser(firePoint, agent);
+        ShootLaser(firePoint, _enemy);
         AfterExecution();
     }
 

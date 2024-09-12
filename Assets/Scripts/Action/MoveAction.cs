@@ -6,14 +6,21 @@ public class MoveAction : AgentAction
 {
     private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;
+    private Enemy _enemy;
 
-    public override void Execute(Transform firePoint, Enemy agent)
+    public override void Initialize(Agent agent)
+    {
+        base.Initialize(agent);
+        _enemy = (Enemy)agent;
+    }
+
+    public override void Execute(Transform firePoint)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
 
-        Vector3 bestPosition = EvaluateBestPosition(agent, predictedPlayerPosition);
+        Vector3 bestPosition = EvaluateBestPosition(_enemy, predictedPlayerPosition);
 
-        agent.SetDestination(bestPosition);
+        _enemy.SetDestination(bestPosition);
         AfterExecution();
     }
 

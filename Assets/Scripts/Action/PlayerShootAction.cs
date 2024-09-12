@@ -6,15 +6,22 @@ public class PlayerShootAction : AgentAction
     public GameObject projectilePrefab;
     public float projectileSpeed = 10.0f;
     public int damage = 10;
+    private Agent _agent;
 
-    public override void Execute(Transform firePoint, Enemy agent)
+    public override void Initialize(Agent agent)
     {
-        Vector3 dir = agent.transform.forward;
-        ShootProjectile(firePoint, dir, agent);
+        base.Initialize(agent);
+        _agent = (Enemy)agent;
+    }
+
+    public override void Execute(Transform firePoint)
+    {
+        Vector3 dir = _agent.transform.forward;
+        ShootProjectile(firePoint, dir, _agent);
         AfterExecution();
     }
 
-    void ShootProjectile(Transform firePoint, Vector3 direction, Enemy agent)
+    void ShootProjectile(Transform firePoint, Vector3 direction, Agent agent)
     {
         GameObject projectile = Instantiate(
             projectilePrefab,

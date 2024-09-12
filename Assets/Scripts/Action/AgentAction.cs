@@ -59,7 +59,7 @@ public abstract class AgentAction : ScriptableObject
         LastExecutedTime = Time.time - cooldownTime;
     }
 
-    public virtual void Initialize(Enemy agent)
+    public virtual void Initialize(Agent agent)
     {
         ResetCooldown();
     }
@@ -67,7 +67,7 @@ public abstract class AgentAction : ScriptableObject
     /// <summary>
     /// Called every frame in the agent's update loop.
     /// </summary>
-    public abstract void Execute(Transform firePoint, Enemy agent);
+    public abstract void Execute(Transform firePoint);
 
     /// <summary>
     /// Called every frame in the agent's update loop.

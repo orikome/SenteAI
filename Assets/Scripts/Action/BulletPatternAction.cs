@@ -9,10 +9,17 @@ public class BulletPatternAction : AgentAction
     public float angleIncrement = 10f;
     public float spawnRadius = 6f;
     private int currentSpiralAngleOffset = 0;
+    private Enemy _enemy;
 
-    public override void Execute(Transform firePoint, Enemy agent)
+    public override void Initialize(Agent agent)
     {
-        GeneratePattern(agent.transform);
+        base.Initialize(agent);
+        _enemy = (Enemy)agent;
+    }
+
+    public override void Execute(Transform firePoint)
+    {
+        GeneratePattern(_enemy.transform);
         currentSpiralAngleOffset += (int)angleIncrement;
         AfterExecution();
     }

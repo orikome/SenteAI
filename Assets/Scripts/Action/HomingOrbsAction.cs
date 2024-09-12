@@ -15,10 +15,17 @@ public class HomingOrbsAction : AgentAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
+    private Enemy _enemy;
 
-    public override void Execute(Transform firePoint, Enemy agent)
+    public override void Initialize(Agent agent)
     {
-        ShootOrbs(firePoint, agent);
+        base.Initialize(agent);
+        _enemy = (Enemy)agent;
+    }
+
+    public override void Execute(Transform firePoint)
+    {
+        ShootOrbs(firePoint, _enemy);
         AfterExecution();
     }
 
