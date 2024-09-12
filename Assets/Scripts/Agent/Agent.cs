@@ -13,6 +13,7 @@ public class Agent : MonoBehaviour
     public List<Module> Modules { get; private set; } = new();
     public List<AgentAction> Actions { get; private set; } = new();
     public Transform Target { get; protected set; }
+    private Dictionary<System.Type, Module> _moduleCache = new();
 
     public virtual void Update()
     {
@@ -27,6 +28,7 @@ public class Agent : MonoBehaviour
         // Ensure we only use data from our AgentData file
         Modules.Clear();
         Actions.Clear();
+        _moduleCache.Clear();
 
         if (Data == null)
         {
@@ -65,6 +67,7 @@ public class Agent : MonoBehaviour
         foreach (var module in Modules)
         {
             module.Initialize(this);
+            _moduleCache[module.GetType()] = module;
         }
     }
 
@@ -82,7 +85,14 @@ public class Agent : MonoBehaviour
     public T GetModule<T>()
         where T : Module
     {
-        return Modules.OfType<T>().FirstOrDefault();
+        if (_moduleCache.TryGetValue(typeof(T), out var cachedModule))
+            return cachedModule as T;
+
+        T module = Modules.OfType<T>().FirstOrDefault();
+        if (module != null)
+            _moduleCache[typeof(T)] = module;
+
+        return module;
     }
 
     public T EnsureComponent<T>()
