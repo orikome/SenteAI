@@ -14,6 +14,8 @@ public class Agent : MonoBehaviour
     public Transform Target { get; protected set; }
     private Dictionary<System.Type, Module> _moduleCache = new();
 
+    public virtual void Initialize() { }
+
     public virtual void Update()
     {
         foreach (var module in Modules)

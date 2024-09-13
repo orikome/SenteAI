@@ -6,6 +6,10 @@ public class Player : Agent
     void Awake()
     {
         Instance = this;
+    }
+
+    public override void Initialize()
+    {
         Metrics = EnsureComponent<PlayerMetrics>();
         LoadAgentData();
         InitModules();
