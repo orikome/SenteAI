@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,7 +18,7 @@ public class Agent : MonoBehaviour
     {
         foreach (var module in Modules)
         {
-            module.Execute(null);
+            module.Execute(this);
         }
     }
 
