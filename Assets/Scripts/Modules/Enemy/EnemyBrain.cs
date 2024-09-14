@@ -49,18 +49,13 @@ public class EnemyBrain : Module
                 $"Selected: {Helpers.CleanName(decidedAction.name)} with utilScore: {decidedAction.ScaledUtilityScore}"
             );
 
-            EnemyMetrics metrics = _enemy.GetComponent<EnemyMetrics>();
-            if (metrics != null)
+            if (_enemy.Metrics != null)
             {
-                metrics.AddActionToHistory(decidedAction);
+                _enemy.Metrics.AddActionToHistory(decidedAction);
             }
 
             decidedAction.Execute(_enemy.firePoint);
             _lastActionTime = Time.time;
-        }
-        else
-        {
-            // Global cooldown active
         }
     }
 
@@ -84,7 +79,7 @@ public class EnemyBrain : Module
 
         foreach (AgentAction action in _enemy.Actions)
         {
-            // Scale by base utility to preserve differences
+            // Scale by scaled utility to preserve differences
             action.ScaledUtilityScore = Mathf.Max(action.ScaledUtilityScore / sum, minScore);
         }
 

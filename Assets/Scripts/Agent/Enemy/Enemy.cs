@@ -42,7 +42,7 @@ public class Enemy : Agent
 
     void OnDrawGizmos()
     {
-        if (!EditorApplication.isPlaying || _navMeshAgent == null || _navMeshAgent.path == null)
+        if (!EditorApplication.isPlaying || _navMeshAgent == null)
             return;
 
         Gizmos.color = Color.cyan;

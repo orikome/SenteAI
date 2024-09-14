@@ -26,11 +26,7 @@ public class PlayerBrain : Module
     {
         _shootingTimer -= Time.deltaTime;
 
-        if (
-            _shootingTimer <= 0f
-            && _playerInputSelection != null
-            && _playerInputSelection.IsInputHeld()
-        )
+        if (_shootingTimer <= 0f && _playerInputSelection.IsInputHeld())
         {
             ExecutePlayerAction();
             _shootingTimer = _globalCooldown;
