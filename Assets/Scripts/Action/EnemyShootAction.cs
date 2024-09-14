@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/Shoot")]
-public class ShootAction : AgentAction, IFeedbackAction
+[CreateAssetMenu(menuName = "AgentAction/EnemyShootAction")]
+public class EnemyShootAction : AgentAction, IFeedbackAction
 {
     public GameObject projectilePrefab;
     public float projectileSpeed = 10.0f;
