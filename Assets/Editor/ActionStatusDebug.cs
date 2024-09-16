@@ -22,6 +22,10 @@ public class ActionStatusDebug : Editor
             return;
 
         Enemy agent = (Enemy)target;
+        EditorGUILayout.LabelField(
+            "Health",
+            agent.GetModule<HealthModule>().CurrentHealth.ToString()
+        );
 
         foreach (var action in agent.Actions)
         {
