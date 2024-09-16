@@ -26,7 +26,7 @@ public class EnemyShootAction : AgentAction, IFeedbackAction
         _enemy = (Enemy)agent;
     }
 
-    public override void Execute(Transform firePoint, Vector3 direction = default)
+    public override void Execute(Transform firePoint, Vector3 direction)
     {
         Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - _enemy.firePoint.position;

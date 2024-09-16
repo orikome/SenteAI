@@ -23,7 +23,7 @@ public class HomingOrbsAction : AgentAction, IFeedbackAction
         _enemy = (Enemy)agent;
     }
 
-    public override void Execute(Transform firePoint, Vector3 direction = default)
+    public override void Execute(Transform firePoint, Vector3 direction)
     {
         ShootOrbs(firePoint, _enemy);
         AfterExecution();

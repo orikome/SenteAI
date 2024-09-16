@@ -13,7 +13,7 @@ public class MeteorStrikeAction : AgentAction
         _enemy = (Enemy)agent;
     }
 
-    public override void Execute(Transform firePoint, Vector3 direction = default)
+    public override void Execute(Transform firePoint, Vector3 direction)
     {
         DropMeteor(firePoint, _enemy);
         AfterExecution();

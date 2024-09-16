@@ -54,9 +54,14 @@ public class EnemyBrain : Module
                 _enemy.Metrics.AddActionToHistory(decidedAction);
             }
 
-            decidedAction.Execute(_enemy.firePoint);
+            decidedAction.Execute(_enemy.firePoint, Vector3.one);
             _lastActionTime = Time.time;
         }
+    }
+
+    private Vector3 GetPlayerShootDirection()
+    {
+        return Vector3.zero;
     }
 
     private void ResetUtilityScores()
