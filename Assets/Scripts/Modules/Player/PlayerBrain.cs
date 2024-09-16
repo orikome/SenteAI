@@ -42,6 +42,17 @@ public class PlayerBrain : Module
             return;
         }
 
-        decidedAction.Execute(_agent.firePoint);
+        decidedAction.Execute(_agent.firePoint, GetPlayerShootDirection());
+    }
+
+    private Vector3 GetPlayerShootDirection()
+    {
+        var nearestEnemy = Player.Instance.Metrics.FindClosestEnemyToPlayer();
+        if (nearestEnemy != null)
+        {
+            return (nearestEnemy.position - _agent.firePoint.position).normalized;
+        }
+
+        return _agent.firePoint.forward;
     }
 }

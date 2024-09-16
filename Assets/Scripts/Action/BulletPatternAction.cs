@@ -17,7 +17,7 @@ public class BulletPatternAction : AgentAction
         _enemy = (Enemy)agent;
     }
 
-    public override void Execute(Transform firePoint)
+    public override void Execute(Transform firePoint, Vector3 direction = default)
     {
         GeneratePattern(_enemy.transform);
         currentSpiralAngleOffset += (int)angleIncrement;

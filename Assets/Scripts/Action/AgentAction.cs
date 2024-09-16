@@ -67,7 +67,7 @@ public abstract class AgentAction : ScriptableObject
     /// <summary>
     /// Called every frame in the agent's update loop.
     /// </summary>
-    public abstract void Execute(Transform firePoint);
+    public abstract void Execute(Transform firePoint, Vector3 direction = default);
 
     /// <summary>
     /// Called every frame in the agent's update loop.

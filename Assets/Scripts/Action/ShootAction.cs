@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/PlayerShootAction")]
-public class PlayerShootAction : AgentAction
+[CreateAssetMenu(menuName = "AgentAction/ShootAction")]
+public class ShootAction : AgentAction
 {
     public GameObject projectilePrefab;
     public float projectileSpeed = 10.0f;
@@ -11,21 +11,15 @@ public class PlayerShootAction : AgentAction
     public override void Initialize(Agent agent)
     {
         _agent = agent;
-        Debug.Log("PlayerShootAction initialized for " + agent.name);
     }
 
-    public override void Execute(Transform firePoint)
+    public override void Execute(Transform firePoint, Vector3 direction)
     {
-        var nearestEnemy = Player.Instance.Metrics.FindClosestEnemyToPlayer();
-
-        if (nearestEnemy != null)
+        if (direction != Vector3.zero)
         {
-            var direction = nearestEnemy.position - firePoint.position;
             ShootProjectile(firePoint, direction.normalized);
+            AfterExecution();
         }
-
-        AfterExecution();
-        Debug.Log("PlayerShootAction executed.");
     }
 
     private void ShootProjectile(Transform firePoint, Vector3 direction)
