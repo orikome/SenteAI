@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab22ca717389d604e8c76ae7361c8ccf, type: 3}
+  m_Script: {fileID: 11500000, guid: b2b7ce990eb1bfc4fb54c162ba5f8fb6, type: 3}
   m_Name: HomingOrbs
   m_EditorClassIdentifier: 
-  cooldownTime: 1
-  biasWeight: 0.6
+  cooldownTime: 0.1
+  biasWeight: 0
   penaltyPerExecution: 0.2
   penaltyRestoreRate: 0.2
   orbPrefab: {fileID: 8895309130385202063, guid: c3dafc5b7d1872b4b8b8e34119b31397, type: 3}
-  numberOfOrbs: 2
+  numberOfOrbs: 3
   spreadAngle: 45

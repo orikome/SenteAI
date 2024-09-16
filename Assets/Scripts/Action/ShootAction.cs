@@ -22,7 +22,7 @@ public class ShootAction : AgentAction
         }
     }
 
-    private void ShootProjectile(Transform firePoint, Vector3 direction)
+    protected virtual void ShootProjectile(Transform firePoint, Vector3 direction)
     {
         GameObject projectile = Instantiate(
             projectilePrefab,

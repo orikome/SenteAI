@@ -5,27 +5,40 @@ public class HomingOrbBehaviour : MonoBehaviour
 {
     public float speed = 5f;
     public float homingIntensity = 0.5f;
-    private Transform player;
+    private Transform target;
     private Rigidbody rb;
     public LayerMask _collisionMask;
     private bool hasCompleted = false;
     public Action OnHitCallback;
     public Action OnMissCallback;
+    private bool _isPlayer;
 
-    void Start()
+    public void SetParameters(bool isPlayer)
     {
-        player = Player.Instance.transform;
         rb = GetComponent<Rigidbody>();
         Destroy(gameObject, 12f);
-        _collisionMask = LayerMask.GetMask("Player");
+        _isPlayer = isPlayer;
+
+        if (!isPlayer)
+        {
+            target = Player.Instance.transform;
+            _collisionMask = LayerMask.GetMask("Enemy");
+            gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
+        }
+        else
+        {
+            target = Player.Instance.Metrics.FindClosestEnemyToPlayer();
+            _collisionMask = LayerMask.GetMask("Player");
+            gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+        }
     }
 
     void Update()
     {
-        if (hasCompleted || player == null)
+        if (hasCompleted || target == null)
             return;
 
-        HomeTowardsPlayer();
+        HomeTowardsTarget();
     }
 
     void OnDestroy()
@@ -37,10 +50,10 @@ public class HomingOrbBehaviour : MonoBehaviour
         }
     }
 
-    void HomeTowardsPlayer()
+    void HomeTowardsTarget()
     {
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        rb.velocity = Vector3.Lerp(rb.velocity, directionToPlayer * speed, homingIntensity);
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
+        rb.velocity = Vector3.Lerp(rb.velocity, directionToTarget * speed, homingIntensity);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -48,11 +61,12 @@ public class HomingOrbBehaviour : MonoBehaviour
         if (hasCompleted)
             return;
 
+        // Check if the collided object's layer is in the target collision mask
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
-            if (collision.transform.root.gameObject.TryGetComponent<Player>(out var player))
+            if (collision.transform.root.gameObject.TryGetComponent(out Agent agent))
             {
-                player.GetModule<HealthModule>().TakeDamage(10);
+                agent.GetModule<HealthModule>().TakeDamage(10);
                 Helpers.SpawnParticles(transform.position, Color.red);
                 DebugManager.Instance.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {10} damage to {Helpers.CleanName(collision.transform.root.name)}"
@@ -64,6 +78,7 @@ public class HomingOrbBehaviour : MonoBehaviour
         }
         else
         {
+            // Handle cases where the collision does not match the targeted object (miss)
             Helpers.SpawnParticles(transform.position, Color.blue);
             hasCompleted = true;
             OnMissCallback?.Invoke();

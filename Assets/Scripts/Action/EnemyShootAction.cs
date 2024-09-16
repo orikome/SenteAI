@@ -2,15 +2,8 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AgentAction/EnemyShootAction")]
-public class EnemyShootAction : AgentAction, IFeedbackAction
+public class EnemyShootAction : ShootAction, IFeedbackAction
 {
-    public GameObject projectilePrefab;
-    public float projectileSpeed = 10.0f;
-
-    [Range(0.0f, 1.0f)]
-    public float accuracy = 1.0f;
-    public int damage = 10;
-
     // Feedback interface
     public Action OnSuccessCallback { get; set; }
     public Action OnFailureCallback { get; set; }
@@ -37,7 +30,7 @@ public class EnemyShootAction : AgentAction, IFeedbackAction
         // If distance is less than 30, directly shoot at player instead of predicting position
         if (_enemy.Metrics.DistanceToPlayer < 30f)
             directionToPlayer = Player.Instance.transform.position;
-        ShootProjectile(firePoint, directionToPlayer, _enemy);
+        ShootProjectile(firePoint, directionToPlayer);
         AfterExecution();
     }
 
@@ -131,7 +124,7 @@ public class EnemyShootAction : AgentAction, IFeedbackAction
         }
     }
 
-    void ShootProjectile(Transform firePoint, Vector3 direction, Enemy agent)
+    protected override void ShootProjectile(Transform firePoint, Vector3 direction)
     {
         GameObject projectile = Instantiate(
             projectilePrefab,
@@ -146,8 +139,8 @@ public class EnemyShootAction : AgentAction, IFeedbackAction
 
         if (projectileComponent != null)
         {
-            projectileComponent.OnHitCallback = () => HandleSuccess(agent);
-            projectileComponent.OnMissCallback = () => HandleFailure(agent);
+            projectileComponent.OnHitCallback = () => HandleSuccess(_enemy);
+            projectileComponent.OnMissCallback = () => HandleFailure(_enemy);
         }
         Destroy(projectile, 4f);
     }
