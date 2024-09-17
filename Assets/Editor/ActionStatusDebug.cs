@@ -27,6 +27,8 @@ public class ActionStatusDebug : Editor
             agent.GetModule<HealthModule>().CurrentHealth.ToString()
         );
 
+        float totalAPM = 0f;
+
         foreach (var action in agent.Actions)
         {
             EditorGUILayout.BeginVertical("box");
@@ -84,7 +86,12 @@ public class ActionStatusDebug : Editor
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
+
+            int actionAPM = Mathf.RoundToInt(action.TimesExecuted / timeAliveInMinutes);
+            totalAPM += actionAPM;
         }
+
+        EditorGUILayout.LabelField("APM", totalAPM.ToString());
 
         if (GUI.changed)
         {
