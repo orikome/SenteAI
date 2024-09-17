@@ -59,7 +59,7 @@ public class EnemyBrain : Module
         }
     }
 
-    private Vector3 GetPlayerShootDirection()
+    private Vector3 GetShootDirection()
     {
         return Vector3.zero;
     }

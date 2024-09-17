@@ -32,25 +32,51 @@ public class LookAt : MonoBehaviour
         Vector3 direction = (point.position - model.position).normalized;
 
         RotateTowards(model, direction, rotSpeed);
+
         float angle = Vector3.SignedAngle(body.forward, direction, Vector3.up);
 
         if (Mathf.Abs(angle) > 30f)
         {
-            RotateTowards(body, direction, rotSpeed / 2);
+            Vector3 bodyDirection = point.position - body.position;
+            bodyDirection.y = 0f;
+            if (bodyDirection.sqrMagnitude > 0f)
+            {
+                bodyDirection.Normalize();
+                RotateTowards(body, bodyDirection, rotSpeed / 2);
+            }
         }
     }
 
     private void RotateTowards(Transform part, Vector3 direction, float speed)
     {
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        part.rotation = Quaternion.RotateTowards(
-            part.rotation,
-            lookRotation,
-            speed * Time.deltaTime
-        );
-
-        if (part == model)
+        if (part == body)
         {
+            direction.y = 0f;
+            if (direction.sqrMagnitude == 0f)
+                return;
+            direction.Normalize();
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+            Vector3 eulerAngles = lookRotation.eulerAngles;
+            eulerAngles.x = 0f;
+            eulerAngles.z = 0f;
+            lookRotation = Quaternion.Euler(eulerAngles);
+
+            part.rotation = Quaternion.RotateTowards(
+                part.rotation,
+                lookRotation,
+                speed * Time.deltaTime
+            );
+        }
+        else
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            part.rotation = Quaternion.RotateTowards(
+                part.rotation,
+                lookRotation,
+                speed * Time.deltaTime
+            );
+
             float headAngle = Vector3.SignedAngle(body.forward, model.forward, Vector3.up);
             if (Mathf.Abs(headAngle) > 30f)
             {
