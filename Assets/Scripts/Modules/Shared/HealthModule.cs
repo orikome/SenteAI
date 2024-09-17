@@ -26,6 +26,7 @@ public class HealthModule : Module, IDamageable
     {
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0);
+        DebugManager.Instance.SpawnTextLog(_agent.transform, amount.ToString(), Color.white);
 
         if (CurrentHealth <= 0)
         {
