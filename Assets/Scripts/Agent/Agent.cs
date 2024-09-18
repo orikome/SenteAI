@@ -14,7 +14,13 @@ public class Agent : MonoBehaviour
     public Transform Target { get; protected set; }
     private Dictionary<System.Type, Module> _moduleCache = new();
 
-    public virtual void Initialize() { }
+    public virtual void Initialize()
+    {
+        // Initialize data and other components
+        LoadAgentData();
+        InitModules();
+        InitActions();
+    }
 
     public virtual void Update()
     {

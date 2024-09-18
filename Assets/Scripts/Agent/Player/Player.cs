@@ -13,10 +13,8 @@ public class Player : Agent
 
     public override void Initialize()
     {
+        base.Initialize();
         Metrics = EnsureComponent<PlayerMetrics>();
-        LoadAgentData();
-        InitModules();
-        InitActions();
     }
 
     public bool IsInputHeld()
