@@ -16,7 +16,7 @@ public class EnemyBulletPatternAction : BulletPatternAction
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
-        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : 0.8f;
+        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : 0.8f;
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 

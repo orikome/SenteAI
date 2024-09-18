@@ -21,7 +21,7 @@ public class MeteorStrikeAction : AgentAction
 
     public override void CalculateUtility(Enemy agent)
     {
-        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 1f;
+        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 1f;
         float calculatedUtil = 0.5f * CanSenseFactor;
 
         SetUtilityWithModifiers(calculatedUtil);

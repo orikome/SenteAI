@@ -20,7 +20,7 @@ public class MoveAction : AgentAction
 
         Vector3 bestPosition = EvaluateBestPosition(_enemy, predictedPlayerPosition);
 
-        _enemy.SetDestination(bestPosition);
+        _enemy.GetModule<NavMeshAgentModule>().SetDestination(bestPosition);
         AfterExecution();
     }
 
@@ -136,7 +136,7 @@ public class MoveAction : AgentAction
     public override void CalculateUtility(Enemy agent)
     {
         float maxDistance = 100f;
-        float canSenseFactor = agent.PerceptionModule.CanSenseTarget ? MIN_UTILITY : 0.8f;
+        float canSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 0.8f;
 
         float distance = agent.Metrics.DistanceToPlayer;
         float distanceFactor = 1.0f - distance / maxDistance;

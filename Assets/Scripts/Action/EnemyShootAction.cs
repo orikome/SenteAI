@@ -62,7 +62,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
-        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
+        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
         float maxProjectileSpeed = 30f; // Fast projectile speed
         float speedFactor = Mathf.Clamp01(projectileSpeed / maxProjectileSpeed);
 

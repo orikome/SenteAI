@@ -5,6 +5,7 @@ using UnityEngine;
 public class AgentData : ScriptableObject
 {
     public string agentName;
+    public Faction faction;
     public int maxHealth = 100;
     public float actionCooldown = 0.4f;
     public List<Module> modules;

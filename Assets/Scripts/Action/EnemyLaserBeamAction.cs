@@ -54,7 +54,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
 
     public override bool CanExecute(Enemy agent)
     {
-        return agent.PerceptionModule.CanSenseTarget
+        return agent.GetModule<SenseModule>().CanSenseTarget
             && !IsOnCooldown()
             && ScaledUtilityScore > MIN_UTILITY
             && HasClearShot(agent.firePoint, agent);
@@ -64,7 +64,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
     {
         float distance = agent.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
-        float CanSenseFactor = agent.PerceptionModule.CanSenseTarget ? 0.8f : MIN_UTILITY;
+        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   agentName: Player
+  faction: 1
   maxHealth: 1000
   actionCooldown: 0.2
   modules:

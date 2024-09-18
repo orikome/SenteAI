@@ -29,7 +29,7 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
     {
         float distance = _enemy.Metrics.DistanceToPlayer;
         float maxDistance = 100f;
-        float CanSenseFactor = _enemy.PerceptionModule.CanSenseTarget ? 0.6f : 1f;
+        float CanSenseFactor = _enemy.GetModule<SenseModule>().CanSenseTarget ? 0.6f : 1f;
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 

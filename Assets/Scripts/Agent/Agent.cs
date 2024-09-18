@@ -20,6 +20,7 @@ public class Agent : MonoBehaviour
         LoadAgentData();
         InitModules();
         InitActions();
+        SelectTarget();
     }
 
     public virtual void Update()
@@ -28,6 +29,14 @@ public class Agent : MonoBehaviour
         {
             module.Execute(this);
         }
+    }
+
+    protected void SelectTarget()
+    {
+        if (Data.faction == Faction.Player)
+            Player.Instance.Metrics?.FindClosestEnemyToPlayer();
+        else
+            Target = Player.Instance.transform;
     }
 
     public virtual void LoadAgentData()

@@ -15,7 +15,10 @@ public class EnemyGizmos : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (!EditorApplication.isPlaying || _agent.NavMeshAgent == null)
+        if (
+            !EditorApplication.isPlaying
+            || _agent.GetModule<NavMeshAgentModule>().NavMeshAgent == null
+        )
             return;
 
         GUIStyle style =
@@ -40,7 +43,7 @@ public class EnemyGizmos : MonoBehaviour
 
         Gizmos.color = Color.cyan;
 
-        NavMeshPath path = _agent.NavMeshAgent.path;
+        NavMeshPath path = _agent.GetModule<NavMeshAgentModule>().NavMeshAgent.path;
 
         // Draw path
         for (int i = 0; i < path.corners.Length - 1; i++)
