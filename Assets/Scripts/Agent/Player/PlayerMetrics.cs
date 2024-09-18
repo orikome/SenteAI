@@ -91,7 +91,8 @@ public class PlayerMetrics : Metrics
         {
             float distance = Vector3.Distance(agent.transform.position, transform.position);
 
-            agent.Metrics.SetDistanceToPlayer(distance);
+            EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
+            enemyMetrics.SetDistanceToPlayer(distance);
 
             if (distance < closestEnemyDistance)
             {

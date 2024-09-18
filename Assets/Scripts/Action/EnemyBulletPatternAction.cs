@@ -14,7 +14,8 @@ public class EnemyBulletPatternAction : BulletPatternAction
 
     public override void CalculateUtility(Enemy agent)
     {
-        float distance = agent.Metrics.DistanceToPlayer;
+        EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
+        float distance = enemyMetrics.DistanceToPlayer;
         float maxDistance = 100f;
         float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : 0.8f;
         float distanceFactor = 1.0f - (distance / maxDistance);

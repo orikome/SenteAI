@@ -3,7 +3,6 @@ using UnityEngine;
 public class Player : Agent
 {
     public static Player Instance { get; private set; }
-    public PlayerMetrics Metrics { get; private set; }
     public KeyCode selectionKey = KeyCode.Mouse0;
 
     void Awake()
@@ -14,7 +13,6 @@ public class Player : Agent
     public override void Initialize()
     {
         base.Initialize();
-        Metrics = EnsureComponent<PlayerMetrics>();
     }
 
     public bool IsInputHeld()
@@ -24,7 +22,8 @@ public class Player : Agent
 
     public Vector3 GetShootDirection()
     {
-        var nearestEnemy = Metrics.FindClosestEnemyToPlayer();
+        PlayerMetrics playerMetrics = (PlayerMetrics)Metrics;
+        var nearestEnemy = playerMetrics.FindClosestEnemyToPlayer();
         if (nearestEnemy != null)
         {
             return (nearestEnemy.position - firePoint.position).normalized;

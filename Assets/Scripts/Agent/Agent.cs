@@ -11,6 +11,7 @@ public class Agent : MonoBehaviour
     // -- These are set in code --
     public List<Module> Modules { get; private set; } = new();
     public List<AgentAction> Actions { get; private set; } = new();
+    public Metrics Metrics { get; private set; }
     public Transform Target { get; protected set; }
     private Dictionary<System.Type, Module> _moduleCache = new();
 
@@ -21,6 +22,11 @@ public class Agent : MonoBehaviour
         InitModules();
         InitActions();
         SelectTarget();
+
+        if (Data.faction == Faction.Player)
+            Metrics = EnsureComponent<PlayerMetrics>();
+        else
+            Metrics = EnsureComponent<EnemyMetrics>();
     }
 
     public virtual void Update()
@@ -34,9 +40,26 @@ public class Agent : MonoBehaviour
     protected void SelectTarget()
     {
         if (Data.faction == Faction.Player)
-            Player.Instance.Metrics?.FindClosestEnemyToPlayer();
+        {
+            PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+            playerMetrics?.FindClosestEnemyToPlayer();
+        }
         else
+        {
             Target = Player.Instance.transform;
+        }
+    }
+
+    void OnEnable()
+    {
+        if (Data.faction == Faction.Enemy)
+            GameManager.Instance.activeEnemies.Add((Enemy)this);
+    }
+
+    void OnDisable()
+    {
+        if (Data.faction == Faction.Enemy)
+            GameManager.Instance.activeEnemies.Remove((Enemy)this);
     }
 
     public virtual void LoadAgentData()

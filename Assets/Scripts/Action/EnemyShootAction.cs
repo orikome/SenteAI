@@ -21,14 +21,16 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
+        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - _enemy.firePoint.position;
 
         if (!HasClearShot(firePoint, _enemy))
             return;
 
+        EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
         // If distance is less than 30, directly shoot at player instead of predicting position
-        if (_enemy.Metrics.DistanceToPlayer < 30f)
+        if (enemyMetrics.DistanceToPlayer < 30f)
             directionToPlayer = Player.Instance.transform.position;
         ShootProjectile(firePoint, directionToPlayer);
         AfterExecution();
@@ -36,7 +38,8 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
 
     private bool HasClearShot(Transform firePoint, Enemy agent)
     {
-        Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
+        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 
@@ -60,7 +63,8 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
 
     public override void CalculateUtility(Enemy agent)
     {
-        float distance = agent.Metrics.DistanceToPlayer;
+        EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
+        float distance = enemyMetrics.DistanceToPlayer;
         float maxDistance = 100f;
         float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
         float maxProjectileSpeed = 30f; // Fast projectile speed

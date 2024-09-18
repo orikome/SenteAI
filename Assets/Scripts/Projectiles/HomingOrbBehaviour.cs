@@ -22,7 +22,8 @@ public class HomingOrbBehaviour : MonoBehaviour
 
         if (_isPlayer)
         {
-            target = Player.Instance.Metrics.FindClosestEnemyToPlayer();
+            PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+            target = playerMetrics.FindClosestEnemyToPlayer();
             _targetMask = LayerMask.GetMask("Enemy");
             _ownerMask = LayerMask.GetMask("Player");
             gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");

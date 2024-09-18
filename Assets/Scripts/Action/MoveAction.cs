@@ -16,7 +16,8 @@ public class MoveAction : AgentAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        Vector3 predictedPlayerPosition = Player.Instance.Metrics.PredictPositionDynamically();
+        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
 
         Vector3 bestPosition = EvaluateBestPosition(_enemy, predictedPlayerPosition);
 
@@ -138,7 +139,8 @@ public class MoveAction : AgentAction
         float maxDistance = 100f;
         float canSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 0.8f;
 
-        float distance = agent.Metrics.DistanceToPlayer;
+        EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
+        float distance = enemyMetrics.DistanceToPlayer;
         float distanceFactor = 1.0f - distance / maxDistance;
         float calculatedUtil = distanceFactor * canSenseFactor;
 

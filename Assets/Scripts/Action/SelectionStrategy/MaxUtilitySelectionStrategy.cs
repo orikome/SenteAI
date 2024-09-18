@@ -30,7 +30,8 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
 
         Enemy enemy = (Enemy)agent;
 
-        enemy.Metrics?.AddActionToHistory(selectedAction);
+        EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
+        enemyMetrics?.AddActionToHistory(selectedAction);
 
         return selectedAction;
     }

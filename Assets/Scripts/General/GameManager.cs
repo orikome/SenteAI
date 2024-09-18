@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviour
     public void RestartScene()
     {
         float timeAlive = Player.Instance.GetModule<HealthModule>().TimeAlive;
-        float damageDone = Player.Instance.Metrics.DamageDone;
+        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        float damageDone = playerMetrics.DamageDone;
 
         testData.TimesTestRun++;
         testData.Runs.Add(new RunData { DamageDone = damageDone, TimeAlive = timeAlive });

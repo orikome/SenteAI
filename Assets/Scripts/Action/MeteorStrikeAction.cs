@@ -29,9 +29,10 @@ public class MeteorStrikeAction : AgentAction
 
     private void DropMeteor(Transform firePoint, Enemy agent)
     {
+        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
         GameObject meteor = Instantiate(
             meteorPrefab,
-            Player.Instance.Metrics.PredictNextPositionUsingMomentum() + (Vector3.up * 10),
+            playerMetrics.PredictNextPositionUsingMomentum() + (Vector3.up * 10),
             Quaternion.identity
         );
         Destroy(meteor, dropDelay + 1f);

@@ -19,6 +19,7 @@ public class SeeingModule : SenseModule
     {
         Vector3 directionToTarget = agent.Target.position - agent.transform.position;
         Ray ray = new(agent.transform.position, directionToTarget.normalized);
+        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
 
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, _range, _layerMask);
         bool isVisible = hit && hitInfo.transform == agent.Target;
@@ -36,7 +37,7 @@ public class SeeingModule : SenseModule
         if (isVisible && visibilityChanged)
         {
             CanSenseTarget = true;
-            Player.Instance.Metrics.UpdateCoverStatus(true);
+            playerMetrics.UpdateCoverStatus(true);
             LastKnownPosition = agent.Target.position;
             LastKnownVelocity = Player.Instance.Metrics.Velocity;
             LastSeenTime = Time.time;
@@ -47,7 +48,7 @@ public class SeeingModule : SenseModule
         if (!isVisible && visibilityChanged)
         {
             CanSenseTarget = false;
-            Player.Instance.Metrics.UpdateCoverStatus(false);
+            playerMetrics.UpdateCoverStatus(false);
             _lastVisibilityChangeTime = Time.time;
         }
 
