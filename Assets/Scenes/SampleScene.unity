@@ -1081,12 +1081,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 915808712}
+  - component: {fileID: 915808718}
   - component: {fileID: 915808714}
   - component: {fileID: 915808716}
   - component: {fileID: 915808717}
-  - component: {fileID: 915808718}
   - component: {fileID: 915808719}
-  - component: {fileID: 915808720}
   - component: {fileID: 915808721}
   m_Layer: 6
   m_Name: Player
@@ -1177,6 +1176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 3aacfd0753f969444ac44d0d67d0cb3b, type: 2}
   firePoint: {fileID: 1233430627}
+  selectionKey: 323
 --- !u!54 &915808719
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1204,23 +1204,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &915808720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915808710}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0204719cc870e144aa49547e3517a82e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 6377726187542555592, guid: ea9245bb968494f45bfcaaa297fe9a3a, type: 3}
-  firePoint: {fileID: 1233430627}
-  shootingRate: 0.2
-  projectileSpeed: 30
-  selectionStrategy: {fileID: 11400000, guid: 4154d7b73542ae943bd7f77902744bd1, type: 2}
 --- !u!143 &915808721
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1999,6 +1982,10 @@ PrefabInstance:
       propertyPath: Data
       value: 
       objectReference: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
+    - target: {fileID: 4737356123614060790, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5722667563602715230, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
       propertyPath: target
       value: 

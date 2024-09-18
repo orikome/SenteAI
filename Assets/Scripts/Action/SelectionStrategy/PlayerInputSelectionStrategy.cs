@@ -11,11 +11,20 @@ public class PlayerInputSelectionStrategy : ActionSelectionStrategy
 
     public override AgentAction SelectAction(Agent agent)
     {
-        return agent.Actions.FirstOrDefault();
+        if (Player.Instance.IsInputHeld())
+            return agent.Actions.FirstOrDefault();
+
+        return null;
     }
 
-    public bool IsInputHeld()
+    public override Vector3 GetShootDirection(Agent agent)
     {
-        return Input.GetKey(selectionKey);
+        var nearestEnemy = Player.Instance.Metrics.FindClosestEnemyToPlayer();
+        if (nearestEnemy != null)
+        {
+            return (nearestEnemy.position - agent.firePoint.position).normalized;
+        }
+
+        return agent.firePoint.forward;
     }
 }
