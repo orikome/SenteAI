@@ -11,12 +11,12 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
-    private Enemy _enemy;
+    private Agent _enemy;
 
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = (Enemy)agent;
+        _enemy = (Agent)agent;
     }
 
     public override void Execute(Transform firePoint, Vector3 direction)
@@ -36,7 +36,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         AfterExecution();
     }
 
-    private bool HasClearShot(Transform firePoint, Enemy agent)
+    private bool HasClearShot(Transform firePoint, Agent agent)
     {
         PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
         Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
@@ -61,7 +61,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         return true;
     }
 
-    public override void CalculateUtility(Enemy agent)
+    public override void CalculateUtility(Agent agent)
     {
         EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
         float distance = enemyMetrics.DistanceToPlayer;
@@ -95,7 +95,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         return modifiedUtility;
     }
 
-    public void HandleFailure(Enemy agent)
+    public void HandleFailure(Agent agent)
     {
         // Decrease utility if projectile misses
         FailureCount++;
@@ -107,7 +107,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         );
     }
 
-    public void HandleSuccess(Enemy agent)
+    public void HandleSuccess(Agent agent)
     {
         // Increase utility if projectile hits
         SuccessCount++;

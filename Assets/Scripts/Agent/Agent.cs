@@ -22,11 +22,27 @@ public class Agent : MonoBehaviour
         InitModules();
         InitActions();
         SelectTarget();
+        AssignFaction();
+    }
 
-        if (Data.faction == Faction.Player)
-            Metrics = EnsureComponent<PlayerMetrics>();
-        else
-            Metrics = EnsureComponent<EnemyMetrics>();
+    private void AssignFaction()
+    {
+        switch (Data.faction)
+        {
+            case Faction.Player:
+                Metrics = EnsureComponent<PlayerMetrics>();
+                gameObject.tag = "Player";
+                break;
+
+            case Faction.Enemy:
+                Metrics = EnsureComponent<EnemyMetrics>();
+                gameObject.tag = "Enemy";
+                break;
+
+            case Faction.Neutral:
+                gameObject.tag = "Neutral";
+                break;
+        }
     }
 
     public virtual void Update()
@@ -53,13 +69,13 @@ public class Agent : MonoBehaviour
     void OnEnable()
     {
         if (Data.faction == Faction.Enemy)
-            GameManager.Instance.activeEnemies.Add((Enemy)this);
+            GameManager.Instance.activeEnemies.Add((Agent)this);
     }
 
     void OnDisable()
     {
         if (Data.faction == Faction.Enemy)
-            GameManager.Instance.activeEnemies.Remove((Enemy)this);
+            GameManager.Instance.activeEnemies.Remove((Agent)this);
     }
 
     public virtual void LoadAgentData()

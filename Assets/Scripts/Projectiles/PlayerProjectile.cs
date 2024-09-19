@@ -13,7 +13,7 @@ public class PlayerProjectile : Projectile
     {
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
-            collision.transform.root.gameObject.TryGetComponent<Enemy>(out var agent);
+            collision.transform.root.gameObject.TryGetComponent<Agent>(out var agent);
             agent.GetModule<HealthModule>().TakeDamage(10);
             PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
             playerMetrics.UpdateDamageDone(10);

@@ -4,13 +4,13 @@ using UnityEngine.AI;
 
 public class EnemyGizmos : MonoBehaviour
 {
-    private Enemy _agent;
+    private Agent _agent;
     public float textHeight = 4f;
     public float textSize = 0.1f;
 
     private void Start()
     {
-        _agent = gameObject.GetComponent<Enemy>();
+        _agent = gameObject.GetComponent<Agent>();
     }
 
     private void OnDrawGizmos()

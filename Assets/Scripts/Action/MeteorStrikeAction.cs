@@ -5,12 +5,12 @@ public class MeteorStrikeAction : AgentAction
 {
     public GameObject meteorPrefab;
     public float dropDelay = 2f;
-    private Enemy _enemy;
+    private Agent _enemy;
 
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = (Enemy)agent;
+        _enemy = (Agent)agent;
     }
 
     public override void Execute(Transform firePoint, Vector3 direction)
@@ -19,7 +19,7 @@ public class MeteorStrikeAction : AgentAction
         AfterExecution();
     }
 
-    public override void CalculateUtility(Enemy agent)
+    public override void CalculateUtility(Agent agent)
     {
         float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 1f;
         float calculatedUtil = 0.5f * CanSenseFactor;
@@ -27,7 +27,7 @@ public class MeteorStrikeAction : AgentAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
-    private void DropMeteor(Transform firePoint, Enemy agent)
+    private void DropMeteor(Transform firePoint, Agent agent)
     {
         PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
         GameObject meteor = Instantiate(

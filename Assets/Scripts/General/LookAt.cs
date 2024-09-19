@@ -7,11 +7,11 @@ public class LookAt : MonoBehaviour
     public Transform target;
     public float rotationSpeed = 60f;
     public float idleRotationSpeed = 10f;
-    Enemy _agent;
+    Agent _agent;
 
     void Start()
     {
-        _agent = gameObject.GetComponent<Enemy>();
+        _agent = gameObject.GetComponent<Agent>();
         target = Player.Instance.transform;
     }
 

@@ -23,7 +23,7 @@ public abstract class AgentAction : ScriptableObject
     public float ScaledUtilityScore { get; set; }
     public int TimesExecuted { get; private set; } = 0;
 
-    public virtual bool CanExecute(Enemy agent)
+    public virtual bool CanExecute(Agent agent)
     {
         return !IsOnCooldown() && ScaledUtilityScore > MIN_UTILITY;
     }
@@ -72,7 +72,7 @@ public abstract class AgentAction : ScriptableObject
     /// <summary>
     /// Called every frame in the agent's update loop.
     /// </summary>
-    public virtual void CalculateUtility(Enemy agent) { }
+    public virtual void CalculateUtility(Agent agent) { }
 
     /// <summary>
     /// Apply a penalty, a value between 0f and 1f.

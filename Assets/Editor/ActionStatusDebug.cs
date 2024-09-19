@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Enemy))]
+[CustomEditor(typeof(Agent))]
 public class ActionStatusDebug : Editor
 {
     private void OnEnable()
@@ -24,7 +24,7 @@ public class ActionStatusDebug : Editor
         if (GameManager.Instance != null)
             return;
 
-        Enemy agent = (Enemy)target;
+        Agent agent = (Agent)target;
         EditorGUILayout.LabelField(
             "Health",
             agent.GetModule<HealthModule>().CurrentHealth.ToString()

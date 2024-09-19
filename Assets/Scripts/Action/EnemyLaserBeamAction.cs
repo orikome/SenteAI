@@ -11,12 +11,12 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
-    private Enemy _enemy;
+    private Agent _enemy;
 
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = (Enemy)agent;
+        _enemy = (Agent)agent;
     }
 
     public override void Execute(Transform firePoint, Vector3 direction)
@@ -28,7 +28,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
         AfterExecution();
     }
 
-    private bool HasClearShot(Transform firePoint, Enemy agent)
+    private bool HasClearShot(Transform firePoint, Agent agent)
     {
         PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
         Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
@@ -53,7 +53,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
         return true;
     }
 
-    public override bool CanExecute(Enemy agent)
+    public override bool CanExecute(Agent agent)
     {
         return agent.GetModule<SenseModule>().CanSenseTarget
             && !IsOnCooldown()
@@ -61,7 +61,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
             && HasClearShot(agent.firePoint, agent);
     }
 
-    public override void CalculateUtility(Enemy agent)
+    public override void CalculateUtility(Agent agent)
     {
         EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
         float distance = enemyMetrics.DistanceToPlayer;
@@ -73,7 +73,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
-    private void ShootLaser(Transform firePoint, Enemy agent)
+    private void ShootLaser(Transform firePoint, Agent agent)
     {
         PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
         Vector3 directionToTarget = playerMetrics.PredictNextPositionUsingMomentum();
@@ -117,7 +117,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
         return modifiedUtility;
     }
 
-    public void HandleFailure(Enemy agent)
+    public void HandleFailure(Agent agent)
     {
         // Decrease utility if projectile misses
         FailureCount++;
@@ -129,7 +129,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
         );
     }
 
-    public void HandleSuccess(Enemy agent)
+    public void HandleSuccess(Agent agent)
     {
         // Increase utility if projectile hits
         SuccessCount++;

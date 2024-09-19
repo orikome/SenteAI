@@ -12,7 +12,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
         // Calculate utility scores
         foreach (var action in agent.Actions)
         {
-            action.CalculateUtility((Enemy)agent);
+            action.CalculateUtility((Agent)agent);
         }
 
         // Normalize and select the best action
@@ -20,7 +20,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
 
         // Select action
         AgentAction selectedAction = agent
-            .Actions.Where(action => action.CanExecute((Enemy)agent))
+            .Actions.Where(action => action.CanExecute((Agent)agent))
             .OrderByDescending(action => action.ScaledUtilityScore)
             .FirstOrDefault();
 
@@ -28,7 +28,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
             $"Selected: {Helpers.CleanName(selectedAction.name)} with utilScore: {selectedAction.ScaledUtilityScore}"
         );
 
-        Enemy enemy = (Enemy)agent;
+        Agent enemy = (Agent)agent;
 
         EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
         enemyMetrics?.AddActionToHistory(selectedAction);

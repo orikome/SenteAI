@@ -19,7 +19,7 @@ public class PlayerMetrics : Metrics
     private readonly int maxHistoryCount = 200;
     private readonly float detectionThreshold = 1.5f;
     private readonly int recentHistorySize = 6;
-    private Enemy closestEnemy;
+    private Agent closestEnemy;
 
     void Start()
     {
@@ -87,7 +87,7 @@ public class PlayerMetrics : Metrics
 
         float closestEnemyDistance = Mathf.Infinity;
 
-        foreach (Enemy agent in GameManager.Instance.activeEnemies)
+        foreach (Agent agent in GameManager.Instance.activeEnemies)
         {
             float distance = Vector3.Distance(agent.transform.position, transform.position);
 

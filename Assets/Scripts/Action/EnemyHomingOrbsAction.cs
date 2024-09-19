@@ -11,12 +11,12 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
-    private Enemy _enemy;
+    private Agent _enemy;
 
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = (Enemy)agent;
+        _enemy = (Agent)agent;
     }
 
     public override void Execute(Transform firePoint, Vector3 direction)
@@ -25,7 +25,7 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
         AfterExecution();
     }
 
-    public override void CalculateUtility(Enemy agent)
+    public override void CalculateUtility(Agent agent)
     {
         EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
         float distance = enemyMetrics.DistanceToPlayer;
@@ -78,7 +78,7 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
         return modifiedUtility;
     }
 
-    public void HandleFailure(Enemy agent)
+    public void HandleFailure(Agent agent)
     {
         // Decrease utility if projectile misses
         FailureCount++;
@@ -90,7 +90,7 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
         );
     }
 
-    public void HandleSuccess(Enemy agent)
+    public void HandleSuccess(Agent agent)
     {
         // Increase utility if projectile hits
         SuccessCount++;

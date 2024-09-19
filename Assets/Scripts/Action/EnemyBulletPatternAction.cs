@@ -3,16 +3,16 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "AgentAction/EnemyBulletPatternAction")]
 public class EnemyBulletPatternAction : BulletPatternAction
 {
-    private Enemy _enemy;
+    private Agent _enemy;
 
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = (Enemy)agent;
+        _enemy = (Agent)agent;
         heightOffset = -4f;
     }
 
-    public override void CalculateUtility(Enemy agent)
+    public override void CalculateUtility(Agent agent)
     {
         EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
         float distance = enemyMetrics.DistanceToPlayer;
