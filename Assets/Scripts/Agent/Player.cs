@@ -4,6 +4,7 @@ public class Player : Agent
 {
     public static Player Instance { get; private set; }
     public KeyCode selectionKey = KeyCode.Mouse0;
+    public Agent CurrentlyControlledAgent;
 
     void Awake()
     {
@@ -13,6 +14,7 @@ public class Player : Agent
     public override void Initialize()
     {
         base.Initialize();
+        //CurrentlyControlledAgent = this;
     }
 
     public bool IsInputHeld()
