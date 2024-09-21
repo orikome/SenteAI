@@ -21,6 +21,9 @@ public class ActionStatusDebug : Editor
         if (!Application.isPlaying)
             return;
 
+        if (!GameManager.Instance)
+            return;
+
         Agent agent = (Agent)target;
         EditorGUILayout.LabelField(
             "Health",

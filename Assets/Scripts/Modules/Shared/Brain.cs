@@ -4,16 +4,16 @@ using UnityEngine;
 public class Brain : Module
 {
     private Agent _agent;
-    private ActionSelectionStrategy _actionSelectionStrategy;
+    public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     private CooldownHandler _cooldownHandler;
 
     public override void Initialize(Agent agent)
     {
         _agent = agent;
         _cooldownHandler = new CooldownHandler(agent.Data.actionCooldown);
-        _actionSelectionStrategy = agent.Data.actionSelectionStrategy;
+        ActionSelectionStrategy = agent.Data.actionSelectionStrategy;
 
-        if (_actionSelectionStrategy == null)
+        if (ActionSelectionStrategy == null)
         {
             DebugManager.Instance.LogError("ActionSelectionStrategy is not assigned in AgentData!");
         }
@@ -24,21 +24,26 @@ public class Brain : Module
     {
         if (_cooldownHandler.IsReady())
         {
-            AgentAction decidedAction = _actionSelectionStrategy.SelectAction(agent);
+            AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
 
             if (decidedAction != null)
             {
                 decidedAction.Execute(
                     agent.firePoint,
-                    _actionSelectionStrategy.GetShootDirection(agent)
+                    ActionSelectionStrategy.GetShootDirection(agent)
                 );
                 _cooldownHandler.Reset();
             }
             else
             {
-                DebugManager.Instance.LogWarning("No valid action selected.");
+                //DebugManager.Instance.LogWarning("No valid action selected.");
             }
         }
+    }
+
+    public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)
+    {
+        ActionSelectionStrategy = strategy;
     }
 
     private void ResetUtilityScores()
