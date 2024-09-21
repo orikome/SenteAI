@@ -28,6 +28,8 @@ public class HealthModule : Module, IDamageable
         CurrentHealth = Mathf.Max(CurrentHealth, 0);
         DebugManager.Instance.SpawnTextLog(_agent.transform, amount.ToString(), Color.white);
 
+        _agent.Metrics.UpdateDamageTaken(amount);
+
         if (CurrentHealth <= 0)
         {
             Die();

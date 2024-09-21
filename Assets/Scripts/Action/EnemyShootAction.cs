@@ -134,7 +134,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
 
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
-        projectileComponent.SetParameters(direction, projectileSpeed, damage);
+        projectileComponent.SetParameters(_enemy, direction, projectileSpeed, damage);
 
         if (projectileComponent != null)
         {

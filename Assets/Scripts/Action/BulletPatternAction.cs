@@ -49,7 +49,7 @@ public class BulletPatternAction : AgentAction
                 spawnPosition + new Vector3(0f, heightOffset, 0f),
                 Quaternion.identity
             );
-            bullet.GetComponent<Projectile>().SetParameters(direction, bulletSpeed, 10);
+            bullet.GetComponent<Projectile>().SetParameters(_agent, direction, bulletSpeed, 10);
 
             // Increment angle to evenly space bullets
             angle += angleStep;

@@ -16,6 +16,7 @@ public class Projectile : MonoBehaviour
     private Light _light;
     private TrailRenderer[] trailRenderers;
     public Gradient speedGradient;
+    protected Agent _agent;
 
     protected virtual void Start() { }
 
@@ -74,9 +75,10 @@ public class Projectile : MonoBehaviour
         return speedGradient.Evaluate(normalizedSpeed);
     }
 
-    public void SetParameters(Vector3 direction, float projectileSpeed, int dmg)
+    public void SetParameters(Agent agent, Vector3 direction, float projectileSpeed, int dmg)
     {
         Initialize();
+        _agent = agent;
         _moveDirection = direction.normalized;
         _rotationDirection = direction.normalized;
         _speed = projectileSpeed;

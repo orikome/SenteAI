@@ -31,7 +31,7 @@ public class BulletHellExperiment : MonoBehaviour
 
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Projectile>().SetParameters(direction, 10f, 1);
+            bullet.GetComponent<Projectile>().SetParameters(null, direction, 10f, 1);
         }
     }
 
@@ -47,7 +47,7 @@ public class BulletHellExperiment : MonoBehaviour
 
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Projectile>().SetParameters(direction, 10f, 1);
+            bullet.GetComponent<Projectile>().SetParameters(null, direction, 10f, 1);
 
             angle += angleIncrement;
         }

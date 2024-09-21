@@ -42,6 +42,7 @@ public class LaserBehavior : MonoBehaviour
             if (other.transform.root.TryGetComponent(out Agent targetAgent))
             {
                 targetAgent.GetModule<HealthModule>().TakeDamage((int)damage);
+                _agent.Metrics.UpdateDamageDone(damage);
 
                 if (!hasHitTarget)
                 {

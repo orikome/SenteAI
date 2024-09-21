@@ -51,6 +51,7 @@ public class AgentProjectile : Projectile
             {
                 player.GetModule<HealthModule>().TakeDamage(10);
                 Helpers.SpawnParticles(transform.position, Color.red);
+                _agent.Metrics.UpdateDamageDone(10);
                 DebugManager.Instance.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}"
                 );

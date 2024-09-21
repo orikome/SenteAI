@@ -29,6 +29,13 @@ public class ActionStatusDebug : Editor
             "Health",
             agent.GetModule<HealthModule>()?.CurrentHealth.ToString()
         );
+        EditorGUILayout.LabelField(
+            "TimeAlive",
+            agent.GetModule<HealthModule>()?.TimeAlive.ToString()
+        );
+
+        EditorGUILayout.LabelField("DamageDone", agent.Metrics?.DamageDone.ToString());
+        EditorGUILayout.LabelField("DamageTaken", agent.Metrics.DamageTaken.ToString());
 
         EditorGUILayout.LabelField("Target", agent.Target?.ToString());
 

@@ -13,12 +13,14 @@ public class HomingOrbBehaviour : MonoBehaviour
     public Action OnHitCallback;
     public Action OnMissCallback;
     private bool _isPlayer;
+    private Agent _enemy;
 
-    public void SetParameters(bool isPlayer)
+    public void SetParameters(Agent agent, bool isPlayer)
     {
         rb = GetComponent<Rigidbody>();
         Destroy(gameObject, 12f);
         _isPlayer = isPlayer;
+        _enemy = agent;
 
         if (_isPlayer)
         {
@@ -70,6 +72,7 @@ public class HomingOrbBehaviour : MonoBehaviour
             if (collision.transform.root.TryGetComponent(out Agent agent))
             {
                 agent.GetModule<HealthModule>().TakeDamage(10);
+                _enemy.Metrics.UpdateDamageDone(10);
                 Helpers.SpawnParticles(transform.position, Color.red);
                 DebugManager.Instance.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {10} damage to {Helpers.CleanName(collision.transform.root.name)}"

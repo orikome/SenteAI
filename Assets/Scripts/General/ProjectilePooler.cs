@@ -39,7 +39,8 @@ public class ProjectilePooler : MonoBehaviour
         Quaternion rotation,
         Vector3 direction,
         float speed,
-        int damage
+        int damage,
+        Agent agent
     )
     {
         if (_projectilePool.Count > 0)
@@ -49,7 +50,7 @@ public class ProjectilePooler : MonoBehaviour
 
             projectile.transform.position = position;
             projectile.transform.rotation = rotation;
-            projectile.SetParameters(direction, speed, damage);
+            projectile.SetParameters(agent, direction, speed, damage);
 
             projectile.OnMissCallback = () => ReturnProjectile(projectile);
 

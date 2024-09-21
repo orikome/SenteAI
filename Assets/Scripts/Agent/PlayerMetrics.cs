@@ -5,12 +5,10 @@ public class PlayerMetrics : Metrics
 {
     public bool IsInCover { get; private set; }
     public Vector3 PredictedPosition { get; private set; }
-    public float DamageDone { get; private set; }
     public float TimeInCover { get; private set; }
     public float ShootingFrequency { get; private set; }
     public float DodgeRatio { get; private set; }
     public float DistanceToClosestEnemy { get; private set; }
-    public float DamageTaken { get; private set; }
 
     // Player position related
     public List<Vector3> PositionHistory { get; private set; } = new();
@@ -50,16 +48,6 @@ public class PlayerMetrics : Metrics
     {
         IsInCover = !canAnyEnemySeePlayer;
         TimeInCover = 0;
-    }
-
-    public void UpdateDamageDone(float dmgDone)
-    {
-        DamageDone += dmgDone;
-    }
-
-    public void UpdateDamageTaken(float dmgTaken)
-    {
-        DamageTaken += dmgTaken;
     }
 
     void TrackPlayerPositionHistory()

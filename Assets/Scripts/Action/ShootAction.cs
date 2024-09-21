@@ -34,7 +34,7 @@ public class ShootAction : AgentAction
 
         if (projectile.TryGetComponent<Projectile>(out var projectileComponent))
         {
-            projectileComponent.SetParameters(direction, projectileSpeed, damage);
+            projectileComponent.SetParameters(_agent, direction, projectileSpeed, damage);
         }
 
         Destroy(projectile, 4f);
