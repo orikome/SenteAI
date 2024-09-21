@@ -12,21 +12,22 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
         // Calculate utility scores
         foreach (var action in agent.Actions)
         {
-            action.CalculateUtility((Agent)agent);
+            action.CalculateUtility(agent);
         }
 
         // Normalize and select the best action
-        NormalizeUtilityScores(agent);
+        //NormalizeUtilityScores(agent);
 
         // Select action
         AgentAction selectedAction = agent
-            .Actions.Where(action => action.CanExecute((Agent)agent))
+            .Actions.Where(action => action.CanExecute(agent))
             .OrderByDescending(action => action.ScaledUtilityScore)
             .FirstOrDefault();
 
-        DebugManager.Instance.Log(
-            $"Selected: {Helpers.CleanName(selectedAction.name)} with utilScore: {selectedAction.ScaledUtilityScore}"
-        );
+        if (selectedAction != null)
+            DebugManager.Instance.Log(
+                $"Selected: {Helpers.CleanName(selectedAction.name)} with utilScore: {selectedAction.ScaledUtilityScore}"
+            );
 
         Agent enemy = (Agent)agent;
 

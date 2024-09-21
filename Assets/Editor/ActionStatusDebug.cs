@@ -27,7 +27,7 @@ public class ActionStatusDebug : Editor
         Agent agent = (Agent)target;
         EditorGUILayout.LabelField(
             "Health",
-            agent.GetModule<HealthModule>().CurrentHealth.ToString()
+            agent.GetModule<HealthModule>()?.CurrentHealth.ToString()
         );
 
         EditorGUILayout.LabelField("Target", agent.Target?.ToString());

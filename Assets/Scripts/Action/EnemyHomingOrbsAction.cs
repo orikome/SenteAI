@@ -64,8 +64,6 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
 
     public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)
     {
-        float modifiedUtility = utility;
-
         if (SuccessRate >= 0.5f)
             // Success rate is good, boost utility
             FeedbackModifier = Mathf.Lerp(1.0f, 1.5f, SuccessRate);
@@ -73,9 +71,7 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
             // Success rate is low, add penalty
             FeedbackModifier = Mathf.Lerp(0.5f, 1.0f, SuccessRate);
 
-        modifiedUtility *= Mathf.Max(FeedbackModifier, MIN_UTILITY);
-
-        return modifiedUtility;
+        return Mathf.Max(FeedbackModifier, MIN_UTILITY);
     }
 
     public void HandleFailure(Agent agent)
