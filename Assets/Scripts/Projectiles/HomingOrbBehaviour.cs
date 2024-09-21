@@ -22,7 +22,7 @@ public class HomingOrbBehaviour : MonoBehaviour
 
         if (_isPlayer)
         {
-            PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+            PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
             target = playerMetrics.FindClosestEnemyToPlayer();
             _targetMask = LayerMask.GetMask("Enemy");
             _ownerMask = LayerMask.GetMask("Player");
@@ -30,7 +30,7 @@ public class HomingOrbBehaviour : MonoBehaviour
         }
         else
         {
-            target = Player.Instance.transform;
+            target = GameManager.Instance.playerAgent.transform;
             _targetMask = LayerMask.GetMask("Player");
             _ownerMask = LayerMask.GetMask("Enemy");
             gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");

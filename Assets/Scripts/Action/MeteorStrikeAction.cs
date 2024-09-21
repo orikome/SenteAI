@@ -29,7 +29,7 @@ public class MeteorStrikeAction : AgentAction
 
     private void DropMeteor(Transform firePoint, Agent agent)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
         GameObject meteor = Instantiate(
             meteorPrefab,
             playerMetrics.PredictNextPositionUsingMomentum() + (Vector3.up * 10),

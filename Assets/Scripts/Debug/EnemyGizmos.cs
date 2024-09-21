@@ -15,10 +15,7 @@ public class EnemyGizmos : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (
-            !EditorApplication.isPlaying
-            || _agent.GetModule<NavMeshAgentModule>().NavMeshAgent == null
-        )
+        if (!Application.isPlaying)
             return;
 
         GUIStyle style =

@@ -12,7 +12,7 @@ public class LookAt : MonoBehaviour
     void Start()
     {
         _agent = gameObject.GetComponent<Agent>();
-        target = Player.Instance.transform;
+        target = GameManager.Instance.playerAgent.transform;
     }
 
     private void Update()

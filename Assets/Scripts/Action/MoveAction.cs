@@ -16,7 +16,7 @@ public class MoveAction : AgentAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
         Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
 
         Vector3 bestPosition = EvaluateBestPosition(_enemy, predictedPlayerPosition);
@@ -32,7 +32,7 @@ public class MoveAction : AgentAction
 
         Vector3 sampleCenter;
 
-        switch (Player.Instance.Metrics.CurrentBehavior)
+        switch (GameManager.Instance.playerAgent.Metrics.CurrentBehavior)
         {
             case Behavior.Aggressive:
                 // When the player is aggressive, sample positions around the agent to find cover
@@ -89,7 +89,7 @@ public class MoveAction : AgentAction
 
         bool positionInCover = IsInCover(position);
 
-        switch (Player.Instance.Metrics.CurrentBehavior)
+        switch (GameManager.Instance.playerAgent.Metrics.CurrentBehavior)
         {
             case Behavior.Aggressive:
                 // Player is aggressive; enemy should seek cover
@@ -150,14 +150,14 @@ public class MoveAction : AgentAction
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)
     {
         if (Physics.Raycast(fromPosition, targetPosition - fromPosition, out RaycastHit hit))
-            return hit.transform == Player.Instance.transform;
+            return hit.transform == GameManager.Instance.playerAgent.transform;
 
         return false;
     }
 
     private bool IsInCover(Vector3 position)
     {
-        Vector3 directionToPlayer = Player.Instance.transform.position - position;
+        Vector3 directionToPlayer = GameManager.Instance.playerAgent.transform.position - position;
         if (
             Physics.Raycast(
                 position,
@@ -167,7 +167,7 @@ public class MoveAction : AgentAction
             )
         )
         {
-            if (hit.transform != Player.Instance.transform)
+            if (hit.transform != GameManager.Instance.playerAgent.transform)
             {
                 return true; // There is an obstacle between position and player
             }

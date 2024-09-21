@@ -21,14 +21,13 @@ public class ActionStatusDebug : Editor
         if (!Application.isPlaying)
             return;
 
-        if (GameManager.Instance != null)
-            return;
-
         Agent agent = (Agent)target;
         EditorGUILayout.LabelField(
             "Health",
             agent.GetModule<HealthModule>().CurrentHealth.ToString()
         );
+
+        EditorGUILayout.LabelField("Target", agent.Target?.ToString());
 
         float totalAPM = 0f;
 

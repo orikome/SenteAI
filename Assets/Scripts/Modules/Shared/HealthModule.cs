@@ -37,7 +37,7 @@ public class HealthModule : Module, IDamageable
     public void Die()
     {
         IsAlive = false;
-        if (_agent.gameObject.GetComponent<Player>())
+        if (_agent.gameObject.CompareTag("Player"))
             GameManager.Instance.RestartScene();
         else
             Destroy(_agent.gameObject);

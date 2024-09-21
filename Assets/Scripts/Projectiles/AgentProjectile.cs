@@ -35,7 +35,7 @@ public class AgentProjectile : Projectile
 
     private bool HasPassedPlayer()
     {
-        Vector3 toPlayer = Player.Instance.transform.position - transform.position;
+        Vector3 toPlayer = GameManager.Instance.playerAgent.transform.position - transform.position;
         // If dot product is negative, projectile is facing away from the player
         return Vector3.Dot(transform.forward, toPlayer) < 0;
     }
@@ -47,7 +47,7 @@ public class AgentProjectile : Projectile
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
-            if (collision.transform.root.gameObject.TryGetComponent<Player>(out var player))
+            if (collision.transform.root.gameObject.TryGetComponent<Agent>(out var player))
             {
                 player.GetModule<HealthModule>().TakeDamage(10);
                 Helpers.SpawnParticles(transform.position, Color.red);

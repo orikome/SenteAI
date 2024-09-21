@@ -11,7 +11,7 @@ public class PlayerInputSelectionStrategy : ActionSelectionStrategy
 
     public override AgentAction SelectAction(Agent agent)
     {
-        if (Player.Instance.IsInputHeld())
+        if (InputManager.Instance.IsInputHeld())
             return agent.Actions.FirstOrDefault();
 
         return null;
@@ -19,7 +19,7 @@ public class PlayerInputSelectionStrategy : ActionSelectionStrategy
 
     public override Vector3 GetShootDirection(Agent agent)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
         var nearestEnemy = playerMetrics.FindClosestEnemyToPlayer();
         if (nearestEnemy != null)
         {

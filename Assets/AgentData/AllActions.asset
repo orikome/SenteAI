@@ -23,10 +23,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6724696322143c44c87f99af1fee45ba, type: 2}
   actions:
   - {fileID: 11400000, guid: 7aa4335195e2fb640b8928dffc395154, type: 2}
-  - {fileID: 11400000, guid: c80ba10ee38d2b4418f1284758ef7026, type: 2}
   - {fileID: 11400000, guid: 2cfce2468a1d80d4189ea0dcf9191205, type: 2}
   - {fileID: 11400000, guid: aa679f3063eb1a548929c84acffdfb54, type: 2}
   - {fileID: 11400000, guid: b773d7be901db6d439982c672d0a1bd2, type: 2}
   - {fileID: 11400000, guid: 449744e7dc6e66a47aa113b8c59e89d5, type: 2}
   - {fileID: 11400000, guid: 24f5354ecb1c38744a6cb31e65fec5ea, type: 2}
+  - {fileID: 11400000, guid: c80ba10ee38d2b4418f1284758ef7026, type: 2}
   actionSelectionStrategy: {fileID: 11400000, guid: 1047add231d697d4fa102d5823469b1d, type: 2}

@@ -21,7 +21,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
         Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - _enemy.firePoint.position;
 
@@ -31,14 +31,14 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
         // If distance is less than 30, directly shoot at player instead of predicting position
         if (enemyMetrics.DistanceToPlayer < 30f)
-            directionToPlayer = Player.Instance.transform.position;
+            directionToPlayer = GameManager.Instance.playerAgent.transform.position;
         ShootProjectile(firePoint, directionToPlayer);
         AfterExecution();
     }
 
     private bool HasClearShot(Transform firePoint, Agent agent)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
         Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");

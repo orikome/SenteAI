@@ -28,7 +28,7 @@ public class LaserBeamAction : AgentAction
     {
         Vector3 directionToTarget;
 
-        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
         var nearestEnemy = playerMetrics.FindClosestEnemyToPlayer();
         directionToTarget = (nearestEnemy.position - _agent.firePoint.position).normalized;
 

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public List<Agent> activeEnemies = new();
+    public Agent playerAgent;
     private string filePath;
     private TestData testData;
 
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Player.Instance.Initialize();
+        playerAgent.Initialize();
 
         foreach (Agent enemy in activeEnemies)
         {
@@ -60,8 +61,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartScene()
     {
-        float timeAlive = Player.Instance.GetModule<HealthModule>().TimeAlive;
-        PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
+        float timeAlive = playerAgent.GetModule<HealthModule>().TimeAlive;
+        PlayerMetrics playerMetrics = (PlayerMetrics)playerAgent.Metrics;
         float damageDone = playerMetrics.DamageDone;
 
         testData.TimesTestRun++;

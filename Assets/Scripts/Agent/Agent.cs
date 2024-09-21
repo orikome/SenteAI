@@ -22,10 +22,11 @@ public class Agent : MonoBehaviour
         InitModules();
         InitActions();
         SelectTarget();
-        AssignFaction();
+        AddMetricsComponent();
+        // TODO: Should check and ensure that enemy has navMeshAgent
     }
 
-    private void AssignFaction()
+    private void AddMetricsComponent()
     {
         switch (Data.faction)
         {
@@ -51,31 +52,33 @@ public class Agent : MonoBehaviour
         {
             module.Execute(this);
         }
+        SelectTarget(); // TEMP
     }
 
     protected void SelectTarget()
     {
         if (Data.faction == Faction.Player)
         {
-            PlayerMetrics playerMetrics = (PlayerMetrics)Player.Instance.Metrics;
-            playerMetrics?.FindClosestEnemyToPlayer();
+            PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
+            if (playerMetrics != null)
+                Target = playerMetrics.FindClosestEnemyToPlayer();
         }
         else
         {
-            Target = Player.Instance.transform;
+            Target = GameManager.Instance.playerAgent.transform;
         }
     }
 
     void OnEnable()
     {
         if (Data.faction == Faction.Enemy)
-            GameManager.Instance.activeEnemies.Add((Agent)this);
+            GameManager.Instance.activeEnemies.Add(this);
     }
 
     void OnDisable()
     {
         if (Data.faction == Faction.Enemy)
-            GameManager.Instance.activeEnemies.Remove((Agent)this);
+            GameManager.Instance.activeEnemies.Remove(this);
     }
 
     public virtual void LoadAgentData()

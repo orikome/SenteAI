@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f13a239a2647f4e99d2338ba9eacfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: c882f8619abe41841a8dfc20e46ea34a, type: 2}
+  Data: {fileID: 11400000, guid: 7e20a2fa13ee904488c9d4dcc4be5cde, type: 2}
   firePoint: {fileID: 1389219864144260825}
 --- !u!114 &1133725695267956018
 MonoBehaviour:
@@ -441,7 +441,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
