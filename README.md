@@ -22,16 +22,25 @@ public class Agent : MonoBehaviour
     }
 }
 ```
-## EnemyBrain
-The `Enemy` has a brain `Module`, which handles `Action` components such as attacking or moving.
+## Brain
+Both the `Player` and the `Enemy` have a brain `Module`, which handles the execution of `Action` components such as attacking or moving.
 ```csharp
-public class EnemyBrain : Module
+public class Brain : Module
 {
     public virtual void Execute(Enemy enemy)
     {
-        foreach (var action in enemy.Actions)
+        if (_cooldownHandler.IsReady())
         {
-            action.CalculateUtility(enemy);
+            AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
+
+            if (decidedAction != null)
+            {
+                decidedAction.Execute(
+                    agent.firePoint,
+                    ActionSelectionStrategy.GetShootDirection(agent)
+                );
+                _cooldownHandler.Reset();
+            }
         }
     }
 }
