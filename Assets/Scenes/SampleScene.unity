@@ -1167,6 +1167,7 @@ GameObject:
   - component: {fileID: 915808717}
   - component: {fileID: 915808719}
   - component: {fileID: 915808721}
+  - component: {fileID: 915808723}
   m_Layer: 6
   m_Name: PlayerAgent
   m_TagString: Untagged
@@ -1309,6 +1310,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 3aacfd0753f969444ac44d0d67d0cb3b, type: 2}
   firePoint: {fileID: 1233430627}
+--- !u!114 &915808723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915808710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6e0c55f1b5e474dbb2ea8b298ffc97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 100
+  playerMesh: {fileID: 1098865936}
+  mainCamera: {fileID: 963194227}
 --- !u!1 &916691272
 GameObject:
   m_ObjectHideFlags: 0
