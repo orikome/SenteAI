@@ -27,20 +27,20 @@ Both the `Player` and the `Enemy` have a brain `Module`, which handles the execu
 ```csharp
 public class Brain : Module
 {
-    public virtual void Execute(Enemy enemy)
+    public override void Execute(Agent agent)
     {
-        if (_cooldownHandler.IsReady())
-        {
-            AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
+        if (!_cooldownHandler.IsReady())
+            return;
 
-            if (decidedAction != null)
-            {
-                decidedAction.Execute(
-                    agent.firePoint,
-                    ActionSelectionStrategy.GetShootDirection(agent)
-                );
-                _cooldownHandler.Reset();
-            }
+        AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
+
+        if (decidedAction != null)
+        {
+            decidedAction.Execute(
+                agent.firePoint,
+                ActionSelectionStrategy.GetShootDirection(agent)
+            );
+            _cooldownHandler.Reset();
         }
     }
 }
