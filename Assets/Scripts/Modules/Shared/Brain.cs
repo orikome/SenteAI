@@ -22,22 +22,18 @@ public class Brain : Module
 
     public override void Execute(Agent agent)
     {
-        if (_cooldownHandler.IsReady())
-        {
-            AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
+        if (!_cooldownHandler.IsReady())
+            return;
 
-            if (decidedAction != null)
-            {
-                decidedAction.Execute(
-                    agent.firePoint,
-                    ActionSelectionStrategy.GetShootDirection(agent)
-                );
-                _cooldownHandler.Reset();
-            }
-            else
-            {
-                //DebugManager.Instance.LogWarning("No valid action selected.");
-            }
+        AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
+
+        if (decidedAction != null)
+        {
+            decidedAction.Execute(
+                agent.firePoint,
+                ActionSelectionStrategy.GetShootDirection(agent)
+            );
+            _cooldownHandler.Reset();
         }
     }
 
