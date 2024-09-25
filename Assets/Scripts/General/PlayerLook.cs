@@ -7,10 +7,12 @@ public class PlayerLook : MonoBehaviour
     public Camera mainCamera;
     private Vector3 currentLookDirection;
     public static PlayerLook Instance { get; private set; }
+    private Agent _playerAgent;
 
     void Awake()
     {
         Instance = this;
+        _playerAgent = GetComponent<Agent>();
     }
 
     private void Update()
@@ -42,7 +44,19 @@ public class PlayerLook : MonoBehaviour
         }
     }
 
-    public Vector3 GetLookDirection()
+    public Vector3 GetClosestEnemyDirection()
+    {
+        PlayerMetrics playerMetrics = (PlayerMetrics)_playerAgent.Metrics;
+        var nearestEnemy = playerMetrics.FindClosestEnemyToPlayer();
+        if (nearestEnemy != null)
+        {
+            return (nearestEnemy.position - _playerAgent.firePoint.position).normalized;
+        }
+
+        return _playerAgent.firePoint.forward;
+    }
+
+    public Vector3 GetMouseLookDirection()
     {
         return currentLookDirection;
     }

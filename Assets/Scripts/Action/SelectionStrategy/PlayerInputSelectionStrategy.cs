@@ -19,15 +19,6 @@ public class PlayerInputSelectionStrategy : ActionSelectionStrategy
 
     public override Vector3 GetShootDirection(Agent agent)
     {
-        return PlayerLook.Instance.GetLookDirection();
-
-        // PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
-        // var nearestEnemy = playerMetrics.FindClosestEnemyToPlayer();
-        // if (nearestEnemy != null)
-        // {
-        //     return (nearestEnemy.position - agent.firePoint.position).normalized;
-        // }
-
-        // return agent.firePoint.forward;
+        return PlayerLook.Instance.GetMouseLookDirection();
     }
 }
