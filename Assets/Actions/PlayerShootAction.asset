@@ -17,5 +17,5 @@ MonoBehaviour:
   penaltyPerExecution: 0.2
   penaltyRestoreRate: 0.2
   projectilePrefab: {fileID: 6377726187542555592, guid: ea9245bb968494f45bfcaaa297fe9a3a, type: 3}
-  projectileSpeed: 30
+  projectileSpeed: 50
   damage: 10
