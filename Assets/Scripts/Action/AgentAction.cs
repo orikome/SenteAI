@@ -22,9 +22,14 @@ public abstract class AgentAction : ScriptableObject
     public float LastExecutedTime { get; protected set; }
     public float ScaledUtilityScore { get; set; }
     public int TimesExecuted { get; private set; } = 0;
+    private bool _penaltyMaxedOut = false;
 
     public virtual bool CanExecute(Agent agent)
     {
+        // If penalty is maxed out, block execution until PenaltyFactor is fully restored
+        if (_penaltyMaxedOut)
+            return false;
+
         return !IsOnCooldown() && ScaledUtilityScore > MIN_UTILITY;
     }
 
@@ -85,16 +90,25 @@ public abstract class AgentAction : ScriptableObject
         if (PenaltyFactor >= MAX_UTILITY)
         {
             DebugManager.Instance.Log(
-                $"Penalty exceeded, applying QUADRUPLE cooldown to: {Helpers.CleanName(name)}."
+                $"Penalty exceeded, applying a penalty period to: {Helpers.CleanName(name)}."
             );
-            LastExecutedTime = Time.time - cooldownTime + (cooldownTime * 4);
+            _penaltyMaxedOut = true; // Prevent further execution until penalty is cleared
         }
     }
 
     public void RestorePenaltyAndFeedback()
     {
         if (PenaltyFactor > 0.0f)
+        {
             PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
+            if (PenaltyFactor <= 0.0f)
+            {
+                _penaltyMaxedOut = false;
+                DebugManager.Instance.Log(
+                    $"{Helpers.CleanName(name)} penalty has been fully restored."
+                );
+            }
+        }
 
         if (this is not IFeedbackAction feedbackAction)
             return;
