@@ -4,7 +4,7 @@ using UnityEngine;
 public class BulletPatternAction : AgentAction
 {
     public GameObject bulletPrefab;
-    public int numberOfBullets = 10;
+    public int numberOfBullets = 12;
     public float bulletSpeed = 10f;
     public float angleIncrement = 10f;
     public float spawnRadius = 6f;

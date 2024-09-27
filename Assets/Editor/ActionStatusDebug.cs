@@ -35,7 +35,7 @@ public class ActionStatusDebug : Editor
         );
 
         EditorGUILayout.LabelField("DamageDone", agent.Metrics?.DamageDone.ToString());
-        EditorGUILayout.LabelField("DamageTaken", agent.Metrics.DamageTaken.ToString());
+        EditorGUILayout.LabelField("DamageTaken", agent.Metrics?.DamageTaken.ToString());
 
         EditorGUILayout.LabelField("Target", agent.Target?.ToString());
 
