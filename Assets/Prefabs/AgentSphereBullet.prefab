@@ -148,23 +148,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1460a3edeb1729f40af8f0f2c996e61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 5
+  lifetime: 15
   _renderer: {fileID: 0}
   speedGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0.9013662, b: 0, a: 1}
-    key1: {r: 1, g: 0.43618035, b: 0, a: 1}
-    key2: {r: 1, g: 0, b: 0.1487732, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 0.06140983, g: 1, b: 0, a: 1}
+    key1: {r: 1, g: 0.9618751, b: 0, a: 1}
+    key2: {r: 1, g: 0.43618035, b: 0, a: 0}
+    key3: {r: 1, g: 0.12820512, b: 0, a: 0}
+    key4: {r: 1, g: 0, b: 0.5560055, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 39321
-    ctime2: 65535
-    ctime3: 0
-    ctime4: 0
+    ctime1: 16384
+    ctime2: 32768
+    ctime3: 49151
+    ctime4: 65535
     ctime5: 0
     ctime6: 0
     ctime7: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
     atime7: 0
     m_Mode: 0
     m_ColorSpace: -1
-    m_NumColorKeys: 3
+    m_NumColorKeys: 5
     m_NumAlphaKeys: 2
 --- !u!1 &7875554434267788359
 GameObject:

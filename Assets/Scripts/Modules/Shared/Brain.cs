@@ -22,10 +22,11 @@ public class Brain : Module
 
     public override void Execute(Agent agent)
     {
+        // Also calculates utility and penalties, so this is called first
+        AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
+
         if (!_cooldownHandler.IsReady())
             return;
-
-        AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
 
         if (decidedAction != null)
         {
