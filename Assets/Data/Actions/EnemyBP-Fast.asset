@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34691451f601ee043bc8ececfa56d75b, type: 3}
-  m_Name: EnemyBulletPattern3
+  m_Name: EnemyBP-Fast
   m_EditorClassIdentifier: 
   cooldownTime: 0.4
   biasWeight: 0.8
-  penaltyPerExecution: 0.05
-  penaltyRestoreRate: 0.8
+  penaltyPerExecution: 0.4
+  penaltyRestoreRate: 0.1
   bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
-  numberOfBullets: 8
-  bulletSpeed: 5
-  angleIncrement: 60
+  numberOfBullets: 5
+  bulletSpeed: 20
+  angleIncrement: 120
   spawnRadius: 6
