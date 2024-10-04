@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AgentProjectile : Projectile
+public class EnemyProjectile : Projectile
 {
     private bool hasCompleted = false;
     private bool hasPassedPlayer = false;
