@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class AgentAction : ScriptableObject
 {
     // -- Set these in editor --
+    public AgentState agentState = AgentState.Combat;
     public float cooldownTime = 0.1f;
 
     [Range(0.0f, 1.0f)]
