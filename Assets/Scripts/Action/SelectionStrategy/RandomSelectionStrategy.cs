@@ -9,9 +9,7 @@ public class RandomSelectionStrategy : ActionSelectionStrategy
 {
     public override AgentAction SelectAction(Agent agent)
     {
-        var executableActions = agent
-            .Actions.Where(action => action.CanExecute((Agent)agent))
-            .ToList();
+        var executableActions = agent.Actions.Where(action => action.CanExecute(agent)).ToList();
 
         if (executableActions.Count == 0)
         {

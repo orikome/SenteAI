@@ -16,7 +16,7 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = (Agent)agent;
+        _enemy = agent;
     }
 
     public override void Execute(Transform firePoint, Vector3 direction)

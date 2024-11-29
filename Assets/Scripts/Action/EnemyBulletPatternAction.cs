@@ -8,7 +8,7 @@ public class EnemyBulletPatternAction : BulletPatternAction
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = (Agent)agent;
+        _enemy = agent;
         heightOffset = -5.75f;
     }
 
