@@ -38,6 +38,9 @@ public class PlayerMovement : Module
 
     private void HandleMovement()
     {
+        if (!_controller.enabled)
+            return;
+
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
