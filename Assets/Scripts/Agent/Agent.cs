@@ -13,6 +13,7 @@ public class Agent : MonoBehaviour
     public List<AgentAction> Actions { get; private set; } = new();
     public Metrics Metrics { get; private set; }
     public Transform Target { get; protected set; }
+    public AgentState State { get; protected set; }
     private Dictionary<System.Type, Module> _moduleCache = new();
 
     public virtual void Initialize()

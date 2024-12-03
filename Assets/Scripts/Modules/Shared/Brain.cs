@@ -3,8 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Brain", menuName = "Module/Brain")]
 public class Brain : Module
 {
-    private Agent _agent;
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
+    private Agent _agent;
     private CooldownHandler _cooldownHandler;
 
     public override void Initialize(Agent agent)
