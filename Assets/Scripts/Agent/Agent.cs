@@ -14,6 +14,7 @@ public class Agent : MonoBehaviour
     public Metrics Metrics { get; private set; }
     public Transform Target { get; protected set; }
     public AgentState State { get; protected set; }
+    public Faction Faction { get; protected set; }
     private Dictionary<System.Type, Module> _moduleCache = new();
 
     public virtual void Initialize()
@@ -34,20 +35,24 @@ public class Agent : MonoBehaviour
             case Faction.Player:
                 Metrics = EnsureComponent<PlayerMetrics>();
                 gameObject.tag = "Player";
+                Faction = Faction.Player;
                 break;
 
             case Faction.Enemy:
                 Metrics = EnsureComponent<EnemyMetrics>();
                 gameObject.tag = "Enemy";
+                Faction = Faction.Enemy;
                 break;
 
             case Faction.Ally:
                 Metrics = EnsureComponent<AllyMetrics>();
                 gameObject.tag = "Ally";
+                Faction = Faction.Ally;
                 break;
 
             case Faction.Neutral:
                 gameObject.tag = "Neutral";
+                Faction = Faction.Neutral;
                 break;
         }
     }
