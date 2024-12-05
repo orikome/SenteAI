@@ -41,6 +41,11 @@ public class Agent : MonoBehaviour
                 gameObject.tag = "Enemy";
                 break;
 
+            case Faction.Ally:
+                Metrics = EnsureComponent<AllyMetrics>();
+                gameObject.tag = "Ally";
+                break;
+
             case Faction.Neutral:
                 gameObject.tag = "Neutral";
                 break;
@@ -65,6 +70,8 @@ public class Agent : MonoBehaviour
         {
             Target = GameManager.Instance.playerAgent.transform;
         }
+
+        // TODO: Should implement targeting for allies
     }
 
     void OnEnable()
