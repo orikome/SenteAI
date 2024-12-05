@@ -28,9 +28,20 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         if (!HasClearShot(firePoint, _enemy))
             return;
 
-        EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
+        float distanceToPlayer;
+        if (_enemy.tag == "Enemy")
+        {
+            EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
+            distanceToPlayer = enemyMetrics.DistanceToPlayer;
+        }
+        else
+        {
+            AllyMetrics enemyMetrics = (AllyMetrics)_enemy.Metrics;
+            distanceToPlayer = enemyMetrics.DistanceToPlayer;
+        }
+
         // If distance is less than 30, directly shoot at player instead of predicting position
-        if (enemyMetrics.DistanceToPlayer < 30f)
+        if (distanceToPlayer < 30f)
             directionToPlayer = GameManager.Instance.playerAgent.transform.position;
         ShootProjectile(firePoint, directionToPlayer);
         AfterExecution();
@@ -63,8 +74,17 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
 
     public override void CalculateUtility(Agent agent)
     {
-        EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
-        float distance = enemyMetrics.DistanceToPlayer;
+        float distance;
+        if (agent.tag == "Enemy")
+        {
+            EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
+            distance = enemyMetrics.DistanceToPlayer;
+        }
+        else
+        {
+            AllyMetrics allyMetrics = (AllyMetrics)agent.Metrics;
+            distance = allyMetrics.DistanceToNearestEnemy;
+        }
         float maxDistance = 100f;
         float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
         float maxProjectileSpeed = 30f; // Fast projectile speed

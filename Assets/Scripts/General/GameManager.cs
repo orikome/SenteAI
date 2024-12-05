@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public List<Agent> activeEnemies = new();
+    public List<Agent> activeAllies = new();
     public Agent playerAgent;
 
     void Awake()
@@ -21,6 +22,11 @@ public class GameManager : MonoBehaviour
         foreach (Agent enemy in activeEnemies)
         {
             enemy.Initialize();
+        }
+
+        foreach (Agent ally in activeAllies)
+        {
+            ally.Initialize();
         }
     }
 

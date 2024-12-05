@@ -18,13 +18,12 @@ public class EnemyGizmos : MonoBehaviour
         if (!Application.isPlaying)
             return;
 
-        GUIStyle style =
-            new()
-            {
-                normal = { textColor = Color.yellow },
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = 20,
-            };
+        GUIStyle style = new()
+        {
+            normal = { textColor = Color.yellow },
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 20,
+        };
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
 
@@ -40,7 +39,11 @@ public class EnemyGizmos : MonoBehaviour
 
         Gizmos.color = Color.cyan;
 
-        NavMeshPath path = _agent.GetModule<NavMeshAgentModule>().NavMeshAgent.path;
+        var navMeshAgentModule = _agent.GetModule<NavMeshAgentModule>();
+        if (navMeshAgentModule == null || navMeshAgentModule.NavMeshAgent == null)
+            return;
+
+        NavMeshPath path = navMeshAgentModule.NavMeshAgent.path;
 
         // Draw path
         for (int i = 0; i < path.corners.Length - 1; i++)

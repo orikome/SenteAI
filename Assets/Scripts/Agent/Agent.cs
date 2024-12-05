@@ -62,28 +62,37 @@ public class Agent : MonoBehaviour
 
     protected void SelectTarget()
     {
-        if (Data.faction == Faction.Player)
+        switch (Data.faction)
         {
-            Target = GameManager.Instance.activeEnemies.FirstOrDefault().transform;
+            case Faction.Player:
+                Target = GameManager.Instance.activeEnemies.FirstOrDefault().transform;
+                break;
+            case Faction.Enemy:
+                Target = GameManager.Instance.playerAgent.transform;
+                break;
+            case Faction.Ally:
+                Target = GameManager.Instance.activeEnemies.FirstOrDefault().transform;
+                break;
+            case Faction.Neutral:
+                Target = null;
+                break;
         }
-        else
-        {
-            Target = GameManager.Instance.playerAgent.transform;
-        }
-
-        // TODO: Should implement targeting for allies
     }
 
     void OnEnable()
     {
         if (Data.faction == Faction.Enemy)
             GameManager.Instance.activeEnemies.Add(this);
+        else if (Data.faction == Faction.Ally)
+            GameManager.Instance.activeAllies.Add(this);
     }
 
     void OnDisable()
     {
         if (Data.faction == Faction.Enemy)
             GameManager.Instance.activeEnemies.Remove(this);
+        else if (Data.faction == Faction.Ally)
+            GameManager.Instance.activeAllies.Remove(this);
     }
 
     public virtual void LoadAgentData()
