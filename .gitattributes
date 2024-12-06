@@ -1,6 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# Ignore shader and cginc files that came from importing TMPro
+# Ignore shader, cginc and hlsl files that came from importing TMPro
 *.shader linguist-detectable=false
 *.cginc linguist-detectable=false
+*.hlsl linguist-detectable=false
