@@ -31,6 +31,7 @@ public class Agent : MonoBehaviour
         {
             module.Execute(this);
         }
+        SelectTarget();
     }
 
     void OnEnable()
@@ -49,9 +50,50 @@ public class Agent : MonoBehaviour
             GameManager.Instance.activeAllies.Remove(this);
     }
 
+    private Agent FindClosestTarget(List<Agent> potentialTargets)
+    {
+        if (potentialTargets == null || potentialTargets.Count == 0)
+            return null;
+
+        Vector3 myPosition = transform.position;
+        Agent closestTarget = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (Agent target in potentialTargets)
+        {
+            if (target == null || !target.gameObject.activeInHierarchy)
+                continue;
+
+            float distance = Vector3.Distance(myPosition, target.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestTarget = target;
+            }
+        }
+
+        return closestTarget;
+    }
+
     protected void SelectTarget()
     {
-        // TODO: Strategy pattern for target selection
+        switch (Faction)
+        {
+            case Faction.Player:
+            case Faction.Ally:
+                Target = FindClosestTarget(GameManager.Instance.activeEnemies);
+                break;
+
+            case Faction.Enemy:
+                var potentialTargets = new List<Agent>(GameManager.Instance.activeAllies);
+                potentialTargets.Add(GameManager.Instance.playerAgent);
+                Target = FindClosestTarget(potentialTargets);
+                break;
+
+            case Faction.Neutral:
+                Target = null;
+                break;
+        }
     }
 
     public virtual void LoadAgentData()
