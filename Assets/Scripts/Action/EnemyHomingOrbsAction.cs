@@ -27,8 +27,8 @@ public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
 
     public override void CalculateUtility(Agent agent)
     {
-        EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
-        float distance = enemyMetrics.DistanceToTarget;
+        Metrics metrics = agent.Metrics;
+        float distance = metrics.DistanceToTarget;
         float maxDistance = 100f;
         float CanSenseFactor = _enemy.GetModule<SenseModule>().CanSenseTarget ? 0.6f : 1f;
         float distanceFactor = 1.0f - (distance / maxDistance);

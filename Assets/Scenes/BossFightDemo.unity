@@ -2887,7 +2887,6 @@ GameObject:
   - component: {fileID: 877969937709286191}
   - component: {fileID: 9161484153894638685}
   - component: {fileID: 5722667564074361564}
-  - component: {fileID: 9161484153894638686}
   - component: {fileID: 7594109368562868596}
   - component: {fileID: 3641807667013773268}
   - component: {fileID: 9161484153894638687}
@@ -4559,18 +4558,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 1b554c7891af2244a843ac3fd1dbf753, type: 2}
   firePoint: {fileID: 1389219864480181851}
---- !u!114 &9161484153894638686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2952177845521595460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d257fa6a077541c47a3f72a431d2b4f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9161484153894638687
 MonoBehaviour:
   m_ObjectHideFlags: 0

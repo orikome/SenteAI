@@ -80,14 +80,14 @@ public class Agent : MonoBehaviour
                 break;
 
             case Faction.Enemy:
-                Metrics = EnsureComponent<EnemyMetrics>();
+                Metrics = EnsureComponent<Metrics>();
                 gameObject.tag = "Enemy";
                 Faction = Faction.Enemy;
                 Target = GameManager.Instance.activeAllies.FirstOrDefault();
                 break;
 
             case Faction.Ally:
-                Metrics = EnsureComponent<AllyMetrics>();
+                Metrics = EnsureComponent<Metrics>();
                 gameObject.tag = "Ally";
                 Faction = Faction.Ally;
                 Target = GameManager.Instance.activeEnemies.FirstOrDefault();

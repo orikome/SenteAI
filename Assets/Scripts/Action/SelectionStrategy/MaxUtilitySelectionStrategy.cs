@@ -29,10 +29,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
                 $"Selected: {Helpers.CleanName(selectedAction.name)} with utilScore: {selectedAction.ScaledUtilityScore}"
             );
 
-        Agent enemy = agent;
-
-        EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
-        enemyMetrics?.AddActionToHistory(selectedAction);
+        agent.Metrics.AddActionToHistory(selectedAction);
 
         return selectedAction;
     }

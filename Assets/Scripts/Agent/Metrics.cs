@@ -16,9 +16,16 @@ public class Metrics : MonoBehaviour
     public float DefensiveThreshold { get; protected set; } = 0.3f;
 
     public List<Vector3> PositionHistory { get; private set; } = new();
+    public List<AgentAction> ActionHistory { get; private set; } = new();
     protected readonly int recentHistorySize = 6;
     protected readonly float historyRecordInterval = 0.2f;
     private readonly float detectionThreshold = 1.5f;
+
+    public virtual void Update()
+    {
+        CurrentBehavior = ClassifyBehavior();
+        UpdateVelocity();
+    }
 
     public virtual void UpdateVelocity()
     {
@@ -120,5 +127,23 @@ public class Metrics : MonoBehaviour
 
         // If below threshold, player positions are clustered
         return averageDisplacement < detectionThreshold;
+    }
+
+    public void AddActionToHistory(AgentAction action)
+    {
+        ActionHistory.Add(action);
+        if (ActionHistory.Count > 20)
+        {
+            ActionHistory.RemoveAt(0);
+        }
+    }
+
+    public void SetDistanceToTarget()
+    {
+        // TEMPORARY!!!
+        DistanceToTarget = Vector3.Distance(
+            transform.position,
+            GetComponent<Agent>().Target.transform.position
+        );
     }
 }

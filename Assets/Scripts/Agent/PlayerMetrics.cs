@@ -24,8 +24,9 @@ public class PlayerMetrics : Metrics
         }
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         ShootingFrequency = Random.Range(0f, 1f);
         DodgeRatio = Random.Range(0f, 1f);
 
@@ -33,9 +34,7 @@ public class PlayerMetrics : Metrics
             TimeInCover += Time.deltaTime;
 
         FindClosestEnemyToPlayer();
-        UpdateVelocity();
         TrackPlayerPositionHistory();
-        CurrentBehavior = ClassifyBehavior();
     }
 
     public void UpdateCoverStatus(bool canAnyEnemySeePlayer)
@@ -72,9 +71,6 @@ public class PlayerMetrics : Metrics
         foreach (Agent enemy in GameManager.Instance.activeEnemies)
         {
             float distance = Vector3.Distance(enemy.transform.position, transform.position);
-
-            EnemyMetrics enemyMetrics = (EnemyMetrics)enemy.Metrics;
-            enemyMetrics.SetDistanceToPlayer(distance);
 
             if (distance < closestEnemyDistance)
             {

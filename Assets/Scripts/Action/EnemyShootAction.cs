@@ -56,16 +56,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
     public override void CalculateUtility(Agent agent)
     {
         float distance;
-        if (agent.CompareTag("Enemy"))
-        {
-            EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
-            distance = enemyMetrics.DistanceToTarget;
-        }
-        else
-        {
-            AllyMetrics allyMetrics = (AllyMetrics)agent.Metrics;
-            distance = allyMetrics.DistanceToTarget;
-        }
+        distance = agent.Metrics.DistanceToTarget;
         float maxDistance = 100f;
         float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
         float maxProjectileSpeed = 30f; // Fast projectile speed

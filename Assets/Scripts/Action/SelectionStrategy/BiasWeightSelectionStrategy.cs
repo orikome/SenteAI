@@ -26,10 +26,7 @@ public class BiasWeightSelectionStrategy : ActionSelectionStrategy
             );
         }
 
-        Agent enemy = agent;
-
-        EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
-        enemyMetrics?.AddActionToHistory(selectedAction);
+        agent.Metrics.AddActionToHistory(selectedAction);
 
         return selectedAction;
     }

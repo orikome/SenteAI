@@ -61,15 +61,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
                     $"Selected: {Helpers.CleanName(action.name)} with utility score: {action.ScaledUtilityScore}"
                 );
 
-                // TODO: Make a generalized metrics for both ally and enemy
-                if (agent.Metrics is AllyMetrics allyMetrics)
-                {
-                    allyMetrics.AddActionToHistory(action);
-                }
-                else if (agent.Metrics is EnemyMetrics enemyMetrics)
-                {
-                    enemyMetrics.AddActionToHistory(action);
-                }
+                agent.Metrics.AddActionToHistory(action);
 
                 return action;
             }
