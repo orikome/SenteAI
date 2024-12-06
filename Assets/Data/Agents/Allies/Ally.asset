@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
-  m_Name: ShootFast
+  m_Name: Ally
   m_EditorClassIdentifier: 
-  agentName: ShootAgent
-  faction: 0
+  agentName: ShootAlly
+  faction: 3
   maxHealth: 10000
   actionCooldown: 0.4
   modules:
@@ -22,5 +22,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 77907e796cc1d6c4cab94c9d36b4b62c, type: 2}
   - {fileID: 11400000, guid: 6724696322143c44c87f99af1fee45ba, type: 2}
   actions:
-  - {fileID: 11400000, guid: b773d7be901db6d439982c672d0a1bd2, type: 2}
-  actionSelectionStrategy: {fileID: 11400000, guid: 11e990057c79cbb4a8eb6e2a31fe3944, type: 2}
+  - {fileID: 11400000, guid: ccc470568a0193245ac71aa1ad91d795, type: 2}
+  - {fileID: 11400000, guid: c80ba10ee38d2b4418f1284758ef7026, type: 2}
+  actionSelectionStrategy: {fileID: 11400000, guid: b2323052c87092b41b51c38e69e51904, type: 2}
