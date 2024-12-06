@@ -21,9 +21,6 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         if (!HasClearShot(firePoint))
             return;
 
-        // If distance is less than 30, directly shoot at player instead of predicting position
-        if (targetMetrics.DistanceToTarget < 30f)
-            directionToTarget = GameManager.Instance.playerAgent.transform.position;
         ShootProjectile(firePoint, directionToTarget);
         AfterExecution();
     }

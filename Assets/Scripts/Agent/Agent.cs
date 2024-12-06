@@ -100,6 +100,8 @@ public class Agent : MonoBehaviour
                 break;
         }
 
+        Metrics.Initialize();
+
         // Add modules
         foreach (var module in Data.modules)
         {

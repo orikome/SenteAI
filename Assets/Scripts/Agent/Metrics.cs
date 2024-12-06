@@ -20,11 +20,18 @@ public class Metrics : MonoBehaviour
     protected readonly int recentHistorySize = 6;
     protected readonly float historyRecordInterval = 0.2f;
     private readonly float detectionThreshold = 1.5f;
+    protected Agent _agent;
+
+    public void Initialize()
+    {
+        _agent = GetComponent<Agent>();
+    }
 
     public virtual void Update()
     {
         CurrentBehavior = ClassifyBehavior();
         UpdateVelocity();
+        SetDistanceToTarget();
     }
 
     public virtual void UpdateVelocity()
@@ -50,6 +57,9 @@ public class Metrics : MonoBehaviour
 
     public Vector3 GetAveragePosition()
     {
+        if (PositionHistory.Count == 0)
+            return transform.position;
+
         Vector3 averagePosition = Vector3.zero;
         foreach (Vector3 pos in PositionHistory)
         {
@@ -60,6 +70,9 @@ public class Metrics : MonoBehaviour
 
     public Vector3 GetAveragePosition(int historyCount)
     {
+        if (PositionHistory.Count == 0)
+            return transform.position;
+
         int validHistoryCount = Mathf.Min(historyCount, PositionHistory.Count);
 
         if (validHistoryCount == 0)
@@ -77,6 +90,10 @@ public class Metrics : MonoBehaviour
 
     public Vector3 PredictNextPositionUsingMomentum()
     {
+        // Need at least 3 positions in history for momentum calculation
+        if (PositionHistory.Count < 3)
+            return transform.position;
+
         // Calculate velocity between last two positions
         Vector3 velocity1 =
             (
@@ -105,6 +122,10 @@ public class Metrics : MonoBehaviour
 
     public Vector3 PredictPositionDynamically()
     {
+        // If distance is less than 30, directly shoot at player instead of predicting position
+        if (DistanceToTarget < 30f)
+            return _agent.Target.transform.position;
+
         // If player is cheesing (circling or moving in a small area), use average position prediction
         if (IsClusteredMovement())
             return GetAveragePosition(recentHistorySize);
@@ -114,6 +135,10 @@ public class Metrics : MonoBehaviour
 
     protected bool IsClusteredMovement()
     {
+        // Check if we have enough history first
+        if (PositionHistory.Count < recentHistorySize)
+            return false;
+
         // Get average position of last few locations
         Vector3 averagePosition = GetAveragePosition(recentHistorySize);
         float totalDisplacement = 0f;
@@ -140,10 +165,6 @@ public class Metrics : MonoBehaviour
 
     public void SetDistanceToTarget()
     {
-        // TEMPORARY!!!
-        DistanceToTarget = Vector3.Distance(
-            transform.position,
-            GetComponent<Agent>().Target.transform.position
-        );
+        DistanceToTarget = Vector3.Distance(transform.position, _agent.Target.transform.position);
     }
 }
