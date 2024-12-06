@@ -19,42 +19,10 @@ public class Agent : MonoBehaviour
 
     public virtual void Initialize()
     {
-        // Initialize data and other components
         LoadAgentData();
-        InitModules();
-        InitActions();
-        AddMetricsComponent();
+        InitializeModules();
+        InitializeActions();
         SelectTarget();
-        // TODO: Should check and ensure that enemy has navMeshAgent
-    }
-
-    private void AddMetricsComponent()
-    {
-        switch (Data.faction)
-        {
-            case Faction.Player:
-                Metrics = EnsureComponent<PlayerMetrics>();
-                gameObject.tag = "Player";
-                Faction = Faction.Player;
-                break;
-
-            case Faction.Enemy:
-                Metrics = EnsureComponent<EnemyMetrics>();
-                gameObject.tag = "Enemy";
-                Faction = Faction.Enemy;
-                break;
-
-            case Faction.Ally:
-                Metrics = EnsureComponent<AllyMetrics>();
-                gameObject.tag = "Ally";
-                Faction = Faction.Ally;
-                break;
-
-            case Faction.Neutral:
-                gameObject.tag = "Neutral";
-                Faction = Faction.Neutral;
-                break;
-        }
     }
 
     public virtual void Update()
@@ -62,26 +30,6 @@ public class Agent : MonoBehaviour
         foreach (var module in Modules)
         {
             module.Execute(this);
-        }
-    }
-
-    protected void SelectTarget()
-    {
-        // TODO: Strategy pattern for target selection
-        switch (Data.faction)
-        {
-            case Faction.Player:
-                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
-                break;
-            case Faction.Enemy:
-                Target = GameManager.Instance.activeAllies.FirstOrDefault();
-                break;
-            case Faction.Ally:
-                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
-                break;
-            case Faction.Neutral:
-                Target = null;
-                break;
         }
     }
 
@@ -101,6 +49,11 @@ public class Agent : MonoBehaviour
             GameManager.Instance.activeAllies.Remove(this);
     }
 
+    protected void SelectTarget()
+    {
+        // TODO: Strategy pattern for target selection
+    }
+
     public virtual void LoadAgentData()
     {
         // Ensure we only use data from our AgentData file
@@ -112,6 +65,39 @@ public class Agent : MonoBehaviour
         {
             DebugManager.Instance.LogError("AgentData is not assigned!");
             return;
+        }
+
+        // Set faction, target and correct metrics
+        // TODO: Also set layer based on faction
+        // TODO: Should check and ensure that nonPlayer has navMeshAgent module
+        switch (Data.faction)
+        {
+            case Faction.Player:
+                Metrics = EnsureComponent<PlayerMetrics>();
+                gameObject.tag = "Player";
+                Faction = Faction.Player;
+                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
+                break;
+
+            case Faction.Enemy:
+                Metrics = EnsureComponent<EnemyMetrics>();
+                gameObject.tag = "Enemy";
+                Faction = Faction.Enemy;
+                Target = GameManager.Instance.activeAllies.FirstOrDefault();
+                break;
+
+            case Faction.Ally:
+                Metrics = EnsureComponent<AllyMetrics>();
+                gameObject.tag = "Ally";
+                Faction = Faction.Ally;
+                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
+                break;
+
+            case Faction.Neutral:
+                gameObject.tag = "Neutral";
+                Faction = Faction.Neutral;
+                Target = null;
+                break;
         }
 
         // Add modules
@@ -137,7 +123,7 @@ public class Agent : MonoBehaviour
         transform.gameObject.name = Data.agentName;
     }
 
-    public void InitModules()
+    public void InitializeModules()
     {
         if (Modules.Count == 0)
             DebugManager.Instance.LogError("No modules assigned!");
@@ -149,7 +135,7 @@ public class Agent : MonoBehaviour
         }
     }
 
-    public void InitActions()
+    public void InitializeActions()
     {
         if (Actions.Count == 0)
             DebugManager.Instance.LogError("No actions assigned!");
