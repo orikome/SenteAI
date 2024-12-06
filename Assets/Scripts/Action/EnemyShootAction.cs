@@ -15,8 +15,8 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         Metrics targetMetrics = _agent.Target.Metrics;
-        Vector3 predictedTargetPosition = targetMetrics.PredictPositionDynamically();
-        Vector3 directionToTarget = predictedTargetPosition - _agent.firePoint.position;
+        Vector3 predictedTargetPosition = targetMetrics.PredictPosition();
+        Vector3 directionToTarget = predictedTargetPosition - firePoint.position;
 
         if (!HasClearShot(firePoint))
             return;
@@ -28,7 +28,7 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
     private bool HasClearShot(Transform firePoint)
     {
         Metrics targetMetrics = _agent.Target.Metrics;
-        Vector3 predictedTargetPosition = targetMetrics.PredictPositionDynamically();
+        Vector3 predictedTargetPosition = targetMetrics.PredictPosition();
         Vector3 directionToTarget = predictedTargetPosition - _agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 

@@ -120,16 +120,17 @@ public class Metrics : MonoBehaviour
         return predictedPosition;
     }
 
-    public Vector3 PredictPositionDynamically()
+    public Vector3 PredictPosition()
     {
         // If distance is less than 30, directly shoot at player instead of predicting position
         if (DistanceToTarget < 30f)
-            return _agent.Target.transform.position;
+            return _agent.transform.position;
 
         // If player is cheesing (circling or moving in a small area), use average position prediction
         if (IsClusteredMovement())
             return GetAveragePosition(recentHistorySize);
 
+        // Otherwise we predict next position using last few positions
         return PredictNextPositionUsingMomentum();
     }
 

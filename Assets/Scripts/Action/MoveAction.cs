@@ -17,7 +17,7 @@ public class MoveAction : AgentAction
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
-        Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
+        Vector3 predictedPlayerPosition = playerMetrics.PredictPosition();
 
         Vector3 bestPosition = EvaluateBestPosition(_enemy, predictedPlayerPosition);
 
