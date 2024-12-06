@@ -54,15 +54,15 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
     {
         float distance;
         distance = agent.Metrics.DistanceToTarget;
-        float maxDistance = 100f;
-        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
+        float maxDistance = 60f;
+        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 1f : MIN_UTILITY;
         float maxProjectileSpeed = 30f; // Fast projectile speed
         float speedFactor = Mathf.Clamp01(projectileSpeed / maxProjectileSpeed);
 
         // Weigh speed more for longer distances, because slower projectiles have less chance of hitting at range
         float distanceFactor = 1.0f - (distance / maxDistance);
         float speedDistanceFactor = distanceFactor * speedFactor;
-        float calculatedUtil = speedDistanceFactor * 0.5f * CanSenseFactor;
+        float calculatedUtil = speedDistanceFactor * CanSenseFactor * 1.5f;
 
         SetUtilityWithModifiers(calculatedUtil);
     }
