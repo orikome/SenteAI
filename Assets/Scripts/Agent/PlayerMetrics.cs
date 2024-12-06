@@ -4,19 +4,13 @@ using UnityEngine;
 public class PlayerMetrics : Metrics
 {
     public bool IsInCover { get; private set; }
-    public Vector3 PredictedPosition { get; private set; }
     public float TimeInCover { get; private set; }
     public float ShootingFrequency { get; private set; }
     public float DodgeRatio { get; private set; }
-    public float DistanceToClosestEnemy { get; private set; }
 
     // Player position related
-    public List<Vector3> PositionHistory { get; private set; } = new();
-    private readonly float historyRecordInterval = 0.2f;
     private float timeSinceLastRecord = 0f;
     private readonly int maxHistoryCount = 200;
-    private readonly float detectionThreshold = 1.5f;
-    private readonly int recentHistorySize = 6;
     private Agent closestEnemy;
 
     void Start()
@@ -86,92 +80,11 @@ public class PlayerMetrics : Metrics
             {
                 closestEnemyDistance = distance;
                 closestEnemy = enemy;
-                DistanceToClosestEnemy = distance;
+                DistanceToTarget = distance;
             }
         }
 
         return closestEnemy.transform;
-    }
-
-    public Vector3 GetAveragePosition()
-    {
-        Vector3 averagePosition = Vector3.zero;
-        foreach (Vector3 pos in PositionHistory)
-        {
-            averagePosition += pos;
-        }
-        return averagePosition / PositionHistory.Count;
-    }
-
-    public Vector3 GetAveragePosition(int historyCount)
-    {
-        int validHistoryCount = Mathf.Min(historyCount, PositionHistory.Count);
-
-        if (validHistoryCount == 0)
-            return transform.position;
-
-        Vector3 averagePosition = Vector3.zero;
-
-        for (int i = PositionHistory.Count - validHistoryCount; i < PositionHistory.Count; i++)
-        {
-            averagePosition += PositionHistory[i];
-        }
-
-        return averagePosition / validHistoryCount;
-    }
-
-    public Vector3 PredictNextPositionUsingMomentum()
-    {
-        // Calculate velocity between last two positions
-        Vector3 velocity1 =
-            (
-                PositionHistory[PositionHistory.Count - 1]
-                - PositionHistory[PositionHistory.Count - 2]
-            ) / historyRecordInterval;
-
-        // Calculate velocity one step further back
-        Vector3 velocity2 =
-            (
-                PositionHistory[PositionHistory.Count - 2]
-                - PositionHistory[PositionHistory.Count - 3]
-            ) / historyRecordInterval;
-
-        Vector3 acceleration = (velocity1 - velocity2) / historyRecordInterval;
-
-        // Project both velocity and acceleration forward
-        Vector3 predictedPosition =
-            transform.position
-            + velocity1
-            + 0.5f * Mathf.Pow(historyRecordInterval, 2) * acceleration;
-
-        PredictedPosition = predictedPosition;
-        return predictedPosition;
-    }
-
-    public Vector3 PredictPositionDynamically()
-    {
-        // If player is cheesing (circling or moving in a small area), use average position prediction
-        if (IsClusteredMovement())
-            return GetAveragePosition(recentHistorySize);
-
-        return PredictNextPositionUsingMomentum();
-    }
-
-    private bool IsClusteredMovement()
-    {
-        // Get average position of last few locations
-        Vector3 averagePosition = GetAveragePosition(recentHistorySize);
-        float totalDisplacement = 0f;
-
-        for (int i = PositionHistory.Count - recentHistorySize; i < PositionHistory.Count; i++)
-        {
-            totalDisplacement += Vector3.Distance(PositionHistory[i], averagePosition);
-        }
-
-        float averageDisplacement = totalDisplacement / recentHistorySize;
-
-        // If below threshold, player positions are clustered
-        return averageDisplacement < detectionThreshold;
     }
 
     protected override Behavior ClassifyBehavior()
@@ -179,7 +92,7 @@ public class PlayerMetrics : Metrics
         if (Time.frameCount % 500 != 0)
             return Behavior.Balanced;
 
-        if (ShootingFrequency > AggressiveThreshold && DistanceToClosestEnemy < DefensiveThreshold)
+        if (ShootingFrequency > AggressiveThreshold && DistanceToTarget < DefensiveThreshold)
         {
             DebugManager.Instance.SpawnTextLog(transform, "Player is Aggressive", Color.red);
             return Behavior.Aggressive;

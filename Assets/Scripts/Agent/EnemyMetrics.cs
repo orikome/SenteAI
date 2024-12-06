@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 public class EnemyMetrics : Metrics
 {
-    public float DistanceToPlayer { get; private set; }
     public float HealthFactor { get; private set; }
     public float EnergyLevel { get; private set; }
     public List<AgentAction> ActionHistory { get; private set; } = new();
@@ -15,7 +14,7 @@ public class EnemyMetrics : Metrics
 
     public void SetDistanceToPlayer(float disToPlayer)
     {
-        DistanceToPlayer = disToPlayer;
+        DistanceToTarget = disToPlayer;
     }
 
     public void AddActionToHistory(AgentAction action)

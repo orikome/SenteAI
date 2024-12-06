@@ -14,47 +14,28 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        if (_agent.Faction.Equals(Faction.Enemy))
-        {
-            PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
-            Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
-            Vector3 directionToPlayer = predictedPlayerPosition - _agent.firePoint.position;
+        Metrics targetMetrics = _agent.Target.Metrics;
+        Vector3 predictedTargetPosition = targetMetrics.PredictPositionDynamically();
+        Vector3 directionToTarget = predictedTargetPosition - _agent.firePoint.position;
 
-            if (!HasClearShot(firePoint, _agent))
-                return;
+        if (!HasClearShot(firePoint))
+            return;
 
-            EnemyMetrics enemyMetrics = (EnemyMetrics)_agent.Metrics;
-            // If distance is less than 30, directly shoot at player instead of predicting position
-            if (enemyMetrics.DistanceToPlayer < 30f)
-                directionToPlayer = GameManager.Instance.playerAgent.transform.position;
-            ShootProjectile(firePoint, directionToPlayer);
-            AfterExecution();
-        }
-        else
-        {
-            Vector3 directionToEnemy = _agent.Target.position - _agent.firePoint.position;
-
-            if (!HasClearShot(firePoint, _agent))
-                return;
-
-            ShootProjectile(firePoint, directionToEnemy);
-            AfterExecution();
-        }
+        // If distance is less than 30, directly shoot at player instead of predicting position
+        if (targetMetrics.DistanceToTarget < 30f)
+            directionToTarget = GameManager.Instance.playerAgent.transform.position;
+        ShootProjectile(firePoint, directionToTarget);
+        AfterExecution();
     }
 
-    private bool HasClearShot(Transform firePoint, Agent agent)
+    private bool HasClearShot(Transform firePoint)
     {
-        if (agent.Faction.Equals(Faction.Ally))
-        {
-            return true;
-        }
-
-        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
-        Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
-        Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
+        Metrics targetMetrics = _agent.Target.Metrics;
+        Vector3 predictedTargetPosition = targetMetrics.PredictPositionDynamically();
+        Vector3 directionToTarget = predictedTargetPosition - _agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 
-        if (Physics.Raycast(firePoint.position, directionToPlayer, out RaycastHit hit))
+        if (Physics.Raycast(firePoint.position, directionToTarget, out RaycastHit hit))
         {
             if (
                 OrikomeUtils.LayerMaskUtils.IsLayerInMask(
@@ -78,12 +59,12 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         if (agent.CompareTag("Enemy"))
         {
             EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
-            distance = enemyMetrics.DistanceToPlayer;
+            distance = enemyMetrics.DistanceToTarget;
         }
         else
         {
             AllyMetrics allyMetrics = (AllyMetrics)agent.Metrics;
-            distance = allyMetrics.DistanceToNearestEnemy;
+            distance = allyMetrics.DistanceToTarget;
         }
         float maxDistance = 100f;
         float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;

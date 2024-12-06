@@ -4,7 +4,6 @@ using UnityEngine;
 public class AllyMetrics : Metrics
 {
     public float DistanceToPlayer { get; private set; }
-    public float DistanceToNearestEnemy { get; private set; }
     public Transform NearestEnemy { get; private set; }
     public float HealthFactor { get; private set; }
     public float EnergyLevel { get; private set; }
@@ -15,11 +14,16 @@ public class AllyMetrics : Metrics
         CurrentBehavior = ClassifyBehavior();
         UpdateVelocity();
         UpdateNearestEnemy();
+        SetDistanceToTarget();
     }
 
-    public void SetDistanceToPlayer(float disToPlayer)
+    public void SetDistanceToTarget()
     {
-        DistanceToPlayer = disToPlayer;
+        // TEMPORARY!!!
+        DistanceToTarget = Vector3.Distance(
+            transform.position,
+            GetComponent<Agent>().Target.transform.position
+        );
     }
 
     private void UpdateNearestEnemy()

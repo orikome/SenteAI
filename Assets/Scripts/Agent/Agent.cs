@@ -12,7 +12,7 @@ public class Agent : MonoBehaviour
     public List<Module> Modules { get; private set; } = new();
     public List<AgentAction> Actions { get; private set; } = new();
     public Metrics Metrics { get; private set; }
-    public Transform Target { get; protected set; }
+    public Agent Target { get; protected set; }
     public AgentState State { get; protected set; }
     public Faction Faction { get; protected set; }
     private Dictionary<System.Type, Module> _moduleCache = new();
@@ -71,13 +71,13 @@ public class Agent : MonoBehaviour
         switch (Data.faction)
         {
             case Faction.Player:
-                Target = GameManager.Instance.activeEnemies.FirstOrDefault().transform;
+                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
                 break;
             case Faction.Enemy:
-                Target = GameManager.Instance.playerAgent.transform;
+                Target = GameManager.Instance.activeAllies.FirstOrDefault();
                 break;
             case Faction.Ally:
-                Target = GameManager.Instance.activeEnemies.FirstOrDefault().transform;
+                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
                 break;
             case Faction.Neutral:
                 Target = null;

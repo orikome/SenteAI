@@ -38,6 +38,7 @@ public class ActionStatusDebug : Editor
         EditorGUILayout.LabelField("DamageTaken", agent.Metrics?.DamageTaken.ToString());
 
         EditorGUILayout.LabelField("Target", agent.Target?.ToString());
+        EditorGUILayout.LabelField("DistanceToTarget", agent.Metrics?.DistanceToTarget.ToString());
 
         float totalAPM = 0f;
 

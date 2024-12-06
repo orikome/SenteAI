@@ -17,7 +17,7 @@ public class SeeingModule : SenseModule
 
     public override void Execute(Agent agent)
     {
-        Vector3 directionToTarget = agent.Target.position - agent.transform.position;
+        Vector3 directionToTarget = agent.Target.transform.position - agent.transform.position;
         Ray ray = new(agent.transform.position, directionToTarget.normalized);
         PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
 
@@ -38,7 +38,7 @@ public class SeeingModule : SenseModule
         {
             CanSenseTarget = true;
             playerMetrics.UpdateCoverStatus(true);
-            LastKnownPosition = agent.Target.position;
+            LastKnownPosition = agent.Target.transform.position;
             LastKnownVelocity = GameManager.Instance.playerAgent.Metrics.Velocity;
             LastSeenTime = Time.time;
             _lastVisibilityChangeTime = Time.time;

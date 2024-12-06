@@ -64,7 +64,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
     public override void CalculateUtility(Agent agent)
     {
         EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
-        float distance = enemyMetrics.DistanceToPlayer;
+        float distance = enemyMetrics.DistanceToTarget;
         float maxDistance = 100f;
         float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
         float distanceFactor = 1.0f - (distance / maxDistance);

@@ -16,7 +16,7 @@ public class LookAt : MonoBehaviour
 
     private void Update()
     {
-        target = _agent.Target;
+        target = _agent.Target.transform;
         if (_agent.GetModule<SenseModule>().CanSenseTarget)
         {
             LookAtTransform(target, rotationSpeed);

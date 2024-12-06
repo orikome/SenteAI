@@ -140,7 +140,7 @@ public class MoveAction : AgentAction
         float canSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 0.8f;
 
         EnemyMetrics enemyMetrics = (EnemyMetrics)agent.Metrics;
-        float distance = enemyMetrics.DistanceToPlayer;
+        float distance = enemyMetrics.DistanceToTarget;
         float distanceFactor = 1.0f - distance / maxDistance;
         float calculatedUtil = distanceFactor * canSenseFactor;
 
