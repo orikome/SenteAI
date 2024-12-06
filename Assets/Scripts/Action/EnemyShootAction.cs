@@ -11,26 +11,19 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
-    private Agent _enemy;
-
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-        _enemy = agent;
-    }
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        if (_enemy.Faction.Equals(Faction.Enemy))
+        if (_agent.Faction.Equals(Faction.Enemy))
         {
             PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
             Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
-            Vector3 directionToPlayer = predictedPlayerPosition - _enemy.firePoint.position;
+            Vector3 directionToPlayer = predictedPlayerPosition - _agent.firePoint.position;
 
-            if (!HasClearShot(firePoint, _enemy))
+            if (!HasClearShot(firePoint, _agent))
                 return;
 
-            EnemyMetrics enemyMetrics = (EnemyMetrics)_enemy.Metrics;
+            EnemyMetrics enemyMetrics = (EnemyMetrics)_agent.Metrics;
             // If distance is less than 30, directly shoot at player instead of predicting position
             if (enemyMetrics.DistanceToPlayer < 30f)
                 directionToPlayer = GameManager.Instance.playerAgent.transform.position;
@@ -39,9 +32,9 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         }
         else
         {
-            Vector3 directionToEnemy = _enemy.Target.position - _enemy.firePoint.position;
+            Vector3 directionToEnemy = _agent.Target.position - _agent.firePoint.position;
 
-            if (!HasClearShot(firePoint, _enemy))
+            if (!HasClearShot(firePoint, _agent))
                 return;
 
             ShootProjectile(firePoint, directionToEnemy);
@@ -51,6 +44,11 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
 
     private bool HasClearShot(Transform firePoint, Agent agent)
     {
+        if (agent.Faction.Equals(Faction.Ally))
+        {
+            return true;
+        }
+
         PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
         Vector3 predictedPlayerPosition = playerMetrics.PredictPositionDynamically();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
@@ -156,12 +154,12 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
 
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
-        projectileComponent.SetParameters(_enemy, direction, projectileSpeed, damage);
+        projectileComponent.SetParameters(_agent, direction, projectileSpeed, damage);
 
         if (projectileComponent != null)
         {
-            projectileComponent.OnHitCallback = () => HandleSuccess(_enemy);
-            projectileComponent.OnMissCallback = () => HandleFailure(_enemy);
+            projectileComponent.OnHitCallback = () => HandleSuccess(_agent);
+            projectileComponent.OnMissCallback = () => HandleFailure(_agent);
         }
         Destroy(projectile, 4f);
     }

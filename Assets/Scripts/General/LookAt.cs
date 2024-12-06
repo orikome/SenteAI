@@ -12,11 +12,11 @@ public class LookAt : MonoBehaviour
     void Start()
     {
         _agent = gameObject.GetComponent<Agent>();
-        target = GameManager.Instance.playerAgent.transform;
     }
 
     private void Update()
     {
+        target = _agent.Target;
         if (_agent.GetModule<SenseModule>().CanSenseTarget)
         {
             LookAtTransform(target, rotationSpeed);

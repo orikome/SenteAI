@@ -67,6 +67,7 @@ public class Agent : MonoBehaviour
 
     protected void SelectTarget()
     {
+        // TODO: Strategy pattern for target selection
         switch (Data.faction)
         {
             case Faction.Player:
