@@ -6,47 +6,47 @@ public class MoveAction : AgentAction
 {
     private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;
-    private Agent _enemy;
+    private Agent _nonPlayerAgent;
 
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = agent;
+        _nonPlayerAgent = agent;
     }
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
-        Vector3 predictedPlayerPosition = playerMetrics.PredictPosition();
+        Metrics metrics = _nonPlayerAgent.Metrics;
+        Vector3 predictedTargetPosition = metrics.PredictPosition();
 
-        Vector3 bestPosition = EvaluateBestPosition(_enemy, predictedPlayerPosition);
+        Vector3 bestPosition = EvaluateBestPosition(_nonPlayerAgent, predictedTargetPosition);
 
-        _enemy.GetModule<NavMeshAgentModule>().SetDestination(bestPosition);
+        _nonPlayerAgent.GetModule<NavMeshAgentModule>().SetDestination(bestPosition);
         AfterExecution();
     }
 
-    private Vector3 EvaluateBestPosition(Agent agent, Vector3 predictedPlayerPosition)
+    private Vector3 EvaluateBestPosition(Agent agent, Vector3 predictedTargetPosition)
     {
         Vector3 bestPosition = Vector3.zero;
         float bestScore = float.MinValue;
 
         Vector3 sampleCenter;
 
-        switch (GameManager.Instance.playerAgent.Metrics.CurrentBehavior)
+        switch (_nonPlayerAgent.Target.Metrics.CurrentBehavior)
         {
             case Behavior.Aggressive:
-                // When the player is aggressive, sample positions around the agent to find cover
+                // When the target is aggressive, sample positions around the agent to find cover
                 sampleCenter = agent.transform.position;
                 break;
             case Behavior.Defensive:
-                // When the player is defensive, sample positions around the player to approach them
-                sampleCenter = predictedPlayerPosition;
+                // When the target is defensive, sample positions around the player to approach them
+                sampleCenter = predictedTargetPosition;
                 break;
             case Behavior.Balanced:
-                // Sample positions between the agent and the player
+                // Sample positions between the agent and the target
                 sampleCenter = Vector3.Lerp(
                     agent.transform.position,
-                    predictedPlayerPosition,
+                    predictedTargetPosition,
                     0.5f
                 );
                 break;
@@ -68,7 +68,7 @@ public class MoveAction : AgentAction
             )
             {
                 Vector3 samplePosition = hit.position;
-                float score = ScorePosition(samplePosition, agent, predictedPlayerPosition);
+                float score = ScorePosition(samplePosition, agent, predictedTargetPosition);
 
                 if (score > bestScore)
                 {
@@ -81,30 +81,33 @@ public class MoveAction : AgentAction
         return bestPosition;
     }
 
-    private float ScorePosition(Vector3 position, Agent agent, Vector3 predictedPlayerPosition)
+    private float ScorePosition(Vector3 position, Agent agent, Vector3 predictedTargetPosition)
     {
         float score = 0f;
 
-        float distanceToPredictedPlayer = Vector3.Distance(position, predictedPlayerPosition);
+        float distanceToPredictedTargetPosition = Vector3.Distance(
+            position,
+            predictedTargetPosition
+        );
 
         bool positionInCover = IsInCover(position);
 
-        switch (GameManager.Instance.playerAgent.Metrics.CurrentBehavior)
+        switch (_nonPlayerAgent.Target.Metrics.CurrentBehavior)
         {
             case Behavior.Aggressive:
-                // Player is aggressive; enemy should seek cover
+                // Target is aggressive; enemy should seek cover
                 if (positionInCover)
                     score += 20f; // Encourage positions in cover
                 else
                     score -= 10f; // Discourage positions not in cover
 
                 // Maintain a safe distance
-                score += Mathf.Clamp(distanceToPredictedPlayer, 10f, 30f);
+                score += Mathf.Clamp(distanceToPredictedTargetPosition, 10f, 30f);
                 break;
 
             case Behavior.Defensive:
-                // Player is defensive; enemy should approach
-                score -= distanceToPredictedPlayer; // Encourage getting closer
+                // Target is defensive; enemy should approach
+                score -= distanceToPredictedTargetPosition; // Encourage getting closer
 
                 // Slightly prefer positions in cover
                 if (positionInCover)
@@ -113,7 +116,7 @@ public class MoveAction : AgentAction
 
             case Behavior.Balanced:
                 // Neutral behavior
-                score -= Mathf.Abs(distanceToPredictedPlayer - 15f); // Prefer moderate distance
+                score -= Mathf.Abs(distanceToPredictedTargetPosition - 15f); // Prefer moderate distance
 
                 // Slight preference for cover
                 if (positionInCover)
@@ -122,7 +125,7 @@ public class MoveAction : AgentAction
         }
 
         // Check for line of sight to the player
-        if (HasLineOfSight(position, predictedPlayerPosition))
+        if (HasLineOfSight(position, predictedTargetPosition))
         {
             score += 5f; // Bonus for visibility
         }
@@ -150,26 +153,26 @@ public class MoveAction : AgentAction
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)
     {
         if (Physics.Raycast(fromPosition, targetPosition - fromPosition, out RaycastHit hit))
-            return hit.transform == GameManager.Instance.playerAgent.transform;
+            return hit.transform == _nonPlayerAgent.Target.transform;
 
         return false;
     }
 
     private bool IsInCover(Vector3 position)
     {
-        Vector3 directionToPlayer = GameManager.Instance.playerAgent.transform.position - position;
+        Vector3 directionToTarget = _nonPlayerAgent.Target.transform.position - position;
         if (
             Physics.Raycast(
                 position,
-                directionToPlayer.normalized,
+                directionToTarget.normalized,
                 out RaycastHit hit,
-                directionToPlayer.magnitude
+                directionToTarget.magnitude
             )
         )
         {
-            if (hit.transform != GameManager.Instance.playerAgent.transform)
+            if (hit.transform != _nonPlayerAgent.Target.transform)
             {
-                return true; // There is an obstacle between position and player
+                return true; // There is an obstacle between position and target
             }
         }
         return false; // No obstacle, position is not in cover
