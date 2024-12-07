@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -59,3 +60,4 @@ public class EnemyGizmos : MonoBehaviour
         }
     }
 }
+#endif
