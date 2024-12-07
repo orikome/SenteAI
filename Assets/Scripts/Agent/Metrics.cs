@@ -192,6 +192,12 @@ public class Metrics : MonoBehaviour
 
     public void SetDistanceToTarget()
     {
+        if (_agent.Target == null)
+        {
+            DistanceToTarget = Mathf.Infinity;
+            return;
+        }
+
         DistanceToTarget = Vector3.Distance(transform.position, _agent.Target.transform.position);
     }
 
