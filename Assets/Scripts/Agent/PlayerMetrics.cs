@@ -7,21 +7,11 @@ public class PlayerMetrics : Metrics
     public float TimeInCover { get; private set; }
     public float ShootingFrequency { get; private set; }
     public float DodgeRatio { get; private set; }
-
-    // Player position related
-    private float timeSinceLastRecord = 0f;
-    private readonly int maxHistoryCount = 200;
     private Agent closestEnemy;
 
     void Start()
     {
-        LastPosition = transform.position;
         closestEnemy = null;
-
-        for (int i = 0; i < recentHistorySize; i++)
-        {
-            PositionHistory.Add(transform.position);
-        }
     }
 
     public override void Update()
@@ -34,31 +24,12 @@ public class PlayerMetrics : Metrics
             TimeInCover += Time.deltaTime;
 
         FindClosestEnemyToPlayer();
-        TrackPlayerPositionHistory();
     }
 
     public void UpdateCoverStatus(bool canAnyEnemySeePlayer)
     {
         IsInCover = !canAnyEnemySeePlayer;
         TimeInCover = 0;
-    }
-
-    void TrackPlayerPositionHistory()
-    {
-        timeSinceLastRecord += Time.deltaTime;
-
-        if (timeSinceLastRecord >= historyRecordInterval)
-        {
-            PositionHistory.Add(transform.position);
-
-            // If over limit, start removing past records
-            if (PositionHistory.Count > maxHistoryCount)
-            {
-                PositionHistory.RemoveAt(0);
-            }
-
-            timeSinceLastRecord = 0f;
-        }
     }
 
     public Transform FindClosestEnemyToPlayer()
@@ -104,33 +75,9 @@ public class PlayerMetrics : Metrics
         return Behavior.Balanced;
     }
 
-    void OnDrawGizmos()
+    public override void OnDrawGizmos()
     {
-        if (!Application.isPlaying)
-            return;
-
-        Gizmos.DrawCube(GetAveragePosition(), Vector3.one * 4);
-
-        if (IsClusteredMovement())
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawCube(GetAveragePosition(recentHistorySize), Vector3.one * 4);
-        }
-        else
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawCube(PredictNextPositionUsingMomentum(), Vector3.one * 2);
-        }
-
-        // Visualize player history with small spheres
-        if (PositionHistory.Count > 0)
-        {
-            Gizmos.color = Color.red;
-            foreach (Vector3 pos in PositionHistory)
-            {
-                Gizmos.DrawSphere(pos, 0.4f);
-            }
-        }
+        base.OnDrawGizmos();
 
         // Visualize cover status
         Gizmos.color = IsInCover ? Color.green : Color.red;

@@ -14,23 +14,31 @@ public class Metrics : MonoBehaviour
     public Behavior CurrentBehavior { get; protected set; }
     public float AggressiveThreshold { get; protected set; } = 0.7f;
     public float DefensiveThreshold { get; protected set; } = 0.3f;
-
     public List<Vector3> PositionHistory { get; private set; } = new();
     public List<AgentAction> ActionHistory { get; private set; } = new();
     protected readonly int recentHistorySize = 6;
     protected readonly float historyRecordInterval = 0.2f;
     private readonly float detectionThreshold = 1.5f;
     protected Agent _agent;
+    protected float timeSinceLastRecord = 0f;
+    protected readonly int maxHistoryCount = 200;
 
     public void Initialize()
     {
         _agent = GetComponent<Agent>();
+
+        LastPosition = transform.position;
+        for (int i = 0; i < recentHistorySize; i++)
+        {
+            PositionHistory.Add(transform.position);
+        }
     }
 
     public virtual void Update()
     {
         CurrentBehavior = ClassifyBehavior();
         UpdateVelocity();
+        RecordAgentPositionHistory();
         SetDistanceToTarget();
     }
 
@@ -53,6 +61,24 @@ public class Metrics : MonoBehaviour
     protected virtual Behavior ClassifyBehavior()
     {
         return Behavior.Balanced;
+    }
+
+    protected void RecordAgentPositionHistory()
+    {
+        timeSinceLastRecord += Time.deltaTime;
+
+        if (timeSinceLastRecord >= historyRecordInterval)
+        {
+            PositionHistory.Add(transform.position);
+
+            // If over limit, start removing past records
+            if (PositionHistory.Count > maxHistoryCount)
+            {
+                PositionHistory.RemoveAt(0);
+            }
+
+            timeSinceLastRecord = 0f;
+        }
     }
 
     public Vector3 GetAveragePosition()
@@ -167,5 +193,34 @@ public class Metrics : MonoBehaviour
     public void SetDistanceToTarget()
     {
         DistanceToTarget = Vector3.Distance(transform.position, _agent.Target.transform.position);
+    }
+
+    public virtual void OnDrawGizmos()
+    {
+        if (!Application.isPlaying)
+            return;
+
+        Gizmos.DrawCube(GetAveragePosition(), Vector3.one * 4);
+
+        if (IsClusteredMovement())
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(GetAveragePosition(recentHistorySize), Vector3.one * 4);
+        }
+        else
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawCube(PredictNextPositionUsingMomentum(), Vector3.one * 2);
+        }
+
+        // Visualize player history with small spheres
+        if (PositionHistory.Count > 0)
+        {
+            Gizmos.color = Color.red;
+            foreach (Vector3 pos in PositionHistory)
+            {
+                Gizmos.DrawSphere(pos, 0.4f);
+            }
+        }
     }
 }
