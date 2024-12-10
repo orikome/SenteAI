@@ -3,12 +3,12 @@ using UnityEngine;
 public class EnemyProjectile : Projectile
 {
     private bool hasCompleted = false;
-    private bool hasPassedPlayer = false;
+    private bool hasPassedTarget = false;
 
     protected override void Start()
     {
         base.Start();
-        _collisionMask = LayerMask.GetMask("Player");
+        _collisionMask = LayerMask.GetMask("Player", "Ally");
     }
 
     protected override void Update()
@@ -18,10 +18,10 @@ public class EnemyProjectile : Projectile
         if (hasCompleted)
             return;
 
-        // Check if projectile has passed player, but don't destroy it yet
-        if (!hasPassedPlayer && HasPassedPlayer())
+        // Check if projectile has passed the target, but don't destroy it yet
+        if (!hasPassedTarget && HasPassedTarget())
         {
-            hasPassedPlayer = true;
+            hasPassedTarget = true;
             OnMissCallback?.Invoke();
         }
 
@@ -33,11 +33,11 @@ public class EnemyProjectile : Projectile
         }
     }
 
-    private bool HasPassedPlayer()
+    private bool HasPassedTarget()
     {
-        Vector3 toPlayer = GameManager.Instance.playerAgent.transform.position - transform.position;
-        // If dot product is negative, projectile is facing away from the player
-        return Vector3.Dot(transform.forward, toPlayer) < 0;
+        Vector3 toTarget = _agent.Target.transform.position - transform.position;
+        // If the dot product is negative, projectile is facing away from the target
+        return Vector3.Dot(transform.forward, toTarget) < 0;
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -47,9 +47,9 @@ public class EnemyProjectile : Projectile
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
-            if (collision.transform.root.gameObject.TryGetComponent<Agent>(out var player))
+            if (collision.transform.root.gameObject.TryGetComponent<Agent>(out var target))
             {
-                player.GetModule<HealthModule>().TakeDamage(10);
+                target.GetModule<HealthModule>().TakeDamage(10);
                 Helpers.SpawnParticles(transform.position, Color.red);
                 _agent.Metrics.UpdateDamageDone(10);
                 DebugManager.Instance.Log(
