@@ -58,7 +58,11 @@ public class HomingOrbBehaviour : MonoBehaviour
     void HomeTowardsTarget()
     {
         Vector3 directionToTarget = (target.position - transform.position).normalized;
-        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, directionToTarget * speed, homingIntensity);
+        rb.linearVelocity = Vector3.Lerp(
+            rb.linearVelocity,
+            directionToTarget * speed,
+            homingIntensity
+        );
     }
 
     private void OnCollisionEnter(Collision collision)

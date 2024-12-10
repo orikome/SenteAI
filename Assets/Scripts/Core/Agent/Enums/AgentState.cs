@@ -4,5 +4,5 @@ public enum AgentState
     Duty,
     Routine,
     Sleep,
-    Dead
+    Dead,
 }

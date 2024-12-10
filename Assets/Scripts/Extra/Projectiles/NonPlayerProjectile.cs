@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyProjectile : Projectile
+public class NonPlayerProjectile : Projectile
 {
     private bool hasCompleted = false;
     private bool hasPassedTarget = false;
@@ -8,7 +8,10 @@ public class EnemyProjectile : Projectile
     protected override void Start()
     {
         base.Start();
-        _collisionMask = LayerMask.GetMask("Player", "Ally");
+        if (_agent.Faction == Faction.Enemy)
+            _collisionMask = LayerMask.GetMask("Player", "Ally");
+        else
+            _collisionMask = LayerMask.GetMask("Enemy");
     }
 
     protected override void Update()
