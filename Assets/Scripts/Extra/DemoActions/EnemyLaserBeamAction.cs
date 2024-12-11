@@ -30,7 +30,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
 
     private bool HasClearShot(Transform firePoint, Agent agent)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
         Vector3 predictedPlayerPosition = playerMetrics.PredictPosition();
         Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
@@ -75,7 +75,7 @@ public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
 
     private void ShootLaser(Transform firePoint, Agent agent)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)GameManager.Instance.playerAgent.Metrics;
+        PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
         Vector3 directionToTarget = playerMetrics.PredictNextPositionUsingMomentum();
 
         GameObject laser = Instantiate(

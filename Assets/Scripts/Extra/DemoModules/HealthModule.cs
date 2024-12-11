@@ -40,7 +40,7 @@ public class HealthModule : Module, IDamageable
     {
         IsAlive = false;
         if (_agent.gameObject.CompareTag("Player"))
-            GameManager.Instance.RestartScene();
+            AgentManager.Instance.RestartScene();
         else
             Destroy(_agent.gameObject);
     }

@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-1000)]
-public class GameManager : MonoBehaviour
+public class AgentManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static AgentManager Instance { get; private set; }
     public List<Agent> activeEnemies = new();
     public List<Agent> activeAllies = new();
     public Agent playerAgent;

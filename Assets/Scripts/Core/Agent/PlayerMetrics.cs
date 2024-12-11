@@ -34,12 +34,12 @@ public class PlayerMetrics : Metrics
 
     public Transform FindClosestEnemyToPlayer()
     {
-        if (GameManager.Instance.activeEnemies.Count == 0)
+        if (AgentManager.Instance.activeEnemies.Count == 0)
             return null;
 
         float closestEnemyDistance = Mathf.Infinity;
 
-        foreach (Agent enemy in GameManager.Instance.activeEnemies)
+        foreach (Agent enemy in AgentManager.Instance.activeEnemies)
         {
             float distance = Vector3.Distance(enemy.transform.position, transform.position);
 

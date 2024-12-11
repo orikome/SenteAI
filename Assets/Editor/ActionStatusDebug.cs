@@ -21,7 +21,7 @@ public class ActionStatusDebug : Editor
         if (!Application.isPlaying)
             return;
 
-        if (!GameManager.Instance)
+        if (!AgentManager.Instance)
             return;
 
         Agent agent = (Agent)target;

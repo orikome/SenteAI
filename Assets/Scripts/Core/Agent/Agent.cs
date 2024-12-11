@@ -37,17 +37,17 @@ public class Agent : MonoBehaviour
     void OnEnable()
     {
         if (Data.faction == Faction.Enemy)
-            GameManager.Instance.activeEnemies.Add(this);
+            AgentManager.Instance.activeEnemies.Add(this);
         else if (Data.faction == Faction.Ally)
-            GameManager.Instance.activeAllies.Add(this);
+            AgentManager.Instance.activeAllies.Add(this);
     }
 
     void OnDisable()
     {
         if (Data.faction == Faction.Enemy)
-            GameManager.Instance.activeEnemies.Remove(this);
+            AgentManager.Instance.activeEnemies.Remove(this);
         else if (Data.faction == Faction.Ally)
-            GameManager.Instance.activeAllies.Remove(this);
+            AgentManager.Instance.activeAllies.Remove(this);
     }
 
     private Agent FindClosestTarget(List<Agent> potentialTargets)
@@ -81,12 +81,12 @@ public class Agent : MonoBehaviour
         {
             case Faction.Player:
             case Faction.Ally:
-                Target = FindClosestTarget(GameManager.Instance.activeEnemies);
+                Target = FindClosestTarget(AgentManager.Instance.activeEnemies);
                 break;
 
             case Faction.Enemy:
-                var potentialTargets = new List<Agent>(GameManager.Instance.activeAllies);
-                potentialTargets.Add(GameManager.Instance.playerAgent);
+                var potentialTargets = new List<Agent>(AgentManager.Instance.activeAllies);
+                potentialTargets.Add(AgentManager.Instance.playerAgent);
                 Target = FindClosestTarget(potentialTargets);
                 break;
 
@@ -118,21 +118,21 @@ public class Agent : MonoBehaviour
                 Metrics = EnsureComponent<PlayerMetrics>();
                 gameObject.tag = "Player";
                 Faction = Faction.Player;
-                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
+                Target = AgentManager.Instance.activeEnemies.FirstOrDefault();
                 break;
 
             case Faction.Enemy:
                 Metrics = EnsureComponent<Metrics>();
                 gameObject.tag = "Enemy";
                 Faction = Faction.Enemy;
-                Target = GameManager.Instance.activeAllies.FirstOrDefault();
+                Target = AgentManager.Instance.activeAllies.FirstOrDefault();
                 break;
 
             case Faction.Ally:
                 Metrics = EnsureComponent<Metrics>();
                 gameObject.tag = "Ally";
                 Faction = Faction.Ally;
-                Target = GameManager.Instance.activeEnemies.FirstOrDefault();
+                Target = AgentManager.Instance.activeEnemies.FirstOrDefault();
                 break;
 
             case Faction.Neutral:
