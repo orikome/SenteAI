@@ -624,6 +624,7 @@ GameObject:
   - component: {fileID: 8422559732509195575}
   - component: {fileID: 2492591764816017975}
   - component: {fileID: 1505931605180277502}
+  - component: {fileID: 8473563774143601894}
   m_Layer: 6
   m_Name: PlayerAgent
   m_TagString: Untagged
@@ -780,6 +781,20 @@ MonoBehaviour:
   mouseSensitivity: 100
   playerMesh: {fileID: 4914955807846481454}
   mainCamera: {fileID: 3959193754168283331}
+--- !u!114 &8473563774143601894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7027713014814660618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textHeight: 4
+  textSize: 0.1
 --- !u!1 &7558600866527084007
 GameObject:
   m_ObjectHideFlags: 0

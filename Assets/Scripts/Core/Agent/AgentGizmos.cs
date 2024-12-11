@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyGizmos : MonoBehaviour
+public class AgentGizmos : MonoBehaviour
 {
     private Agent _agent;
     public float textHeight = 4f;
@@ -19,12 +19,13 @@ public class EnemyGizmos : MonoBehaviour
         if (!Application.isPlaying)
             return;
 
-        GUIStyle style = new()
-        {
-            normal = { textColor = Color.yellow },
-            alignment = TextAnchor.MiddleCenter,
-            fontSize = 20,
-        };
+        GUIStyle style =
+            new()
+            {
+                normal = { textColor = Color.yellow },
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = 20,
+            };
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
 
