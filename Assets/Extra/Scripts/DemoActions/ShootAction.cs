@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/ShootAction")]
+[CreateAssetMenu(menuName = "SenteAI/Actions/ShootAction")]
 public class ShootAction : AgentAction
 {
     public GameObject projectilePrefab;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "SingleActionSelectionStrategy",
-    menuName = "ActionSelection/SingleAction"
+    menuName = "SenteAI/SelectionStrategies/SingleAction"
 )]
 public class SingleActionSelectionStrategy : ActionSelectionStrategy
 {

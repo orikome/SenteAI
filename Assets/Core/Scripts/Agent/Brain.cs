@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Brain", menuName = "Module/Brain")]
+[CreateAssetMenu(fileName = "Brain", menuName = "SenteAI/Modules/Brain")]
 public class Brain : Module
 {
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }

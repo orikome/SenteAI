@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AgentData", menuName = "Game/AgentData")]
+[CreateAssetMenu(fileName = "AgentData", menuName = "SenteAI/AgentData")]
 public class AgentData : ScriptableObject
 {
     public string agentName;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "BiasWeightSelectionStrategy",
-    menuName = "ActionSelection/BiasWeightSelection"
+    menuName = "SenteAI/SelectionStrategies/BiasWeightSelection"
 )]
 public class BiasWeightSelectionStrategy : ActionSelectionStrategy
 {

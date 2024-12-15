@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/MeteorStrike")]
+[CreateAssetMenu(menuName = "SenteAI/Actions/MeteorStrike")]
 public class MeteorStrikeAction : AgentAction
 {
     public GameObject meteorPrefab;

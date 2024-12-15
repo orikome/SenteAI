@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/EnemyBulletPatternAction")]
+[CreateAssetMenu(menuName = "SenteAI/Actions/EnemyBulletPatternAction")]
 public class EnemyBulletPatternAction : BulletPatternAction
 {
     private Agent _enemy;

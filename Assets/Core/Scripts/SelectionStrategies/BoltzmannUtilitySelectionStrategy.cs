@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "BoltzmannUtilitySelectionStrategy",
-    menuName = "ActionSelection/BoltzmannUtilitySelection"
+    menuName = "SenteAI/SelectionStrategies/BoltzmannUtilitySelection"
 )]
 public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 {

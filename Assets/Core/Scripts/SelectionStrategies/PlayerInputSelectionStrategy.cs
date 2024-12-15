@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "PlayerInputSelectionStrategy",
-    menuName = "ActionSelection/PlayerInputSelection"
+    menuName = "SenteAI/SelectionStrategies/PlayerInputSelection"
 )]
 public class PlayerInputSelectionStrategy : ActionSelectionStrategy
 {

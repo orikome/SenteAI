@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HearingModule", menuName = "Module/HearingModule")]
+[CreateAssetMenu(fileName = "HearingModule", menuName = "SenteAI/Modules/HearingModule")]
 public class HearingModule : SenseModule
 {
     //[SerializeField]

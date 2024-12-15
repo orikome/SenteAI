@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DialogueModule", menuName = "Module/DialogueModule")]
+[CreateAssetMenu(fileName = "DialogueModule", menuName = "SenteAI/Modules/DialogueModule")]
 public class DialogueModule : Module
 {
     public override void Execute(Agent agent) { }

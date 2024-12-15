@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/EnemyHomingOrbsAction")]
+[CreateAssetMenu(menuName = "SenteAI/Actions/EnemyHomingOrbsAction")]
 public class EnemyHomingOrbsAction : HomingOrbsAction, IFeedbackAction
 {
     // Feedback interface

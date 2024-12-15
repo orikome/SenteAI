@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerMovement", menuName = "Module/PlayerMovement")]
+[CreateAssetMenu(fileName = "PlayerMovement", menuName = "SenteAI/Modules/PlayerMovement")]
 public class PlayerMovement : Module
 {
     public float moveSpeed = 10.0f;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "RouletteSelectionStrategy",
-    menuName = "ActionSelection/RouletteSelectionStrategy"
+    menuName = "SenteAI/SelectionStrategies/RouletteSelectionStrategy"
 )]
 public class RouletteSelectionStrategy : ActionSelectionStrategy
 {

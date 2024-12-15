@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "MoveAction", menuName = "AgentAction/MoveAction")]
+[CreateAssetMenu(fileName = "MoveAction", menuName = "SenteAI/Actions/MoveAction")]
 public class MoveAction : AgentAction
 {
     private readonly float _moveRadius = 20f;

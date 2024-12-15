@@ -3,7 +3,7 @@ using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "MaxUtilitySelectionStrategy",
-    menuName = "ActionSelection/MaxUtilitySelection"
+    menuName = "SenteAI/SelectionStrategies/MaxUtilitySelection"
 )]
 public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
 {

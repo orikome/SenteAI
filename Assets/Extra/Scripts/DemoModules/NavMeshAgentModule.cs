@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "NavMeshAgentModule", menuName = "Module/NavMeshAgentModule")]
+[CreateAssetMenu(fileName = "NavMeshAgentModule", menuName = "SenteAI/Modules/NavMeshAgentModule")]
 public class NavMeshAgentModule : Module
 {
     public NavMeshAgent NavMeshAgent { get; private set; }

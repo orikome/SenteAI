@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/LaserBeam")]
+[CreateAssetMenu(menuName = "SenteAI/Actions/LaserBeam")]
 public class LaserBeamAction : AgentAction
 {
     public GameObject laserPrefab;

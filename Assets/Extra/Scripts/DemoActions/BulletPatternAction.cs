@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/BulletPatternAction")]
+[CreateAssetMenu(menuName = "SenteAI/Actions/BulletPatternAction")]
 public class BulletPatternAction : AgentAction
 {
     public GameObject bulletPrefab;

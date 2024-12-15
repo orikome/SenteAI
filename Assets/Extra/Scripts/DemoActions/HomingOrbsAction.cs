@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AgentAction/HomingOrbsAction")]
+[CreateAssetMenu(menuName = "SenteAI/Actions/HomingOrbsAction")]
 public class HomingOrbsAction : AgentAction
 {
     public GameObject orbPrefab;
