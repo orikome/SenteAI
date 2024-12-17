@@ -636,6 +636,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SenteAI-Core
       objectReference: {fileID: 0}
+    - target: {fileID: 7743070907260288596, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 7923553593765856359, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
