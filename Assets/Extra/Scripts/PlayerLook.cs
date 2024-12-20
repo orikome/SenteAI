@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class PlayerLook : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float mouseSensitivity = 100f;
     public Transform playerMesh;
     public Camera mainCamera;
     private Vector3 currentLookDirection;
-    public static PlayerLook Instance { get; private set; }
+    public static Player Instance { get; private set; }
     private Agent _playerAgent;
 
     void Awake()

@@ -19,6 +19,6 @@ public class PlayerInputSelectionStrategy : ActionSelectionStrategy
 
     public override Vector3 GetShootDirection(Agent agent)
     {
-        return PlayerLook.Instance.GetMouseLookDirection();
+        return Player.Instance.GetMouseLookDirection();
     }
 }
