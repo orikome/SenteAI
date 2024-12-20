@@ -12,7 +12,10 @@ public class PlayerInputSelectionStrategy : ActionSelectionStrategy
     public override AgentAction SelectAction(Agent agent)
     {
         if (InputManager.Instance.IsInputHeld())
+        {
+            Player.Instance.PlayerWeaponRecoil.TriggerRecoil();
             return agent.Actions.FirstOrDefault();
+        }
 
         return null;
     }

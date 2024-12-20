@@ -8,11 +8,13 @@ public class Player : MonoBehaviour
     private Vector3 currentLookDirection;
     public static Player Instance { get; private set; }
     private Agent _playerAgent;
+    public PlayerWeaponRecoil PlayerWeaponRecoil { get; private set; }
 
     void Awake()
     {
         Instance = this;
         _playerAgent = GetComponent<Agent>();
+        PlayerWeaponRecoil = GetComponentInChildren<PlayerWeaponRecoil>();
     }
 
     private void Update()
