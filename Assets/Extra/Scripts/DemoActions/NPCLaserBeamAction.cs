@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SenteAI/Actions/EnemyLaserBeam")]
-public class EnemyLaserBeamAction : LaserBeamAction, IFeedbackAction
+[CreateAssetMenu(menuName = "SenteAI/Actions/NPCLaserBeam")]
+public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 {
     // Feedback interface
     public Action OnSuccessCallback { get; set; }

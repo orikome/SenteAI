@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab22ca717389d604e8c76ae7361c8ccf, type: 3}
-  m_Name: EnemyHomingOrbs
+  m_Name: NPCHomingOrbs
   m_EditorClassIdentifier: 
   cooldownTime: 1
   biasWeight: 0.6

@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SenteAI/Actions/EnemyShootAction")]
-public class EnemyShootAction : ShootAction, IFeedbackAction
+[CreateAssetMenu(menuName = "SenteAI/Actions/NPCShootAction")]
+public class NPCShootAction : ShootAction, IFeedbackAction
 {
     // Feedback interface
     public Action OnSuccessCallback { get; set; }

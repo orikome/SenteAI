@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8afa0a2d1d668047b8501eb46f67b39, type: 3}
-  m_Name: EnemyLaser
+  m_Name: NPCLaser
   m_EditorClassIdentifier: 
   cooldownTime: 3
   biasWeight: 0.6

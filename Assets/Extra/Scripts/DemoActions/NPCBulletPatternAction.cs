@@ -1,14 +1,14 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SenteAI/Actions/EnemyBulletPatternAction")]
-public class EnemyBulletPatternAction : BulletPatternAction
+[CreateAssetMenu(menuName = "SenteAI/Actions/NPCBulletPatternAction")]
+public class NPCBulletPatternAction : BulletPatternAction
 {
-    private Agent _enemy;
+    private Agent _ownerAgent;
 
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _enemy = agent;
+        _ownerAgent = agent;
         heightOffset = -5.75f;
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NonPlayerProjectile : Projectile
+public class NPCProjectile : Projectile
 {
     private bool hasCompleted = false;
     private bool hasPassedTarget = false;
