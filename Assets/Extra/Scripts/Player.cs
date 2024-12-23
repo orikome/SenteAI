@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
     private Agent _playerAgent;
     public PlayerWeaponRecoil PlayerWeaponRecoil { get; private set; }
+    public KeyCode selectionKey = KeyCode.Mouse0;
 
     void Awake()
     {
@@ -26,6 +27,11 @@ public class Player : MonoBehaviour
         }
 
         HandleMouseLook();
+    }
+
+    public bool IsInputHeld()
+    {
+        return Input.GetKey(selectionKey);
     }
 
     private void HandleMouseLook()
