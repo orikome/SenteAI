@@ -60,9 +60,9 @@ public class EnemyShootAction : ShootAction, IFeedbackAction
         float speedFactor = Mathf.Clamp01(projectileSpeed / maxProjectileSpeed);
 
         // Weigh speed more for longer distances, because slower projectiles have less chance of hitting at range
-        float distanceFactor = 1.0f - (distance / maxDistance);
+        float distanceFactor = Mathf.Clamp01(1.0f - (distance / maxDistance));
         float speedDistanceFactor = distanceFactor * speedFactor;
-        float calculatedUtil = speedDistanceFactor * CanSenseFactor * 1.5f;
+        float calculatedUtil = (distanceFactor + speedFactor) * 1.5f * CanSenseFactor;
 
         SetUtilityWithModifiers(calculatedUtil);
     }
