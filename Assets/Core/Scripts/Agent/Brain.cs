@@ -6,6 +6,7 @@ public class Brain : Module
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
     private Agent _agent;
     private CooldownHandler _cooldownHandler;
+    private AgentAction _currentAction;
 
     public override void Initialize(Agent agent)
     {
@@ -22,15 +23,14 @@ public class Brain : Module
 
     public override void Execute(Agent agent)
     {
-        // Also calculates utility and penalties, so this is called first
-        AgentAction decidedAction = ActionSelectionStrategy.SelectAction(agent);
-
         if (!_cooldownHandler.IsReady())
             return;
 
-        if (decidedAction != null)
+        _currentAction = ActionSelectionStrategy.SelectAction(agent);
+
+        if (_currentAction != null)
         {
-            decidedAction.Execute(
+            _currentAction.Execute(
                 agent.firePoint,
                 ActionSelectionStrategy.GetShootDirection(agent)
             );
