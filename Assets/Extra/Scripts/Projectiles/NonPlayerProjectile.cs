@@ -50,7 +50,7 @@ public class NonPlayerProjectile : Projectile
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
-            if (collision.transform.root.gameObject.TryGetComponent<Agent>(out var target))
+            if (collision.transform.gameObject.TryGetComponent<Agent>(out var target))
             {
                 target.GetModule<HealthModule>().TakeDamage(10);
                 Helpers.SpawnParticles(transform.position, Color.red);

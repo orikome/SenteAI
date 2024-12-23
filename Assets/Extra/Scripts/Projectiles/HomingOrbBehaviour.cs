@@ -73,7 +73,7 @@ public class HomingOrbBehaviour : MonoBehaviour
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
         {
             // Check if the collided object's layer is in the target collision mask
-            if (collision.transform.root.TryGetComponent(out Agent agent))
+            if (collision.transform.TryGetComponent(out Agent agent))
             {
                 agent.GetModule<HealthModule>().TakeDamage(10);
                 _enemy.Metrics.UpdateDamageDone(10);

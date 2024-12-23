@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5146281263348493490}
   - component: {fileID: 8039300511010962637}
   - component: {fileID: 2055550706004045927}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 586757629762651420}
   m_Layer: 6
   m_Name: PlayerAgent
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -508,7 +508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 654734295586355907}
   - component: {fileID: 483371752478917591}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +698,7 @@ GameObject:
   - component: {fileID: 7759030575083786022}
   - component: {fileID: 476268273514152622}
   - component: {fileID: 3124053395373121264}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 6267031189682282575}
   - component: {fileID: 5722429480183541231}
   - component: {fileID: 3730339126810673540}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -870,7 +870,7 @@ GameObject:
   - component: {fileID: 6245462521392551094}
   - component: {fileID: 5584265561121531107}
   - component: {fileID: 6537092461468368624}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1044,7 +1044,7 @@ GameObject:
   - component: {fileID: 8085423116661358776}
   - component: {fileID: 7294405916187248862}
   - component: {fileID: 5818147453877201959}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
