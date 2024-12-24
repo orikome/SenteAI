@@ -164,7 +164,7 @@ public class Agent : MonoBehaviour
             }
         }
 
-        transform.gameObject.name = Data.agentName;
+        transform.gameObject.name = Data.agentName + "[" + gameObject.GetInstanceID() + "]";
     }
 
     public void InitializeModules()

@@ -58,7 +58,8 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
             if (randomValue <= runningTotal)
             {
                 DebugManager.Instance.Log(
-                    $"Selected: {Helpers.CleanName(action.name)} with utility score: {action.ScaledUtilityScore}"
+                    $"Selected: {Helpers.CleanName(action.name)} with utility score: {action.ScaledUtilityScore}",
+                    agent.gameObject
                 );
 
                 agent.Metrics.AddActionToHistory(action);
