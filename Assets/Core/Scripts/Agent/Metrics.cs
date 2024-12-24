@@ -148,6 +148,9 @@ public class Metrics : MonoBehaviour
 
     public Vector3 PredictPosition()
     {
+        if (_agent == null)
+            return Vector3.zero;
+
         // If distance is less than 30, directly shoot at player instead of predicting position
         if (DistanceToTarget < 30f)
             return _agent.transform.position;
