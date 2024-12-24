@@ -30,6 +30,8 @@ public class HealthModule : Module, IDamageable
         if (_agent.Faction == Faction.Player)
             FindAnyObjectByType<CanvasManager>().ShowDamageFlash();
 
+        _agent.GetComponent<AgentExtra>().TriggerFlash();
+
         _agent.Metrics.UpdateDamageTaken(amount);
 
         if (CurrentHealth <= 0)

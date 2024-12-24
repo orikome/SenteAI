@@ -369,10 +369,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1307982173}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &314671991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2952177845325692102, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
+  m_PrefabInstance: {fileID: 2452444364728331218}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &314671992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314671991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859da1aea79adf141909c622927cd08f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 470942045}
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxFlashStrength: 1
 --- !u!4 &449448142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2753930720783175178, guid: 7090a1e8a0f9722469c59bc458d3d3b5, type: 3}
   m_PrefabInstance: {fileID: 1647512638}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &470942045 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2482888501485408480, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
+  m_PrefabInstance: {fileID: 2452444364728331218}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &568695442 stripped
 Transform:
@@ -1066,7 +1116,10 @@ PrefabInstance:
     - {fileID: 2559683054092109516, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2952177845325692102, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 314671992}
   m_SourcePrefab: {fileID: 100100000, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
 --- !u!1001 &7712443103207416641
 PrefabInstance:
