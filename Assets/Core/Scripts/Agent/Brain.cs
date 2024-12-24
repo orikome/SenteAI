@@ -23,6 +23,9 @@ public class Brain : Module
 
     public override void Execute(Agent agent)
     {
+        if (_agent.Faction == Faction.Player)
+            _currentAction = ActionSelectionStrategy.SelectAction(agent);
+
         if (!_cooldownHandler.IsReady())
             return;
 
