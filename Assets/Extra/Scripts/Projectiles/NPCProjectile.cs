@@ -48,7 +48,7 @@ public class NPCProjectile : Projectile
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (hasCompleted)
+        if (hasCompleted || !_agent)
             return;
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
@@ -59,7 +59,9 @@ public class NPCProjectile : Projectile
                 Helpers.SpawnParticles(transform.position, Color.red);
                 _agent.Metrics.UpdateDamageDone(10);
                 DebugManager.Instance.Log(
-                    $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}"
+                    $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
+                    _agent.gameObject,
+                    target.gameObject
                 );
                 OnHitCallback?.Invoke();
                 hasCompleted = true;

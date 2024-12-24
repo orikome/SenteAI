@@ -16,6 +16,56 @@ public class DebugManager : MonoBehaviour
         Instance = this;
     }
 
+    public void Log(string message, GameObject go, GameObject targetGo)
+    {
+        if (!enableLogging)
+            return;
+
+        string firstPrefix = $"[{go.GetInstanceID()}]";
+        string secondPrefix = $"[{targetGo.GetInstanceID()}]";
+        string coloredFirstPrefix,
+            coloredSecondPrefix;
+
+        // Color owner GameObject
+        if (go.CompareTag("Player"))
+        {
+            coloredFirstPrefix = $"<color={PLAYER_COLOR}>{firstPrefix}</color>";
+        }
+        else if (go.CompareTag("Enemy"))
+        {
+            coloredFirstPrefix = $"<color={ENEMY_COLOR}>{firstPrefix}</color>";
+        }
+        else if (go.CompareTag("Ally"))
+        {
+            coloredFirstPrefix = $"<color={ALLY_COLOR}>{firstPrefix}</color>";
+        }
+        else
+        {
+            coloredFirstPrefix = firstPrefix;
+        }
+
+        // Color target GameObject
+        if (targetGo.CompareTag("Player"))
+        {
+            coloredSecondPrefix = $"<color={PLAYER_COLOR}>{secondPrefix}</color>";
+        }
+        else if (targetGo.CompareTag("Enemy"))
+        {
+            coloredSecondPrefix = $"<color={ENEMY_COLOR}>{secondPrefix}</color>";
+        }
+        else if (targetGo.CompareTag("Ally"))
+        {
+            coloredSecondPrefix = $"<color={ALLY_COLOR}>{secondPrefix}</color>";
+        }
+        else
+        {
+            coloredSecondPrefix = secondPrefix;
+        }
+
+        message = $"{FRAME_COUNT} {coloredFirstPrefix}->{coloredSecondPrefix} {message}";
+        Debug.Log(message);
+    }
+
     public void Log(string message, GameObject go)
     {
         if (!enableLogging)

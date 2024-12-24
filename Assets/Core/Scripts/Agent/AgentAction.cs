@@ -24,6 +24,7 @@ public abstract class AgentAction : ScriptableObject
     public float ScaledUtilityScore { get; set; }
     public int TimesExecuted { get; private set; } = 0;
     private bool _penaltyMaxedOut = false;
+    protected Agent _agent;
 
     public virtual bool CanExecute(Agent agent)
     {
@@ -91,7 +92,8 @@ public abstract class AgentAction : ScriptableObject
         if (PenaltyFactor >= MAX_UTILITY)
         {
             DebugManager.Instance.Log(
-                $"Penalty exceeded, applying a penalty period to: {Helpers.CleanName(name)}."
+                $"Penalty exceeded, applying a penalty period to: {Helpers.CleanName(name)}.",
+                _agent.gameObject
             );
             _penaltyMaxedOut = true; // Prevent further execution until penalty is cleared
         }
@@ -106,7 +108,8 @@ public abstract class AgentAction : ScriptableObject
             {
                 _penaltyMaxedOut = false;
                 DebugManager.Instance.Log(
-                    $"{Helpers.CleanName(name)} penalty has been fully restored."
+                    $"{Helpers.CleanName(name)} penalty has been fully restored.",
+                    _agent.gameObject
                 );
             }
         }

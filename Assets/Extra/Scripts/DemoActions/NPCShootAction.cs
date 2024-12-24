@@ -81,25 +81,33 @@ public class NPCShootAction : ShootAction, IFeedbackAction
 
     public void HandleFailure(Agent agent)
     {
+        if (agent == null)
+            return;
+
         // Decrease utility if projectile misses
         FailureCount++;
         OnFailureCallback?.Invoke();
         UpdateSuccessRate();
         int totalAttempts = SuccessCount + FailureCount;
         DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has failed. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+            $"Action {Helpers.CleanName(name)} has failed. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}.",
+            _agent.gameObject
         );
     }
 
     public void HandleSuccess(Agent agent)
     {
+        if (agent == null)
+            return;
+
         // Increase utility if projectile hits
         SuccessCount++;
         OnSuccessCallback?.Invoke();
         UpdateSuccessRate();
         int totalAttempts = SuccessCount + FailureCount;
         DebugManager.Instance.Log(
-            $"Action {Helpers.CleanName(name)} has succeeded. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
+            $"Action {Helpers.CleanName(name)} has succeeded. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}.",
+            _agent.gameObject
         );
     }
 

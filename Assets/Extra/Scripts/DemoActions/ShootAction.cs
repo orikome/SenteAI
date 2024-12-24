@@ -6,7 +6,6 @@ public class ShootAction : AgentAction
     public GameObject projectilePrefab;
     public float projectileSpeed = 10.0f;
     public int damage = 10;
-    protected Agent _agent;
 
     public override void Initialize(Agent agent)
     {
