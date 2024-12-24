@@ -38,6 +38,9 @@ public class NPCProjectile : Projectile
 
     private bool HasPassedTarget()
     {
+        if (_agent.Target == null)
+            return false;
+
         Vector3 toTarget = _agent.Target.transform.position - transform.position;
         // If the dot product is negative, projectile is facing away from the target
         return Vector3.Dot(transform.forward, toTarget) < 0;
