@@ -52,6 +52,6 @@ public class Brain : Module
         {
             action.ScaledUtilityScore = 1.0f / _agent.Actions.Count;
         }
-        DebugManager.Instance.SpawnTextLog(_agent.transform, "Reset utilScores", Color.red);
+        DebugManager.Instance.Log("Reset utilScores", _agent.gameObject);
     }
 }

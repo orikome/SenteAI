@@ -184,7 +184,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxFlashStrength: 1
+  maxFlashStrength: 0.5
 --- !u!1 &406583834267086784
 GameObject:
   m_ObjectHideFlags: 0

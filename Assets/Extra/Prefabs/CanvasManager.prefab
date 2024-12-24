@@ -291,6 +291,7 @@ MonoBehaviour:
   subtitleText: {fileID: 3251141649555205880}
   damageRedBackground: {fileID: 8851776205875521741}
   damageFlashIntensity: 0.5
+  debugTextPrefab: {fileID: 6733593529429614273, guid: 3d5ace0ad8556ee47b377991e98d6757, type: 3}
 --- !u!1 &8851776205875521741
 GameObject:
   m_ObjectHideFlags: 0

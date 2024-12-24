@@ -26,7 +26,7 @@ public class HealthModule : Module, IDamageable
     {
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0);
-        DebugManager.Instance.SpawnTextLog(_agent.transform, amount.ToString(), Color.white);
+        CanvasManager.Instance.SpawnTextLog(_agent.transform, amount.ToString(), Color.white);
         if (_agent.Faction == Faction.Player)
             FindAnyObjectByType<CanvasManager>().ShowDamageFlash();
 

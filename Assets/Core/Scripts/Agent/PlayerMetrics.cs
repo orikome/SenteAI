@@ -61,17 +61,17 @@ public class PlayerMetrics : Metrics
 
         if (ShootingFrequency > AggressiveThreshold && DistanceToTarget < DefensiveThreshold)
         {
-            DebugManager.Instance.SpawnTextLog(transform, "Player is Aggressive", Color.red);
+            DebugManager.Instance.Log("Player is Aggressive", _agent.gameObject);
             return Behavior.Aggressive;
         }
 
         if (DodgeRatio > AggressiveThreshold)
         {
-            DebugManager.Instance.SpawnTextLog(transform, "Player is Defensive", Color.blue);
+            DebugManager.Instance.Log("Player is Defensive", _agent.gameObject);
             return Behavior.Defensive;
         }
 
-        DebugManager.Instance.SpawnTextLog(transform, "Player is Balanced", Color.green);
+        DebugManager.Instance.Log("Player is Balanced", _agent.gameObject);
         return Behavior.Balanced;
     }
 

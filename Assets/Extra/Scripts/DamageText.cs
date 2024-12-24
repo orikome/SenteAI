@@ -2,14 +2,20 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class DebugText : MonoBehaviour
+public class DamageText : MonoBehaviour
 {
     [SerializeField]
     float lifetime = 2f;
 
     [SerializeField]
     float speed = 1f;
-    float elapsed;
+
+    [SerializeField]
+    AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+
+    [SerializeField]
+    float maxScale = 1.5f;
+
     TextMeshPro text;
 
     private void Awake()
@@ -19,7 +25,7 @@ public class DebugText : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(FadeAndDeactivate());
+        StartCoroutine(AnimateAndDeactivate());
         transform.SetParent(null);
     }
 
@@ -28,23 +34,29 @@ public class DebugText : MonoBehaviour
         transform.Translate(speed * Time.deltaTime * Vector3.up);
     }
 
-    private IEnumerator FadeAndDeactivate()
+    private IEnumerator AnimateAndDeactivate()
     {
-        float halfLifetime = lifetime / 2f;
-        yield return new WaitForSeconds(halfLifetime);
-
         float elapsed = 0f;
         Color originalColor = text.color;
-        while (elapsed < halfLifetime)
+        Vector3 baseScale = Vector3.one;
+
+        while (elapsed < lifetime)
         {
             elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(originalColor.a, 0, elapsed / halfLifetime);
+            float normalizedTime = elapsed / lifetime;
+
+            // Scale animation
+            float scaleMultiplier = 1f + (maxScale - 1f) * scaleCurve.Evaluate(normalizedTime);
+            transform.localScale = baseScale * scaleMultiplier;
+
+            // Fade animation
+            float alpha =
+                normalizedTime <= 0.5f ? 1f : Mathf.Lerp(1f, 0f, (normalizedTime - 0.5f) * 2f);
             text.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+
             yield return null;
         }
 
-        // TODO: Add simple pooler
-        //gameObject.SetActive(false);
         Destroy(gameObject);
     }
 
@@ -52,6 +64,6 @@ public class DebugText : MonoBehaviour
     {
         text.text = message;
         text.color = color;
-        transform.localScale = Vector3.one;
+        transform.localScale = Vector3.zero;
     }
 }

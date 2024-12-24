@@ -5,11 +5,18 @@ using UnityEngine.UI;
 
 public class CanvasManager : MonoBehaviour
 {
+    public static CanvasManager Instance;
     public TextMeshProUGUI subtitleText;
     public GameObject damageRedBackground;
     public float damageFlashIntensity = 0.5f;
     private Coroutine currentDamageFlash;
     private float currentDamageAlpha = 0f;
+    public GameObject debugTextPrefab;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void ShowDamageFlash()
     {
@@ -142,5 +149,25 @@ public class CanvasManager : MonoBehaviour
         );
         yield return new WaitForSeconds(2.0f);
         subtitleText.gameObject.SetActive(false);
+    }
+
+    public void SpawnTextLog(Transform agentTransform, string message, Color color)
+    {
+        Vector3 position = OrikomeUtils.GeneralUtils.GetPositionWithOffset(
+            agentTransform,
+            Random.Range(-4.0f, 4.0f),
+            Random.Range(4.0f, 4.0f),
+            Random.Range(-4.0f, 4.0f)
+        );
+
+        GameObject debugTextObj = Instantiate(
+            debugTextPrefab,
+            position,
+            Quaternion.identity,
+            agentTransform
+        );
+
+        DamageText debugText = debugTextObj.GetComponent<DamageText>();
+        debugText.SetText(message, color);
     }
 }

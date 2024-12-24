@@ -4,9 +4,6 @@ using UnityEngine;
 public class AgentExtra : MonoBehaviour
 {
     [SerializeField]
-    private MeshRenderer meshRenderer;
-
-    [SerializeField]
     private float flashDuration = 0.1f;
 
     [SerializeField]
