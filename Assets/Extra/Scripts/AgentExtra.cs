@@ -18,14 +18,23 @@ public class AgentExtra : MonoBehaviour
     [SerializeField]
     private float maxFlashStrength = 1f;
 
-    private Material material;
+    private MeshRenderer[] meshRenderers;
+    private Material[] materials;
     private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
     private bool isFlashing;
 
     private void Awake()
     {
-        material = meshRenderer.material;
-        material.EnableKeyword("_EMISSION");
+        // Get all mesh renderers including children
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        materials = new Material[meshRenderers.Length];
+
+        // Initialize all materials
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            materials[i] = meshRenderers[i].material;
+            materials[i].EnableKeyword("_EMISSION");
+        }
     }
 
     public void TriggerFlash(float strength = 1f)
@@ -46,11 +55,17 @@ public class AgentExtra : MonoBehaviour
             float curveValue = flashCurve.Evaluate(t);
 
             Color currentFlash = Color.Lerp(Color.black, targetFlash, 1 - curveValue);
-            material.SetColor(EmissionColor, currentFlash);
+            foreach (var material in materials)
+            {
+                material.SetColor(EmissionColor, currentFlash);
+            }
 
             yield return null;
         }
 
-        material.SetColor(EmissionColor, Color.black);
+        foreach (var material in materials)
+        {
+            material.SetColor(EmissionColor, Color.black);
+        }
     }
 }
