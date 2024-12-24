@@ -17,6 +17,11 @@ public class SeeingModule : SenseModule
 
     public override void Execute(Agent agent)
     {
+        if (agent.Target == null)
+        {
+            CanSenseTarget = false;
+            return;
+        }
         Vector3 directionToTarget = agent.Target.transform.position - agent.transform.position;
         Ray ray = new(agent.transform.position, directionToTarget.normalized);
         PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;

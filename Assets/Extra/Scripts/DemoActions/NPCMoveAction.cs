@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "MoveAction", menuName = "SenteAI/Actions/MoveAction")]
-public class MoveAction : AgentAction
+[CreateAssetMenu(fileName = "NPCMoveAction", menuName = "SenteAI/Actions/NPCMoveAction")]
+public class NPCMoveAction : AgentAction
 {
     private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;

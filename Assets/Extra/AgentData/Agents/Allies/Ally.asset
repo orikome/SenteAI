@@ -14,14 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agentName: ShootAlly
   faction: 3
-  maxHealth: 10000
+  maxHealth: 100
   actionCooldown: 0.4
   modules:
   - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
   - {fileID: 11400000, guid: 6c3f87f2b19ef21489345553df6ecf3b, type: 2}
   - {fileID: 11400000, guid: 77907e796cc1d6c4cab94c9d36b4b62c, type: 2}
   - {fileID: 11400000, guid: 6724696322143c44c87f99af1fee45ba, type: 2}
+  - {fileID: 11400000, guid: 0cb2d01d63d06254ebf262316b9b592a, type: 2}
   actions:
   - {fileID: 11400000, guid: ccc470568a0193245ac71aa1ad91d795, type: 2}
-  - {fileID: 11400000, guid: c80ba10ee38d2b4418f1284758ef7026, type: 2}
+  - {fileID: 11400000, guid: 8f74ce3179788514f96025c96ac616ef, type: 2}
+  - {fileID: 11400000, guid: 434a8864a97f5374b9830c8b65884b97, type: 2}
   actionSelectionStrategy: {fileID: 11400000, guid: b2323052c87092b41b51c38e69e51904, type: 2}

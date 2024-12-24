@@ -62,7 +62,7 @@ public class NPCShootAction : ShootAction, IFeedbackAction
         // Weigh speed more for longer distances, because slower projectiles have less chance of hitting at range
         float distanceFactor = Mathf.Clamp01(1.0f - (distance / maxDistance));
         float speedDistanceFactor = distanceFactor * speedFactor;
-        float calculatedUtil = (distanceFactor + speedFactor) * 1.5f * CanSenseFactor;
+        float calculatedUtil = (distanceFactor + speedDistanceFactor) * 6.5f * CanSenseFactor;
 
         SetUtilityWithModifiers(calculatedUtil);
     }

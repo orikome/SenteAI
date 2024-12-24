@@ -16,6 +16,9 @@ public class LookAt : MonoBehaviour
 
     private void Update()
     {
+        if (_agent.Target == null)
+            return;
+
         target = _agent.Target.transform;
         if (_agent.GetModule<SenseModule>().CanSenseTarget)
         {
