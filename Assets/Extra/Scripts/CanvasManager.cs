@@ -151,7 +151,7 @@ public class CanvasManager : MonoBehaviour
         subtitleText.gameObject.SetActive(false);
     }
 
-    public void SpawnTextLog(Transform agentTransform, string message, Color color)
+    public void SpawnDamageText(Transform agentTransform, string message, Color color)
     {
         Vector3 position = OrikomeUtils.GeneralUtils.GetPositionWithOffset(
             agentTransform,

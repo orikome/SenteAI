@@ -20,7 +20,14 @@ public class PlayerProjectile : Projectile
             target.GetModule<HealthModule>().TakeDamage(_damage);
             Metrics metrics = _agent.Metrics;
             metrics.UpdateDamageDone(_damage);
-            //Helpers.SpawnParticles(transform.position, Color.blue);
+
+            if (_agent.Faction == Faction.Player)
+                CanvasManager.Instance.SpawnDamageText(
+                    target.transform,
+                    _damage.ToString(),
+                    Color.white
+                );
+
             Instantiate(explosionParticles, transform.position, Quaternion.identity);
             DebugManager.Instance.Log(
                 $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",

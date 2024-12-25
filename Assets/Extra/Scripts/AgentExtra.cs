@@ -20,6 +20,17 @@ public class AgentExtra : MonoBehaviour
     private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
     private bool isFlashing;
 
+    [SerializeField]
+    private GameObject agentDestructionParticles;
+
+    private void OnDestroy()
+    {
+        if (agentDestructionParticles != null)
+        {
+            Instantiate(agentDestructionParticles, transform.position, Quaternion.identity);
+        }
+    }
+
     private void Awake()
     {
         // Get all mesh renderers including children
