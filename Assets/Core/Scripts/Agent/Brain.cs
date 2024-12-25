@@ -12,6 +12,7 @@ public class Brain : Module
     {
         _agent = agent;
         _cooldownHandler = new CooldownHandler(agent.Data.actionCooldown);
+        _cooldownHandler.Reset();
         ActionSelectionStrategy = agent.Data.actionSelectionStrategy;
 
         if (ActionSelectionStrategy == null)

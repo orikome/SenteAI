@@ -7,7 +7,6 @@ public class HomingOrbsAction : AgentAction
     public GameObject orbPrefab;
     public int numberOfOrbs = 3;
     public float spreadAngle = 45f;
-    private Agent _agent;
 
     public override void Initialize(Agent agent)
     {

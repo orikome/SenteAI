@@ -9,7 +9,6 @@ public class BulletPatternAction : AgentAction
     public float angleIncrement = 10f;
     public float spawnRadius = 6f;
     protected int currentSpiralAngleOffset = 0;
-    private Agent _agent;
     protected float heightOffset = 0f;
 
     public override void Initialize(Agent agent)

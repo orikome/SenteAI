@@ -10,7 +10,6 @@ public class LaserBeamAction : AgentAction
 
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
-    private Agent _agent;
 
     public override void Initialize(Agent agent)
     {
