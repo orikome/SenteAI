@@ -183,7 +183,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
-  explosionParticles: {fileID: 7189266495483149382, guid: 8353a5e21c96dfd47ba4b8d949bc7c34, type: 3}
+  explosionParticles: {fileID: 794654530021498392, guid: d94a66c58fe2b314e84f31a67ff7ea4e, type: 3}
 --- !u!1 &7875554434267788359
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,14 +51,17 @@ public class NPCProjectile : Projectile
         if (hasCompleted || !_agent)
             return;
 
+        Vector3 normal = collision.contacts[0].normal;
+        Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
+        Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
+
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
             if (collision.transform.gameObject.TryGetComponent<Agent>(out var target))
             {
-                target.GetModule<HealthModule>().TakeDamage(10);
-                //Helpers.SpawnParticles(transform.position, Color.red);
-                Instantiate(explosionParticles, transform.position, Quaternion.identity);
-                _agent.Metrics.UpdateDamageDone(10);
+                target.GetModule<HealthModule>().TakeDamage(_damage);
+                Instantiate(explosionParticles, transform.position, hitRotation);
+                _agent.Metrics.UpdateDamageDone(_damage);
                 DebugManager.Instance.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
                     _agent.gameObject,
@@ -71,7 +74,7 @@ public class NPCProjectile : Projectile
         }
         else
         {
-            Instantiate(explosionParticles, transform.position, Quaternion.identity);
+            Instantiate(explosionParticles, transform.position, hitRotation);
             hasCompleted = true;
             OnMissCallback?.Invoke();
             Destroy(gameObject);

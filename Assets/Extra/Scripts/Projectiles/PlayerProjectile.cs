@@ -14,6 +14,10 @@ public class PlayerProjectile : Projectile
         if (!_agent)
             return;
 
+        Vector3 normal = collision.contacts[0].normal;
+        Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
+        Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
+
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
             collision.transform.gameObject.TryGetComponent<Agent>(out var target);
@@ -28,7 +32,7 @@ public class PlayerProjectile : Projectile
                     Color.white
                 );
 
-            Instantiate(explosionParticles, transform.position, Quaternion.identity);
+            Instantiate(explosionParticles, transform.position, hitRotation);
             DebugManager.Instance.Log(
                 $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
                 _agent.gameObject,
@@ -38,7 +42,7 @@ public class PlayerProjectile : Projectile
         }
         else
         {
-            Instantiate(explosionParticles, transform.position, Quaternion.identity);
+            Instantiate(explosionParticles, transform.position, hitRotation);
             Destroy(gameObject);
         }
     }

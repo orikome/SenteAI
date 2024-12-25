@@ -15,6 +15,16 @@ public class HomingOrbBehaviour : MonoBehaviour
     private bool _isPlayer;
     private Agent _enemy;
 
+    [SerializeField]
+    private float rotationSpeed = 5f;
+
+    [SerializeField]
+    private float moveSpeed = 15f;
+
+    [SerializeField]
+    private float acceleration = 5f;
+    private float currentSpeed;
+
     public void SetParameters(Agent agent, bool isPlayer)
     {
         rb = GetComponent<Rigidbody>();
@@ -39,7 +49,12 @@ public class HomingOrbBehaviour : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Start()
+    {
+        currentSpeed = moveSpeed * 0.25f;
+    }
+
+    private void Update()
     {
         if (hasHitTarget || target == null)
             return;
@@ -57,12 +72,21 @@ public class HomingOrbBehaviour : MonoBehaviour
 
     void HomeTowardsTarget()
     {
-        Vector3 directionToTarget = (target.position - transform.position).normalized;
-        rb.linearVelocity = Vector3.Lerp(
-            rb.linearVelocity,
-            directionToTarget * speed,
-            homingIntensity
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        // Smoothly rotate towards target
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
         );
+
+        // Accelerate over time
+        currentSpeed = Mathf.Min(currentSpeed + acceleration * Time.deltaTime, moveSpeed);
+
+        // Move forward in the direction we're facing
+        transform.position += transform.forward * (currentSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
