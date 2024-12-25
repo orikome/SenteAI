@@ -15,7 +15,7 @@ public class NPCMovementModule : Module
 
     public override void Execute(Agent agent)
     {
-        if (_nonPlayerAgent.Target == null)
+        if (_nonPlayerAgent.Target == null || Time.frameCount % 10 != 0)
             return;
 
         Metrics metrics = _nonPlayerAgent.Target.Metrics;
@@ -148,21 +148,6 @@ public class NPCMovementModule : Module
 
     private bool IsInCover(Vector3 position)
     {
-        Vector3 directionToTarget = _nonPlayerAgent.Target.transform.position - position;
-        if (
-            Physics.Raycast(
-                position,
-                directionToTarget.normalized,
-                out RaycastHit hit,
-                directionToTarget.magnitude
-            )
-        )
-        {
-            if (hit.transform != _nonPlayerAgent.Target.transform)
-            {
-                return true; // There is an obstacle between position and target
-            }
-        }
-        return false; // No obstacle, position is not in cover
+        return !HasLineOfSight(position, _nonPlayerAgent.Target.transform.position);
     }
 }
