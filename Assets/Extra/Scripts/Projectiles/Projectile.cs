@@ -18,6 +18,9 @@ public class Projectile : MonoBehaviour
     public Gradient speedGradient;
     protected Agent _agent;
 
+    [SerializeField]
+    protected GameObject explosionParticles;
+
     protected virtual void Start() { }
 
     protected virtual void FixedUpdate()

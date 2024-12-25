@@ -17,10 +17,11 @@ public class PlayerProjectile : Projectile
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
         {
             collision.transform.gameObject.TryGetComponent<Agent>(out var target);
-            target.GetModule<HealthModule>().TakeDamage(10);
+            target.GetModule<HealthModule>().TakeDamage(_damage);
             Metrics metrics = _agent.Metrics;
-            metrics.UpdateDamageDone(10);
-            Helpers.SpawnParticles(transform.position, Color.blue);
+            metrics.UpdateDamageDone(_damage);
+            //Helpers.SpawnParticles(transform.position, Color.blue);
+            Instantiate(explosionParticles, transform.position, Quaternion.identity);
             DebugManager.Instance.Log(
                 $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
                 _agent.gameObject,
@@ -30,7 +31,7 @@ public class PlayerProjectile : Projectile
         }
         else
         {
-            Helpers.SpawnParticles(transform.position, Color.blue);
+            Instantiate(explosionParticles, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

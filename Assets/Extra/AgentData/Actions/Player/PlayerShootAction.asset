@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0655f9261987ed2448cf39cc3a56ee02, type: 3}
   m_Name: PlayerShootAction
   m_EditorClassIdentifier: 
+  agentState: 0
   cooldownTime: 0.1
   biasWeight: 0
   penaltyPerExecution: 0.2
   penaltyRestoreRate: 0.2
   projectilePrefab: {fileID: 6377726187542555592, guid: ea9245bb968494f45bfcaaa297fe9a3a, type: 3}
-  projectileSpeed: 50
-  damage: 10
+  projectileSpeed: 75
+  damage: 20

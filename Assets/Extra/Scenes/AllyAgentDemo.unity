@@ -340,7 +340,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 5c27cb33f3518f44b91f54bb0e452431, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 5e92b651362c1a74ab66c107c152158c, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &265764819
 GameObject:
@@ -938,6 +938,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4629335620082250702, guid: fcf752d30e0cba34cb818358b87171a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1183,6 +1187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4629335620082250702, guid: fcf752d30e0cba34cb818358b87171a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1359,6 +1367,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4629335620082250702, guid: fcf752d30e0cba34cb818358b87171a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1440,6 +1452,10 @@ PrefabInstance:
     - target: {fileID: 4458269888728889407, guid: 0c80cfc5f98de3e47b5c4840d092edcb, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458269888728889407, guid: 0c80cfc5f98de3e47b5c4840d092edcb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6969912370572124027, guid: 0c80cfc5f98de3e47b5c4840d092edcb, type: 3}
       propertyPath: m_Pivot.x
@@ -1542,6 +1558,10 @@ PrefabInstance:
     - target: {fileID: 2281962450158313583, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
       propertyPath: m_Name
       value: SenteAI-Core
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027713014814660618, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7743070907260288596, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
       propertyPath: m_LocalPosition.x

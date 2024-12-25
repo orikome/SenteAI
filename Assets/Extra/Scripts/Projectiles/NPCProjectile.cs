@@ -56,7 +56,8 @@ public class NPCProjectile : Projectile
             if (collision.transform.gameObject.TryGetComponent<Agent>(out var target))
             {
                 target.GetModule<HealthModule>().TakeDamage(10);
-                Helpers.SpawnParticles(transform.position, Color.red);
+                //Helpers.SpawnParticles(transform.position, Color.red);
+                Instantiate(explosionParticles, transform.position, Quaternion.identity);
                 _agent.Metrics.UpdateDamageDone(10);
                 DebugManager.Instance.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
@@ -70,7 +71,7 @@ public class NPCProjectile : Projectile
         }
         else
         {
-            Helpers.SpawnParticles(transform.position, Color.blue);
+            Instantiate(explosionParticles, transform.position, Quaternion.identity);
             hasCompleted = true;
             OnMissCallback?.Invoke();
             Destroy(gameObject);
