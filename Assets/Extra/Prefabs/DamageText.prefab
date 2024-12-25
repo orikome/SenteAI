@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1
-  speed: 3
+  speed: 2
   scaleCurve:
     serializedVersion: 2
     m_Curve:
