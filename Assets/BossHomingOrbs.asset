@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab22ca717389d604e8c76ae7361c8ccf, type: 3}
-  m_Name: NPCHomingOrbs
+  m_Name: BossHomingOrbs
   m_EditorClassIdentifier: 
-  agentState: 0
-  cooldownTime: 6
+  cooldownTime: 1
   biasWeight: 0.6
-  penaltyPerExecution: 0.5
+  penaltyPerExecution: 0.2
   penaltyRestoreRate: 0.2
   orbPrefab: {fileID: 8895309130385202063, guid: c3dafc5b7d1872b4b8b8e34119b31397, type: 3}
-  numberOfOrbs: 1
+  numberOfOrbs: 2
   spreadAngle: 45

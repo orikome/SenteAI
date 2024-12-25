@@ -63,7 +63,7 @@ public class NPCProjectile : Projectile
                 Instantiate(explosionParticles, transform.position, hitRotation);
                 _agent.Metrics.UpdateDamageDone(_damage);
                 DebugManager.Instance.Log(
-                    $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
+                    $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.name)}",
                     _agent.gameObject,
                     target.gameObject
                 );

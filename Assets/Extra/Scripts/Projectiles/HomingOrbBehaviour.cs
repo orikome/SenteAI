@@ -6,13 +6,11 @@ public class HomingOrbBehaviour : MonoBehaviour
     public float speed = 5f;
     public float homingIntensity = 0.5f;
     private Transform target;
-    private Rigidbody rb;
     private LayerMask _targetMask;
     private LayerMask _ownerMask;
     private bool hasHitTarget = false;
     public Action OnHitCallback;
     public Action OnMissCallback;
-    private bool _isPlayer;
     private Agent _enemy;
 
     [SerializeField]
@@ -25,54 +23,98 @@ public class HomingOrbBehaviour : MonoBehaviour
     private float acceleration = 5f;
     private float currentSpeed;
 
-    public void SetParameters(Agent agent, bool isPlayer)
+    [SerializeField]
+    private GameObject homingExplosionParticles;
+    private Vector3 lastKnownDirection;
+
+    public void SetParameters(Agent agent, Faction faction)
     {
-        rb = GetComponent<Rigidbody>();
         Destroy(gameObject, 12f);
-        _isPlayer = isPlayer;
         _enemy = agent;
 
-        if (_isPlayer)
+        if (_enemy == null || agent.Target == null)
+            return;
+
+        if (faction == Faction.Player || faction == Faction.Ally)
         {
-            PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
-            target = playerMetrics.FindClosestEnemyToPlayer();
+            target = agent.Target.transform;
             _targetMask = LayerMask.GetMask("Enemy");
-            _ownerMask = LayerMask.GetMask("Player");
-            gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+            if (faction == Faction.Player)
+                _ownerMask = LayerMask.GetMask("Player");
+            else
+                _ownerMask = LayerMask.GetMask("Ally");
+            int projectileLayer = LayerMask.NameToLayer("PlayerProjectile");
+            SetLayerRecursively(gameObject, projectileLayer);
         }
         else
         {
-            target = AgentManager.Instance.playerAgent.transform;
-            _targetMask = LayerMask.GetMask("Player");
+            target = agent.Target.transform;
+            _targetMask = LayerMask.GetMask("Player", "Ally");
             _ownerMask = LayerMask.GetMask("Enemy");
-            gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
+            int projectileLayer = LayerMask.NameToLayer("EnemyProjectile");
+            SetLayerRecursively(gameObject, projectileLayer);
+        }
+    }
+
+    private void SetLayerRecursively(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, layer);
         }
     }
 
     private void Start()
     {
-        currentSpeed = moveSpeed * 0.25f;
+        currentSpeed = moveSpeed * 0.5f;
     }
 
     private void Update()
     {
-        if (hasHitTarget || target == null)
+        if (hasHitTarget)
             return;
 
-        HomeTowardsTarget();
+        if (target == null)
+        {
+            ContinueLastKnownDirection();
+        }
+        else
+        {
+            HomeTowardsTarget();
+        }
     }
 
     void OnDestroy()
     {
         if (!hasHitTarget)
         {
+            Instantiate(homingExplosionParticles, transform.position, Quaternion.identity);
             OnMissCallback?.Invoke();
         }
+    }
+
+    void ContinueLastKnownDirection()
+    {
+        // Rotate towards last known direction
+        Quaternion targetRotation = Quaternion.LookRotation(lastKnownDirection);
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
+
+        // Keep accelerating
+        currentSpeed = Mathf.Min(currentSpeed + acceleration * 4 * Time.deltaTime, moveSpeed);
+
+        // Move forward using rotation
+        transform.position += transform.forward * (currentSpeed * Time.deltaTime);
     }
 
     void HomeTowardsTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
+        lastKnownDirection = direction;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 
         // Smoothly rotate towards target
@@ -89,21 +131,56 @@ public class HomingOrbBehaviour : MonoBehaviour
         transform.position += transform.forward * (currentSpeed * Time.deltaTime);
     }
 
+    private string GetLayerMaskNames(LayerMask mask)
+    {
+        var names = new System.Collections.Generic.List<string>();
+        for (int i = 0; i < 32; i++)
+        {
+            if ((mask.value & (1 << i)) != 0)
+            {
+                string layerName = LayerMask.LayerToName(i);
+                if (!string.IsNullOrEmpty(layerName))
+                    names.Add(layerName);
+            }
+        }
+        return string.Join(", ", names);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (hasHitTarget)
             return;
+
+        //     string debugInfo =
+        //         $@"=== Collision Debug ===
+        // Collider: {collision.collider.name}
+        // Root: {collision.transform.root.name}
+        // Layer: {LayerMask.LayerToName(collision.gameObject.layer)}
+        // Target Mask Layers: {GetLayerMaskNames(_targetMask)}
+        // Is In Mask: {(_targetMask.value & (1 << collision.gameObject.layer)) != 0}";
+
+        //     Debug.Log(debugInfo);
+
+        if (!OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
+        {
+            //Collision ignored - wrong layer
+            return;
+        }
+
+        Vector3 normal = collision.contacts[0].normal;
+        Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
+        Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
         {
             // Check if the collided object's layer is in the target collision mask
             if (collision.transform.TryGetComponent(out Agent agent))
             {
-                agent.GetModule<HealthModule>().TakeDamage(10);
-                _enemy.Metrics.UpdateDamageDone(10);
-                Helpers.SpawnParticles(transform.position, Color.red);
+                agent.GetModule<HealthModule>().TakeDamage(40);
+                _enemy.Metrics.UpdateDamageDone(40);
+                Instantiate(homingExplosionParticles, transform.position, hitRotation);
                 DebugManager.Instance.Log(
-                    $"{Helpers.CleanName(gameObject.name)} dealt {10} damage to {Helpers.CleanName(collision.transform.root.name)}"
+                    $"{Helpers.CleanName(gameObject.name)} dealt {40} damage to {Helpers.CleanName(collision.transform.root.name)}"
                 );
 
                 hasHitTarget = true;
@@ -114,7 +191,7 @@ public class HomingOrbBehaviour : MonoBehaviour
         else
         {
             // Handle cases where the collision does not match the targeted object (miss)
-            Helpers.SpawnParticles(transform.position, Color.blue);
+            Instantiate(homingExplosionParticles, transform.position, hitRotation);
             hasHitTarget = true;
             OnMissCallback?.Invoke();
             Destroy(gameObject);
