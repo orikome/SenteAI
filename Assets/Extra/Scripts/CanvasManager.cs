@@ -155,9 +155,9 @@ public class CanvasManager : MonoBehaviour
     {
         Vector3 position = OrikomeUtils.GeneralUtils.GetPositionWithOffset(
             agentTransform,
-            Random.Range(-4.0f, 4.0f),
-            Random.Range(4.0f, 4.0f),
-            Random.Range(-4.0f, 4.0f)
+            Random.Range(-8.0f, 8.0f),
+            agentTransform.position.y + 1.0f,
+            Random.Range(-8.0f, 8.0f)
         );
 
         GameObject debugTextObj = Instantiate(

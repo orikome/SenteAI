@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerProjectile : Projectile
 {
+    private bool hasCompleted = false;
+
     protected override void Start()
     {
         base.Start();
@@ -11,8 +13,10 @@ public class PlayerProjectile : Projectile
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (!_agent)
+        if (!_agent || hasCompleted)
             return;
+
+        hasCompleted = true;
 
         Vector3 normal = collision.contacts[0].normal;
         Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);

@@ -658,7 +658,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2952177845325692102}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 7
+  m_Radius: 6
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -667,8 +667,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 14
-  m_BaseOffset: 6.7
+  m_Height: 10
+  m_BaseOffset: 4.8
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!54 &3641807667084371798
@@ -896,8 +896,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6016834385451289701}
   - {fileID: 5609876371756061301}
