@@ -7,8 +7,29 @@ public class NavMeshAgentModule : Module
 {
     public NavMeshAgent NavMeshAgent { get; private set; }
     public Vector3 CurrentDestination { get; private set; }
+    private bool _isPaused = false;
+    private float _pauseTimer = 0f;
 
-    public override void Execute(Agent agent) { }
+    public void PauseFor(float duration)
+    {
+        _isPaused = true;
+        _pauseTimer = duration;
+        NavMeshAgent.isStopped = true;
+    }
+
+    public override void Execute(Agent agent)
+    {
+        if (_isPaused)
+        {
+            _pauseTimer -= Time.deltaTime;
+            if (_pauseTimer <= 0f)
+            {
+                _isPaused = false;
+                NavMeshAgent.isStopped = false;
+            }
+            return;
+        }
+    }
 
     public override void Initialize(Agent agent)
     {

@@ -55,4 +55,9 @@ public class Brain : Module
         }
         DebugManager.Instance.Log("Reset utilScores", _agent.gameObject);
     }
+
+    public void PauseFor(float duration)
+    {
+        _cooldownHandler.PauseFor(duration);
+    }
 }

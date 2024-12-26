@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
-  m_Name: ShootFast
+  m_Name: EnemyMinion
   m_EditorClassIdentifier: 
   agentName: ShootAgent
   faction: 0
@@ -26,4 +26,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b773d7be901db6d439982c672d0a1bd2, type: 2}
   - {fileID: 11400000, guid: 449744e7dc6e66a47aa113b8c59e89d5, type: 2}
   - {fileID: 11400000, guid: 24f5354ecb1c38744a6cb31e65fec5ea, type: 2}
+  - {fileID: 11400000, guid: f0cd895113c205b4e8e97b557cd297c3, type: 2}
   actionSelectionStrategy: {fileID: 11400000, guid: b2323052c87092b41b51c38e69e51904, type: 2}

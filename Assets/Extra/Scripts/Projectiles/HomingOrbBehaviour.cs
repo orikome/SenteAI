@@ -44,7 +44,7 @@ public class HomingOrbBehaviour : MonoBehaviour
             else
                 _ownerMask = LayerMask.GetMask("Ally");
             int projectileLayer = LayerMask.NameToLayer("PlayerProjectile");
-            SetLayerRecursively(gameObject, projectileLayer);
+            Helpers.SetLayerRecursively(gameObject, projectileLayer);
         }
         else
         {
@@ -52,16 +52,7 @@ public class HomingOrbBehaviour : MonoBehaviour
             _targetMask = LayerMask.GetMask("Player", "Ally");
             _ownerMask = LayerMask.GetMask("Enemy");
             int projectileLayer = LayerMask.NameToLayer("EnemyProjectile");
-            SetLayerRecursively(gameObject, projectileLayer);
-        }
-    }
-
-    private void SetLayerRecursively(GameObject obj, int layer)
-    {
-        obj.layer = layer;
-        foreach (Transform child in obj.transform)
-        {
-            SetLayerRecursively(child.gameObject, layer);
+            Helpers.SetLayerRecursively(gameObject, projectileLayer);
         }
     }
 

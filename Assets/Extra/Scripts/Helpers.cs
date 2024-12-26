@@ -31,6 +31,15 @@ public static class Helpers
         return (adjustedPrediction - shooterPosition).normalized;
     }
 
+    public static void SetLayerRecursively(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, layer);
+        }
+    }
+
     public static void SpawnParticles(
         Vector3 position,
         Color color,

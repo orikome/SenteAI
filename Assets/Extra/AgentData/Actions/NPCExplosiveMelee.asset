@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 301ec95172902504f90e151176b9f913, type: 3}
+  m_Name: NPCExplosiveMelee
+  m_EditorClassIdentifier: 
+  agentState: 0
+  cooldownTime: 6
+  biasWeight: 1
+  penaltyPerExecution: 0.6
+  penaltyRestoreRate: 0.2
+  warningIndicator: {fileID: 5908753772196616195, guid: 9f2e85195e7f5da4a87b5c22d702b709, type: 3}
+  explosionPrefab: {fileID: 7189266495483149382, guid: f5a7f4a7b35a43d4f96ac85e73b1aabd, type: 3}
+  impactParticlePrefab: {fileID: 7189266495483149382, guid: f758072a6582cd64082d5fab01d38391, type: 3}
+  explosionRadius: 3
+  explosionDamage: 20
+  raySpreadAngle: 40
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0

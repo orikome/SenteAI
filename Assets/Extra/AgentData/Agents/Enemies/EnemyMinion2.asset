@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
+  m_Name: EnemyMinion2
+  m_EditorClassIdentifier: 
+  agentName: ShootAgent
+  faction: 0
+  maxHealth: 100
+  actionCooldown: 0.4
+  modules:
+  - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
+  - {fileID: 11400000, guid: 6c3f87f2b19ef21489345553df6ecf3b, type: 2}
+  - {fileID: 11400000, guid: 77907e796cc1d6c4cab94c9d36b4b62c, type: 2}
+  - {fileID: 11400000, guid: 6724696322143c44c87f99af1fee45ba, type: 2}
+  - {fileID: 11400000, guid: 0cb2d01d63d06254ebf262316b9b592a, type: 2}
+  actions:
+  - {fileID: 11400000, guid: b773d7be901db6d439982c672d0a1bd2, type: 2}
+  - {fileID: 11400000, guid: 449744e7dc6e66a47aa113b8c59e89d5, type: 2}
+  - {fileID: 11400000, guid: 24f5354ecb1c38744a6cb31e65fec5ea, type: 2}
+  - {fileID: 11400000, guid: f0cd895113c205b4e8e97b557cd297c3, type: 2}
+  actionSelectionStrategy: {fileID: 11400000, guid: b2323052c87092b41b51c38e69e51904, type: 2}
