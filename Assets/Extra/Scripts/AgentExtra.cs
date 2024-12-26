@@ -23,11 +23,15 @@ public class AgentExtra : MonoBehaviour
     [SerializeField]
     private GameObject agentDestructionParticles;
 
+    [SerializeField]
+    private GameObject agentScrapModel;
+
     private void OnDestroy()
     {
         if (agentDestructionParticles != null)
         {
             Instantiate(agentDestructionParticles, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(agentScrapModel, transform.position, Quaternion.identity);
         }
     }
 

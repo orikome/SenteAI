@@ -185,6 +185,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   maxFlashStrength: 0.5
   agentDestructionParticles: {fileID: 7189266495483149382, guid: 77f45883b1827c846970ac297e391363, type: 3}
+  agentScrapModel: {fileID: 97216168909595312, guid: 9ea442366ab96d3489d1f521850955e1, type: 3}
 --- !u!1 &406583834267086784
 GameObject:
   m_ObjectHideFlags: 0
