@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Disintegrator : MonoBehaviour
 {
-    private float disintegrationTime = 1.5f;
+    private float disintegrationTime = 1.25f;
     private List<Material> materials = new List<Material>();
     private static readonly int DissolveThreshold = Shader.PropertyToID("_DissolveThreshold");
 
