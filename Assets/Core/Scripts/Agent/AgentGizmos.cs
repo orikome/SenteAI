@@ -8,7 +8,7 @@ public class AgentGizmos : MonoBehaviour
     private Agent _agent;
     private float textHeight = 4f;
     private int textSize = 20;
-    private static readonly Color PATH_COLOR = new Color(0f, 1f, 1f, 0.8f);
+    private static readonly Color PATH_COLOR = new Color(0f, 1f, 1f, 0.1f);
 
     private void Start()
     {
@@ -48,6 +48,20 @@ public class AgentGizmos : MonoBehaviour
         // Gizmos.DrawWireCube(currentPos, Vector3.one * 5);
         // DrawLabel(currentPos, "Average(6)");
 
+        if (_agent != null && _agent.Target != null)
+        {
+            // Only draw if current agent's ID is lower (prevents double drawing)
+            if (_agent.GetInstanceID() < _agent.Target.GetInstanceID())
+            {
+                var senseModule = _agent.GetModule<SenseModule>();
+                Color targetColor =
+                    senseModule != null && senseModule.CanSenseTarget ? Color.green : Color.red;
+                targetColor.a = 0.4f;
+                Gizmos.color = targetColor;
+                Gizmos.DrawLine(transform.position, _agent.Target.transform.position);
+            }
+        }
+
         // Draw movement type indicator
         if (_agent.Metrics.IsClusteredMovement())
         {
@@ -76,13 +90,13 @@ public class AgentGizmos : MonoBehaviour
             DrawLabel(predictedPos, "Predicted");
         }
 
-        // Visualize position history with fading spheres
+        // Visualize position history with small cubes
         if (_agent.Metrics.PositionHistory.Count > 0)
         {
             Gizmos.color = Helpers.GetFactionColorHex(_agent.Faction);
             foreach (Vector3 pos in _agent.Metrics.PositionHistory)
             {
-                Gizmos.DrawSphere(pos, 0.2f);
+                Gizmos.DrawCube(pos, Vector3.one * 0.15f);
             }
         }
 

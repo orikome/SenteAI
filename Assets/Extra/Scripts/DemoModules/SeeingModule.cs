@@ -4,15 +4,15 @@ using UnityEngine;
 public class SeeingModule : SenseModule
 {
     [SerializeField]
-    private float _range = 50f;
+    private float _range = 250f;
     private LayerMask _layerMask;
     private bool _wasVisible;
-    private readonly float _cooldownTime = 0.5f;
+    private readonly float _updateTime = 0.25f;
     private float _lastVisibilityChangeTime;
 
     public override void Initialize(Agent agent)
     {
-        _layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy");
+        _layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy", "Ally");
     }
 
     public override void Execute(Agent agent)
@@ -24,15 +24,14 @@ public class SeeingModule : SenseModule
         }
         Vector3 directionToTarget = agent.Target.transform.position - agent.transform.position;
         Ray ray = new(agent.transform.position, directionToTarget.normalized);
-        PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
 
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, _range, _layerMask);
-        bool isVisible = hit && hitInfo.transform == agent.Target;
 
-        //DebugRay(agent, directionToTarget, isVisible, hit, hitInfo);
+        // Crucial for visibility check, gameObject comparison!
+        bool isVisible = hit && hitInfo.transform.gameObject == agent.Target.transform.gameObject;
 
         // Return early if still in cooldown period
-        if (Time.time - _lastVisibilityChangeTime < _cooldownTime)
+        if (Time.time - _lastVisibilityChangeTime < _updateTime)
             return;
 
         // Check if visibility has changed
@@ -42,9 +41,8 @@ public class SeeingModule : SenseModule
         if (isVisible && visibilityChanged)
         {
             CanSenseTarget = true;
-            playerMetrics.UpdateCoverStatus(true);
             LastKnownPosition = agent.Target.transform.position;
-            LastKnownVelocity = AgentManager.Instance.playerAgent.Metrics.Velocity;
+            LastKnownVelocity = agent.Target.Metrics.Velocity;
             LastSeenTime = Time.time;
             _lastVisibilityChangeTime = Time.time;
         }
@@ -53,28 +51,10 @@ public class SeeingModule : SenseModule
         if (!isVisible && visibilityChanged)
         {
             CanSenseTarget = false;
-            playerMetrics.UpdateCoverStatus(false);
             _lastVisibilityChangeTime = Time.time;
         }
 
         // Update visibility bool
         _wasVisible = isVisible;
-    }
-
-    private void DebugRay(
-        Agent agent,
-        Vector3 directionToTarget,
-        bool targetVisible,
-        bool hit,
-        RaycastHit hitInfo
-    )
-    {
-        float rayLength = hit ? hitInfo.distance : _range;
-
-        Debug.DrawRay(
-            agent.transform.position,
-            directionToTarget.normalized * rayLength,
-            targetVisible ? Color.green : Color.red
-        );
     }
 }
