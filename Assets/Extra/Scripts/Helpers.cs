@@ -31,6 +31,42 @@ public static class Helpers
         return (adjustedPrediction - shooterPosition).normalized;
     }
 
+    public static LayerMask GetTargetMask(Faction faction)
+    {
+        return faction switch
+        {
+            Faction.Enemy => LayerMask.GetMask("Player", "Ally"),
+            Faction.Player or Faction.Ally => LayerMask.GetMask("Enemy"),
+            _ => LayerMask.GetMask("Default"),
+        };
+    }
+
+    public static LayerMask GetOwnerMask(Faction faction)
+    {
+        return faction switch
+        {
+            Faction.Player => LayerMask.GetMask("Player"),
+            Faction.Enemy => LayerMask.GetMask("Enemy"),
+            Faction.Ally => LayerMask.GetMask("Ally"),
+            _ => LayerMask.GetMask("Default"),
+        };
+    }
+
+    public static int GetProjectileLayer(Faction faction)
+    {
+        return faction switch
+        {
+            Faction.Enemy => LayerMask.NameToLayer("EnemyProjectile"),
+            Faction.Player or Faction.Ally => LayerMask.NameToLayer("PlayerProjectile"),
+            _ => LayerMask.NameToLayer("Default"),
+        };
+    }
+
+    public static int GetObstacleMask()
+    {
+        return LayerMask.GetMask("Wall");
+    }
+
     public static void SetLayerRecursively(GameObject obj, int layer)
     {
         obj.layer = layer;

@@ -7,8 +7,14 @@ public class MeteorStrikeAction : AgentAction
     public float dropDelay = 2f;
     public GameObject warningIndicator;
 
+    [SerializeField]
+    private float clearanceCheckRadius = 24f;
+
     public override void Execute(Transform firePoint, Vector3 direction)
     {
+        if (!IsLandingAreaClear(_agent.Target.Metrics.PredictPosition()))
+            return;
+
         DropMeteor();
         AfterExecution();
     }
@@ -21,6 +27,16 @@ public class MeteorStrikeAction : AgentAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
+    private bool IsLandingAreaClear(Vector3 position)
+    {
+        Collider[] colliders = Physics.OverlapSphere(
+            position,
+            clearanceCheckRadius,
+            Helpers.GetObstacleMask()
+        );
+        return colliders.Length == 0;
+    }
+
     private void DropMeteor()
     {
         Metrics targetMetrics = _agent.Target.Metrics;
@@ -30,7 +46,7 @@ public class MeteorStrikeAction : AgentAction
         // Spawn warning indicator
         GameObject obj = Instantiate(
             warningIndicator,
-            targetMetrics.PredictNextPositionUsingMomentum(),
+            targetMetrics.PredictPosition(),
             Quaternion.identity
         );
 
@@ -38,7 +54,7 @@ public class MeteorStrikeAction : AgentAction
 
         GameObject meteor = Instantiate(
             meteorPrefab,
-            targetMetrics.PredictNextPositionUsingMomentum() + (Vector3.up * 60),
+            targetMetrics.PredictPosition() + (Vector3.up * 60),
             Quaternion.identity
         );
         meteor.GetComponent<MeteorBehavior>().Initialize(_agent);
