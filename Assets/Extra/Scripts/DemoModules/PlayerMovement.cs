@@ -14,7 +14,7 @@ public class PlayerMovement : Module
     {
         if (_controller == null)
         {
-            Debug.LogError("CharacterController is not assigned!");
+            AgentLogger.LogError("CharacterController is not assigned!");
             return;
         }
         _isGrounded = _controller.isGrounded;

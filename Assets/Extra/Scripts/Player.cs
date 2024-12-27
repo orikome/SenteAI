@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     {
         if (playerMesh == null)
         {
-            Debug.LogError("Player mesh is not assigned!");
+            AgentLogger.LogError("Player mesh is not assigned!");
             return;
         }
 

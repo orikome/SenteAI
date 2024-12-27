@@ -15,7 +15,7 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
 
         if (executableActions.Count == 0)
         {
-            Debug.LogWarning("No executable actions available!");
+            AgentLogger.LogWarning("No executable actions available!");
             return null;
         }
 
@@ -43,14 +43,14 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
 
         if (selectedAction == null)
         {
-            Debug.LogError("No suitable action found!");
+            AgentLogger.LogError("No suitable action found!");
             return null;
         }
 
         // Compare the selected action with the max utility action
         if (selectedAction != maxUtilityAction)
         {
-            Debug.LogWarning(
+            AgentLogger.LogWarning(
                 $"Roulette selection picked a lower utility action: {selectedAction.name} "
                     + $"(Utility: {selectedAction.ScaledUtilityScore}) vs Max Utility Action: {maxUtilityAction.name} "
                     + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
@@ -63,11 +63,10 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
             || selectedAction.ScaledUtilityScore < maxUtilityAction.ScaledUtilityScore * 0.1f
         )
         {
-            Debug.LogWarning(
+            AgentLogger.LogWarning(
                 $"Super low utility action selected! Action: {selectedAction.name} (Utility: {selectedAction.ScaledUtilityScore}) "
                     + $"vs Max Utility Action: {maxUtilityAction.name} "
-                    + $"(Utility: {maxUtilityAction.ScaledUtilityScore}).",
-                agent.gameObject
+                    + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
             );
         }
 

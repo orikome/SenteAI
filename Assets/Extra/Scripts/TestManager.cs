@@ -79,7 +79,7 @@ public class TestManager : MonoBehaviour
         }
         catch (IOException ex)
         {
-            Debug.LogError("Failed to write to JSON file: " + ex.Message);
+            AgentLogger.LogError("Failed to write to JSON file: " + ex.Message);
         }
     }
 }

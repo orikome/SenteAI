@@ -7,7 +7,6 @@ public class Metrics : MonoBehaviour
     public Vector3 LastPosition { get; protected set; } = Vector3.zero;
     public float DamageTaken { get; private set; }
     public float DamageDone { get; private set; }
-    public Vector3 PredictedPosition { get; private set; }
     public float DistanceToTarget { get; protected set; }
 
     // Behavior parameters
@@ -16,9 +15,9 @@ public class Metrics : MonoBehaviour
     public float DefensiveThreshold { get; protected set; } = 0.3f;
     public List<Vector3> PositionHistory { get; private set; } = new();
     public List<AgentAction> ActionHistory { get; private set; } = new();
-    protected readonly int recentHistorySize = 6;
+    public readonly int recentHistorySize = 6;
     protected readonly float historyRecordInterval = 0.2f;
-    private readonly float detectionThreshold = 1.5f;
+    private readonly float detectionThreshold = 2.5f;
     protected Agent _agent;
     protected float timeSinceLastRecord = 0f;
     protected readonly int maxHistoryCount = 200;
@@ -142,7 +141,6 @@ public class Metrics : MonoBehaviour
             + velocity1
             + 0.5f * Mathf.Pow(historyRecordInterval, 2) * acceleration;
 
-        PredictedPosition = predictedPosition;
         return predictedPosition;
     }
 
@@ -163,7 +161,7 @@ public class Metrics : MonoBehaviour
         return PredictNextPositionUsingMomentum();
     }
 
-    protected bool IsClusteredMovement()
+    public bool IsClusteredMovement()
     {
         // Check if we have enough history first
         if (PositionHistory.Count < recentHistorySize)
@@ -202,34 +200,5 @@ public class Metrics : MonoBehaviour
         }
 
         DistanceToTarget = Vector3.Distance(transform.position, _agent.Target.transform.position);
-    }
-
-    public virtual void OnDrawGizmos()
-    {
-        if (!Application.isPlaying)
-            return;
-
-        Gizmos.DrawCube(GetAveragePosition(), Vector3.one * 4);
-
-        if (IsClusteredMovement())
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawCube(GetAveragePosition(recentHistorySize), Vector3.one * 4);
-        }
-        else
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawCube(PredictNextPositionUsingMomentum(), Vector3.one * 2);
-        }
-
-        // Visualize player history with small spheres
-        if (PositionHistory.Count > 0)
-        {
-            Gizmos.color = Color.red;
-            foreach (Vector3 pos in PositionHistory)
-            {
-                Gizmos.DrawSphere(pos, 0.4f);
-            }
-        }
     }
 }

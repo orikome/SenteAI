@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class HomingOrbBehaviour : MonoBehaviour
 {
-    public float speed = 5f;
-    public float homingIntensity = 0.5f;
     private Transform target;
     private LayerMask _targetMask;
     private LayerMask _ownerMask;
@@ -78,6 +76,9 @@ public class HomingOrbBehaviour : MonoBehaviour
 
     void OnDestroy()
     {
+        if (!Application.isPlaying || (!gameObject.scene.isLoaded))
+            return;
+
         if (!hasHitTarget)
         {
             Instantiate(homingExplosionParticles, transform.position, Quaternion.identity);
@@ -152,7 +153,12 @@ public class HomingOrbBehaviour : MonoBehaviour
 
         //     Debug.Log(debugInfo);
 
-        if (!OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
+        if (
+            !OrikomeUtils.LayerMaskUtils.IsLayerInMask(
+                collision.gameObject.layer,
+                Helpers.GetObstacleMask()
+            )
+        )
         {
             //Collision ignored - wrong layer
             return;
@@ -182,10 +188,12 @@ public class HomingOrbBehaviour : MonoBehaviour
         else
         {
             // Handle cases where the collision does not match the targeted object (miss)
-            Instantiate(homingExplosionParticles, transform.position, hitRotation);
-            hasHitTarget = true;
             OnMissCallback?.Invoke();
-            Destroy(gameObject);
         }
+
+        // Spawn explosion effect and destroy projectile
+        Instantiate(homingExplosionParticles, transform.position, hitRotation);
+        hasHitTarget = true;
+        Destroy(gameObject);
     }
 }

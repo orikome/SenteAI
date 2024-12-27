@@ -6,26 +6,23 @@ using UnityEngine.AI;
 public class AgentGizmos : MonoBehaviour
 {
     private Agent _agent;
-    public float textHeight = 4f;
-    public float textSize = 0.1f;
+    private float textHeight = 4f;
+    private int textSize = 20;
+    private static readonly Color PATH_COLOR = new Color(0f, 1f, 1f, 0.8f);
 
     private void Start()
     {
         _agent = gameObject.GetComponent<Agent>();
     }
 
-    private void OnDrawGizmos()
+    private void DrawActions()
     {
-        if (!Application.isPlaying)
-            return;
-
-        GUIStyle style =
-            new()
-            {
-                normal = { textColor = Color.yellow },
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = 20,
-            };
+        GUIStyle style = new()
+        {
+            normal = { textColor = Color.yellow },
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = textSize,
+        };
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
 
@@ -38,8 +35,56 @@ public class AgentGizmos : MonoBehaviour
             style.normal.textColor = Color.white;
             Handles.Label(textPosition, actionInfo, style);
         }
+    }
 
-        Gizmos.color = Color.cyan;
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying)
+            return;
+
+        // Draw main position indicator
+        // Gizmos.color = Color.white;
+        // Vector3 currentPos = _agent.Metrics.GetAveragePosition(6);
+        // Gizmos.DrawWireCube(currentPos, Vector3.one * 5);
+        // DrawLabel(currentPos, "Average(6)");
+
+        // Draw movement type indicator
+        if (_agent.Metrics.IsClusteredMovement())
+        {
+            // Gizmos.color = Helpers.GetFactionColorHex(_agent.Faction);
+            // Vector3 clusterPos = _agent.Metrics.GetAveragePosition(
+            //     _agent.Metrics.recentHistorySize
+            // );
+            // Gizmos.DrawWireSphere(clusterPos, 2);
+            // DrawLabel(clusterPos, "Clustered");
+        }
+        else
+        {
+            Gizmos.color = Helpers.GetFactionColorHex(_agent.Faction);
+            Vector3 predictedPos = _agent.Metrics.PredictPosition();
+            Vector3 currentPos = _agent.transform.position;
+
+            // Draw prediction path
+            Color pathColor = Helpers.GetFactionColorHex(_agent.Faction);
+            pathColor.a = 0.4f; // Make semi-transparent
+            Gizmos.color = pathColor;
+            Gizmos.DrawLine(currentPos, predictedPos);
+
+            // Draw prediction cube
+            Gizmos.color = Helpers.GetFactionColorHex(_agent.Faction);
+            Gizmos.DrawWireCube(predictedPos, Vector3.one * 3);
+            DrawLabel(predictedPos, "Predicted");
+        }
+
+        // Visualize position history with fading spheres
+        if (_agent.Metrics.PositionHistory.Count > 0)
+        {
+            Gizmos.color = Helpers.GetFactionColorHex(_agent.Faction);
+            foreach (Vector3 pos in _agent.Metrics.PositionHistory)
+            {
+                Gizmos.DrawSphere(pos, 0.2f);
+            }
+        }
 
         var navMeshAgentModule = _agent.GetModule<NavMeshAgentModule>();
         if (navMeshAgentModule == null || navMeshAgentModule.NavMeshAgent == null)
@@ -47,18 +92,22 @@ public class AgentGizmos : MonoBehaviour
 
         NavMeshPath path = navMeshAgentModule.NavMeshAgent.path;
 
-        // Draw path
+        // Draw path with gradient
         for (int i = 0; i < path.corners.Length - 1; i++)
         {
+            float t = (float)i / (path.corners.Length - 1);
+            Gizmos.color = Color.Lerp(PATH_COLOR, Color.white, t);
             Gizmos.DrawLine(path.corners[i], path.corners[i + 1]);
-        }
 
-        // Draw spheres at path corners
-        Gizmos.color = Color.red;
-        foreach (Vector3 corner in path.corners)
-        {
-            Gizmos.DrawSphere(corner, 0.2f);
+            // Larger spheres for start/end, smaller for middle points
+            float sphereSize = (i == 0 || i == path.corners.Length - 1) ? 0.4f : 0.2f;
+            Gizmos.DrawSphere(path.corners[i], sphereSize);
         }
+    }
+
+    private void DrawLabel(Vector3 position, string text)
+    {
+        Handles.Label(position + Vector3.up * 2.5f, text);
     }
 }
 #endif

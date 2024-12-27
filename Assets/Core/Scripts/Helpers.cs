@@ -17,6 +17,20 @@ public static class Helpers
         };
     }
 
+    public static Color GetFactionColorHex(Faction faction)
+    {
+        string hexColor = faction switch
+        {
+            Faction.Player => PLAYER_COLOR,
+            Faction.Enemy => ENEMY_COLOR,
+            Faction.Ally => ALLY_COLOR,
+            _ => "#FFFFFF", // Default white
+        };
+
+        ColorUtility.TryParseHtmlString(hexColor, out Color color);
+        return color;
+    }
+
     public static Vector3 PredictPosition(
         Vector3 shooterPosition,
         Transform target,

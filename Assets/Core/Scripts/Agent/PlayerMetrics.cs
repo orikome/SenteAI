@@ -75,22 +75,20 @@ public class PlayerMetrics : Metrics
         return Behavior.Balanced;
     }
 
-    public override void OnDrawGizmos()
-    {
-        base.OnDrawGizmos();
+    // public void OnDrawGizmos()
+    // {
+    //     // Visualize cover status
+    //     Gizmos.color = IsInCover ? Color.green : Color.red;
+    //     Gizmos.DrawWireCube(transform.position, new Vector3(1, 1, 1));
 
-        // Visualize cover status
-        Gizmos.color = IsInCover ? Color.green : Color.red;
-        Gizmos.DrawWireCube(transform.position, new Vector3(1, 1, 1));
+    //     // Visualize distance to closest enemy
+    //     if (closestEnemy != null)
+    //     {
+    //         Gizmos.color = Color.yellow;
+    //         Gizmos.DrawLine(transform.position, closestEnemy.transform.position);
 
-        // Visualize distance to closest enemy
-        if (closestEnemy != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, closestEnemy.transform.position);
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawSphere(closestEnemy.transform.position, 0.5f);
-        }
-    }
+    //         Gizmos.color = Color.green;
+    //         Gizmos.DrawSphere(closestEnemy.transform.position, 0.5f);
+    //     }
+    // }
 }

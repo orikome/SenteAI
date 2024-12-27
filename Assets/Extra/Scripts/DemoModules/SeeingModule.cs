@@ -29,7 +29,7 @@ public class SeeingModule : SenseModule
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, _range, _layerMask);
         bool isVisible = hit && hitInfo.transform == agent.Target;
 
-        DebugRay(agent, directionToTarget, isVisible, hit, hitInfo);
+        //DebugRay(agent, directionToTarget, isVisible, hit, hitInfo);
 
         // Return early if still in cooldown period
         if (Time.time - _lastVisibilityChangeTime < _cooldownTime)

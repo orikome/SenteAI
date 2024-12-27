@@ -26,7 +26,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 
         if (validActions.Count == 0)
         {
-            AgentLogger.LogWarning($"No valid actions available for agent: {agent.name}");
+            //AgentLogger.LogWarning($"No valid actions available for agent: {agent.name}");
             return null;
         }
 

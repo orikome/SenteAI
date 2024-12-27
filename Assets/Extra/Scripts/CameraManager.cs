@@ -31,7 +31,7 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         if (target == null)
-            Debug.LogWarning("No target assigned to CameraManager!");
+            AgentLogger.LogWarning("No target assigned to CameraManager!");
 
         // Set initial position and rotation
         if (target != null)

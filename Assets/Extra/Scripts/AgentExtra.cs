@@ -28,6 +28,9 @@ public class AgentExtra : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!Application.isPlaying || (!gameObject.scene.isLoaded))
+            return;
+
         if (agentDestructionParticles != null && agentScrapModel != null)
         {
             Instantiate(agentDestructionParticles, transform.position, Quaternion.identity);

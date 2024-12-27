@@ -13,7 +13,7 @@ public class RandomSelectionStrategy : ActionSelectionStrategy
 
         if (executableActions.Count == 0)
         {
-            Debug.LogWarning("No executable actions available!");
+            AgentLogger.LogWarning("No executable actions available!");
             return null;
         }
 

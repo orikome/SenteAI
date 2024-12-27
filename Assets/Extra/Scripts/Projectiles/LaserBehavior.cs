@@ -55,6 +55,9 @@ public class LaserBehavior : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!Application.isPlaying || (!gameObject.scene.isLoaded))
+            return;
+
         // Trigger failure if target was not hit
         if (!hasHitTarget)
         {
