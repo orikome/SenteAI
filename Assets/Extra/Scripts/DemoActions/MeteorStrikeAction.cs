@@ -6,14 +6,15 @@ public class MeteorStrikeAction : AgentAction
     public GameObject meteorPrefab;
     public float dropDelay = 2f;
     public GameObject warningIndicator;
-
-    [SerializeField]
-    private float clearanceCheckRadius = 24f;
+    private float clearanceCheckRadius = 20f;
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         if (!IsLandingAreaClear(_agent.Target.Metrics.PredictPosition()))
+        {
+            AddCooldown();
             return;
+        }
 
         DropMeteor();
         AfterExecution();
@@ -21,10 +22,10 @@ public class MeteorStrikeAction : AgentAction
 
     public override void CalculateUtility(Agent agent)
     {
-        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 1f;
-        float calculatedUtil = 0.5f * CanSenseFactor;
+        //float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 1f;
+        //float calculatedUtil = 2.5f * CanSenseFactor;
 
-        SetUtilityWithModifiers(calculatedUtil);
+        SetUtilityWithModifiers(2.5f);
     }
 
     private bool IsLandingAreaClear(Vector3 position)

@@ -62,7 +62,7 @@ public class NPCShootAction : ShootAction, IFeedbackAction
         // Weigh speed more for longer distances, because slower projectiles have less chance of hitting at range
         float distanceFactor = Mathf.Clamp01(1.0f - (distance / maxDistance));
         float speedDistanceFactor = distanceFactor * speedFactor;
-        float calculatedUtil = (distanceFactor + speedDistanceFactor) * 6.5f * CanSenseFactor;
+        float calculatedUtil = (distanceFactor + speedDistanceFactor) * 0.5f * CanSenseFactor;
         float calculatedUtilClamped = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
 
         SetUtilityWithModifiers(calculatedUtilClamped);
@@ -129,7 +129,7 @@ public class NPCShootAction : ShootAction, IFeedbackAction
             Quaternion.LookRotation(direction)
         );
 
-        Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
+        //Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
 
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.SetParameters(_agent, direction, projectileSpeed, damage);

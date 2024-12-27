@@ -24,7 +24,7 @@ public class ShootAction : AgentAction
             Quaternion.LookRotation(direction)
         );
 
-        Debug.DrawRay(firePoint.position, direction * 5f, Color.blue, 1f);
+        //Debug.DrawRay(firePoint.position, direction * 5f, Color.blue, 1f);
 
         if (projectile.TryGetComponent<Projectile>(out var projectileComponent))
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SenteAI/Actions/NPCLaserBeam")]
@@ -11,24 +12,25 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
+    public GameObject warningIndicator;
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         if (!HasClearShot(firePoint, _agent))
             return;
 
-        ShootLaser(firePoint, _agent);
+        _agent.StartCoroutine(ShootLaser(firePoint, _agent));
         AfterExecution();
     }
 
     private bool HasClearShot(Transform firePoint, Agent agent)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
-        Vector3 predictedPlayerPosition = playerMetrics.PredictPosition();
-        Vector3 directionToPlayer = predictedPlayerPosition - agent.firePoint.position;
+        Metrics targetMetrics = agent.Target.Metrics;
+        Vector3 predictedTargetPosition = targetMetrics.PredictPosition();
+        Vector3 directionToTarget = predictedTargetPosition - agent.firePoint.position;
         LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
 
-        if (Physics.Raycast(firePoint.position, directionToPlayer, out RaycastHit hit))
+        if (Physics.Raycast(firePoint.position, directionToTarget, out RaycastHit hit))
         {
             if (
                 OrikomeUtils.LayerMaskUtils.IsLayerInMask(
@@ -66,10 +68,25 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
-    private void ShootLaser(Transform firePoint, Agent agent)
+    private IEnumerator ShootLaser(Transform firePoint, Agent agent)
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
-        Vector3 directionToTarget = playerMetrics.PredictNextPositionUsingMomentum();
+        Metrics targetMetrics = agent.Target.Metrics;
+        Vector3 directionToTarget = targetMetrics.PredictPosition();
+
+        Vector3 spawnPosition = _agent.transform.position;
+        spawnPosition.y = 0.001f;
+
+        // Spawn warning indicator
+        GameObject obj = Instantiate(
+            warningIndicator,
+            spawnPosition,
+            Quaternion.LookRotation(directionToTarget)
+        );
+        obj.GetComponentInChildren<WarningIndicator>().Initialize(_agent);
+        _agent.GetModule<NavMeshAgentModule>().PauseFor(1f);
+        _agent.GetModule<Brain>().PauseFor(1f);
+        // Wait for animation to reach impact frame
+        yield return new WaitForSeconds(1f);
 
         GameObject laser = Instantiate(
             laserPrefab,
@@ -79,7 +96,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 
         LineRenderer line = laser.GetComponent<LineRenderer>();
         line.SetPosition(0, firePoint.position);
-        line.SetPosition(1, firePoint.position + directionToTarget * laserDistance);
+        line.SetPosition(1, directionToTarget * laserDistance);
 
         // Add laser collider
         BoxCollider laserCollider = laser.AddComponent<BoxCollider>();
@@ -87,7 +104,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         laserCollider.center = new Vector3(0, 0, laserDistance / 2f);
         laserCollider.size = new Vector3(1.5f, 1.5f, laserDistance);
         LaserBehavior laserCollision = laser.AddComponent<LaserBehavior>();
-        laserCollision.Initialize(agent, 100, false);
+        laserCollision.Initialize(agent, 100);
         laserCollision.OnHitCallback = () => HandleSuccess(agent);
         laserCollision.OnMissCallback = () => HandleFailure(agent);
 

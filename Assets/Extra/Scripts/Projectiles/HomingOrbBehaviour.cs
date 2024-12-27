@@ -9,7 +9,7 @@ public class HomingOrbBehaviour : MonoBehaviour
     private bool hasHitTarget = false;
     public Action OnHitCallback;
     public Action OnMissCallback;
-    private Agent _enemy;
+    private Agent _agent;
 
     [SerializeField]
     private float rotationSpeed = 5f;
@@ -25,19 +25,19 @@ public class HomingOrbBehaviour : MonoBehaviour
     private GameObject homingExplosionParticles;
     private Vector3 lastKnownDirection;
 
-    public void SetParameters(Agent agent, Faction faction)
+    public void SetParameters(Agent agent)
     {
         Destroy(gameObject, 12f);
-        _enemy = agent;
+        _agent = agent;
 
-        if (_enemy == null || agent.Target == null)
+        if (_agent == null || agent.Target == null)
             return;
 
-        if (faction == Faction.Player || faction == Faction.Ally)
+        if (_agent.Faction == Faction.Player || _agent.Faction == Faction.Ally)
         {
             target = agent.Target.transform;
             _targetMask = LayerMask.GetMask("Enemy");
-            if (faction == Faction.Player)
+            if (_agent.Faction == Faction.Player)
                 _ownerMask = LayerMask.GetMask("Player");
             else
                 _ownerMask = LayerMask.GetMask("Ally");
@@ -46,16 +46,13 @@ public class HomingOrbBehaviour : MonoBehaviour
         }
         else
         {
-            target = agent.Target.transform;
+            target = _agent.Target.transform;
             _targetMask = LayerMask.GetMask("Player", "Ally");
             _ownerMask = LayerMask.GetMask("Enemy");
             int projectileLayer = LayerMask.NameToLayer("EnemyProjectile");
             Helpers.SetLayerRecursively(gameObject, projectileLayer);
         }
-    }
 
-    private void Start()
-    {
         currentSpeed = moveSpeed * 0.5f;
     }
 
@@ -153,19 +150,19 @@ public class HomingOrbBehaviour : MonoBehaviour
 
         //     Debug.Log(debugInfo);
 
-        if (
-            !OrikomeUtils.LayerMaskUtils.IsLayerInMask(
-                collision.gameObject.layer,
-                Helpers.GetObstacleMask()
-            )
-        )
-        {
-            //Collision ignored - wrong layer
-            return;
-        }
+        // if (
+        //     !OrikomeUtils.LayerMaskUtils.IsLayerInMask(
+        //         collision.gameObject.layer,
+        //         Helpers.GetObstacleMask()
+        //     )
+        // )
+        // {
+        //     //Collision ignored - wrong layer
+        //     return;
+        // }
 
         Vector3 normal = collision.contacts[0].normal;
-        Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
+        //Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
         Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
@@ -174,7 +171,7 @@ public class HomingOrbBehaviour : MonoBehaviour
             if (collision.transform.TryGetComponent(out Agent agent))
             {
                 agent.GetModule<HealthModule>().TakeDamage(40);
-                _enemy.Metrics.UpdateDamageDone(40);
+                _agent.Metrics.UpdateDamageDone(40);
                 Instantiate(homingExplosionParticles, transform.position, hitRotation);
                 AgentLogger.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {40} damage to {Helpers.CleanName(collision.transform.root.name)}"

@@ -52,7 +52,7 @@ public class NPCProjectile : Projectile
             return;
 
         Vector3 normal = collision.contacts[0].normal;
-        Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
+        //Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
         Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
 
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))

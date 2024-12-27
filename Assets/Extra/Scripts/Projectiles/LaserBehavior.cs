@@ -13,24 +13,17 @@ public class LaserBehavior : MonoBehaviour
     private LayerMask _targetMask;
     private LayerMask _ownerMask;
 
-    public void Initialize(Agent agent, float damagePerSecond, bool isPlayer)
+    public void Initialize(Agent agent, float damagePerSecond)
     {
         _agent = agent;
         _damagePerSecond = damagePerSecond;
-        _isPlayer = isPlayer;
 
-        if (_isPlayer)
-        {
-            _targetMask = LayerMask.GetMask("Enemy");
-            _ownerMask = LayerMask.GetMask("Player");
-            gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
-        }
-        else
-        {
-            _targetMask = LayerMask.GetMask("Player");
-            _ownerMask = LayerMask.GetMask("Enemy");
-            gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
-        }
+        if (_agent == null || agent.Target == null)
+            return;
+
+        _targetMask = Helpers.GetTargetMask(_agent.Faction);
+        _ownerMask = Helpers.GetOwnerMask(_agent.Faction);
+        gameObject.layer = Helpers.GetProjectileLayer(_agent.Faction);
     }
 
     private void OnTriggerStay(Collider other)
@@ -39,7 +32,7 @@ public class LaserBehavior : MonoBehaviour
         {
             float damage = _damagePerSecond * Time.deltaTime;
 
-            if (other.transform.root.TryGetComponent(out Agent targetAgent))
+            if (other.transform.TryGetComponent(out Agent targetAgent))
             {
                 targetAgent.GetModule<HealthModule>().TakeDamage((int)damage);
                 _agent.Metrics.UpdateDamageDone(damage);
