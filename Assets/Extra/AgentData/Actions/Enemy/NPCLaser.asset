@@ -22,3 +22,4 @@ MonoBehaviour:
   laserDistance: 100
   accuracy: 1
   warningIndicator: {fileID: 5908753772196616195, guid: e7cbbdb1464fa2247ba2a56ae511cde3, type: 3}
+  laserSparks: {fileID: 7549621096326778126, guid: 9f136c032eecf2a44802e93dd82bdf65, type: 3}

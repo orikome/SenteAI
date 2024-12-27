@@ -85,6 +85,8 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         Vector3 spawnPosition = _agent.transform.position;
         spawnPosition.y = 0.001f;
 
+        directionToTarget.y = 0;
+
         // Spawn warning indicator
         GameObject obj = Instantiate(
             warningIndicator,

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6832139697214284631}
   - component: {fileID: 1605238766687958208}
   - component: {fileID: 8076906857259167416}
+  - component: {fileID: 4384861697201410321}
   m_Layer: 12
   m_Name: Ally
   m_TagString: Ally
@@ -131,8 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textHeight: 4
-  textSize: 0.1
 --- !u!114 &1605238766687958208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +185,29 @@ MonoBehaviour:
   maxFlashStrength: 0.5
   agentDestructionParticles: {fileID: 7189266495483149382, guid: 77f45883b1827c846970ac297e391363, type: 3}
   agentScrapModel: {fileID: 97216168909595312, guid: 9ea442366ab96d3489d1f521850955e1, type: 3}
+--- !u!136 &4384861697201410321
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97216168909595312}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.75
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &406583834267086784
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +513,6 @@ GameObject:
   - component: {fileID: 4112192928923364988}
   - component: {fileID: 8290827947603761022}
   - component: {fileID: 4927786853739554998}
-  - component: {fileID: 8500175781750288241}
   m_Layer: 12
   m_Name: Capsule
   m_TagString: Untagged
@@ -570,29 +591,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8500175781750288241
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509803108207658807}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3021840272740774492
 GameObject:
   m_ObjectHideFlags: 0

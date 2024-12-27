@@ -32,7 +32,7 @@ public class LaserBehavior : MonoBehaviour
         {
             float damage = _damagePerSecond * Time.deltaTime;
 
-            if (other.transform.TryGetComponent(out Agent targetAgent))
+            if (other.transform.gameObject.TryGetComponent(out Agent targetAgent))
             {
                 targetAgent.GetModule<HealthModule>().TakeDamage((int)damage);
                 _agent.Metrics.UpdateDamageDone(damage);
