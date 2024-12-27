@@ -17,7 +17,7 @@ public class Brain : Module
 
         if (ActionSelectionStrategy == null)
         {
-            DebugManager.Instance.LogError("ActionSelectionStrategy is not assigned in AgentData!");
+            AgentLogger.LogError("ActionSelectionStrategy is not assigned in AgentData!");
         }
         ResetUtilityScores();
     }
@@ -53,7 +53,7 @@ public class Brain : Module
         {
             action.ScaledUtilityScore = 1.0f / _agent.Actions.Count;
         }
-        DebugManager.Instance.Log("Reset utilScores", _agent.gameObject);
+        AgentLogger.Log("Reset utilScores", _agent.gameObject);
     }
 
     public void PauseFor(float duration)

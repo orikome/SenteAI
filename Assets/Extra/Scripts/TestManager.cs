@@ -63,7 +63,7 @@ public class TestManager : MonoBehaviour
         testData.AverageDamageDone = totalDamageDone / testData.TimesTestRun;
         testData.AverageTimeAlive = totalTimeAlive / testData.TimesTestRun;
 
-        DebugManager.Instance.Log(
+        AgentLogger.Log(
             $"DamageDone: {damageDone:F2} - TimeAlive: {timeAlive:F2} - AverageDamageDone: {testData.AverageDamageDone:F2} - AverageTimeAlive: {testData.AverageTimeAlive:F2}"
         );
 

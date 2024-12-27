@@ -1,26 +1,11 @@
 using UnityEngine;
 
-public class DebugManager : MonoBehaviour
+public static class AgentLogger
 {
-    public static DebugManager Instance;
     private static string FRAME_COUNT => $"[Frame {Time.frameCount}]";
-    public bool enableLogging = true;
 
-    // Color constants
-    private static readonly string PLAYER_COLOR = "#800080"; // Purple
-    private static readonly string ENEMY_COLOR = "#FFB3B3"; // Pastel Red
-    private static readonly string ALLY_COLOR = "#B3FFB3"; // Pastel Green
-
-    private void Awake()
+    public static void Log(string message, GameObject go, GameObject targetGo)
     {
-        Instance = this;
-    }
-
-    public void Log(string message, GameObject go, GameObject targetGo)
-    {
-        if (!enableLogging)
-            return;
-
         string firstPrefix = $"[{go.GetInstanceID()}]";
         string secondPrefix = $"[{targetGo.GetInstanceID()}]";
         string coloredFirstPrefix,
@@ -29,15 +14,18 @@ public class DebugManager : MonoBehaviour
         // Color owner GameObject
         if (go.CompareTag("Player"))
         {
-            coloredFirstPrefix = $"<color={PLAYER_COLOR}>{firstPrefix}</color>";
+            coloredFirstPrefix =
+                $"<color={Helpers.GetFactionColor(Faction.Player)}>{firstPrefix}</color>";
         }
         else if (go.CompareTag("Enemy"))
         {
-            coloredFirstPrefix = $"<color={ENEMY_COLOR}>{firstPrefix}</color>";
+            coloredFirstPrefix =
+                $"<color={Helpers.GetFactionColor(Faction.Enemy)}>{firstPrefix}</color>";
         }
         else if (go.CompareTag("Ally"))
         {
-            coloredFirstPrefix = $"<color={ALLY_COLOR}>{firstPrefix}</color>";
+            coloredFirstPrefix =
+                $"<color={Helpers.GetFactionColor(Faction.Ally)}>{firstPrefix}</color>";
         }
         else
         {
@@ -47,15 +35,18 @@ public class DebugManager : MonoBehaviour
         // Color target GameObject
         if (targetGo.CompareTag("Player"))
         {
-            coloredSecondPrefix = $"<color={PLAYER_COLOR}>{secondPrefix}</color>";
+            coloredSecondPrefix =
+                $"<color={Helpers.GetFactionColor(Faction.Player)}>{secondPrefix}</color>";
         }
         else if (targetGo.CompareTag("Enemy"))
         {
-            coloredSecondPrefix = $"<color={ENEMY_COLOR}>{secondPrefix}</color>";
+            coloredSecondPrefix =
+                $"<color={Helpers.GetFactionColor(Faction.Enemy)}>{secondPrefix}</color>";
         }
         else if (targetGo.CompareTag("Ally"))
         {
-            coloredSecondPrefix = $"<color={ALLY_COLOR}>{secondPrefix}</color>";
+            coloredSecondPrefix =
+                $"<color={Helpers.GetFactionColor(Faction.Ally)}>{secondPrefix}</color>";
         }
         else
         {
@@ -66,25 +57,22 @@ public class DebugManager : MonoBehaviour
         Debug.Log(message);
     }
 
-    public void Log(string message, GameObject go)
+    public static void Log(string message, GameObject go)
     {
-        if (!enableLogging)
-            return;
-
         string coloredPrefix;
         string prefix = $"[{go.GetInstanceID()}]";
 
         if (go.CompareTag("Player"))
         {
-            coloredPrefix = $"<color={PLAYER_COLOR}>{prefix}</color>";
+            coloredPrefix = $"<color={Helpers.GetFactionColor(Faction.Player)}>{prefix}</color>";
         }
         else if (go.CompareTag("Enemy"))
         {
-            coloredPrefix = $"<color={ENEMY_COLOR}>{prefix}</color>";
+            coloredPrefix = $"<color={Helpers.GetFactionColor(Faction.Enemy)}>{prefix}</color>";
         }
         else if (go.CompareTag("Ally"))
         {
-            coloredPrefix = $"<color={ALLY_COLOR}>{prefix}</color>";
+            coloredPrefix = $"<color={Helpers.GetFactionColor(Faction.Ally)}>{prefix}</color>";
         }
         else
         {
@@ -95,31 +83,22 @@ public class DebugManager : MonoBehaviour
         Debug.Log(message);
     }
 
-    public void Log(string message)
+    public static void Log(string message)
     {
-        if (!enableLogging)
-            return;
-
         message = FRAME_COUNT + " " + message;
 
         Debug.Log(message);
     }
 
-    public void LogWarning(string message)
+    public static void LogWarning(string message)
     {
-        if (!enableLogging)
-            return;
-
         message = FRAME_COUNT + " " + message;
 
         Debug.LogWarning(message);
     }
 
-    public void LogError(string message)
+    public static void LogError(string message)
     {
-        if (!enableLogging)
-            return;
-
         message = FRAME_COUNT + " " + message;
 
         Debug.LogError(message);

@@ -97,7 +97,7 @@ public abstract class AgentAction : ScriptableObject
         // If penalty limit is reached, apply a quadruple cooldown
         if (PenaltyFactor >= MAX_UTILITY)
         {
-            DebugManager.Instance.Log(
+            AgentLogger.Log(
                 $"Penalty exceeded, applying a penalty period to: {Helpers.CleanName(name)}.",
                 _agent.gameObject
             );
@@ -113,7 +113,7 @@ public abstract class AgentAction : ScriptableObject
             if (PenaltyFactor <= 0.0f)
             {
                 _penaltyMaxedOut = false;
-                DebugManager.Instance.Log(
+                AgentLogger.Log(
                     $"{Helpers.CleanName(name)} penalty has been fully restored.",
                     _agent.gameObject
                 );
@@ -167,7 +167,7 @@ public abstract class AgentAction : ScriptableObject
         RestorePenaltyAndFeedback();
 
         if (util <= 0)
-            DebugManager.Instance.LogWarning(
+            AgentLogger.LogWarning(
                 $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
             );
 

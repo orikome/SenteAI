@@ -26,7 +26,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 
         if (validActions.Count == 0)
         {
-            DebugManager.Instance.LogWarning($"No valid actions available for agent: {agent.name}");
+            AgentLogger.LogWarning($"No valid actions available for agent: {agent.name}");
             return null;
         }
 
@@ -43,7 +43,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 
         if (totalScore == 0.0f)
         {
-            DebugManager.Instance.LogWarning($"No valid actions available for agent: {agent.name}");
+            AgentLogger.LogWarning($"No valid actions available for agent: {agent.name}");
             return null;
         }
 
@@ -57,7 +57,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
             runningTotal += action.ScaledUtilityScore / totalScore;
             if (randomValue <= runningTotal)
             {
-                DebugManager.Instance.Log(
+                AgentLogger.Log(
                     $"Selected: {Helpers.CleanName(action.name)} with utility score: {action.ScaledUtilityScore}",
                     agent.gameObject
                 );
@@ -69,7 +69,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
         }
 
         // Fallback in case no action is selected (due to rounding issues)
-        DebugManager.Instance.LogWarning($"Fallback - No action selected for agent: {agent.name}");
+        AgentLogger.LogWarning($"Fallback - No action selected for agent: {agent.name}");
         return validActions.Last();
     }
 }

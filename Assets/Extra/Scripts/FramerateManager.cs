@@ -26,6 +26,6 @@ public class FramerateManager : MonoBehaviour
     public void SetFramerate(int framerate)
     {
         Application.targetFrameRate = framerate;
-        DebugManager.Instance.Log($"Framerate set to: {framerate} FPS");
+        AgentLogger.Log($"Framerate set to: {framerate} FPS");
     }
 }

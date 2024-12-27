@@ -2,6 +2,21 @@ using UnityEngine;
 
 public static class Helpers
 {
+    private static readonly string PLAYER_COLOR = "#800080"; // Purple
+    private static readonly string ENEMY_COLOR = "#FFB3B3"; // Pastel Red
+    private static readonly string ALLY_COLOR = "#B3FFB3"; // Pastel Green
+
+    public static string GetFactionColor(Faction faction)
+    {
+        return faction switch
+        {
+            Faction.Player => PLAYER_COLOR,
+            Faction.Enemy => ENEMY_COLOR,
+            Faction.Ally => ALLY_COLOR,
+            _ => "#FFFFFF", // Default white
+        };
+    }
+
     public static Vector3 PredictPosition(
         Vector3 shooterPosition,
         Transform target,

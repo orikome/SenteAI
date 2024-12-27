@@ -105,7 +105,7 @@ public class Agent : MonoBehaviour
 
         if (Data == null)
         {
-            DebugManager.Instance.LogError("AgentData is not assigned!");
+            AgentLogger.LogError("AgentData is not assigned!");
             return;
         }
 
@@ -170,7 +170,7 @@ public class Agent : MonoBehaviour
     public void InitializeModules()
     {
         if (Modules.Count == 0)
-            DebugManager.Instance.LogError("No modules assigned!");
+            AgentLogger.LogError("No modules assigned!");
         // Initialize modules
         foreach (var module in Modules)
         {
@@ -182,7 +182,7 @@ public class Agent : MonoBehaviour
     public void InitializeActions()
     {
         if (Actions.Count == 0)
-            DebugManager.Instance.LogError("No actions assigned!");
+            AgentLogger.LogError("No actions assigned!");
         // Initialize actions
         foreach (var action in Actions)
         {
@@ -208,7 +208,7 @@ public class Agent : MonoBehaviour
     {
         if (!TryGetComponent<T>(out var component))
         {
-            DebugManager.Instance.LogWarning(
+            AgentLogger.LogWarning(
                 $"Component of type {typeof(T).Name} was missing and has been added."
             );
             component = gameObject.AddComponent<T>();

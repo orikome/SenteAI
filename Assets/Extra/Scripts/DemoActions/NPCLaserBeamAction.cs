@@ -113,7 +113,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         OnFailureCallback?.Invoke();
         UpdateSuccessRate();
         int totalAttempts = SuccessCount + FailureCount;
-        DebugManager.Instance.Log(
+        AgentLogger.Log(
             $"Action {Helpers.CleanName(name)} has failed. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
         );
     }
@@ -125,7 +125,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         OnSuccessCallback?.Invoke();
         UpdateSuccessRate();
         int totalAttempts = SuccessCount + FailureCount;
-        DebugManager.Instance.Log(
+        AgentLogger.Log(
             $"Action {Helpers.CleanName(name)} has succeeded. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}."
         );
     }

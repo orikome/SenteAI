@@ -25,7 +25,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
             .FirstOrDefault();
 
         if (selectedAction != null)
-            DebugManager.Instance.Log(
+            AgentLogger.Log(
                 $"Selected: {Helpers.CleanName(selectedAction.name)} with utilScore: {selectedAction.ScaledUtilityScore}"
             );
 

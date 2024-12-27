@@ -170,7 +170,7 @@ public class HomingOrbBehaviour : MonoBehaviour
                 agent.GetModule<HealthModule>().TakeDamage(40);
                 _enemy.Metrics.UpdateDamageDone(40);
                 Instantiate(homingExplosionParticles, transform.position, hitRotation);
-                DebugManager.Instance.Log(
+                AgentLogger.Log(
                     $"{Helpers.CleanName(gameObject.name)} dealt {40} damage to {Helpers.CleanName(collision.transform.root.name)}"
                 );
 

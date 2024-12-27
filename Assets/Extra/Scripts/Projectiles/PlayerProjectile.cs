@@ -37,7 +37,7 @@ public class PlayerProjectile : Projectile
                 );
 
             Instantiate(explosionParticles, transform.position, hitRotation);
-            DebugManager.Instance.Log(
+            AgentLogger.Log(
                 $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
                 _agent.gameObject,
                 target.gameObject

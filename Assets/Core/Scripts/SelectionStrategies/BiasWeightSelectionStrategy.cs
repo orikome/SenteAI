@@ -21,7 +21,7 @@ public class BiasWeightSelectionStrategy : ActionSelectionStrategy
 
         if (selectedAction != null)
         {
-            DebugManager.Instance.Log(
+            AgentLogger.Log(
                 $"Selected: {Helpers.CleanName(selectedAction.name)} with biasWeight: {selectedAction.biasWeight}"
             );
         }
