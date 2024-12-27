@@ -8,12 +8,6 @@ public class HomingOrbsAction : AgentAction
     public int numberOfOrbs = 3;
     public float spreadAngle = 45f;
 
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-        _agent = agent;
-    }
-
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         ShootOrbs(firePoint);

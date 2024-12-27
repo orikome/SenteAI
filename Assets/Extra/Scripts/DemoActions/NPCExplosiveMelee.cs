@@ -103,9 +103,6 @@ public class NPCExplosiveMelee : AgentAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        if (_agent.Target == null && _agent.Target != null)
-            return;
-
         StartMelee(firePoint);
         AfterExecution();
     }

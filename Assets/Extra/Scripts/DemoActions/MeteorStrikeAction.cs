@@ -5,17 +5,11 @@ public class MeteorStrikeAction : AgentAction
 {
     public GameObject meteorPrefab;
     public float dropDelay = 2f;
-    private Agent _enemy;
-
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-        _enemy = agent;
-    }
+    public GameObject warningIndicator;
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        DropMeteor(firePoint, _enemy);
+        DropMeteor();
         AfterExecution();
     }
 
@@ -27,14 +21,27 @@ public class MeteorStrikeAction : AgentAction
         SetUtilityWithModifiers(calculatedUtil);
     }
 
-    private void DropMeteor(Transform firePoint, Agent agent)
+    private void DropMeteor()
     {
-        PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
-        GameObject meteor = Instantiate(
-            meteorPrefab,
-            playerMetrics.PredictNextPositionUsingMomentum() + (Vector3.up * 10),
+        Metrics targetMetrics = _agent.Target.Metrics;
+
+        if (targetMetrics == null)
+            return;
+        // Spawn warning indicator
+        GameObject obj = Instantiate(
+            warningIndicator,
+            targetMetrics.PredictNextPositionUsingMomentum(),
             Quaternion.identity
         );
+
+        obj.GetComponentInChildren<WarningIndicator>().Initialize(_agent);
+
+        GameObject meteor = Instantiate(
+            meteorPrefab,
+            targetMetrics.PredictNextPositionUsingMomentum() + (Vector3.up * 60),
+            Quaternion.identity
+        );
+        meteor.GetComponent<MeteorBehavior>().Initialize(_agent);
         Destroy(meteor, dropDelay + 1f);
     }
 }

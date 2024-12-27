@@ -11,12 +11,6 @@ public class LaserBeamAction : AgentAction
     [Range(0.0f, 1.0f)]
     public float accuracy = 1.0f;
 
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-        _agent = agent;
-    }
-
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         ShootLaser(firePoint, _agent);

@@ -38,7 +38,6 @@ public class Disintegrator : MonoBehaviour
             {
                 mat.SetFloat(DissolveThreshold, threshold);
             }
-            Debug.Log($"Threshold: {threshold}");
 
             yield return null;
         }

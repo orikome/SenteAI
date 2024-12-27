@@ -11,13 +11,6 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
-    private Agent _enemy;
-
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-        _enemy = agent;
-    }
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
@@ -30,7 +23,7 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
         Metrics metrics = agent.Metrics;
         float distance = metrics.DistanceToTarget;
         float maxDistance = 100f;
-        float CanSenseFactor = _enemy.GetModule<SenseModule>().CanSenseTarget ? 0.6f : 1f;
+        float CanSenseFactor = _agent.GetModule<SenseModule>().CanSenseTarget ? 0.6f : 1f;
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
 
@@ -55,9 +48,9 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
 
             if (orb != null)
             {
-                orbComponent.SetParameters(_enemy, _enemy.Faction);
-                orbComponent.OnHitCallback = () => HandleSuccess(_enemy);
-                orbComponent.OnMissCallback = () => HandleFailure(_enemy);
+                orbComponent.SetParameters(_agent, _agent.Faction);
+                orbComponent.OnHitCallback = () => HandleSuccess(_agent);
+                orbComponent.OnMissCallback = () => HandleFailure(_agent);
             }
         }
     }

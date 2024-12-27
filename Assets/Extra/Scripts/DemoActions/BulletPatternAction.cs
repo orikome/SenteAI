@@ -11,12 +11,6 @@ public class BulletPatternAction : AgentAction
     protected int currentSpiralAngleOffset = 0;
     protected float heightOffset = 0f;
 
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-        _agent = agent;
-    }
-
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         GeneratePattern(_agent.transform);

@@ -11,20 +11,13 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
     public int FailureCount { get; set; } = 0;
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
-    private Agent _enemy;
-
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-        _enemy = agent;
-    }
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        if (!HasClearShot(firePoint, _enemy))
+        if (!HasClearShot(firePoint, _agent))
             return;
 
-        ShootLaser(firePoint, _enemy);
+        ShootLaser(firePoint, _agent);
         AfterExecution();
     }
 

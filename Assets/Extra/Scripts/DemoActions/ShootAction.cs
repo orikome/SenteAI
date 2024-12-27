@@ -7,11 +7,6 @@ public class ShootAction : AgentAction
     public float projectileSpeed = 10.0f;
     public int damage = 10;
 
-    public override void Initialize(Agent agent)
-    {
-        _agent = agent;
-    }
-
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         if (direction != Vector3.zero)

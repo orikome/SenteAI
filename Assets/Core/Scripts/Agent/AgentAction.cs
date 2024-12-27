@@ -32,6 +32,11 @@ public abstract class AgentAction : ScriptableObject
         if (_penaltyMaxedOut)
             return false;
 
+        // If agent or agent's target is null, return false
+        if (_agent == null || _agent.Target == null)
+            return false;
+
+        // Return true if not on cooldown and utility is above minimum
         return !IsOnCooldown() && ScaledUtilityScore > MIN_UTILITY;
     }
 
@@ -69,6 +74,7 @@ public abstract class AgentAction : ScriptableObject
     public virtual void Initialize(Agent agent)
     {
         ResetCooldown();
+        _agent = agent;
     }
 
     /// <summary>

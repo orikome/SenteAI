@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8dce58f2882284d9647741257a80ba, type: 3}
   m_Name: MeteorStrike
   m_EditorClassIdentifier: 
+  agentState: 0
   cooldownTime: 4
   biasWeight: 0.6
   penaltyPerExecution: 0.2
   penaltyRestoreRate: 0.2
   meteorPrefab: {fileID: 2406367453882067487, guid: ed87fe88f4747014988e04c03bda2398, type: 3}
   dropDelay: 2
+  warningIndicator: {fileID: 5908753772196616195, guid: 90eacb093a5d90b428b95dda4e2011dd, type: 3}

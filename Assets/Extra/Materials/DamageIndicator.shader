@@ -3,7 +3,7 @@ Shader "Custom/DamageIndicator"
     Properties
     {
         _MainColor ("Main Color", Color) = (1,0,0,0.8)
-        _ArcAngle ("Arc Angle", Range(5, 360)) = 30
+        _ArcAngle ("Arc Angle", Range(0, 360)) = 30
         _EdgeSoftness ("Edge Softness", Range(0.01, 0.5)) = 0.1
         _FlashSpeed ("Flash Speed", Range(0, 100)) = 2
         _FlashIntensity ("Flash Intensity", Range(0, 1)) = 0.3
