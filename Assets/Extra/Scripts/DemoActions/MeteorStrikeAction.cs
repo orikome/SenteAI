@@ -40,22 +40,18 @@ public class MeteorStrikeAction : AgentAction
 
     private void DropMeteor()
     {
-        Metrics targetMetrics = _agent.Target.Metrics;
+        Vector3 targetPos = _agent.Target.transform.position;
 
-        if (targetMetrics == null)
-            return;
+        Vector3 spawnPosition = targetPos;
+        spawnPosition.y = 0.001f;
         // Spawn warning indicator
-        GameObject obj = Instantiate(
-            warningIndicator,
-            targetMetrics.PredictPosition(),
-            Quaternion.identity
-        );
+        GameObject obj = Instantiate(warningIndicator, spawnPosition, Quaternion.identity);
 
         obj.GetComponentInChildren<WarningIndicator>().Initialize(_agent);
 
         GameObject meteor = Instantiate(
             meteorPrefab,
-            targetMetrics.PredictPosition() + (Vector3.up * 60),
+            targetPos + (Vector3.up * 60),
             Quaternion.identity
         );
         meteor.GetComponent<MeteorBehavior>().Initialize(_agent);

@@ -60,6 +60,20 @@ public static class Helpers
         return (adjustedPrediction - shooterPosition).normalized;
     }
 
+    public static Quaternion GetYAxisLookRotation(Vector3 direction)
+    {
+        // Flatten direction to XZ plane
+        direction.y = 0;
+
+        // Return rotation only if direction is valid
+        if (direction != Vector3.zero)
+        {
+            return Quaternion.LookRotation(direction);
+        }
+
+        return Quaternion.identity;
+    }
+
     public static LayerMask GetTargetMask(Faction faction)
     {
         return faction switch

@@ -13,6 +13,15 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
     public GameObject warningIndicator;
+    LayerMask obstacleLayerMask;
+    public GameObject laserSparks;
+
+    public override void Initialize(Agent agent)
+    {
+        base.Initialize(agent);
+
+        obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
+    }
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
@@ -26,9 +35,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
     private bool HasClearShot(Transform firePoint, Agent agent)
     {
         Metrics targetMetrics = agent.Target.Metrics;
-        Vector3 predictedTargetPosition = targetMetrics.PredictPosition();
-        Vector3 directionToTarget = predictedTargetPosition - agent.firePoint.position;
-        LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
+        Vector3 directionToTarget = agent.Target.transform.position - agent.firePoint.position;
 
         if (Physics.Raycast(firePoint.position, directionToTarget, out RaycastHit hit))
         {
@@ -50,9 +57,9 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 
     public override bool CanExecute(Agent agent)
     {
+        base.CanExecute(agent);
+
         return agent.GetModule<SenseModule>().CanSenseTarget
-            && !IsOnCooldown()
-            && ScaledUtilityScore > MIN_UTILITY
             && HasClearShot(agent.firePoint, agent);
     }
 
@@ -71,7 +78,9 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
     private IEnumerator ShootLaser(Transform firePoint, Agent agent)
     {
         Metrics targetMetrics = agent.Target.Metrics;
-        Vector3 directionToTarget = targetMetrics.PredictPosition();
+        Vector3 directionToTarget = (
+            agent.Target.transform.position - firePoint.position
+        ).normalized;
 
         Vector3 spawnPosition = _agent.transform.position;
         spawnPosition.y = 0.001f;
@@ -80,13 +89,20 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         GameObject obj = Instantiate(
             warningIndicator,
             spawnPosition,
-            Quaternion.LookRotation(directionToTarget)
+            Helpers.GetYAxisLookRotation(directionToTarget)
         );
         obj.GetComponentInChildren<WarningIndicator>().Initialize(_agent);
-        _agent.GetModule<NavMeshAgentModule>().PauseFor(1f);
-        _agent.GetModule<Brain>().PauseFor(1f);
-        // Wait for animation to reach impact frame
+        _agent.GetModule<NavMeshAgentModule>().PauseFor(3f);
+        _agent.GetModule<Brain>().PauseFor(3f);
         yield return new WaitForSeconds(1f);
+
+        // Spawn sparks
+        GameObject sparks = Instantiate(
+            laserSparks,
+            _agent.firePoint.position,
+            Quaternion.LookRotation(directionToTarget)
+        );
+        Destroy(sparks, 2f);
 
         GameObject laser = Instantiate(
             laserPrefab,
@@ -96,7 +112,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 
         LineRenderer line = laser.GetComponent<LineRenderer>();
         line.SetPosition(0, firePoint.position);
-        line.SetPosition(1, directionToTarget * laserDistance);
+        line.SetPosition(1, firePoint.position + (directionToTarget * laserDistance));
 
         // Add laser collider
         BoxCollider laserCollider = laser.AddComponent<BoxCollider>();
@@ -108,7 +124,10 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         laserCollision.OnHitCallback = () => HandleSuccess(agent);
         laserCollision.OnMissCallback = () => HandleFailure(agent);
 
+        _agent.GetModule<NavMeshAgentModule>().PauseFor(2f);
+        _agent.GetModule<Brain>().PauseFor(2f);
         Destroy(laser, duration);
+        yield return new WaitForSeconds(duration);
     }
 
     public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)

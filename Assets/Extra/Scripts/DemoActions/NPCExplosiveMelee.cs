@@ -155,7 +155,7 @@ public class NPCExplosiveMelee : AgentAction
         GameObject obj = Instantiate(
             warningIndicator,
             spawnPosition,
-            Quaternion.LookRotation(direction)
+            Helpers.GetYAxisLookRotation(direction)
         );
 
         _agent.GetModule<NavMeshAgentModule>().PauseFor(1f);
