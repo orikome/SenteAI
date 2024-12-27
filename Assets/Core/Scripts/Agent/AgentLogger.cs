@@ -92,14 +92,16 @@ public static class AgentLogger
 
     public static void LogWarning(string message)
     {
-        message = FRAME_COUNT + " " + message;
+        string warningPrefix = "<color=#FFFF00>[WARNING]</color>";
+        message = message = FRAME_COUNT + " " + warningPrefix + " " + message;
 
         Debug.LogWarning(message);
     }
 
     public static void LogError(string message)
     {
-        message = FRAME_COUNT + " " + message;
+        string warningPrefix = "<color=#FF0000>[WARNING]</color>";
+        message = message = FRAME_COUNT + " " + warningPrefix + " " + message;
 
         Debug.LogError(message);
     }

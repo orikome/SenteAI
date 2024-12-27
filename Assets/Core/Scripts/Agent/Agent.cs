@@ -209,7 +209,7 @@ public class Agent : MonoBehaviour
         if (!TryGetComponent<T>(out var component))
         {
             AgentLogger.LogWarning(
-                $"Component of type {typeof(T).Name} was missing and has been added."
+                $"Component of type {typeof(T).Name} was missing and has been added to {transform.gameObject.name}."
             );
             component = gameObject.AddComponent<T>();
         }

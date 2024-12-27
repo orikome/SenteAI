@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class Helpers
 {
-    private static readonly string PLAYER_COLOR = "#800080"; // Purple
+    private static readonly string PLAYER_COLOR = "#A7C7E7"; // Pastel Blue
     private static readonly string ENEMY_COLOR = "#FFB3B3"; // Pastel Red
     private static readonly string ALLY_COLOR = "#B3FFB3"; // Pastel Green
 

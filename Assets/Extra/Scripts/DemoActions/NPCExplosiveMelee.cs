@@ -119,8 +119,14 @@ public class NPCExplosiveMelee : AgentAction
         float healthFactor =
             currentHealth <= 40f ? Mathf.Clamp01(currentHealth / 40f) * 0.1f : 1.0f;
 
+        float calculatedUtil = Mathf.Clamp(
+            distanceFactor * healthFactor * 10f,
+            MIN_UTILITY,
+            MAX_UTILITY
+        );
+
         // Combine factors and scale to 0-10 range
-        SetUtilityWithModifiers(distanceFactor * healthFactor * 10f);
+        SetUtilityWithModifiers(calculatedUtil);
     }
 
     private void StartMelee(Transform firePoint)

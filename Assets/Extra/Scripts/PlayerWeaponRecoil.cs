@@ -4,13 +4,6 @@ using UnityEngine;
 public class PlayerWeaponRecoil : MonoBehaviour
 {
     public Transform handMesh;
-    private float recoilDistance = 0.5f;
-
-    [SerializeField]
-    private float recoilSpeed = 10f;
-
-    [SerializeField]
-    private float returnSpeed = 5f;
 
     [SerializeField]
     private float fireRate = 0.1f;

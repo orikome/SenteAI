@@ -63,8 +63,9 @@ public class NPCShootAction : ShootAction, IFeedbackAction
         float distanceFactor = Mathf.Clamp01(1.0f - (distance / maxDistance));
         float speedDistanceFactor = distanceFactor * speedFactor;
         float calculatedUtil = (distanceFactor + speedDistanceFactor) * 6.5f * CanSenseFactor;
+        float calculatedUtilClamped = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
 
-        SetUtilityWithModifiers(calculatedUtil);
+        SetUtilityWithModifiers(calculatedUtilClamped);
     }
 
     public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)
