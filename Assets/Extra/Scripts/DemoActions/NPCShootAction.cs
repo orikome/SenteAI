@@ -52,20 +52,13 @@ public class NPCShootAction : ShootAction, IFeedbackAction
 
     public override void CalculateUtility(Agent agent)
     {
-        float distance;
-        distance = agent.Metrics.DistanceToTarget;
-        float maxDistance = 60f;
-        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 1f : MIN_UTILITY;
-        float maxProjectileSpeed = 30f; // Fast projectile speed
-        float speedFactor = Mathf.Clamp01(projectileSpeed / maxProjectileSpeed);
+        float utility = new UtilityBuilder()
+            .WithDistance(agent.Metrics.DistanceToTarget, 60f, UtilityType.Linear)
+            .WithSensing(agent.GetModule<SenseModule>().CanSenseTarget)
+            .WithProjectileStats(projectileSpeed)
+            .Build();
 
-        // Weigh speed more for longer distances, because slower projectiles have less chance of hitting at range
-        float distanceFactor = Mathf.Clamp01(1.0f - (distance / maxDistance));
-        float speedDistanceFactor = distanceFactor * speedFactor;
-        float calculatedUtil = (distanceFactor + speedDistanceFactor) * 0.5f * CanSenseFactor;
-        float calculatedUtilClamped = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
-
-        SetUtilityWithModifiers(calculatedUtilClamped);
+        SetUtilityWithModifiers(utility);
     }
 
     public float ApplyFeedbackModifier(float utility, IFeedbackAction feedbackAction)

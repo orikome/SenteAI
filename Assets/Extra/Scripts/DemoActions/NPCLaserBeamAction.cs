@@ -65,14 +65,13 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 
     public override void CalculateUtility(Agent agent)
     {
-        Metrics metrics = agent.Metrics;
-        float distance = metrics.DistanceToTarget;
-        float maxDistance = 100f;
-        float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? 0.8f : MIN_UTILITY;
-        float distanceFactor = 1.0f - (distance / maxDistance);
-        float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
+        float utility = new UtilityBuilder()
+            .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Gaussian)
+            .WithSensing(agent.GetModule<SenseModule>().CanSenseTarget)
+            .WithCustom(0.5f)
+            .Build();
 
-        SetUtilityWithModifiers(calculatedUtil);
+        SetUtilityWithModifiers(utility);
     }
 
     private IEnumerator ShootLaser(Transform firePoint, Agent agent)

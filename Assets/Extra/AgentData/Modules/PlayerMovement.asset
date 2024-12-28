@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: PlayerMovement
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  jumpHeight: 2
   gravity: -9.81

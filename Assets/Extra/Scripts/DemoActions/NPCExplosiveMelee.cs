@@ -109,24 +109,12 @@ public class NPCExplosiveMelee : AgentAction
 
     public override void CalculateUtility(Agent agent)
     {
-        float distance = agent.Metrics.DistanceToTarget;
-        float currentHealth = agent.GetModule<HealthModule>().CurrentHealth;
+        float utility = new UtilityBuilder()
+            .WithMeleeDistance(agent.Metrics.DistanceToTarget, optimalRange: 5f, maxRange: 15f)
+            .WithAggression(agent.GetModule<HealthModule>().CurrentHealth, maxHealth: 100f)
+            .Build();
 
-        // Distance factor (0-1)
-        float distanceFactor = Mathf.Clamp01(1.0f - (distance / 10f));
-
-        // Health factor drops sharply below 40 health
-        float healthFactor =
-            currentHealth <= 40f ? Mathf.Clamp01(currentHealth / 40f) * 0.1f : 1.0f;
-
-        float calculatedUtil = Mathf.Clamp(
-            distanceFactor * healthFactor * 10f,
-            MIN_UTILITY,
-            MAX_UTILITY
-        );
-
-        // Combine factors and scale to 0-10 range
-        SetUtilityWithModifiers(calculatedUtil);
+        SetUtilityWithModifiers(utility);
     }
 
     private void StartMelee(Transform firePoint)

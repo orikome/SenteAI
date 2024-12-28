@@ -22,10 +22,12 @@ public class MeteorStrikeAction : AgentAction
 
     public override void CalculateUtility(Agent agent)
     {
-        //float CanSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 1f;
-        //float calculatedUtil = 2.5f * CanSenseFactor;
+        float utility = new UtilityBuilder()
+            .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
+            .WithSensing(agent.GetModule<SenseModule>().CanSenseTarget)
+            .Build();
 
-        SetUtilityWithModifiers(2.5f);
+        SetUtilityWithModifiers(utility);
     }
 
     private bool IsLandingAreaClear(Vector3 position)

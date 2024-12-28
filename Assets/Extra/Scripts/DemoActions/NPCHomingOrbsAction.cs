@@ -20,15 +20,13 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
 
     public override void CalculateUtility(Agent agent)
     {
-        Metrics metrics = agent.Metrics;
-        float distance = metrics.DistanceToTarget;
-        float maxDistance = 100f;
-        float CanSenseFactor = _agent.GetModule<SenseModule>().CanSenseTarget ? 0.6f : 1f;
-        float distanceFactor = 1.0f - (distance / maxDistance);
-        float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
-        float calculatedUtilClamped = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
+        float utility = new UtilityBuilder()
+            .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
+            .WithInverseSensing(agent.GetModule<SenseModule>().CanSenseTarget, 1.0f)
+            .WithCustom(0.5f)
+            .Build();
 
-        SetUtilityWithModifiers(calculatedUtilClamped);
+        SetUtilityWithModifiers(utility);
     }
 
     private void ShootOrbs(Transform firePoint)
