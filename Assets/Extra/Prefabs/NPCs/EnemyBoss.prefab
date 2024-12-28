@@ -534,9 +534,10 @@ GameObject:
   - component: {fileID: 7594109369035923958}
   - component: {fileID: 3641807667084371798}
   - component: {fileID: 4511215956708938322}
+  - component: {fileID: 7497485994810028101}
   m_Layer: 10
-  m_Name: Boss
-  m_TagString: Untagged
+  m_Name: EnemyBoss
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -569,7 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f13a239a2647f4e99d2338ba9eacfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: 7e20a2fa13ee904488c9d4dcc4be5cde, type: 2}
+  Data: {fileID: 11400000, guid: dbb57f9fd2583584f83c97c2ffe18697, type: 2}
   firePoint: {fileID: 1389219864144260825}
 --- !u!114 &1142832917344176327
 MonoBehaviour:
@@ -672,6 +673,47 @@ CapsuleCollider:
   m_Height: 14
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7497485994810028101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952177845325692102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859da1aea79adf141909c622927cd08f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxFlashStrength: 1
+  agentDestructionParticles: {fileID: 0}
+  agentScrapModel: {fileID: 0}
 --- !u!1 &3094811086456752738
 GameObject:
   m_ObjectHideFlags: 0

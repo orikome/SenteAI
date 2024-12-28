@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
   m_Name: EnemyT2
   m_EditorClassIdentifier: 
-  agentName: ShootAgent
+  agentName: EnemyT2
   faction: 0
-  maxHealth: 200
+  maxHealth: 140
   actionCooldown: 0.4
   modules:
   - {fileID: 11400000, guid: 8e5f2c54d7f928d47aa6a9b7ea358a6f, type: 2}
@@ -27,7 +27,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 449744e7dc6e66a47aa113b8c59e89d5, type: 2}
   - {fileID: 11400000, guid: 24f5354ecb1c38744a6cb31e65fec5ea, type: 2}
   - {fileID: 11400000, guid: f0cd895113c205b4e8e97b557cd297c3, type: 2}
-  - {fileID: 11400000, guid: 2cfce2468a1d80d4189ea0dcf9191205, type: 2}
-  - {fileID: 11400000, guid: 7aa4335195e2fb640b8928dffc395154, type: 2}
-  - {fileID: 11400000, guid: 18fd8b1955206f44196709b394095265, type: 2}
   actionSelectionStrategy: {fileID: 11400000, guid: b2323052c87092b41b51c38e69e51904, type: 2}

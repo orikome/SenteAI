@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc5fe231f3696b4e92c10026c341b7c, type: 3}
   m_Name: AllyT1
   m_EditorClassIdentifier: 
-  agentName: ShootAlly
+  agentName: AllyT1
   faction: 3
   maxHealth: 100
   actionCooldown: 0.4

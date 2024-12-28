@@ -26,7 +26,7 @@ public class ActionBehaviour : MonoBehaviour
     {
         if (agent == null || agent.Target == null)
         {
-            AgentLogger.LogError("Agent cannot be null");
+            AgentLogger.LogWarning("Agent destroyed before projectile got initialized");
             return;
         }
 
