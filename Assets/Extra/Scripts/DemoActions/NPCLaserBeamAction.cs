@@ -121,7 +121,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         laserCollider.center = new Vector3(0, 0, laserDistance / 2f);
         laserCollider.size = new Vector3(1.5f, 1.5f, laserDistance);
         LaserBehavior laserCollision = laser.AddComponent<LaserBehavior>();
-        laserCollision.Initialize(agent, 100);
+        laserCollision.Initialize(agent);
         laserCollision.OnHitCallback = () => HandleSuccess(agent);
         laserCollision.OnMissCallback = () => HandleFailure(agent);
 

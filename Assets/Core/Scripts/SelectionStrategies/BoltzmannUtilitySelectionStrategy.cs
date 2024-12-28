@@ -15,6 +15,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 
     public override AgentAction SelectAction(Agent agent)
     {
+        UnityEngine.Profiling.Profiler.BeginSample("Boltzmann Utility Selection Strategy");
         // Step 1: Calculate the utility score for each action
         foreach (var action in agent.Actions)
         {
@@ -22,7 +23,6 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
         }
 
         // Step 2: Adjust the utility score for each action and add them up
-        float totalScore = 0.0f;
         var validActions = agent.Actions.Where(action => action.CanExecute(agent)).ToList();
 
         if (validActions.Count == 0)
@@ -32,6 +32,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
         }
 
         // Calculate a new value for each action based on the utility score and temperature
+        float totalScore = 0.0f;
         foreach (var action in validActions)
         {
             // Using a simplified Boltzmann function to adjust the score: p = e^(S / T) - 1
@@ -42,7 +43,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
             totalScore += action.ScaledUtilityScore;
         }
 
-        if (totalScore == 0.0f)
+        if (totalScore < Utility.MIN_UTILITY)
         {
             AgentLogger.LogWarning($"No valid actions available for agent: {agent.name}");
             return null;
@@ -68,6 +69,8 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
                 return action;
             }
         }
+
+        UnityEngine.Profiling.Profiler.EndSample();
 
         // Fallback in case no action is selected (due to rounding issues)
         AgentLogger.LogWarning($"Fallback - No action selected for agent: {agent.name}");

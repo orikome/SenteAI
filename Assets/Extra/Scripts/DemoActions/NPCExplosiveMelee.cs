@@ -21,33 +21,9 @@ public class NPCExplosiveMelee : AgentAction
     {
         base.Initialize(agent);
         //_animator = agent.GetComponent<Animator>(); // Should be cached in the agent
-        _agent = agent;
-
-        if (_agent == null || agent.Target == null)
-            return;
-        //_animator.StopPlayback();
+        _targetMask = Helpers.GetTargetMask(_agent.Faction);
+        _ownerMask = Helpers.GetOwnerMask(_agent.Faction);
         obstacleLayer = LayerMask.GetMask("Wall");
-
-        Faction faction = agent.Faction;
-        Transform target = agent.Target.transform;
-
-        if (faction == Faction.Player || faction == Faction.Ally)
-        {
-            target = agent.Target.transform;
-            _targetMask = LayerMask.GetMask("Enemy");
-            if (faction == Faction.Player)
-                _ownerMask = LayerMask.GetMask("Player");
-            else
-                _ownerMask = LayerMask.GetMask("Ally");
-            int projectileLayer = LayerMask.NameToLayer("PlayerProjectile");
-        }
-        else
-        {
-            target = agent.Target.transform;
-            _targetMask = LayerMask.GetMask("Player", "Ally");
-            _ownerMask = LayerMask.GetMask("Enemy");
-            int projectileLayer = LayerMask.NameToLayer("EnemyProjectile");
-        }
     }
 
     private bool IsSurroundingClear(Transform firePoint, Vector3 direction)
@@ -187,7 +163,7 @@ public class NPCExplosiveMelee : AgentAction
             Collider[] hitColliders = Physics.OverlapSphere(spawnPos, explosionRadius, _targetMask);
             foreach (var hitCollider in hitColliders)
             {
-                if (hitCollider.transform.root.TryGetComponent<Agent>(out var agent))
+                if (hitCollider.transform.TryGetComponent<Agent>(out var agent))
                 {
                     agent.GetModule<HealthModule>().TakeDamage(100);
                 }

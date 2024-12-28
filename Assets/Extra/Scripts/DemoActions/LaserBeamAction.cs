@@ -39,7 +39,7 @@ public class LaserBeamAction : AgentAction
         laserCollider.center = new Vector3(0, 0, laserDistance / 2f);
         laserCollider.size = new Vector3(1.5f, 1.5f, laserDistance);
         LaserBehavior laserCollision = laser.AddComponent<LaserBehavior>();
-        laserCollision.Initialize(agent, 100);
+        laserCollision.Initialize(agent);
 
         Destroy(laser, duration);
     }

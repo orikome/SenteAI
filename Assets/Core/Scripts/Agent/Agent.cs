@@ -60,7 +60,11 @@ public class Agent : MonoBehaviour
             if (target == null || !target.gameObject.activeInHierarchy)
                 continue;
 
-            float distance = Vector3.Distance(myPosition, target.transform.position);
+            float distance = OrikomeUtils.GeneralUtils.GetDistanceSquared(
+                myPosition,
+                target.transform.position
+            );
+
             if (distance < closestDistance)
             {
                 closestDistance = distance;

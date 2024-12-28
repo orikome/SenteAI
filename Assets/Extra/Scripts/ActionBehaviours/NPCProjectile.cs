@@ -5,15 +5,6 @@ public class NPCProjectile : Projectile
     private bool hasCompleted = false;
     private bool hasPassedTarget = false;
 
-    protected override void Start()
-    {
-        base.Start();
-        if (_agent.Faction == Faction.Enemy)
-            _collisionMask = LayerMask.GetMask("Player", "Ally");
-        else
-            _collisionMask = LayerMask.GetMask("Enemy");
-    }
-
     protected override void Update()
     {
         _timer -= Time.deltaTime;
@@ -55,7 +46,7 @@ public class NPCProjectile : Projectile
         //Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
         Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
 
-        if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
+        if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
         {
             if (collision.transform.gameObject.TryGetComponent<Agent>(out var target))
             {

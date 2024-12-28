@@ -3,8 +3,6 @@ using UnityEngine;
 public class UtilityBuilder
 {
     private float _utility = 1.0f;
-    private const float MIN_UTILITY = 0.01f;
-    private const float MAX_UTILITY = 1.0f;
 
     public UtilityBuilder WithDistance(
         float distance,
@@ -18,7 +16,7 @@ public class UtilityBuilder
 
     public UtilityBuilder WithSensing(bool canSense, float weight = 0.8f)
     {
-        _utility *= canSense ? weight : MIN_UTILITY;
+        _utility *= canSense ? weight : Utility.MIN_UTILITY;
         return this;
     }
 
@@ -66,5 +64,5 @@ public class UtilityBuilder
         return this;
     }
 
-    public float Build() => Mathf.Clamp(_utility, MIN_UTILITY, MAX_UTILITY);
+    public float Build() => Mathf.Clamp(_utility, Utility.MIN_UTILITY, Utility.MAX_UTILITY);
 }

@@ -28,7 +28,7 @@ public class HomingOrbsAction : AgentAction
             Quaternion rotation = Quaternion.Euler(0, angle, 0) * firePoint.rotation;
             GameObject orb = Instantiate(orbPrefab, spawnPosition, rotation);
             HomingOrbBehaviour orbComponent = orb.GetComponent<HomingOrbBehaviour>();
-            orbComponent.SetParameters(_agent);
+            orbComponent.Initialize(_agent);
         }
     }
 }

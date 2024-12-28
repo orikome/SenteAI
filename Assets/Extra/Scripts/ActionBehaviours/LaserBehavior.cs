@@ -1,30 +1,8 @@
-using System;
 using UnityEngine;
 
-public class LaserBehavior : MonoBehaviour
+public class LaserBehavior : ActionBehaviour
 {
-    private Agent _agent;
-    private float _damagePerSecond;
-    public Action OnHitCallback;
-    public Action OnMissCallback;
-    private bool hasHitTarget = false;
-    private bool _isPlayer;
-
-    private LayerMask _targetMask;
-    private LayerMask _ownerMask;
-
-    public void Initialize(Agent agent, float damagePerSecond)
-    {
-        _agent = agent;
-        _damagePerSecond = damagePerSecond;
-
-        if (_agent == null || agent.Target == null)
-            return;
-
-        _targetMask = Helpers.GetTargetMask(_agent.Faction);
-        _ownerMask = Helpers.GetOwnerMask(_agent.Faction);
-        gameObject.layer = Helpers.GetProjectileLayer(_agent.Faction);
-    }
+    private float _damagePerSecond = 100f;
 
     private void OnTriggerStay(Collider other)
     {

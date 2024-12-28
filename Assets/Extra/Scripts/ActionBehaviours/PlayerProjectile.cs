@@ -4,13 +4,6 @@ public class PlayerProjectile : Projectile
 {
     private bool hasCompleted = false;
 
-    protected override void Start()
-    {
-        base.Start();
-        _collisionMask = LayerMask.GetMask("Enemy");
-        SetColor(Color.blue);
-    }
-
     protected override void OnCollisionEnter(Collision collision)
     {
         if (!_agent || hasCompleted)
@@ -22,7 +15,7 @@ public class PlayerProjectile : Projectile
         //Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
         Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
 
-        if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _collisionMask))
+        if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
         {
             collision.transform.gameObject.TryGetComponent<Agent>(out var target);
             target.GetModule<HealthModule>().TakeDamage(_damage);

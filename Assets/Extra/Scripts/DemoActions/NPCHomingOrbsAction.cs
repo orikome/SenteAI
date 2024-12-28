@@ -47,7 +47,7 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
 
             if (orb != null)
             {
-                orbComponent.SetParameters(_agent);
+                orbComponent.Initialize(_agent);
                 orbComponent.OnHitCallback = () => HandleSuccess(_agent);
                 orbComponent.OnMissCallback = () => HandleFailure(_agent);
             }

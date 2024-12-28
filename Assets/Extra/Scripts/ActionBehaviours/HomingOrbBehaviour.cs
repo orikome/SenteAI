@@ -1,16 +1,7 @@
-using System;
 using UnityEngine;
 
-public class HomingOrbBehaviour : MonoBehaviour
+public class HomingOrbBehaviour : ActionBehaviour
 {
-    private Transform target;
-    private LayerMask _targetMask;
-    private LayerMask _ownerMask;
-    private bool hasHitTarget = false;
-    public Action OnHitCallback;
-    public Action OnMissCallback;
-    private Agent _agent;
-
     [SerializeField]
     private float rotationSpeed = 5f;
 
@@ -25,34 +16,10 @@ public class HomingOrbBehaviour : MonoBehaviour
     private GameObject homingExplosionParticles;
     private Vector3 lastKnownDirection;
 
-    public void SetParameters(Agent agent)
+    public override void Initialize(Agent agent)
     {
+        base.Initialize(agent);
         Destroy(gameObject, 12f);
-        _agent = agent;
-
-        if (_agent == null || agent.Target == null)
-            return;
-
-        if (_agent.Faction == Faction.Player || _agent.Faction == Faction.Ally)
-        {
-            target = agent.Target.transform;
-            _targetMask = LayerMask.GetMask("Enemy");
-            if (_agent.Faction == Faction.Player)
-                _ownerMask = LayerMask.GetMask("Player");
-            else
-                _ownerMask = LayerMask.GetMask("Ally");
-            int projectileLayer = LayerMask.NameToLayer("PlayerProjectile");
-            Helpers.SetLayerRecursively(gameObject, projectileLayer);
-        }
-        else
-        {
-            target = _agent.Target.transform;
-            _targetMask = LayerMask.GetMask("Player", "Ally");
-            _ownerMask = LayerMask.GetMask("Enemy");
-            int projectileLayer = LayerMask.NameToLayer("EnemyProjectile");
-            Helpers.SetLayerRecursively(gameObject, projectileLayer);
-        }
-
         currentSpeed = moveSpeed * 0.5f;
     }
 
@@ -61,7 +28,7 @@ public class HomingOrbBehaviour : MonoBehaviour
         if (hasHitTarget)
             return;
 
-        if (target == null)
+        if (_agent.Target == null)
         {
             ContinueLastKnownDirection();
         }
@@ -102,7 +69,7 @@ public class HomingOrbBehaviour : MonoBehaviour
 
     void HomeTowardsTarget()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 direction = (_agent.Target.transform.position - transform.position).normalized;
         lastKnownDirection = direction;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 
