@@ -1528,7 +1528,7 @@ GameObject:
   - component: {fileID: 3830980569798197174}
   - component: {fileID: 3715060281887631312}
   - component: {fileID: 4853549636285731199}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Eye (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2241,7 +2241,7 @@ GameObject:
   - component: {fileID: 3364588897457477883}
   - component: {fileID: 1134946478810661305}
   - component: {fileID: 710918613032209334}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

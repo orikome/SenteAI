@@ -14,7 +14,7 @@ public class WarningIndicator : MonoBehaviour
 
     private void Awake()
     {
-        _material = GetComponent<Renderer>().material;
+        _material = GetComponentInChildren<Renderer>().material;
         _timer = lifeTime;
     }
 

@@ -31,23 +31,19 @@ public class Agent : MonoBehaviour
         {
             module.Execute();
         }
-        SelectTarget();
+
+        if (Time.frameCount % 8 != 0)
+            SelectTarget();
     }
 
     void OnEnable()
     {
-        if (Data.faction == Faction.Enemy)
-            AgentManager.Instance.activeEnemies.Add(this);
-        else if (Data.faction == Faction.Ally)
-            AgentManager.Instance.activeAllies.Add(this);
+        AgentManager.Instance.RegisterAgent(this);
     }
 
     void OnDisable()
     {
-        if (Data.faction == Faction.Enemy)
-            AgentManager.Instance.activeEnemies.Remove(this);
-        else if (Data.faction == Faction.Ally)
-            AgentManager.Instance.activeAllies.Remove(this);
+        AgentManager.Instance.UnregisterAgent(this);
     }
 
     private Agent FindClosestTarget(List<Agent> potentialTargets)
@@ -109,39 +105,11 @@ public class Agent : MonoBehaviour
             return;
         }
 
-        // Set faction, target and correct metrics
-        // TODO: Also set layer based on faction
-        // TODO: Should check and ensure that nonPlayer has navMeshAgent module
-        switch (Data.faction)
-        {
-            case Faction.Player:
-                Metrics = EnsureComponent<Metrics>();
-                gameObject.tag = "Player";
-                Faction = Faction.Player;
-                Target = AgentManager.Instance.activeEnemies.FirstOrDefault();
-                break;
-
-            case Faction.Enemy:
-                Metrics = EnsureComponent<Metrics>();
-                gameObject.tag = "Enemy";
-                Faction = Faction.Enemy;
-                Target = AgentManager.Instance.activeAllies.FirstOrDefault();
-                break;
-
-            case Faction.Ally:
-                Metrics = EnsureComponent<Metrics>();
-                gameObject.tag = "Ally";
-                Faction = Faction.Ally;
-                Target = AgentManager.Instance.activeEnemies.FirstOrDefault();
-                break;
-
-            case Faction.Neutral:
-                gameObject.tag = "Neutral";
-                Faction = Faction.Neutral;
-                Target = null;
-                break;
-        }
-
+        // Set faction, tag, layer, target and metrics
+        Metrics = EnsureComponent<Metrics>();
+        Faction = Data.faction;
+        gameObject.tag = Faction.ToString();
+        Helpers.SetLayerRecursively(gameObject, LayerMask.NameToLayer(Faction.ToString()));
         Metrics.Initialize();
 
         // Add modules
@@ -161,6 +129,15 @@ public class Agent : MonoBehaviour
             {
                 AgentAction newAction = Instantiate(action);
                 Actions.Add(newAction);
+            }
+        }
+
+        // Check if NPC has NavMeshAgentModule
+        if (Faction != Faction.Player)
+        {
+            if (GetModule<NavMeshAgentModule>() == null)
+            {
+                AgentLogger.LogWarning("Agent is missing NavMeshAgentModule, is it intentional?");
             }
         }
 

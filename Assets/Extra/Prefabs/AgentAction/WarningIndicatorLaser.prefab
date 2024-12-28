@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3807233627766774404}
+  - component: {fileID: 1562884344755253194}
   m_Layer: 0
   m_Name: WarningIndicatorLaser
   m_TagString: Untagged
@@ -32,6 +33,20 @@ Transform:
   - {fileID: 3388384883415139317}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1562884344755253194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5908753772196616195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51307f00e0b864a4cb1f022540ac9c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 1
+  fadeSpeed: 1
 --- !u!1 &5951039697204947677
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +58,6 @@ GameObject:
   - component: {fileID: 3388384883415139317}
   - component: {fileID: 3211495764065495268}
   - component: {fileID: 4675323665564901392}
-  - component: {fileID: 8701696158773728994}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -119,17 +133,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8701696158773728994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5951039697204947677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51307f00e0b864a4cb1f022540ac9c38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 1
-  fadeSpeed: 1

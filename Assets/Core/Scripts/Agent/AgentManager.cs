@@ -30,6 +30,38 @@ public class AgentManager : MonoBehaviour
         }
     }
 
+    public void RegisterAgent(Agent agent)
+    {
+        switch (agent.Data.faction)
+        {
+            case Faction.Enemy:
+                activeEnemies.Add(agent);
+                break;
+            case Faction.Ally:
+                activeAllies.Add(agent);
+                break;
+            case Faction.Player:
+                playerAgent = agent;
+                break;
+        }
+    }
+
+    public void UnregisterAgent(Agent agent)
+    {
+        switch (agent.Data.faction)
+        {
+            case Faction.Enemy:
+                activeEnemies.Remove(agent);
+                break;
+            case Faction.Ally:
+                activeAllies.Remove(agent);
+                break;
+            case Faction.Player:
+                playerAgent = null;
+                break;
+        }
+    }
+
     public void RestartScene()
     {
         float timeAlive = playerAgent.GetModule<HealthModule>().TimeAlive;
