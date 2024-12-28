@@ -33,8 +33,8 @@ public class AgentManager : MonoBehaviour
     public void RestartScene()
     {
         float timeAlive = playerAgent.GetModule<HealthModule>().TimeAlive;
-        PlayerMetrics playerMetrics = (PlayerMetrics)playerAgent.Metrics;
-        float damageDone = playerMetrics.DamageDone;
+        Metrics metrics = playerAgent.Metrics;
+        float damageDone = metrics.DamageDone;
 
         TestManager.Instance.SaveMetrics(damageDone, timeAlive);
 

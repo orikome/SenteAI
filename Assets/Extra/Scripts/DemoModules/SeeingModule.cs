@@ -12,23 +12,24 @@ public class SeeingModule : SenseModule
 
     public override void Initialize(Agent agent)
     {
+        base.Initialize(agent);
         _layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy", "Ally");
     }
 
-    public override void Execute(Agent agent)
+    public override void Execute()
     {
-        if (agent.Target == null)
+        if (_agent.Target == null)
         {
             CanSenseTarget = false;
             return;
         }
-        Vector3 directionToTarget = agent.Target.transform.position - agent.transform.position;
-        Ray ray = new(agent.transform.position, directionToTarget.normalized);
+        Vector3 directionToTarget = _agent.Target.transform.position - _agent.transform.position;
+        Ray ray = new(_agent.transform.position, directionToTarget.normalized);
 
         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo, _range, _layerMask);
 
         // Crucial for visibility check, gameObject comparison!
-        bool isVisible = hit && hitInfo.transform.gameObject == agent.Target.transform.gameObject;
+        bool isVisible = hit && hitInfo.transform.gameObject == _agent.Target.transform.gameObject;
 
         // Return early if still in cooldown period
         if (Time.time - _lastVisibilityChangeTime < _updateTime)
@@ -41,8 +42,8 @@ public class SeeingModule : SenseModule
         if (isVisible && visibilityChanged)
         {
             CanSenseTarget = true;
-            LastKnownPosition = agent.Target.transform.position;
-            LastKnownVelocity = agent.Target.Metrics.Velocity;
+            LastKnownPosition = _agent.Target.transform.position;
+            LastKnownVelocity = _agent.Target.Metrics.Velocity;
             LastSeenTime = Time.time;
             _lastVisibilityChangeTime = Time.time;
         }

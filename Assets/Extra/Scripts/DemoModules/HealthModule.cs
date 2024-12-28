@@ -7,9 +7,8 @@ public class HealthModule : Module, IDamageable
     public float CurrentHealth { get; private set; }
     public bool IsAlive { get; private set; } = true;
     public float TimeAlive { get; private set; } = 0;
-    private Agent _agent;
 
-    public override void Execute(Agent agent)
+    public override void Execute()
     {
         if (IsAlive)
             TimeAlive += Time.deltaTime;
@@ -17,7 +16,7 @@ public class HealthModule : Module, IDamageable
 
     public override void Initialize(Agent agent)
     {
-        _agent = agent;
+        base.Initialize(agent);
         MaxHealth = agent.Data.maxHealth;
         CurrentHealth = MaxHealth;
     }

@@ -10,7 +10,7 @@ public class PlayerMovement : Module
     private Vector3 _velocity;
     private bool _isGrounded;
 
-    public override void Execute(Agent agent)
+    public override void Execute()
     {
         if (_controller == null)
         {
@@ -33,6 +33,7 @@ public class PlayerMovement : Module
 
     public override void Initialize(Agent agent)
     {
+        base.Initialize(agent);
         _controller = agent.gameObject.GetComponent<CharacterController>();
     }
 

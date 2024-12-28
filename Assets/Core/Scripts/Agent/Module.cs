@@ -2,13 +2,23 @@ using UnityEngine;
 
 public abstract class Module : ScriptableObject
 {
-    /// <summary>
-    /// Called every frame in the object's Update method.
-    /// </summary>
-    public abstract void Execute(Agent agent);
+    protected Agent _agent;
 
     /// <summary>
     /// Called once in the object's Awake method.
     /// </summary>
-    public abstract void Initialize(Agent agent);
+    public virtual void Initialize(Agent agent)
+    {
+        if (agent == null)
+        {
+            AgentLogger.LogError("Agent cannot be null");
+            return;
+        }
+        _agent = agent;
+    }
+
+    /// <summary>
+    /// Called every frame in the object's Update method.
+    /// </summary>
+    public abstract void Execute();
 }

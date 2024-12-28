@@ -20,10 +20,8 @@ public class LaserBeamAction : AgentAction
     private void ShootLaser(Transform firePoint, Agent agent)
     {
         Vector3 directionToTarget;
-
-        PlayerMetrics playerMetrics = (PlayerMetrics)AgentManager.Instance.playerAgent.Metrics;
-        var nearestEnemy = playerMetrics.FindClosestEnemyToPlayer();
-        directionToTarget = (nearestEnemy.position - _agent.firePoint.position).normalized;
+        Vector3 targetPosition = AgentManager.Instance.playerAgent.Target.transform.position;
+        directionToTarget = (targetPosition - _agent.firePoint.position).normalized;
 
         GameObject laser = Instantiate(
             laserPrefab,

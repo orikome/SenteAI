@@ -52,18 +52,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public Vector3 GetClosestEnemyDirection()
-    {
-        PlayerMetrics playerMetrics = (PlayerMetrics)_playerAgent.Metrics;
-        var nearestEnemy = playerMetrics.FindClosestEnemyToPlayer();
-        if (nearestEnemy != null)
-        {
-            return (nearestEnemy.position - _playerAgent.firePoint.position).normalized;
-        }
-
-        return _playerAgent.firePoint.forward;
-    }
-
     public Vector3 GetMouseLookDirection()
     {
         return currentLookDirection;

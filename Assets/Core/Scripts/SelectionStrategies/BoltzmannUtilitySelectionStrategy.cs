@@ -7,10 +7,11 @@ using UnityEngine;
 )]
 public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 {
+    [SerializeField, Range(0.01f, 1.0f)]
     [Tooltip(
         "Temperature parameter to control how much randomness the agent uses when selecting actions."
     )]
-    public float temperature = 1.0f;
+    private float _temperature = 1.0f;
 
     public override AgentAction SelectAction(Agent agent)
     {
@@ -35,7 +36,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
         {
             // Using a simplified Boltzmann function to adjust the score: p = e^(S / T) - 1
             action.ScaledUtilityScore = Mathf.Max(
-                Mathf.Exp(action.ScaledUtilityScore / temperature) - 1,
+                Mathf.Exp(action.ScaledUtilityScore / _temperature) - 1,
                 0.0f
             );
             totalScore += action.ScaledUtilityScore;

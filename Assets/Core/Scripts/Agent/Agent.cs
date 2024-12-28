@@ -29,7 +29,7 @@ public class Agent : MonoBehaviour
     {
         foreach (var module in Modules)
         {
-            module.Execute(this);
+            module.Execute();
         }
         SelectTarget();
     }
@@ -115,7 +115,7 @@ public class Agent : MonoBehaviour
         switch (Data.faction)
         {
             case Faction.Player:
-                Metrics = EnsureComponent<PlayerMetrics>();
+                Metrics = EnsureComponent<Metrics>();
                 gameObject.tag = "Player";
                 Faction = Faction.Player;
                 Target = AgentManager.Instance.activeEnemies.FirstOrDefault();

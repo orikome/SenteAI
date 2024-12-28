@@ -6,24 +6,18 @@ public class NPCMovementModule : Module
 {
     private readonly float _moveRadius = 20f;
     private readonly int _samples = 10;
-    private Agent _nonPlayerAgent;
 
-    public override void Initialize(Agent agent)
+    public override void Execute()
     {
-        _nonPlayerAgent = agent;
-    }
-
-    public override void Execute(Agent agent)
-    {
-        if (_nonPlayerAgent.Target == null || Time.frameCount % 10 != 0)
+        if (_agent.Target == null || Time.frameCount % 10 != 0)
             return;
 
-        Metrics metrics = _nonPlayerAgent.Target.Metrics;
+        Metrics metrics = _agent.Target.Metrics;
         Vector3 predictedTargetPosition = metrics.PredictPosition();
 
-        Vector3 bestPosition = EvaluateBestPosition(_nonPlayerAgent, predictedTargetPosition);
+        Vector3 bestPosition = EvaluateBestPosition(_agent, predictedTargetPosition);
 
-        _nonPlayerAgent.GetModule<NavMeshAgentModule>().SetDestination(bestPosition);
+        _agent.GetModule<NavMeshAgentModule>().SetDestination(bestPosition);
     }
 
     private Vector3 EvaluateBestPosition(Agent agent, Vector3 predictedTargetPosition)
@@ -33,7 +27,7 @@ public class NPCMovementModule : Module
 
         Vector3 sampleCenter;
 
-        switch (_nonPlayerAgent.Target.Metrics.CurrentBehavior)
+        switch (_agent.Target.Metrics.CurrentBehavior)
         {
             case Behavior.Aggressive:
                 // When the target is aggressive, sample positions around the agent to find cover
@@ -93,7 +87,7 @@ public class NPCMovementModule : Module
 
         bool positionInCover = IsInCover(position);
 
-        switch (_nonPlayerAgent.Target.Metrics.CurrentBehavior)
+        switch (_agent.Target.Metrics.CurrentBehavior)
         {
             case Behavior.Aggressive:
                 // Target is aggressive; enemy should seek cover
@@ -141,13 +135,13 @@ public class NPCMovementModule : Module
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)
     {
         if (Physics.Raycast(fromPosition, targetPosition - fromPosition, out RaycastHit hit))
-            return hit.transform == _nonPlayerAgent.Target.transform;
+            return hit.transform == _agent.Target.transform;
 
         return false;
     }
 
     private bool IsInCover(Vector3 position)
     {
-        return !HasLineOfSight(position, _nonPlayerAgent.Target.transform.position);
+        return !HasLineOfSight(position, _agent.Target.transform.position);
     }
 }

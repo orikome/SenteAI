@@ -17,7 +17,7 @@ public class NavMeshAgentModule : Module
         NavMeshAgent.isStopped = true;
     }
 
-    public override void Execute(Agent agent)
+    public override void Execute()
     {
         if (_isPaused)
         {

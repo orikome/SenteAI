@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8463ff15110e9374a9d2cf496fc436b6, type: 3}
   m_Name: BoltzmannUtilitySelectionStrategy
   m_EditorClassIdentifier: 
-  temperature: 0.8
+  _temperature: 0.8

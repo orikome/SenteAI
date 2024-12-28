@@ -215,7 +215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1641659200127592366}
   - component: {fileID: 1591709612434990295}
-  - component: {fileID: 3115001630669914677}
   - component: {fileID: 7664143484527015541}
   - component: {fileID: 2095161759032983272}
   - component: {fileID: 675048310801327309}
@@ -223,6 +222,7 @@ GameObject:
   - component: {fileID: 7591544498455296772}
   - component: {fileID: 586757629762651420}
   - component: {fileID: 5039398585614046108}
+  - component: {fileID: 2378876827850445151}
   m_Layer: 6
   m_Name: PlayerAgent
   m_TagString: Player
@@ -261,18 +261,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 3aacfd0753f969444ac44d0d67d0cb3b, type: 2}
   firePoint: {fileID: 4342377527706963781}
---- !u!114 &3115001630669914677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2034433441626882544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 486d82cdb17af664b86bf95ace849612, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &7664143484527015541
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -390,8 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eecb3f203a9ac4a9c637e395b729f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textHeight: 4
-  textSize: 0.1
 --- !u!114 &5039398585614046108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +418,19 @@ MonoBehaviour:
     m_RotationOrder: 4
   maxFlashStrength: 1
   agentDestructionParticles: {fileID: 7189266495483149382, guid: 77f45883b1827c846970ac297e391363, type: 3}
+  agentScrapModel: {fileID: 0}
+--- !u!114 &2378876827850445151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034433441626882544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81dd6e3916ad63d42ada758f2231d892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3282442754393160183
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,8 +590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handMesh: {fileID: 654734295586355907}
-  recoilSpeed: 10
-  returnSpeed: 5
   fireRate: 0.1
   recoilRecoveryMultiplier: 1.5
   recoilCurve:

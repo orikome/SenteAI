@@ -43,7 +43,7 @@ public class NPCMovementExperimental : Module
         }
     }
 
-    public override void Execute(Agent agent)
+    public override void Execute()
     {
         if (_nonPlayerAgent.Target == null)
             return;

@@ -13,6 +13,10 @@ public class Metrics : MonoBehaviour
     public Behavior CurrentBehavior { get; protected set; }
     public float AggressiveThreshold { get; protected set; } = 0.7f;
     public float DefensiveThreshold { get; protected set; } = 0.3f;
+    public bool IsInCover { get; private set; }
+    public float TimeInCover { get; private set; }
+    public float ShootingFrequency { get; private set; }
+    public float DodgeRatio { get; private set; }
     public List<Vector3> PositionHistory { get; private set; } = new();
     public List<AgentAction> ActionHistory { get; private set; } = new();
     public readonly int recentHistorySize = 6;
@@ -35,6 +39,8 @@ public class Metrics : MonoBehaviour
 
     public virtual void Update()
     {
+        //ShootingFrequency = Random.Range(0f, 1f);
+        //DodgeRatio = Random.Range(0f, 1f);
         CurrentBehavior = ClassifyBehavior();
         UpdateVelocity();
         RecordAgentPositionHistory();
@@ -59,6 +65,22 @@ public class Metrics : MonoBehaviour
 
     protected virtual Behavior ClassifyBehavior()
     {
+        if (Time.frameCount % 500 != 0)
+            return Behavior.Balanced;
+
+        if (ShootingFrequency > AggressiveThreshold && DistanceToTarget < DefensiveThreshold)
+        {
+            //AgentLogger.Log("Player is Aggressive", _agent.gameObject);
+            return Behavior.Aggressive;
+        }
+
+        if (DodgeRatio > AggressiveThreshold)
+        {
+            //AgentLogger.Log("Player is Defensive", _agent.gameObject);
+            return Behavior.Defensive;
+        }
+
+        //AgentLogger.Log("Player is Balanced", _agent.gameObject);
         return Behavior.Balanced;
     }
 
