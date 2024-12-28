@@ -60,6 +60,22 @@ public static class Helpers
         return (adjustedPrediction - shooterPosition).normalized;
     }
 
+    public static T GetComponentInHierarchy<T>(GameObject obj)
+        where T : Component
+    {
+        // Try direct
+        if (obj.TryGetComponent(out T component))
+            return component;
+
+        // Try children
+        component = obj.GetComponentInChildren<T>();
+        if (component != null)
+            return component;
+
+        // Try parents
+        return obj.GetComponentInParent<T>();
+    }
+
     public static Quaternion GetYAxisLookRotation(Vector3 direction)
     {
         // Flatten direction to XZ plane

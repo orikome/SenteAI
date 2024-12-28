@@ -8,7 +8,7 @@ public class AllyAgentDemo : MonoBehaviour
     [SerializeField]
     private GameObject allyPrefab;
     private float spawnTimer = 0f;
-    private const float SPAWN_INTERVAL = 2f;
+    private const float SPAWN_INTERVAL = 2.5f;
 
     private void Update()
     {

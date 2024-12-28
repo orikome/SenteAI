@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMovement : Module
 {
     public float moveSpeed = 10.0f;
-    public float jumpHeight = 2.0f;
+    private float jumpHeight = 6.0f;
     public float gravity = -9.81f;
     private CharacterController _controller;
     private Vector3 _velocity;

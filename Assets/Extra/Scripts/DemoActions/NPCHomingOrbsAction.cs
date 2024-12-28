@@ -26,8 +26,9 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
         float CanSenseFactor = _agent.GetModule<SenseModule>().CanSenseTarget ? 0.6f : 1f;
         float distanceFactor = 1.0f - (distance / maxDistance);
         float calculatedUtil = distanceFactor * 0.5f * CanSenseFactor;
+        float calculatedUtilClamped = Mathf.Clamp(calculatedUtil, MIN_UTILITY, MAX_UTILITY);
 
-        SetUtilityWithModifiers(calculatedUtil);
+        SetUtilityWithModifiers(calculatedUtilClamped);
     }
 
     private void ShootOrbs(Transform firePoint)
