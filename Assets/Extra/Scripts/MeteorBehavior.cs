@@ -70,7 +70,7 @@ public class MeteorBehavior : MonoBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.transform.root.TryGetComponent<Agent>(out var agent))
+            if (hitCollider.gameObject.TryGetComponent<Agent>(out var agent))
             {
                 agent.GetModule<HealthModule>().TakeDamage(explosionDamage);
             }

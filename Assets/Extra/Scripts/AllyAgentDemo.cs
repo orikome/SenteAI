@@ -7,6 +7,12 @@ public class AllyAgentDemo : MonoBehaviour
 
     [SerializeField]
     private GameObject allyPrefab;
+
+    [SerializeField]
+    private GameObject enemyPrefabT2;
+
+    [SerializeField]
+    private GameObject allyPrefabT2;
     private float spawnTimer = 0f;
     private const float SPAWN_INTERVAL = 2.5f;
 
@@ -52,13 +58,17 @@ public class AllyAgentDemo : MonoBehaviour
     {
         if (enemyPrefab != null)
         {
-            GameObject enemyObject = Instantiate(
-                enemyPrefab,
-                OrikomeUtils.GeneralUtils.GetRandomPositionInCircle(Vector3.zero, 60f),
-                Quaternion.identity
-            );
-            Agent enemyAgent = enemyObject.GetComponent<Agent>();
-            enemyAgent.Initialize();
+            GameObject prefabToSpawn = Random.value < 0.7f ? enemyPrefab : enemyPrefabT2;
+            if (prefabToSpawn != null)
+            {
+                GameObject enemyObject = Instantiate(
+                    prefabToSpawn,
+                    OrikomeUtils.GeneralUtils.GetRandomPositionInCircle(Vector3.zero, 60f),
+                    Quaternion.identity
+                );
+                Agent enemyAgent = enemyObject.GetComponent<Agent>();
+                enemyAgent.Initialize();
+            }
         }
     }
 
@@ -66,13 +76,17 @@ public class AllyAgentDemo : MonoBehaviour
     {
         if (allyPrefab != null)
         {
-            GameObject allyObject = Instantiate(
-                allyPrefab,
-                OrikomeUtils.GeneralUtils.GetRandomPositionInCircle(Vector3.zero, 60f),
-                Quaternion.identity
-            );
-            Agent allyAgent = allyObject.GetComponent<Agent>();
-            allyAgent.Initialize();
+            GameObject prefabToSpawn = Random.value < 0.7f ? allyPrefab : allyPrefabT2;
+            if (prefabToSpawn != null)
+            {
+                GameObject allyObject = Instantiate(
+                    prefabToSpawn,
+                    OrikomeUtils.GeneralUtils.GetRandomPositionInCircle(Vector3.zero, 60f),
+                    Quaternion.identity
+                );
+                Agent allyAgent = allyObject.GetComponent<Agent>();
+                allyAgent.Initialize();
+            }
         }
     }
 }

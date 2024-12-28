@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SenteAI/Actions/NPCLaserBeam")]
@@ -83,8 +84,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 
         Vector3 spawnPosition = _agent.transform.position;
         spawnPosition.y = 0.001f;
-
-        directionToTarget.y = 0;
+        //directionToTarget.y = 0;
 
         // Spawn warning indicator
         GameObject obj = Instantiate(
