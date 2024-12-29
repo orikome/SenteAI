@@ -22,7 +22,7 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
     {
         float utility = new UtilityBuilder()
             .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
-            .WithInverseSensing(agent.GetModule<SenseModule>().CanSenseTarget, 1.0f)
+            .WithInverseLOS(agent.GetModule<SeeingModule>().HasLOS, 1.0f)
             .WithCustom(0.5f)
             .Build();
 

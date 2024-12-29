@@ -20,7 +20,7 @@ public class LookAt : MonoBehaviour
             return;
 
         target = _agent.Target.transform;
-        if (_agent.GetModule<SenseModule>().CanSenseTarget)
+        if (_agent.GetModule<SeeingModule>().HasLOS)
         {
             LookAtTransform(target, rotationSpeed);
         }

@@ -47,6 +47,22 @@ public class Metrics : MonoBehaviour
         SetDistanceToTarget();
     }
 
+    public Vector3 GetDirectionToTarget()
+    {
+        if (_agent.Target == null)
+            return Vector3.zero;
+
+        return _agent.Target.transform.position - _agent.transform.position;
+    }
+
+    public Vector3 GetDirectionToTargetPredictedPosition()
+    {
+        if (_agent.Target == null)
+            return Vector3.zero;
+
+        return _agent.Target.Metrics.PredictPosition() - _agent.transform.position;
+    }
+
     public virtual void UpdateVelocity()
     {
         Velocity = (transform.position - LastPosition) / Time.deltaTime;

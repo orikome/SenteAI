@@ -24,7 +24,7 @@ public class MeteorStrikeAction : AgentAction
     {
         float utility = new UtilityBuilder()
             .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
-            .WithSensing(agent.GetModule<SenseModule>().CanSenseTarget)
+            .WithLOS(agent.GetModule<SeeingModule>().HasLOS)
             .Build();
 
         SetUtilityWithModifiers(utility);

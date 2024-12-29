@@ -18,43 +18,18 @@ public class NPCShootAction : ShootAction, IFeedbackAction
         Vector3 predictedTargetPosition = targetMetrics.PredictPosition();
         Vector3 directionToTarget = predictedTargetPosition - firePoint.position;
 
-        if (!HasClearShot(firePoint))
+        if (!_agent.GetModule<SeeingModule>().HasLOS)
             return;
 
         ShootProjectile(firePoint, directionToTarget);
         AfterExecution();
     }
 
-    private bool HasClearShot(Transform firePoint)
-    {
-        Metrics targetMetrics = _agent.Target.Metrics;
-        Vector3 predictedTargetPosition = targetMetrics.PredictPosition();
-        Vector3 directionToTarget = predictedTargetPosition - _agent.firePoint.position;
-        LayerMask obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
-
-        if (Physics.Raycast(firePoint.position, directionToTarget, out RaycastHit hit))
-        {
-            if (
-                OrikomeUtils.LayerMaskUtils.IsLayerInMask(
-                    hit.transform.gameObject.layer,
-                    obstacleLayerMask
-                )
-            )
-            {
-                // Obstacle detected, return false
-                return false;
-            }
-        }
-
-        // No obstacles, clear shot
-        return true;
-    }
-
     public override void CalculateUtility(Agent agent)
     {
         float utility = new UtilityBuilder()
             .WithDistance(agent.Metrics.DistanceToTarget, 60f, UtilityType.Linear)
-            .WithSensing(agent.GetModule<SenseModule>().CanSenseTarget)
+            .WithLOS(agent.GetModule<SeeingModule>().HasLOS)
             .WithProjectileStats(projectileSpeed)
             .Build();
 

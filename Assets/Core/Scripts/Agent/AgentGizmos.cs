@@ -53,9 +53,9 @@ public class AgentGizmos : MonoBehaviour
             // Only draw if current agent's ID is lower (prevents double drawing)
             if (_agent.GetInstanceID() < _agent.Target.GetInstanceID())
             {
-                var senseModule = _agent.GetModule<SenseModule>();
+                var seeingModule = _agent.GetModule<SeeingModule>();
                 Color targetColor =
-                    senseModule != null && senseModule.CanSenseTarget ? Color.green : Color.red;
+                    seeingModule != null && seeingModule.HasLOS ? Color.green : Color.red;
                 targetColor.a = 0.4f;
                 Gizmos.color = targetColor;
                 Gizmos.DrawLine(transform.position, _agent.Target.transform.position);

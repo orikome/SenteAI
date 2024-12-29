@@ -14,13 +14,13 @@ public class UtilityBuilder
         return this;
     }
 
-    public UtilityBuilder WithSensing(bool canSense, float weight = 0.8f)
+    public UtilityBuilder WithLOS(bool canSense, float weight = 0.8f)
     {
         _utility *= canSense ? weight : Utility.MIN_UTILITY;
         return this;
     }
 
-    public UtilityBuilder WithInverseSensing(bool canSense, float weight = 0.8f)
+    public UtilityBuilder WithInverseLOS(bool canSense, float weight = 0.8f)
     {
         _utility *= !canSense ? weight : 0.6f;
         return this;

@@ -14,61 +14,22 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
     public float SuccessRate { get; set; } = 1.0f;
     public float FeedbackModifier { get; set; } = 1.0f;
     public GameObject warningIndicator;
-    LayerMask obstacleLayerMask;
     public GameObject laserSparks;
-
-    public override void Initialize(Agent agent)
-    {
-        base.Initialize(agent);
-
-        obstacleLayerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Wall");
-    }
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        if (!HasClearShot(firePoint, _agent))
+        if (!_agent.GetModule<SeeingModule>().HasLOS)
             return;
 
         _agent.StartCoroutine(ShootLaser(firePoint, _agent));
         AfterExecution();
     }
 
-    private bool HasClearShot(Transform firePoint, Agent agent)
-    {
-        Metrics targetMetrics = agent.Target.Metrics;
-        Vector3 directionToTarget = agent.Target.transform.position - agent.firePoint.position;
-
-        if (Physics.Raycast(firePoint.position, directionToTarget, out RaycastHit hit))
-        {
-            if (
-                OrikomeUtils.LayerMaskUtils.IsLayerInMask(
-                    hit.transform.gameObject.layer,
-                    obstacleLayerMask
-                )
-            )
-            {
-                // Obstacle detected, return false
-                return false;
-            }
-        }
-
-        // No obstacles, clear shot
-        return true;
-    }
-
-    public override bool CanExecute(Agent agent)
-    {
-        base.CanExecute(agent);
-
-        return agent.GetModule<SenseModule>().CanSenseTarget
-            && HasClearShot(agent.firePoint, agent);
-    }
-
     public override void CalculateUtility(Agent agent)
     {
         float utility = new UtilityBuilder()
             .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Gaussian)
-            .WithSensing(agent.GetModule<SenseModule>().CanSenseTarget)
+            .WithLOS(agent.GetModule<SeeingModule>().HasLOS)
             .WithCustom(0.5f)
             .Build();
 
