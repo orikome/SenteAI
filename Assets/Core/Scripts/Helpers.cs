@@ -6,6 +6,17 @@ public static class Helpers
     private static readonly string ENEMY_COLOR = "#FFB3B3"; // Pastel Red
     private static readonly string ALLY_COLOR = "#B3FFB3"; // Pastel Green
 
+    //private static readonly string MAGENTA_COLOR = "#FFB3FF"; // Pastel Magenta
+
+    public static string Color(string text, Color color) =>
+        $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{text}</color>";
+
+    public static string Size(string text, float size) => $"<size={size}>{text}</size>";
+
+    public static string Bold(string text) => $"<b>{text}</b>";
+
+    public static string Italic(string text) => $"<i>{text}</i>";
+
     public static string GetFactionColor(Faction faction)
     {
         return faction switch

@@ -60,7 +60,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
             if (randomValue <= runningTotal)
             {
                 AgentLogger.Log(
-                    $"Selected: {Helpers.CleanName(action.name)} with utility score: {action.ScaledUtilityScore}",
+                    $"Selected: {Helpers.Bold(Helpers.CleanName(action.name))} - Score: {action.ScaledUtilityScore}",
                     agent.gameObject
                 );
 

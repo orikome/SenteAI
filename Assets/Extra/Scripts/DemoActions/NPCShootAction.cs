@@ -84,7 +84,7 @@ public class NPCShootAction : ShootAction, IFeedbackAction
         UpdateSuccessRate();
         int totalAttempts = SuccessCount + FailureCount;
         AgentLogger.Log(
-            $"Action {Helpers.CleanName(name)} has failed. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}.",
+            $"Miss: {Helpers.Bold(Helpers.CleanName(name))}. Attempts: {totalAttempts}. SuccessRate: {SuccessRate}, FeedbackModifier: {FeedbackModifier}.",
             _agent.gameObject
         );
     }
@@ -100,7 +100,7 @@ public class NPCShootAction : ShootAction, IFeedbackAction
         UpdateSuccessRate();
         int totalAttempts = SuccessCount + FailureCount;
         AgentLogger.Log(
-            $"Action {Helpers.CleanName(name)} has succeeded. Attempts: {totalAttempts}. Success rate: {SuccessRate}, Feedback modifier: {FeedbackModifier}.",
+            $"Hit: {Helpers.Bold(Helpers.CleanName(name))}. Attempts: {totalAttempts}. SuccessRate: {SuccessRate}, FeedbackModifier: {FeedbackModifier}.",
             _agent.gameObject
         );
     }

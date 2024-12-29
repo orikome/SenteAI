@@ -52,7 +52,7 @@ public class Brain : Module
         {
             action.ScaledUtilityScore = 1.0f / _agent.Actions.Count;
         }
-        AgentLogger.Log("Reset utilScores", _agent.gameObject);
+        //AgentLogger.Log("Reset utilScores", _agent.gameObject);
     }
 
     public void PauseFor(float duration)
