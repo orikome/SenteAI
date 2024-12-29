@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SenteAI/Actions/MeteorStrike")]
-public class MeteorStrikeAction : AgentAction
+[CreateAssetMenu(menuName = "SenteAI/Actions/NPCMeteorStrike")]
+public class NPCMeteorStrikeAction : AgentAction
 {
     public GameObject meteorPrefab;
     public float dropDelay = 2f;

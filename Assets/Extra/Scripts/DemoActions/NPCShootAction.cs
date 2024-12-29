@@ -14,15 +14,13 @@ public class NPCShootAction : ShootAction, IFeedbackAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        Metrics targetMetrics = _agent.Target.Metrics;
-        Vector3 predictedTargetPosition = targetMetrics.PredictPosition();
-        Vector3 directionToTarget = predictedTargetPosition - firePoint.position;
-
-        if (!_agent.GetModule<SeeingModule>().HasLOS)
-            return;
-
-        ShootProjectile(firePoint, directionToTarget);
+        ShootProjectile(firePoint, _agent.Metrics.GetDirectionToTargetPredictedPosition());
         AfterExecution();
+    }
+
+    public override bool CanExecute(Agent agent)
+    {
+        return base.CanExecute(agent) || !_agent.GetModule<SeeingModule>().HasLOS;
     }
 
     public override void CalculateUtility(Agent agent)

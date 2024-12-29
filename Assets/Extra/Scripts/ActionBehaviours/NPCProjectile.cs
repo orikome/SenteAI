@@ -29,7 +29,7 @@ public class NPCProjectile : Projectile
 
     private bool HasPassedTarget()
     {
-        if (_agent.Target == null)
+        if (_agent == null || _agent.Target == null)
             return false;
 
         Vector3 toTarget = _agent.Target.transform.position - transform.position;

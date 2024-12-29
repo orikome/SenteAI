@@ -18,11 +18,13 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        if (!_agent.GetModule<SeeingModule>().HasLOS)
-            return;
-
         _agent.StartCoroutine(ShootLaser(firePoint, _agent));
         AfterExecution();
+    }
+
+    public override bool CanExecute(Agent agent)
+    {
+        return base.CanExecute(agent) || !_agent.GetModule<SeeingModule>().HasLOS;
     }
 
     public override void CalculateUtility(Agent agent)
@@ -39,9 +41,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
     private IEnumerator ShootLaser(Transform firePoint, Agent agent)
     {
         Metrics targetMetrics = agent.Target.Metrics;
-        Vector3 directionToTarget = (
-            agent.Target.transform.position - firePoint.position
-        ).normalized;
+        Vector3 directionToTarget = agent.Target.transform.position - firePoint.position;
 
         Vector3 spawnPosition = _agent.transform.position;
         spawnPosition.y = 0.001f;

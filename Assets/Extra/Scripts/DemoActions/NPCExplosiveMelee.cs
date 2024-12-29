@@ -96,7 +96,7 @@ public class NPCExplosiveMelee : AgentAction
     private void StartMelee(Transform firePoint)
     {
         // Get target location
-        Vector3 lookPos = _agent.Target.transform.position - _agent.transform.position;
+        Vector3 lookPos = _agent.Metrics.GetDirectionToTarget();
         lookPos.y = 0;
 
         // Play animation and start effect sequence
