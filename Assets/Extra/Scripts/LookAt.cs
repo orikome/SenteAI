@@ -2,92 +2,83 @@ using UnityEngine;
 
 public class LookAt : MonoBehaviour
 {
-    public Transform model; // Head
+    [Header("References")]
+    public Transform head; // Head
     public Transform body;
     public Transform target;
-    public float rotationSpeed = 60f;
-    public float idleRotationSpeed = 10f;
-    Agent _agent;
+
+    [Header("Head Settings")]
+    public float maxHeadRotationSpeed = 240f;
+    public float headRotationSmoothTime = 0.1f;
+    public float maxHeadAngle = 70f;
+    public float headLeadThreshold = 30f;
+
+    [Header("Body Settings")]
+    public float maxBodyRotationSpeed = 120f;
+    public float bodyRotationSmoothTime = 0.3f;
+    public float bodyTurnThreshold = 45f;
+    public float minBodyTurnAngle = 5f;
+
+    private Vector3 currentHeadVelocity;
+    private Vector3 currentBodyVelocity;
+    private float currentHeadAngle;
+    private Agent _agent;
 
     void Start()
     {
-        _agent = gameObject.GetComponent<Agent>();
+        _agent = GetComponent<Agent>();
     }
 
-    private void Update()
+    void Update()
     {
-        if (_agent.Target == null)
+        if (_agent == null || _agent.Target == null)
             return;
 
-        target = _agent.Target.transform;
-        if (_agent.GetModule<SeeingModule>().HasLOS)
-        {
-            LookAtTransform(target, rotationSpeed);
-        }
-        else
-        {
-            LookAtTransform(target, idleRotationSpeed);
-        }
+        UpdateRotations(_agent.Target.transform);
     }
 
-    public void LookAtTransform(Transform point, float rotSpeed)
+    void UpdateRotations(Transform target)
     {
-        Vector3 direction = (point.position - model.position).normalized;
+        Vector3 targetDirection = (target.position - head.position).normalized;
+        Vector3 flatTargetDirection = new Vector3(
+            targetDirection.x,
+            0,
+            targetDirection.z
+        ).normalized;
 
-        RotateTowards(model, direction, rotSpeed);
+        // Calculate desired head rotation first
+        float targetHeadAngle = Vector3.SignedAngle(body.forward, targetDirection, Vector3.up);
+        currentHeadAngle = Mathf.SmoothDampAngle(
+            currentHeadAngle,
+            Mathf.Clamp(targetHeadAngle, -maxHeadAngle, maxHeadAngle),
+            ref currentHeadVelocity.y,
+            headRotationSmoothTime
+        );
 
-        float angle = Vector3.SignedAngle(body.forward, direction, Vector3.up);
+        // Rotate head
+        Quaternion headRotation = body.rotation * Quaternion.Euler(0, currentHeadAngle, 0);
+        head.rotation = Quaternion.RotateTowards(
+            head.rotation,
+            headRotation,
+            maxHeadRotationSpeed * Time.deltaTime
+        );
 
-        if (Mathf.Abs(angle) > 30f)
+        // Body follows if head angle exceeds threshold
+        if (Mathf.Abs(currentHeadAngle) > bodyTurnThreshold)
         {
-            Vector3 bodyDirection = point.position - body.position;
-            bodyDirection.y = 0f;
-            if (bodyDirection.sqrMagnitude > 0f)
-            {
-                bodyDirection.Normalize();
-                RotateTowards(body, bodyDirection, rotSpeed / 2);
-            }
-        }
-    }
-
-    private void RotateTowards(Transform part, Vector3 direction, float speed)
-    {
-        if (part == body)
-        {
-            direction.y = 0f;
-            if (direction.sqrMagnitude == 0f)
-                return;
-            direction.Normalize();
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-
-            Vector3 eulerAngles = lookRotation.eulerAngles;
-            eulerAngles.x = 0f;
-            eulerAngles.z = 0f;
-            lookRotation = Quaternion.Euler(eulerAngles);
-
-            part.rotation = Quaternion.RotateTowards(
-                part.rotation,
-                lookRotation,
-                speed * Time.deltaTime
-            );
-        }
-        else
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            part.rotation = Quaternion.RotateTowards(
-                part.rotation,
-                lookRotation,
-                speed * Time.deltaTime
+            float bodyRotationAngle = Vector3.SignedAngle(
+                body.forward,
+                flatTargetDirection,
+                Vector3.up
             );
 
-            float headAngle = Vector3.SignedAngle(body.forward, model.forward, Vector3.up);
-            if (Mathf.Abs(headAngle) > 30f)
+            if (Mathf.Abs(bodyRotationAngle) > minBodyTurnAngle)
             {
-                float constrainedAngle = Mathf.Clamp(headAngle, -30f, 30f);
-                model.rotation = Quaternion.Euler(
-                    model.eulerAngles.x,
-                    body.eulerAngles.y + constrainedAngle,
-                    model.eulerAngles.z
+                Quaternion targetBodyRotation = Quaternion.LookRotation(flatTargetDirection);
+                body.rotation = Quaternion.RotateTowards(
+                    body.rotation,
+                    targetBodyRotation,
+                    maxBodyRotationSpeed * Time.deltaTime
                 );
             }
         }

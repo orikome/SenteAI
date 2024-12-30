@@ -596,11 +596,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96af76340e6cc7948b96da2b2e6237f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 6016834385451289701}
+  head: {fileID: 6016834385451289701}
   body: {fileID: 5609876371756061301}
   target: {fileID: 0}
-  rotationSpeed: 120
-  idleRotationSpeed: 100
+  maxHeadRotationSpeed: 240
+  headRotationSmoothTime: 0.1
+  maxHeadAngle: 70
+  headLeadThreshold: 30
+  maxBodyRotationSpeed: 120
+  bodyRotationSmoothTime: 0.3
+  bodyTurnThreshold: 45
+  minBodyTurnAngle: 5
 --- !u!195 &7594109369035923958
 NavMeshAgent:
   m_ObjectHideFlags: 0
