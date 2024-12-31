@@ -15,9 +15,7 @@ public class ActionBehaviour : MonoBehaviour
     {
         if (_targetMask == 0 || _ownerMask == 0)
         {
-            if (_agent == null)
-                return;
-            AgentLogger.LogError("Target or Owner mask is not set");
+            AgentLogger.LogWarning("Target or Owner mask is not set");
         }
     }
 #endif
@@ -27,6 +25,7 @@ public class ActionBehaviour : MonoBehaviour
         if (agent == null || agent.Target == null)
         {
             AgentLogger.LogWarning("Agent destroyed before projectile got initialized");
+            Destroy(gameObject);
             return;
         }
 

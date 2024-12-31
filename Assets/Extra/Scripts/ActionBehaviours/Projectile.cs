@@ -31,6 +31,8 @@ public class Projectile : ActionBehaviour
         _damage = dmg;
         _timer = lifetime;
         SetColor(GetColorBySpeed(projectileSpeed));
+
+        //Debug.DrawRay(transform.position, direction.normalized * 4f, Color.blue, 1f);
     }
 
     public override void Initialize(Agent agent)

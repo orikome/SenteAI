@@ -17,7 +17,7 @@ public class SeeingModule : SenseModule
     public override void Execute()
     {
         // Reset states if no target
-        if (_agent.Target == null)
+        if (_agent == null || _agent.Target == null)
         {
             CanSenseTarget = false;
             HasLOS = false;

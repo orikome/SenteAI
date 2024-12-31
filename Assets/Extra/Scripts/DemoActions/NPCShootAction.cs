@@ -95,8 +95,6 @@ public class NPCShootAction : ShootAction, IFeedbackAction
             Quaternion.LookRotation(direction)
         );
 
-        //Debug.DrawRay(firePoint.position, direction.normalized * 5f, Color.blue, 1f);
-
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.SetParameters(_agent, direction, projectileSpeed, damage);
 

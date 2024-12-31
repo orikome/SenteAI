@@ -22,14 +22,13 @@ public class Metrics : MonoBehaviour
     public readonly int recentHistorySize = 6;
     protected readonly float historyRecordInterval = 0.2f;
     private readonly float detectionThreshold = 2.5f;
-    protected Agent _agent;
-    protected float timeSinceLastRecord = 0f;
-    protected readonly int maxHistoryCount = 200;
+    private Agent _agent;
+    private float timeSinceLastRecord = 0f;
+    private readonly int maxHistoryCount = 200;
 
-    public void Initialize()
+    public void Initialize(Agent agent)
     {
-        _agent = GetComponent<Agent>();
-
+        _agent = agent;
         LastPosition = transform.position;
         for (int i = 0; i < recentHistorySize; i++)
         {
@@ -231,7 +230,7 @@ public class Metrics : MonoBehaviour
 
     public void SetDistanceToTarget()
     {
-        if (_agent.Target == null)
+        if (_agent == null || _agent.Target == null)
         {
             DistanceToTarget = Mathf.Infinity;
             return;

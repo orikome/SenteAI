@@ -145,7 +145,7 @@ public class CanvasManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2.0f);
         yield return StartCoroutine(
-            ShowText(subtitleText, "Hello Player!", TextPosition.CenterBottom)
+            ShowText(subtitleText, "Use [WASD] to move!", TextPosition.CenterBottom)
         );
         yield return new WaitForSeconds(2.0f);
         subtitleText.gameObject.SetActive(false);

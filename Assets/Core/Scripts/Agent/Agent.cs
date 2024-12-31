@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Metrics))]
 public class Agent : MonoBehaviour
 {
     // -- Set these in editor --
-    public AgentData Data;
+    public AgentData data;
     public Transform firePoint;
 
     // -- These are set in code --
@@ -103,21 +104,21 @@ public class Agent : MonoBehaviour
         Actions.Clear();
         _moduleCache.Clear();
 
-        if (Data == null)
+        if (data == null)
         {
             AgentLogger.LogError("AgentData is not assigned!");
             return;
         }
 
         // Set faction, tag, layer, target and metrics
-        Metrics = EnsureComponent<Metrics>();
-        Faction = Data.faction;
+        Metrics = GetComponent<Metrics>();
+        Faction = data.faction;
         gameObject.tag = Faction.ToString();
         Helpers.SetLayerRecursively(gameObject, LayerMask.NameToLayer(Faction.ToString()));
-        Metrics.Initialize();
+        Metrics.Initialize(this);
 
         // Add modules
-        foreach (var module in Data.modules)
+        foreach (var module in data.modules)
         {
             if (module != null)
             {
@@ -127,7 +128,7 @@ public class Agent : MonoBehaviour
         }
 
         // Add actions
-        foreach (var action in Data.actions)
+        foreach (var action in data.actions)
         {
             if (action != null)
             {
@@ -145,7 +146,7 @@ public class Agent : MonoBehaviour
             }
         }
 
-        transform.gameObject.name = Data.agentName + "[" + gameObject.GetInstanceID() + "]";
+        transform.gameObject.name = data.agentName + "[" + gameObject.GetInstanceID() + "]";
     }
 
     public void InitializeModules()
@@ -182,18 +183,5 @@ public class Agent : MonoBehaviour
             _moduleCache[typeof(T)] = module;
 
         return module;
-    }
-
-    public T EnsureComponent<T>()
-        where T : Component
-    {
-        if (!TryGetComponent<T>(out var component))
-        {
-            AgentLogger.LogWarning(
-                $"Component of type {typeof(T).Name} was missing and has been added to {transform.gameObject.name}."
-            );
-            component = gameObject.AddComponent<T>();
-        }
-        return component;
     }
 }

@@ -32,7 +32,7 @@ public class AgentManager : MonoBehaviour
 
     public void RegisterAgent(Agent agent)
     {
-        switch (agent.Data.faction)
+        switch (agent.data.faction)
         {
             case Faction.Enemy:
                 activeEnemies.Add(agent);
@@ -48,7 +48,7 @@ public class AgentManager : MonoBehaviour
 
     public void UnregisterAgent(Agent agent)
     {
-        switch (agent.Data.faction)
+        switch (agent.data.faction)
         {
             case Faction.Enemy:
                 activeEnemies.Remove(agent);

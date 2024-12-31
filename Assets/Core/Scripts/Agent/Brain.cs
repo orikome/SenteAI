@@ -10,9 +10,9 @@ public class Brain : Module
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        _cooldownHandler = new CooldownHandler(agent.Data.actionCooldown);
+        _cooldownHandler = new CooldownHandler(agent.data.actionCooldown);
         _cooldownHandler.Reset();
-        ActionSelectionStrategy = agent.Data.actionSelectionStrategy;
+        ActionSelectionStrategy = agent.data.actionSelectionStrategy;
 
         if (ActionSelectionStrategy == null)
         {
