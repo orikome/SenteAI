@@ -535,6 +535,7 @@ GameObject:
   - component: {fileID: 3641807667084371798}
   - component: {fileID: 4511215956708938322}
   - component: {fileID: 7497485994810028101}
+  - component: {fileID: 1216860027168286686}
   m_Layer: 10
   m_Name: EnemyBoss
   m_TagString: Enemy
@@ -570,7 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f13a239a2647f4e99d2338ba9eacfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: dbb57f9fd2583584f83c97c2ffe18697, type: 2}
+  data: {fileID: 11400000, guid: dbb57f9fd2583584f83c97c2ffe18697, type: 2}
   firePoint: {fileID: 1389219864144260825}
 --- !u!114 &1142832917344176327
 MonoBehaviour:
@@ -720,6 +721,18 @@ MonoBehaviour:
   maxFlashStrength: 1
   agentDestructionParticles: {fileID: 0}
   agentScrapModel: {fileID: 0}
+--- !u!114 &1216860027168286686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952177845325692102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81dd6e3916ad63d42ada758f2231d892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3094811086456752738
 GameObject:
   m_ObjectHideFlags: 0

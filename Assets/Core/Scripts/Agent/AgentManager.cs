@@ -15,21 +15,6 @@ public class AgentManager : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
-    {
-        playerAgent.Initialize();
-
-        foreach (Agent enemy in activeEnemies)
-        {
-            enemy.Initialize();
-        }
-
-        foreach (Agent ally in activeAllies)
-        {
-            ally.Initialize();
-        }
-    }
-
     public void RegisterAgent(Agent agent)
     {
         switch (agent.data.faction)

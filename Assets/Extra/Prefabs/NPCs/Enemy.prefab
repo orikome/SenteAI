@@ -1226,7 +1226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f13a239a2647f4e99d2338ba9eacfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: 8717678d37803a24cb0b51e246ffe613, type: 2}
+  data: {fileID: 11400000, guid: 8717678d37803a24cb0b51e246ffe613, type: 2}
   firePoint: {fileID: 8241329100574276474}
 --- !u!114 &622462231522965729
 MonoBehaviour:

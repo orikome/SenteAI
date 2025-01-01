@@ -39,6 +39,7 @@ public class Agent : MonoBehaviour
 
     void OnEnable()
     {
+        Initialize();
         AgentManager.Instance.RegisterAgent(this);
     }
 
@@ -107,6 +108,7 @@ public class Agent : MonoBehaviour
         if (data == null)
         {
             AgentLogger.LogError("AgentData is not assigned!");
+            Destroy(gameObject);
             return;
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Disintegrator : MonoBehaviour
 {
-    private float disintegrationTime = 1.25f;
+    private float disintegrationTime = 1.5f;
     private List<Material> materials = new List<Material>();
     private static readonly int DissolveThreshold = Shader.PropertyToID("_DissolveThreshold");
 
@@ -18,6 +18,13 @@ public class Disintegrator : MonoBehaviour
             mat.SetFloat(DissolveThreshold, 0f);
         }
         StartDisintegration();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 randomDirection = new Vector3(
+            Random.Range(-1f, 1f),
+            8f,
+            Random.Range(-1f, 1f)
+        ).normalized;
+        rb.AddForce(randomDirection * 6, ForceMode.Impulse);
     }
 
     public void StartDisintegration()
