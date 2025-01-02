@@ -7,6 +7,7 @@ public class HealthModule : Module
     public float CurrentHealth { get; private set; }
     public bool IsAlive { get; private set; } = true;
     public float TimeAlive { get; private set; } = 0;
+    public Vector3 LastHitAngle { get; private set; }
 
     public override void Execute()
     {
@@ -21,10 +22,15 @@ public class HealthModule : Module
         CurrentHealth = MaxHealth;
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Vector3 hitAngle = default)
     {
         CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0);
+
+        if (hitAngle != default)
+        {
+            LastHitAngle = hitAngle;
+        }
 
         if (_agent.Faction == Faction.Player)
             CanvasManager.Instance.ShowDamageFlash();
