@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HealthModule", menuName = "SenteAI/Modules/HealthModule")]
-public class HealthModule : Module, IDamageable
+public class HealthModule : Module
 {
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
