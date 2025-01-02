@@ -3,17 +3,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-1000)]
-public class AgentManager : MonoBehaviour
+public class AgentManager : Singleton<AgentManager>
 {
-    public static AgentManager Instance { get; private set; }
     public List<Agent> activeEnemies = new();
     public List<Agent> activeAllies = new();
     public Agent playerAgent;
-
-    void Awake()
-    {
-        Instance = this;
-    }
 
     public void RegisterAgent(Agent agent)
     {
