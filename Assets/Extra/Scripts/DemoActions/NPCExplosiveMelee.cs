@@ -13,7 +13,7 @@ public class NPCExplosiveMelee : AgentAction
     public int explosionDamage = 20;
     private float rayCastDistance = 16f;
     public float raySpreadAngle = 40f;
-    public LayerMask obstacleLayer;
+    private LayerMask _obstacleLayer;
     private LayerMask _targetMask;
     private LayerMask _ownerMask;
 
@@ -23,7 +23,7 @@ public class NPCExplosiveMelee : AgentAction
         //_animator = agent.GetComponent<Animator>(); // Should be cached in the agent
         _targetMask = Helpers.GetTargetMask(_agent.Faction);
         _ownerMask = Helpers.GetOwnerMask(_agent.Faction);
-        obstacleLayer = LayerMask.GetMask("Wall");
+        _obstacleLayer = LayerMask.GetMask("Wall");
     }
 
     private bool IsSurroundingClear(Transform firePoint, Vector3 direction)
@@ -38,19 +38,19 @@ public class NPCExplosiveMelee : AgentAction
             firePoint.position,
             leftRay,
             rayCastDistance,
-            obstacleLayer
+            _obstacleLayer
         );
         bool centerClear = !Physics.Raycast(
             firePoint.position,
             centerRay,
             rayCastDistance,
-            obstacleLayer
+            _obstacleLayer
         );
         bool rightClear = !Physics.Raycast(
             firePoint.position,
             rightRay,
             rayCastDistance,
-            obstacleLayer
+            _obstacleLayer
         );
 
         // Optional: Debug visualization

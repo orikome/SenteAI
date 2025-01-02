@@ -13,9 +13,18 @@ public class CanvasManager : MonoBehaviour
     private float currentDamageAlpha = 0f;
     public GameObject debugTextPrefab;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            AgentLogger.LogWarning("CanvasManager already exists, destroying duplicate.");
+            Destroy(gameObject);
+        }
     }
 
     public void ShowDamageFlash()

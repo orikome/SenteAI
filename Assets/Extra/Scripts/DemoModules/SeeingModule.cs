@@ -3,10 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SeeingModule", menuName = "SenteAI/Modules/SeeingModule")]
 public class SeeingModule : SenseModule
 {
-    [SerializeField]
-    private readonly float _range = 250f;
-    private LayerMask _layerMask;
     public bool HasLOS { get; private set; }
+    private const float RANGE = 250f;
+    private LayerMask _layerMask;
 
     public override void Initialize(Agent agent)
     {
@@ -42,7 +41,7 @@ public class SeeingModule : SenseModule
     private bool IsTargetVisible(Vector3 directionToTarget)
     {
         Ray ray = new(_agent.transform.position, directionToTarget);
-        return Physics.Raycast(ray, out RaycastHit hitInfo, _range, _layerMask)
+        return Physics.Raycast(ray, out RaycastHit hitInfo, RANGE, _layerMask)
             && hitInfo.transform.gameObject == _agent.Target.transform.gameObject;
     }
 }

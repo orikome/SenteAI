@@ -19,18 +19,20 @@ public class Metrics : MonoBehaviour
     public float DodgeRatio { get; private set; }
     public List<Vector3> PositionHistory { get; private set; } = new();
     public List<AgentAction> ActionHistory { get; private set; } = new();
-    public readonly int recentHistorySize = 6;
-    protected readonly float historyRecordInterval = 0.2f;
-    private readonly float detectionThreshold = 2.5f;
+
+    // Private fields
+    private const int RECENT_HISTORY_SIZE = 6;
+    private const int MAX_HISTORY_COUNT = 150;
+    private const float HISTORY_RECORD_INTERVAL = 0.2f;
+    private const float DETECTION_THRESHOLD = 2.5f;
     private Agent _agent;
-    private float timeSinceLastRecord = 0f;
-    private readonly int maxHistoryCount = 200;
+    private float _timeSinceLastRecord = 0f;
 
     public void Initialize(Agent agent)
     {
         _agent = agent;
         LastPosition = transform.position;
-        for (int i = 0; i < recentHistorySize; i++)
+        for (int i = 0; i < RECENT_HISTORY_SIZE; i++)
         {
             PositionHistory.Add(transform.position);
         }
@@ -101,19 +103,19 @@ public class Metrics : MonoBehaviour
 
     protected void RecordAgentPositionHistory()
     {
-        timeSinceLastRecord += Time.deltaTime;
+        _timeSinceLastRecord += Time.deltaTime;
 
-        if (timeSinceLastRecord >= historyRecordInterval)
+        if (_timeSinceLastRecord >= HISTORY_RECORD_INTERVAL)
         {
             PositionHistory.Add(transform.position);
 
             // If over limit, start removing past records
-            if (PositionHistory.Count > maxHistoryCount)
+            if (PositionHistory.Count > MAX_HISTORY_COUNT)
             {
                 PositionHistory.RemoveAt(0);
             }
 
-            timeSinceLastRecord = 0f;
+            _timeSinceLastRecord = 0f;
         }
     }
 
@@ -161,22 +163,22 @@ public class Metrics : MonoBehaviour
             (
                 PositionHistory[PositionHistory.Count - 1]
                 - PositionHistory[PositionHistory.Count - 2]
-            ) / historyRecordInterval;
+            ) / HISTORY_RECORD_INTERVAL;
 
         // Calculate velocity one step further back
         Vector3 velocity2 =
             (
                 PositionHistory[PositionHistory.Count - 2]
                 - PositionHistory[PositionHistory.Count - 3]
-            ) / historyRecordInterval;
+            ) / HISTORY_RECORD_INTERVAL;
 
-        Vector3 acceleration = (velocity1 - velocity2) / historyRecordInterval;
+        Vector3 acceleration = (velocity1 - velocity2) / HISTORY_RECORD_INTERVAL;
 
         // Project both velocity and acceleration forward
         Vector3 predictedPosition =
             transform.position
             + velocity1
-            + 0.5f * Mathf.Pow(historyRecordInterval, 2) * acceleration;
+            + 0.5f * Mathf.Pow(HISTORY_RECORD_INTERVAL, 2) * acceleration;
 
         return predictedPosition;
     }
@@ -192,7 +194,7 @@ public class Metrics : MonoBehaviour
 
         // If player is cheesing (circling or moving in a small area), use average position prediction
         if (IsClusteredMovement())
-            return GetAveragePosition(recentHistorySize);
+            return GetAveragePosition(RECENT_HISTORY_SIZE);
 
         // Otherwise we predict next position using last few positions
         return PredictNextPositionUsingMomentum();
@@ -201,22 +203,22 @@ public class Metrics : MonoBehaviour
     public bool IsClusteredMovement()
     {
         // Check if we have enough history first
-        if (PositionHistory.Count < recentHistorySize)
+        if (PositionHistory.Count < RECENT_HISTORY_SIZE)
             return false;
 
         // Get average position of last few locations
-        Vector3 averagePosition = GetAveragePosition(recentHistorySize);
+        Vector3 averagePosition = GetAveragePosition(RECENT_HISTORY_SIZE);
         float totalDisplacement = 0f;
 
-        for (int i = PositionHistory.Count - recentHistorySize; i < PositionHistory.Count; i++)
+        for (int i = PositionHistory.Count - RECENT_HISTORY_SIZE; i < PositionHistory.Count; i++)
         {
             totalDisplacement += Vector3.Distance(PositionHistory[i], averagePosition);
         }
 
-        float averageDisplacement = totalDisplacement / recentHistorySize;
+        float averageDisplacement = totalDisplacement / RECENT_HISTORY_SIZE;
 
         // If below threshold, player positions are clustered
-        return averageDisplacement < detectionThreshold;
+        return averageDisplacement < DETECTION_THRESHOLD;
     }
 
     public void AddActionToHistory(AgentAction action)

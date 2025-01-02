@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CooldownHandler
 {
-    private float _cooldownTime;
+    private readonly float _cooldownTime;
     private float _lastActionTime;
     private float _pausedUntilTime;
 

@@ -16,7 +16,7 @@ public class Agent : MonoBehaviour
     public Agent Target { get; protected set; }
     public AgentState State { get; protected set; }
     public Faction Faction { get; protected set; }
-    private Dictionary<System.Type, Module> _moduleCache = new();
+    private readonly Dictionary<System.Type, Module> _moduleCache = new();
 
     public virtual void Initialize()
     {
