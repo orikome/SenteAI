@@ -4,66 +4,39 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "NPCMovementModule", menuName = "SenteAI/Modules/NPCMovementModule")]
 public class NPCMovementModule : Module
 {
-    private readonly float _moveRadius = 20f;
-    private readonly int _samples = 10;
+    private const float MOVE_RADIUS = 30f;
+    private const int SAMPLE_AMOUNT = 4;
 
     public override void Execute()
     {
-        if (_agent.Target == null || Time.frameCount % 10 != 0)
+        if (_agent.Target == null || Time.frameCount % 32 != 0)
             return;
 
-        Metrics metrics = _agent.Target.Metrics;
-        Vector3 predictedTargetPosition = metrics.PredictPosition();
-
-        Vector3 bestPosition = EvaluateBestPosition(_agent, predictedTargetPosition);
-
+        Vector3 targetPosition = _agent.Target.transform.position;
+        Vector3 bestPosition = EvaluateBestPosition(_agent, targetPosition);
         _agent.GetModule<NavMeshAgentModule>().SetDestination(bestPosition);
     }
 
-    private Vector3 EvaluateBestPosition(Agent agent, Vector3 predictedTargetPosition)
+    private Vector3 EvaluateBestPosition(Agent agent, Vector3 targetPosition)
     {
         Vector3 bestPosition = Vector3.zero;
         float bestScore = float.MinValue;
+        Vector3 sampleCenter = agent.transform.position;
 
-        Vector3 sampleCenter;
-
-        switch (_agent.Target.Metrics.CurrentBehavior)
+        for (int i = 0; i < SAMPLE_AMOUNT; i++)
         {
-            case Behavior.Aggressive:
-                // When the target is aggressive, sample positions around the agent to find cover
-                sampleCenter = agent.transform.position;
-                break;
-            case Behavior.Defensive:
-                // When the target is defensive, sample positions around the player to approach them
-                sampleCenter = predictedTargetPosition;
-                break;
-            case Behavior.Balanced:
-                // Sample positions between the agent and the target
-                sampleCenter = Vector3.Lerp(
-                    agent.transform.position,
-                    predictedTargetPosition,
-                    0.5f
-                );
-                break;
-            default:
-                sampleCenter = agent.transform.position;
-                break;
-        }
-
-        for (int i = 0; i < _samples; i++)
-        {
-            Vector3 randomPoint = sampleCenter + Random.insideUnitSphere * _moveRadius;
+            Vector3 randomPoint = sampleCenter + Random.insideUnitSphere * MOVE_RADIUS;
             if (
                 NavMesh.SamplePosition(
                     randomPoint,
                     out NavMeshHit hit,
-                    _moveRadius,
+                    MOVE_RADIUS,
                     NavMesh.AllAreas
                 )
             )
             {
                 Vector3 samplePosition = hit.position;
-                float score = ScorePosition(samplePosition, agent, predictedTargetPosition);
+                float score = ScorePosition(samplePosition, targetPosition);
 
                 if (score > bestScore)
                 {
@@ -76,72 +49,52 @@ public class NPCMovementModule : Module
         return bestPosition;
     }
 
-    private float ScorePosition(Vector3 position, Agent agent, Vector3 predictedTargetPosition)
+    private float ScorePosition(Vector3 position, Vector3 targetPosition)
     {
         float score = 0f;
 
-        float distanceToPredictedTargetPosition = Vector3.Distance(
-            position,
-            predictedTargetPosition
-        );
-
-        bool positionInCover = IsInCover(position);
-
-        switch (_agent.Target.Metrics.CurrentBehavior)
-        {
-            case Behavior.Aggressive:
-                // Target is aggressive; enemy should seek cover
-                if (positionInCover)
-                    score += 20f; // Encourage positions in cover
-                else
-                    score -= 10f; // Discourage positions not in cover
-
-                // Maintain a safe distance
-                score += Mathf.Clamp(distanceToPredictedTargetPosition, 10f, 30f);
-                break;
-
-            case Behavior.Defensive:
-                // Target is defensive; enemy should approach
-                score -= distanceToPredictedTargetPosition; // Encourage getting closer
-
-                // Slightly prefer positions in cover
-                if (positionInCover)
-                    score += 5f;
-                break;
-
-            case Behavior.Balanced:
-                // Neutral behavior
-                score -= Mathf.Abs(distanceToPredictedTargetPosition - 15f); // Prefer moderate distance
-
-                // Slight preference for cover
-                if (positionInCover)
-                    score += 10f;
-                break;
-        }
-
-        // Check for line of sight to the player
-        if (HasLineOfSight(position, predictedTargetPosition))
-        {
-            score += 5f; // Bonus for visibility
-        }
-        else
-        {
-            score -= 5f; // Penalty for lack of visibility
-        }
+        score += ScoreDistance(position, targetPosition);
+        score += ScoreCover(position);
+        score += ScoreLineOfSight(position, targetPosition);
+        score += ScoreLastHitAngleAvoidance(position);
 
         return score;
+    }
+
+    private float ScoreDistance(Vector3 position, Vector3 targetPosition)
+    {
+        float distance = OrikomeUtils.GeneralUtils.GetDistanceSquared(position, targetPosition);
+        return -distance;
+    }
+
+    private float ScoreCover(Vector3 position)
+    {
+        return !HasLineOfSight(position, _agent.Target.transform.position) ? 10f : 0f;
+    }
+
+    private float ScoreLineOfSight(Vector3 position, Vector3 targetPosition)
+    {
+        return HasLineOfSight(position, targetPosition) ? 5f : -5f;
+    }
+
+    private float ScoreLastHitAngleAvoidance(Vector3 position)
+    {
+        var healthModule = _agent.GetModule<HealthModule>();
+        if (healthModule == null || healthModule.LastHitAngle == Vector3.zero)
+            return 0f;
+
+        // Calculate how exposed this position is to the last hit direction
+        Vector3 directionFromHit = (position - _agent.transform.position).normalized;
+        float angleScore = Vector3.Dot(directionFromHit, healthModule.LastHitAngle);
+
+        // High positive dot product means the position is in the same direction as the hit
+        return -angleScore * 15f;
     }
 
     private bool HasLineOfSight(Vector3 fromPosition, Vector3 targetPosition)
     {
         if (Physics.Raycast(fromPosition, targetPosition - fromPosition, out RaycastHit hit))
             return hit.transform == _agent.Target.transform;
-
         return false;
-    }
-
-    private bool IsInCover(Vector3 position)
-    {
-        return !HasLineOfSight(position, _agent.Target.transform.position);
     }
 }
