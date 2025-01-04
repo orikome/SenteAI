@@ -10,7 +10,7 @@ public class NPCMeteorStrikeAction : AgentAction
 
     public override void Execute(Transform firePoint, Vector3 direction)
     {
-        if (!IsLandingAreaClear(_agent.Target.Metrics.PredictPosition()))
+        if (!IsLandingAreaClear(_agent.Target.Metrics.GetPredictedPosition()))
         {
             AddCooldown();
             return;

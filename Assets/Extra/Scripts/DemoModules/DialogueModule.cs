@@ -13,6 +13,11 @@ public class DialogueModule : Module
 
     private void TriggerDialogue()
     {
-        CanvasManager.Instance.SpawnDamageText(_agent.transform, "Boss has spawned!", Color.yellow);
+        if (CanvasManager.Instance != null)
+            CanvasManager.Instance.SpawnDamageText(
+                _agent.transform,
+                "Boss has spawned!",
+                Color.yellow
+            );
     }
 }

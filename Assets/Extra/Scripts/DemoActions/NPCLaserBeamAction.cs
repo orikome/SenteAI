@@ -24,7 +24,7 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
 
     public override bool CanExecute(Agent agent)
     {
-        return base.CanExecute(agent) || !_agent.GetModule<SeeingModule>().HasLOS;
+        return base.CanExecute(agent) || _agent.GetModule<SeeingModule>().HasLOS;
     }
 
     public override void CalculateUtility(Agent agent)

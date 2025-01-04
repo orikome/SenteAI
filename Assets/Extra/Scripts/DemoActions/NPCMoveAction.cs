@@ -10,7 +10,7 @@ public class NPCMoveAction : AgentAction
     public override void Execute(Transform firePoint, Vector3 direction)
     {
         Metrics metrics = _agent.Metrics;
-        Vector3 predictedTargetPosition = metrics.PredictPosition();
+        Vector3 predictedTargetPosition = metrics.GetPredictedPosition();
 
         Vector3 bestPosition = EvaluateBestPosition(_agent, predictedTargetPosition);
 

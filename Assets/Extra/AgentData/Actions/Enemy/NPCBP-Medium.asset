@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34691451f601ee043bc8ececfa56d75b, type: 3}
   m_Name: NPCBP-Medium
   m_EditorClassIdentifier: 
+  agentState: 0
   cooldownTime: 0.4
   biasWeight: 0.8
   penaltyPerExecution: 0.1
-  penaltyRestoreRate: 0.2
+  penaltyRestoreRate: 0.8
   bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
   numberOfBullets: 12
   bulletSpeed: 10

@@ -13,8 +13,9 @@ public class Metrics : MonoBehaviour
     public Behavior CurrentBehavior { get; protected set; }
     public float AggressiveThreshold { get; protected set; } = 0.7f;
     public float DefensiveThreshold { get; protected set; } = 0.3f;
-    public bool IsInCover { get; private set; }
-    public float TimeInCover { get; private set; }
+
+    //public bool IsInCover { get; private set; }
+    //public float TimeInCover { get; private set; }
     public float ShootingFrequency { get; private set; }
     public float DodgeRatio { get; private set; }
     public List<Vector3> PositionHistory { get; private set; } = new();
@@ -22,7 +23,8 @@ public class Metrics : MonoBehaviour
 
     // Private fields
     private const int RECENT_HISTORY_SIZE = 6;
-    private const int MAX_HISTORY_COUNT = 150;
+    private const int MAX_POSITION_HISTORY_COUNT = 50; // 0.2 * 50 = last 10 seconds
+    private const int MAX_ACTION_HISTORY_COUNT = 20;
     private const float HISTORY_RECORD_INTERVAL = 0.2f;
     private const float DETECTION_THRESHOLD = 2.5f;
     private Agent _agent;
@@ -43,9 +45,9 @@ public class Metrics : MonoBehaviour
         //ShootingFrequency = Random.Range(0f, 1f);
         //DodgeRatio = Random.Range(0f, 1f);
         CurrentBehavior = ClassifyBehavior();
-        UpdateVelocity();
-        RecordAgentPositionHistory();
-        SetDistanceToTarget();
+        //UpdateVelocity();
+        AddPositionToHistory();
+        UpdateDistanceToTarget();
     }
 
     public Vector3 GetDirectionToTarget()
@@ -61,7 +63,7 @@ public class Metrics : MonoBehaviour
         if (_agent.Target == null)
             return Vector3.zero;
 
-        return _agent.Target.Metrics.PredictPosition() - _agent.transform.position;
+        return _agent.Target.Metrics.GetPredictedPosition() - _agent.transform.position;
     }
 
     public virtual void UpdateVelocity()
@@ -101,7 +103,7 @@ public class Metrics : MonoBehaviour
         return Behavior.Balanced;
     }
 
-    protected void RecordAgentPositionHistory()
+    protected void AddPositionToHistory()
     {
         _timeSinceLastRecord += Time.deltaTime;
 
@@ -110,26 +112,13 @@ public class Metrics : MonoBehaviour
             PositionHistory.Add(transform.position);
 
             // If over limit, start removing past records
-            if (PositionHistory.Count > MAX_HISTORY_COUNT)
+            if (PositionHistory.Count > MAX_POSITION_HISTORY_COUNT)
             {
                 PositionHistory.RemoveAt(0);
             }
 
             _timeSinceLastRecord = 0f;
         }
-    }
-
-    public Vector3 GetAveragePosition()
-    {
-        if (PositionHistory.Count == 0)
-            return transform.position;
-
-        Vector3 averagePosition = Vector3.zero;
-        foreach (Vector3 pos in PositionHistory)
-        {
-            averagePosition += pos;
-        }
-        return averagePosition / PositionHistory.Count;
     }
 
     public Vector3 GetAveragePosition(int historyCount)
@@ -183,7 +172,7 @@ public class Metrics : MonoBehaviour
         return predictedPosition;
     }
 
-    public Vector3 PredictPosition()
+    public Vector3 GetPredictedPosition()
     {
         if (_agent == null)
             return Vector3.zero;
@@ -224,13 +213,13 @@ public class Metrics : MonoBehaviour
     public void AddActionToHistory(AgentAction action)
     {
         ActionHistory.Add(action);
-        if (ActionHistory.Count > 20)
+        if (ActionHistory.Count > MAX_ACTION_HISTORY_COUNT)
         {
             ActionHistory.RemoveAt(0);
         }
     }
 
-    public void SetDistanceToTarget()
+    public void UpdateDistanceToTarget()
     {
         if (_agent == null || _agent.Target == null)
         {

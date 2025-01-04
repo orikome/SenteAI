@@ -3,24 +3,19 @@ using UnityEngine;
 public class LookAt : MonoBehaviour
 {
     [Header("References")]
-    public Transform head; // Head
+    public Transform head;
     public Transform body;
-    public Transform target;
 
     [Header("Head Settings")]
     public float maxHeadRotationSpeed = 240f;
     public float headRotationSmoothTime = 0.1f;
     public float maxHeadAngle = 70f;
-    public float headLeadThreshold = 30f;
 
     [Header("Body Settings")]
     public float maxBodyRotationSpeed = 120f;
-    public float bodyRotationSmoothTime = 0.3f;
     public float bodyTurnThreshold = 45f;
     public float minBodyTurnAngle = 5f;
-
     private Vector3 currentHeadVelocity;
-    private Vector3 currentBodyVelocity;
     private float currentHeadAngle;
     private Agent _agent;
 

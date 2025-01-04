@@ -75,7 +75,7 @@ public class AgentGizmos : MonoBehaviour
         else
         {
             Gizmos.color = Helpers.GetFactionColorHex(_agent.Faction);
-            Vector3 predictedPos = _agent.Metrics.PredictPosition();
+            Vector3 predictedPos = _agent.Metrics.GetPredictedPosition();
             Vector3 currentPos = _agent.transform.position;
 
             // Draw prediction path
