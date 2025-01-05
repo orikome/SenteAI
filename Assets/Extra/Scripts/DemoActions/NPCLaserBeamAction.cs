@@ -22,16 +22,16 @@ public class NPCLaserBeamAction : LaserBeamAction, IFeedbackAction
         AfterExecution();
     }
 
-    public override bool CanExecute(Agent agent)
+    public override bool CanExecute()
     {
-        return base.CanExecute(agent) || _agent.GetModule<SeeingModule>().HasLOS;
+        return base.CanExecute() || _agent.GetModule<SeeingModule>().HasLOS;
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility()
     {
         float utility = new UtilityBuilder()
-            .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Gaussian)
-            .WithLOS(agent.GetModule<SeeingModule>().HasLOS)
+            .WithDistance(_agent.Metrics.DistanceToTarget, 100f, UtilityType.Gaussian)
+            .WithLOS(_agent.GetModule<SeeingModule>().HasLOS)
             .WithCustom(0.5f)
             .Build();
 

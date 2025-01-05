@@ -18,16 +18,16 @@ public class NPCShootAction : ShootAction, IFeedbackAction
         AfterExecution();
     }
 
-    public override bool CanExecute(Agent agent)
+    public override bool CanExecute()
     {
-        return base.CanExecute(agent) || !_agent.GetModule<SeeingModule>().HasLOS;
+        return base.CanExecute() || !_agent.GetModule<SeeingModule>().HasLOS;
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility()
     {
         float utility = new UtilityBuilder()
-            .WithDistance(agent.Metrics.DistanceToTarget, 60f, UtilityType.Linear)
-            .WithLOS(agent.GetModule<SeeingModule>().HasLOS)
+            .WithDistance(_agent.Metrics.DistanceToTarget, 60f, UtilityType.Linear)
+            .WithLOS(_agent.GetModule<SeeingModule>().HasLOS)
             .WithProjectileStats(projectileSpeed)
             .Build();
 

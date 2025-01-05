@@ -11,7 +11,7 @@ public class RouletteSelectionStrategy : ActionSelectionStrategy
     {
         // Roulette wheel picker with sizes proportional to utility scores
 
-        var executableActions = agent.Actions.Where(action => action.CanExecute(agent)).ToList();
+        var executableActions = agent.Actions.Where(action => action.CanExecute()).ToList();
 
         if (executableActions.Count == 0)
         {

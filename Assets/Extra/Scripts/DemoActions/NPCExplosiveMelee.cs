@@ -83,11 +83,11 @@ public class NPCExplosiveMelee : AgentAction
         AfterExecution();
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility()
     {
         float utility = new UtilityBuilder()
-            .WithMeleeDistance(agent.Metrics.DistanceToTarget, optimalRange: 5f, maxRange: 15f)
-            .WithAggression(agent.GetModule<HealthModule>().CurrentHealth, maxHealth: 100f)
+            .WithMeleeDistance(_agent.Metrics.DistanceToTarget, optimalRange: 5f, maxRange: 15f)
+            .WithAggression(_agent.GetModule<HealthModule>().CurrentHealth, maxHealth: 100f)
             .Build();
 
         SetUtilityWithModifiers(utility);

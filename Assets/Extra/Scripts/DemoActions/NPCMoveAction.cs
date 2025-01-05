@@ -130,12 +130,12 @@ public class NPCMoveAction : AgentAction
         return score;
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility()
     {
         float maxDistance = 100f;
-        float canSenseFactor = agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 0.8f;
+        float canSenseFactor = _agent.GetModule<SenseModule>().CanSenseTarget ? MIN_UTILITY : 0.8f;
 
-        Metrics metrics = agent.Metrics;
+        Metrics metrics = _agent.Metrics;
         float distance = metrics.DistanceToTarget;
         float distanceFactor = 1.0f - distance / maxDistance;
         float calculatedUtil = distanceFactor * canSenseFactor;

@@ -16,6 +16,11 @@ public class ShootAction : AgentAction
         }
     }
 
+    public override bool CanExecute()
+    {
+        return true;
+    }
+
     protected virtual void ShootProjectile(Transform firePoint, Vector3 direction)
     {
         GameObject projectile = Instantiate(

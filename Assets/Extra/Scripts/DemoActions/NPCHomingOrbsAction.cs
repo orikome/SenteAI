@@ -18,11 +18,11 @@ public class NPCHomingOrbsAction : HomingOrbsAction, IFeedbackAction
         AfterExecution();
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility()
     {
         float utility = new UtilityBuilder()
-            .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
-            .WithInverseLOS(agent.GetModule<SeeingModule>().HasLOS, 1.0f)
+            .WithDistance(_agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
+            .WithInverseLOS(_agent.GetModule<SeeingModule>().HasLOS, 1.0f)
             .WithCustom(0.5f)
             .Build();
 

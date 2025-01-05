@@ -26,7 +26,7 @@ public abstract class AgentAction : ScriptableObject
     private bool _penaltyMaxedOut = false;
     protected Agent _agent;
 
-    public virtual bool CanExecute(Agent agent)
+    public virtual bool CanExecute()
     {
         // If penalty is maxed out, block execution until PenaltyFactor is fully restored
         if (_penaltyMaxedOut)
@@ -73,8 +73,8 @@ public abstract class AgentAction : ScriptableObject
 
     public virtual void Initialize(Agent agent)
     {
-        ResetCooldown();
         _agent = agent;
+        ResetCooldown();
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public abstract class AgentAction : ScriptableObject
     /// <summary>
     /// Called every frame in the agent's update loop.
     /// </summary>
-    public virtual void CalculateUtility(Agent agent) { }
+    public virtual void CalculateUtility() { }
 
     /// <summary>
     /// Apply a penalty, a value between 0f and 1f.

@@ -20,11 +20,11 @@ public class NPCMeteorStrikeAction : AgentAction
         AfterExecution();
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility()
     {
         float utility = new UtilityBuilder()
-            .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
-            .WithLOS(agent.GetModule<SeeingModule>().HasLOS)
+            .WithDistance(_agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
+            .WithLOS(_agent.GetModule<SeeingModule>().HasLOS)
             .Build();
 
         SetUtilityWithModifiers(utility);

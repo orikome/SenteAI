@@ -12,7 +12,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
         // Calculate utility scores
         foreach (var action in agent.Actions)
         {
-            action.CalculateUtility(agent);
+            action.CalculateUtility();
         }
 
         // Normalize and select the best action
@@ -20,7 +20,7 @@ public class MaxUtilitySelectionStrategy : ActionSelectionStrategy
 
         // Select action
         AgentAction selectedAction = agent
-            .Actions.Where(action => action.CanExecute(agent))
+            .Actions.Where(action => action.CanExecute())
             .OrderByDescending(action => action.ScaledUtilityScore)
             .FirstOrDefault();
 

@@ -19,11 +19,11 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
         // Step 1: Calculate the utility score for each action
         foreach (var action in agent.Actions)
         {
-            action.CalculateUtility(agent);
+            action.CalculateUtility();
         }
 
         // Step 2: Adjust the utility score for each action and add them up
-        var validActions = agent.Actions.Where(action => action.CanExecute(agent)).ToList();
+        var validActions = agent.Actions.Where(action => action.CanExecute()).ToList();
 
         if (validActions.Count == 0)
         {
@@ -49,7 +49,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
             return null;
         }
 
-        // Step 3: Pick a random value to help choose an action
+        // Step 3: Pick a random value to help choose an action - exploration
         float randomValue = Random.value;
         float runningTotal = 0.0f;
 

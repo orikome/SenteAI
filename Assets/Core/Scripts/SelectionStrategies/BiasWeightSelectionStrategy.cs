@@ -15,7 +15,7 @@ public class BiasWeightSelectionStrategy : ActionSelectionStrategy
         }
 
         AgentAction selectedAction = agent
-            .Actions.Where(action => action.CanExecute(agent))
+            .Actions.Where(action => action.CanExecute())
             .OrderByDescending(action => action.biasWeight)
             .FirstOrDefault();
 

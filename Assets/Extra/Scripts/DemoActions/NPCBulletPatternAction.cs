@@ -9,10 +9,10 @@ public class NPCBulletPatternAction : BulletPatternAction
         heightOffset = -3.75f;
     }
 
-    public override void CalculateUtility(Agent agent)
+    public override void CalculateUtility()
     {
         float utility = new UtilityBuilder()
-            .WithDistance(agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
+            .WithDistance(_agent.Metrics.DistanceToTarget, 100f, UtilityType.Linear)
             .WithCustom(0.5f)
             .Build();
 
