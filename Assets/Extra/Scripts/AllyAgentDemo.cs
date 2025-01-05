@@ -13,12 +13,33 @@ public class AllyAgentDemo : MonoBehaviour
 
     [SerializeField]
     private GameObject allyPrefabT2;
+
+    [SerializeField]
+    private GameObject enemyBoss;
     private float spawnTimer = 0f;
     private const float SPAWN_INTERVAL = 2.5f;
+    private const float BOSS_SPAWN_INTERVAL = 60f;
+    private float bossTime = 0f;
 
     private void Update()
     {
+        bossTime += Time.deltaTime;
         spawnTimer += Time.deltaTime;
+
+        if (bossTime >= BOSS_SPAWN_INTERVAL)
+        {
+            if (enemyBoss != null)
+            {
+                GameObject bossObject = Instantiate(
+                    enemyBoss,
+                    OrikomeUtils.GeneralUtils.GetRandomPositionInCircle(Vector3.zero, 60f),
+                    Quaternion.identity
+                );
+                Agent bossAgent = bossObject.GetComponent<Agent>();
+                bossAgent.Initialize();
+                bossTime = 0f;
+            }
+        }
 
         if (spawnTimer >= SPAWN_INTERVAL)
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 public class MeteorBehavior : ActionBehaviour
 {
     public float fallSpeed = 30f;
-    public float explosionRadius = 12f;
+    public float explosionRadius = 8f;
     public int explosionDamage = 100;
     public GameObject explosionPrefab;
 

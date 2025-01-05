@@ -152,6 +152,7 @@ MonoBehaviour:
   allyPrefab: {fileID: 97216168909595312, guid: 3bd8eaa1dbf8cd24481f89fd51e3d6c4, type: 3}
   enemyPrefabT2: {fileID: 97216168909595312, guid: 1636c49e2060b504cb77d42089af44bb, type: 3}
   allyPrefabT2: {fileID: 97216168909595312, guid: 76bb04c0108487e4f88b531fea5483dd, type: 3}
+  enemyBoss: {fileID: 2952177845325692102, guid: d35d521c3c7495b418cce50d9648acf3, type: 3}
 --- !u!4 &98690900
 Transform:
   m_ObjectHideFlags: 0
