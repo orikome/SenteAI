@@ -33,8 +33,7 @@ public class Agent : MonoBehaviour
             module.Execute();
         }
 
-        if (Time.frameCount % 8 != 0)
-            SelectTarget();
+        SelectTarget();
     }
 
     void OnEnable()
@@ -79,6 +78,9 @@ public class Agent : MonoBehaviour
 
     protected void SelectTarget()
     {
+        if (Time.frameCount % 32 != 0)
+            return;
+
         switch (Faction)
         {
             case Faction.Player:

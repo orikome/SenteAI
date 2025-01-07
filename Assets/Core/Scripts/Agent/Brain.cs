@@ -4,8 +4,8 @@ using UnityEngine;
 public class Brain : Module
 {
     public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
+    public AgentAction CurrentAction { get; private set; }
     private CooldownHandler _cooldownHandler;
-    private AgentAction _currentAction;
 
     public override void Initialize(Agent agent)
     {
@@ -24,16 +24,16 @@ public class Brain : Module
     public override void Execute()
     {
         if (_agent.Faction == Faction.Player)
-            _currentAction = ActionSelectionStrategy.SelectAction(_agent);
+            CurrentAction = ActionSelectionStrategy.SelectAction(_agent);
 
         if (!_cooldownHandler.IsReady())
             return;
 
-        _currentAction = ActionSelectionStrategy.SelectAction(_agent);
+        CurrentAction = ActionSelectionStrategy.SelectAction(_agent);
 
-        if (_currentAction != null)
+        if (CurrentAction != null)
         {
-            _currentAction.Execute(
+            CurrentAction.Execute(
                 _agent.firePoint,
                 ActionSelectionStrategy.GetShootDirection(_agent)
             );
@@ -52,7 +52,6 @@ public class Brain : Module
         {
             action.ScaledUtilityScore = 1.0f / _agent.Actions.Count;
         }
-        //AgentLogger.Log("Reset utilScores", _agent.gameObject);
     }
 
     public void PauseFor(float duration)

@@ -16,6 +16,7 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
     public override AgentAction SelectAction(Agent agent)
     {
         UnityEngine.Profiling.Profiler.BeginSample("Boltzmann Utility Selection Strategy");
+
         // Step 1: Calculate the utility score for each action
         foreach (var action in agent.Actions)
         {
@@ -27,7 +28,6 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 
         if (validActions.Count == 0)
         {
-            //AgentLogger.LogWarning($"No valid actions available for agent: {agent.name}");
             return null;
         }
 
@@ -72,8 +72,8 @@ public class BoltzmannUtilitySelectionStrategy : ActionSelectionStrategy
 
         UnityEngine.Profiling.Profiler.EndSample();
 
-        // Fallback in case no action is selected (due to rounding issues)
+        // Fallback in case no action is selected
         AgentLogger.LogWarning($"Fallback - No action selected for agent: {agent.name}");
-        return validActions.Last();
+        return null;
     }
 }

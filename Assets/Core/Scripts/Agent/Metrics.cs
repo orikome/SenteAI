@@ -181,7 +181,7 @@ public class Metrics : MonoBehaviour
         if (DistanceToTarget < 30f)
             return _agent.transform.position;
 
-        // If player is cheesing (circling or moving in a small area), use average position prediction
+        // If player is "cheesing" (circling or moving in a small area), use average position prediction
         if (IsClusteredMovement())
             return GetAveragePosition(RECENT_HISTORY_SIZE);
 

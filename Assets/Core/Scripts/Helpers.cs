@@ -215,6 +215,6 @@ public static class Helpers
 
     public static string CleanName(string name)
     {
-        return name.Replace("(Clone)", "").Trim();
+        return name?.Replace("(Clone)", "").Trim();
     }
 }

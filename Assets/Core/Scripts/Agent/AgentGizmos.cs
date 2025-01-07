@@ -17,12 +17,13 @@ public class AgentGizmos : MonoBehaviour
 
     private void DrawActions()
     {
-        GUIStyle style = new()
-        {
-            normal = { textColor = Color.yellow },
-            alignment = TextAnchor.MiddleCenter,
-            fontSize = textSize,
-        };
+        GUIStyle style =
+            new()
+            {
+                normal = { textColor = Color.yellow },
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = textSize,
+            };
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
 
@@ -62,6 +63,15 @@ public class AgentGizmos : MonoBehaviour
             }
         }
 
+        DrawLabel(
+            _agent.transform.position + Vector3.down,
+            _agent.Metrics.DistanceToTarget.ToString()
+        );
+        DrawLabel(
+            _agent.transform.position,
+            Helpers.CleanName(_agent.GetModule<Brain>().CurrentAction?.name)
+        );
+
         // Draw movement type indicator
         if (_agent.Metrics.IsClusteredMovement())
         {
@@ -87,7 +97,7 @@ public class AgentGizmos : MonoBehaviour
             // Draw prediction cube
             Gizmos.color = Helpers.GetFactionColorHex(_agent.Faction);
             Gizmos.DrawWireCube(predictedPos, Vector3.one * 3);
-            DrawLabel(predictedPos, "Predicted");
+            //DrawLabel(predictedPos, "Predicted");
         }
 
         // Visualize position history with small cubes
