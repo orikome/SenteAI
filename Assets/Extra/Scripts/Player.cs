@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,12 +11,19 @@ public class Player : MonoBehaviour
     private Agent _playerAgent;
     public PlayerWeaponRecoil PlayerWeaponRecoil { get; private set; }
     public KeyCode selectionKey = KeyCode.Mouse0;
+    public Transform actionBar;
+    public GameObject actionSlotPrefab;
 
     void Awake()
     {
         Instance = this;
         _playerAgent = GetComponent<Agent>();
         PlayerWeaponRecoil = GetComponentInChildren<PlayerWeaponRecoil>();
+    }
+
+    private void Start()
+    {
+        CreateActionSlots();
     }
 
     private void Update()
@@ -32,6 +40,19 @@ public class Player : MonoBehaviour
     public bool IsInputHeld()
     {
         return Input.GetKey(selectionKey);
+    }
+
+    private void CreateActionSlots()
+    {
+        foreach (var action in _playerAgent.Actions)
+        {
+            AgentLogger.LogWarning(action.name);
+            var actionSlot = Instantiate(actionSlotPrefab, actionBar);
+            actionSlot.transform.SetParent(actionBar);
+            actionSlot.GetComponentInChildren<TextMeshProUGUI>().text = Helpers.CleanName(
+                action.name
+            );
+        }
     }
 
     private void HandleMouseLook()
