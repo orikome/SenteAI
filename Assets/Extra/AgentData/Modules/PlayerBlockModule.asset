@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0715022501d2e774589fc634ce800547, type: 3}
   m_Name: PlayerBlockModule
   m_EditorClassIdentifier: 
-  shieldRange: 2
-  maxShieldDuration: 2
-  shieldCooldown: 1
-  shieldRaiseSpeed: 0.2
-  shieldOffset: {x: 0, y: 0, z: 0.5}
-  shieldPrefab: {fileID: 5112533646281984300, guid: c86a5a827d0c6414d8d75a8a3c6dcce9, type: 3}
+  maxChargeTime: 2
+  minSpeedMultiplier: 2
+  maxSpeedMultiplier: 6
+  swingDuration: 0.2
+  cooldownDuration: 1
+  shieldOffset: 2
+  returnSpeed: 8
