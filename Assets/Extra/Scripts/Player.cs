@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class Player : MonoBehaviour
     public KeyCode selectionKey = KeyCode.Mouse0;
     public Transform actionBar;
     public GameObject actionSlotPrefab;
+    private Dictionary<KeyCode, AgentAction> _actionSlotBindings =
+        new Dictionary<KeyCode, AgentAction>();
+    private List<ActionSlot> _actionSlots = new List<ActionSlot>();
 
     void Awake()
     {
@@ -35,6 +39,7 @@ public class Player : MonoBehaviour
         }
 
         HandleMouseLook();
+        HandleActionSlotInputs();
     }
 
     public bool IsInputHeld()
@@ -44,14 +49,22 @@ public class Player : MonoBehaviour
 
     private void CreateActionSlots()
     {
+        int slotNumber = 1;
         foreach (var action in _playerAgent.Actions)
         {
-            AgentLogger.LogWarning(action.name);
-            var actionSlot = Instantiate(actionSlotPrefab, actionBar);
-            actionSlot.transform.SetParent(actionBar);
-            actionSlot.GetComponentInChildren<TextMeshProUGUI>().text = Helpers.CleanName(
-                action.name
-            );
+            var actionSlotObj = Instantiate(actionSlotPrefab, actionBar);
+            var actionSlot = actionSlotObj.GetComponent<ActionSlot>();
+            actionSlot.Initialize(action, $"{slotNumber}. {Helpers.CleanName(action.name)}");
+            _actionSlots.Add(actionSlot);
+
+            // Bind number key to action
+            if (slotNumber <= 9)
+            {
+                KeyCode keyCode = (KeyCode)((int)KeyCode.Alpha1 + (slotNumber - 1));
+                _actionSlotBindings.Add(keyCode, action);
+            }
+
+            slotNumber++;
         }
     }
 
@@ -70,6 +83,18 @@ public class Player : MonoBehaviour
             playerMesh.rotation = Quaternion.LookRotation(direction);
 
             currentLookDirection = direction.normalized;
+        }
+    }
+
+    private void HandleActionSlotInputs()
+    {
+        foreach (var binding in _actionSlotBindings)
+        {
+            if (Input.GetKeyDown(binding.Key))
+            {
+                var brain = _playerAgent.GetModule<Brain>();
+                brain.SetAction(binding.Value);
+            }
         }
     }
 

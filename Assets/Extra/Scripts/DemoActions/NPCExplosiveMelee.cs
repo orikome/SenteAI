@@ -122,7 +122,7 @@ public class NPCExplosiveMelee : AgentAction
             Helpers.GetYAxisLookRotation(direction)
         );
 
-        _agent.GetModule<NavMeshAgentModule>().PauseFor(1f);
+        _agent.GetModule<NavMeshAgentModule>()?.PauseFor(1f);
         _agent.GetModule<Brain>().PauseFor(1f);
         obj.GetComponentInChildren<WarningIndicator>().Initialize(_agent);
         // Wait for animation to reach impact frame

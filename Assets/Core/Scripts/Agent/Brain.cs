@@ -41,6 +41,11 @@ public class Brain : Module
         }
     }
 
+    public void SetAction(AgentAction action)
+    {
+        CurrentAction = action;
+    }
+
     public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)
     {
         ActionSelectionStrategy = strategy;

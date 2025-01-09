@@ -176,6 +176,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96ce0b1731375754299ae25aaf9083bf, type: 3}
+--- !u!224 &607639142 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5619399439207306230, guid: 269d4f1811c40e44f9c4b94d10747be7, type: 3}
+  m_PrefabInstance: {fileID: 1299996714}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1209871062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184,6 +189,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1505931605180277502, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
+      propertyPath: actionBar
+      value: 
+      objectReference: {fileID: 607639142}
+    - target: {fileID: 1505931605180277502, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
+      propertyPath: actionSlotPrefab
+      value: 
+      objectReference: {fileID: 7740111127061958129, guid: e3228cf6b56a2494699a2bc5bfa038d6, type: 3}
     - target: {fileID: 2281962450158313583, guid: 05b6d8c71ceb24841b8afe6f96936b3f, type: 3}
       propertyPath: m_Name
       value: SenteAI-Core

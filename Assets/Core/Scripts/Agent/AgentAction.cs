@@ -14,6 +14,7 @@ public abstract class AgentAction : ScriptableObject
 
     [Range(0.0f, 1.0f)]
     public float penaltyRestoreRate = 0.2f;
+    public Sprite icon;
 
     // -- Handled in code --
     public const float MIN_UTILITY = 0.01f;
