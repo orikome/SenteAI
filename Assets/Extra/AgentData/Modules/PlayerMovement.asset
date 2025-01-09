@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: PlayerMovement
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  gravity: -9.81
+  dashSpeed: 40
+  dashDuration: 0.2
+  dashCooldown: 2
