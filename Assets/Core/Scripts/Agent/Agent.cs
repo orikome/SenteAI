@@ -165,6 +165,14 @@ public class Agent : MonoBehaviour
         }
     }
 
+    public virtual Vector3 GetShootDirection()
+    {
+        if (Faction != Faction.Player)
+            return transform.forward;
+        else
+            return Player.Instance.GetMouseLookDirection();
+    }
+
     public void InitializeActions()
     {
         if (Actions.Count == 0)

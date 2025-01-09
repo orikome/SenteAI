@@ -33,10 +33,7 @@ public class Brain : Module
 
         if (CurrentAction != null)
         {
-            CurrentAction.Execute(
-                _agent.firePoint,
-                ActionSelectionStrategy.GetShootDirection(_agent)
-            );
+            CurrentAction.Execute(_agent.firePoint, _agent.GetShootDirection());
             _cooldownHandler.Reset();
         }
     }
