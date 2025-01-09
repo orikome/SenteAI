@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class Projectile : ActionBehaviour
 {
-    protected int _damage = 10;
+    public int Damage { get; protected set; } = 10;
+    public float Speed { get; protected set; }
+    public Vector3 MoveDirection { get; protected set; }
+    public Vector3 RotationDirection { get; protected set; }
     public float lifetime = 5f;
     protected float _timer;
-    protected Vector3 _moveDirection;
-    protected float _speed;
-    protected Vector3 _rotationDirection;
     public Renderer _renderer;
     private Light _light;
     private TrailRenderer[] trailRenderers;
@@ -25,10 +25,10 @@ public class Projectile : ActionBehaviour
     )
     {
         Initialize(agent);
-        _moveDirection = direction.normalized;
-        _rotationDirection = direction.normalized;
-        _speed = projectileSpeed;
-        _damage = dmg;
+        MoveDirection = direction.normalized;
+        RotationDirection = direction.normalized;
+        Speed = projectileSpeed;
+        Damage = dmg;
         _timer = lifetime;
         SetColor(GetColorBySpeed(projectileSpeed));
 
@@ -46,8 +46,8 @@ public class Projectile : ActionBehaviour
 
     protected virtual void FixedUpdate()
     {
-        transform.Translate(_speed * Time.fixedDeltaTime * _moveDirection, Space.World);
-        transform.Rotate(_speed * Time.fixedDeltaTime * _rotationDirection, Space.World);
+        transform.Translate(Speed * Time.fixedDeltaTime * MoveDirection, Space.World);
+        transform.Rotate(Speed * Time.fixedDeltaTime * RotationDirection, Space.World);
     }
 
     protected virtual void Update()

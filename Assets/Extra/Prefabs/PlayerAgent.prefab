@@ -349,9 +349,8 @@ MonoBehaviour:
   playerMesh: {fileID: 4146091133679495124}
   mainCamera: {fileID: 0}
   selectionKey: 323
+  actionBar: {fileID: 0}
   actionSlotPrefab: {fileID: 950221355214916651, guid: 56f4a93f53fc8f44e81b5bd350037360, type: 3}
-  actionSlotSpacing: 100
-  gameCanvas: {fileID: 0}
 --- !u!114 &586757629762651420
 MonoBehaviour:
   m_ObjectHideFlags: 0

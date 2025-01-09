@@ -21,12 +21,6 @@ public class PlayerMovement : Module
 
     public override void Execute()
     {
-        if (_controller == null)
-        {
-            AgentLogger.LogError("CharacterController is not assigned!");
-            return;
-        }
-
         _isGrounded = _controller.isGrounded;
         if (_isGrounded && _velocity.y < 0)
         {
@@ -53,6 +47,11 @@ public class PlayerMovement : Module
     {
         base.Initialize(agent);
         _controller = agent.gameObject.GetComponent<CharacterController>();
+        if (_controller == null)
+        {
+            AgentLogger.LogError("CharacterController is not assigned!");
+            return;
+        }
     }
 
     private void InitiateDash()

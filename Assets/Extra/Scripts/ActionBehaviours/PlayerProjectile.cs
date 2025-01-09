@@ -18,20 +18,20 @@ public class PlayerProjectile : Projectile
         if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
         {
             collision.transform.gameObject.TryGetComponent<Agent>(out var target);
-            target.GetModule<HealthModule>().TakeDamage(_damage, transform.forward);
+            target.GetModule<HealthModule>().TakeDamage(Damage, transform.forward);
             Metrics metrics = _agent.Metrics;
-            metrics.UpdateDamageDone(_damage);
+            metrics.UpdateDamageDone(Damage);
 
             if (_agent.Faction == Faction.Player)
                 CanvasManager.Instance.SpawnDamageText(
                     target.transform,
-                    _damage.ToString(),
+                    Damage.ToString(),
                     Color.white
                 );
 
             Instantiate(explosionParticles, transform.position, hitRotation);
             AgentLogger.Log(
-                $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
+                $"{Helpers.CleanName(gameObject.name)} dealt {Damage} damage to {Helpers.CleanName(collision.transform.root.name)}",
                 _agent.gameObject,
                 target.gameObject
             );

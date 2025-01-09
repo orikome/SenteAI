@@ -50,11 +50,11 @@ public class NPCProjectile : Projectile
         {
             if (collision.transform.gameObject.TryGetComponent<Agent>(out var target))
             {
-                target.GetModule<HealthModule>().TakeDamage(_damage, transform.forward);
+                target.GetModule<HealthModule>().TakeDamage(Damage, transform.forward);
                 Instantiate(explosionParticles, transform.position, hitRotation);
-                _agent.Metrics.UpdateDamageDone(_damage);
+                _agent.Metrics.UpdateDamageDone(Damage);
                 AgentLogger.Log(
-                    $"{Helpers.CleanName(gameObject.name)} dealt {_damage} damage to {Helpers.CleanName(collision.transform.name)}",
+                    $"{Helpers.CleanName(gameObject.name)} dealt {Damage} damage to {Helpers.CleanName(collision.transform.name)}",
                     _agent.gameObject,
                     target.gameObject
                 );
