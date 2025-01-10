@@ -41,7 +41,7 @@ public class NavMeshAgentModule : Module
         // Set NavMeshAgent properties
         NavMeshAgent.acceleration = 100;
         NavMeshAgent.angularSpeed = 50;
-        NavMeshAgent.speed = 10;
+        //NavMeshAgent.speed = 10;
         NavMeshAgent.autoBraking = false;
     }
 

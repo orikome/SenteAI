@@ -15,10 +15,11 @@ MonoBehaviour:
   agentState: 0
   cooldownTime: 0.4
   biasWeight: 0.8
-  penaltyPerExecution: 0.05
+  penaltyPerExecution: 0.01
   penaltyRestoreRate: 0.9
+  icon: {fileID: 0}
   bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
-  numberOfBullets: 8
-  bulletSpeed: 5
-  angleIncrement: 60
+  numberOfBullets: 24
+  bulletSpeed: 10
+  angleIncrement: 90
   spawnRadius: 6

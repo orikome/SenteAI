@@ -12,10 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0715022501d2e774589fc634ce800547, type: 3}
   m_Name: PlayerBlockModule
   m_EditorClassIdentifier: 
-  maxChargeTime: 2
-  minSpeedMultiplier: 2
-  maxSpeedMultiplier: 6
-  swingDuration: 0.2
-  cooldownDuration: 1
-  shieldOffset: 2
-  returnSpeed: 8
+  reflectParticles: {fileID: 3297107867978613959, guid: 39a85090d300c4948b068a9a8f834357, type: 3}

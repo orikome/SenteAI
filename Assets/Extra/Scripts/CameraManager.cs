@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -28,16 +29,65 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float currentZoom = 15f;
 
+    [Header("Cinematic Effect")]
+    private float cinematicDuration = 0.6f;
+    private float cinematicTimeScale = 0.2f;
+    private float cinematicZoom = 5f;
+    private Transform defaultTarget;
+    private float returnDelay = 0.1f;
+    private float originalSmoothing;
+    private float targetZoom;
+
     private void Start()
     {
         if (target == null)
             AgentLogger.LogWarning("No target assigned to CameraManager!");
 
-        // Set initial position and rotation
+        defaultTarget = target;
+        originalSmoothing = smoothSpeed;
+
         if (target != null)
         {
             transform.position = target.position + offset;
             transform.rotation = Quaternion.Euler(rotationX, 0, 0);
+        }
+    }
+
+    public void TemporarilyTrackTarget(Transform newTarget, float followSpeed = 20f)
+    {
+        StartCoroutine(ExecuteCinematicSequence(newTarget, followSpeed));
+    }
+
+    private IEnumerator ExecuteCinematicSequence(Transform newTarget, float followSpeed)
+    {
+        float originalTimeScale = Time.timeScale;
+        float originalZoom = currentZoom;
+        float originalSpeed = smoothSpeed;
+        Transform originalTarget = target;
+
+        try
+        {
+            Time.timeScale = cinematicTimeScale;
+            targetZoom = cinematicZoom;
+            smoothSpeed = followSpeed;
+            target = newTarget;
+
+            yield return new WaitForSecondsRealtime(cinematicDuration);
+
+            Time.timeScale = originalTimeScale;
+            targetZoom = originalZoom;
+
+            yield return new WaitForSeconds(returnDelay);
+
+            target = originalTarget;
+            smoothSpeed = originalSpeed;
+        }
+        finally
+        {
+            Time.timeScale = originalTimeScale;
+            currentZoom = originalZoom;
+            smoothSpeed = originalSpeed;
+            target = originalTarget;
         }
     }
 

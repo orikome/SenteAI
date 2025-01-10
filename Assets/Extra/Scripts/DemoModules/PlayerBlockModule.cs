@@ -21,6 +21,7 @@ public class PlayerBlockModule : Module
     private float maxShieldScale = 2f;
     private Vector3 initialShieldScale;
     private Vector3 initialPosition;
+    public GameObject reflectParticles;
 
     private enum SwingState
     {
@@ -125,6 +126,8 @@ public class PlayerBlockModule : Module
     private void CheckForProjectiles(float speedMultiplier)
     {
         int projectileMask = LayerMask.GetMask("EnemyProjectile");
+        int reflectCounter = 0;
+        Projectile firstProjectile = null;
 
         Collider[] hitColliders = Physics.OverlapSphere(
             _agent.transform.position,
@@ -144,15 +147,24 @@ public class PlayerBlockModule : Module
                     projectile.Damage
                 );
 
-                Helpers.SpawnParticles(
-                    hitCollider.transform.position,
-                    Helpers.GetFactionColorHex(_agent.Faction)
-                );
+                reflectCounter++;
+                firstProjectile = firstProjectile ?? projectile;
+
+                Instantiate(reflectParticles, projectile.transform.position, Quaternion.identity);
             }
             else if (hitCollider && hitCollider.TryGetComponent<HomingOrbBehaviour>(out var homing))
             {
                 homing.Initialize(_agent);
             }
+        }
+
+        if (reflectCounter > 2)
+        {
+            string comboText = $"Nice + {reflectCounter}!";
+            CanvasManager.Instance.SpawnDamageText(_agent.transform, comboText, Color.cyan);
+            Camera
+                .main.GetComponent<CameraManager>()
+                ?.TemporarilyTrackTarget(firstProjectile.transform);
         }
     }
 }
