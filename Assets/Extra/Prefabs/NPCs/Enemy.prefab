@@ -1254,13 +1254,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 8710019184695421625}
   body: {fileID: 3912397326324385659}
-  target: {fileID: 0}
   maxHeadRotationSpeed: 240
   headRotationSmoothTime: 0.1
   maxHeadAngle: 70
-  headLeadThreshold: 30
   maxBodyRotationSpeed: 120
-  bodyRotationSmoothTime: 0.3
   bodyTurnThreshold: 45
   minBodyTurnAngle: 5
 --- !u!195 &4399367097967477921
@@ -1273,7 +1270,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.75
-  m_Speed: 3.5
+  m_Speed: 8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

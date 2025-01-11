@@ -150,7 +150,7 @@ public class CanvasManager : Singleton<CanvasManager>
         Vector3 position = OrikomeUtils.GeneralUtils.GetPositionWithOffset(
             agentTransform,
             Random.Range(-8.0f, 8.0f),
-            agentTransform.position.y + 1.0f,
+            agentTransform.position.y + 0.5f,
             Random.Range(-8.0f, 8.0f)
         );
 

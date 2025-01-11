@@ -8,7 +8,7 @@ public class PlayerBlockModule : Module
     private float minSpeedMultiplier = 2f;
     private float maxSpeedMultiplier = 6f;
     private float swingDuration = 0.05f;
-    private float cooldownDuration = 1f;
+    private float cooldownDuration = 0f;
     private float returnSpeed = 8f;
     private SwingState currentState = SwingState.Ready;
     private float chargeStartTime;
@@ -22,6 +22,8 @@ public class PlayerBlockModule : Module
     private Vector3 initialShieldScale;
     private Vector3 initialPosition;
     public GameObject reflectParticles;
+    private float coneAngle = 90f;
+    private float coneLength = 4f;
 
     private enum SwingState
     {
@@ -114,7 +116,7 @@ public class PlayerBlockModule : Module
 
     private void SwingShieldForward()
     {
-        Vector3 targetPos = initialPosition + Vector3.forward * (shieldOffset * currentCharge);
+        Vector3 targetPos = initialPosition + Vector3.forward * shieldOffset;
         shieldPrefab.transform.localPosition = targetPos;
     }
 
@@ -129,15 +131,42 @@ public class PlayerBlockModule : Module
         int reflectCounter = 0;
         Projectile firstProjectile = null;
 
-        Collider[] hitColliders = Physics.OverlapSphere(
-            _agent.transform.position,
-            4f,
-            projectileMask
-        );
+        Vector3 forward = shieldPrefab.transform.forward;
+        Vector3 position = _agent.transform.position;
+
+        // Cone-like detection
+        Vector3 point1 = position;
+        Vector3 point2 = position + (forward * coneLength);
+
+        Collider[] hitColliders = Physics.OverlapCapsule(point1, point2, 2f, projectileMask);
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider && hitCollider.TryGetComponent<Projectile>(out var projectile))
+            if (hitCollider == null)
+                continue;
+
+            // Check if within cone angle
+            Vector3 directionToCollider = (hitCollider.transform.position - position).normalized;
+            float angle = Vector3.Angle(forward, directionToCollider);
+
+            // Skip if outside cone
+            if (angle > coneAngle * 0.5f)
+                continue;
+
+            Debug.DrawRay(
+                position,
+                Quaternion.Euler(0, coneAngle * 0.5f, 0) * forward * coneLength,
+                Color.red,
+                0.1f
+            );
+            Debug.DrawRay(
+                position,
+                Quaternion.Euler(0, -coneAngle * 0.5f, 0) * forward * coneLength,
+                Color.red,
+                0.1f
+            );
+
+            if (hitCollider.TryGetComponent<Projectile>(out var projectile))
             {
                 Vector3 reflectionDir = -projectile.MoveDirection;
                 projectile.SetParameters(
@@ -152,7 +181,7 @@ public class PlayerBlockModule : Module
 
                 Instantiate(reflectParticles, projectile.transform.position, Quaternion.identity);
             }
-            else if (hitCollider && hitCollider.TryGetComponent<HomingOrbBehaviour>(out var homing))
+            else if (hitCollider.TryGetComponent<HomingOrbBehaviour>(out var homing))
             {
                 homing.Initialize(_agent);
             }

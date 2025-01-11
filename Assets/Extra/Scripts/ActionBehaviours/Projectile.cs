@@ -16,6 +16,9 @@ public class Projectile : ActionBehaviour
 
     [SerializeField]
     protected GameObject explosionParticles;
+    protected const string SHADER_COLOR_PROPERTY = "_MainColor";
+    protected const string SHADER_EMISSION_PROPERTY = "_InnerGlowColor";
+    protected int deflectedCount = 0;
 
     public virtual void SetParameters(
         Agent agent,
@@ -30,7 +33,7 @@ public class Projectile : ActionBehaviour
         Speed = projectileSpeed;
         Damage = dmg;
         _timer = lifetime;
-        SetColor(GetColorBySpeed(projectileSpeed));
+        //SetColor(GetColorBySpeed(projectileSpeed));
 
         //Debug.DrawRay(transform.position, direction.normalized * 4f, Color.blue, 1f);
     }
@@ -64,19 +67,21 @@ public class Projectile : ActionBehaviour
 
     protected void SetColor(Color passedColor, float passedOpacity = 1.0f)
     {
+        if (_renderer == null || _renderer.material == null)
+            return;
+
         _renderer.material.SetColor("_Color", passedColor);
-        if (_renderer.material.HasProperty("_EmissionColor"))
+
+        if (_renderer.material.HasProperty(SHADER_COLOR_PROPERTY))
         {
-            _renderer.material.SetColor("_EmissionColor", passedColor);
-            _renderer.material.EnableKeyword("_EMISSION");
+            _renderer.material.SetColor(SHADER_COLOR_PROPERTY, passedColor);
         }
 
-        foreach (var trail in trailRenderers)
+        if (_renderer.material.HasProperty(SHADER_EMISSION_PROPERTY))
         {
-            trail.startColor = passedColor;
-            trail.endColor = passedColor;
+            _renderer.material.SetColor(SHADER_EMISSION_PROPERTY, passedColor);
+            _renderer.material.EnableKeyword("_EMISSION");
         }
-        _light.color = passedColor;
     }
 
     private Color GetColorBySpeed(float speed)

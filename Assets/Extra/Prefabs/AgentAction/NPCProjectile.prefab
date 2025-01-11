@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3115435085198192629}
   m_Layer: 7
   m_Name: NPCProjectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1460a3edeb1729f40af8f0f2c996e61a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 15
+  lifetime: 6
   _renderer: {fileID: 0}
   speedGradient:
     serializedVersion: 2
@@ -292,6 +292,10 @@ PrefabInstance:
     - target: {fileID: 4909420516746463173, guid: 35abf329eb4fa2a4883b03dda6acf357, type: 3}
       propertyPath: m_Name
       value: EnemyTrail 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4909420516746463173, guid: 35abf329eb4fa2a4883b03dda6acf357, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4977705381224318787, guid: 35abf329eb4fa2a4883b03dda6acf357, type: 3}
       propertyPath: m_LocalPosition.x
