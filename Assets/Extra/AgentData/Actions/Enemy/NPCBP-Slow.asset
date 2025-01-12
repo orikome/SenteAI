@@ -19,7 +19,10 @@ MonoBehaviour:
   penaltyRestoreRate: 0.9
   icon: {fileID: 0}
   bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
+  patternType: 0
   numberOfBullets: 24
   bulletSpeed: 10
   angleIncrement: 90
   spawnRadius: 6
+  oscillationSpeed: 2
+  oscillationHeight: 1

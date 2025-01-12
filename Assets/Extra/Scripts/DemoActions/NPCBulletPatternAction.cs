@@ -6,7 +6,7 @@ public class NPCBulletPatternAction : BulletPatternAction
     public override void Initialize(Agent agent)
     {
         base.Initialize(agent);
-        heightOffset = -3.75f;
+        heightOffset = -6.75f;
     }
 
     public override void CalculateUtility()
