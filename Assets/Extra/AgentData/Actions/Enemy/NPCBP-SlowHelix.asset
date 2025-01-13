@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34691451f601ee043bc8ececfa56d75b, type: 3}
+  m_Name: NPCBP-SlowHelix
+  m_EditorClassIdentifier: 
+  agentState: 0
+  cooldownTime: 0.4
+  biasWeight: 0.8
+  penaltyPerExecution: 0.01
+  penaltyRestoreRate: 0.9
+  icon: {fileID: 0}
+  bulletPrefab: {fileID: 6377726187542555592, guid: 0e98f29156b867b41b14a8d154e774cf, type: 3}
+  patternType: 1
+  numberOfBullets: 24
+  bulletSpeed: 10
+  angleIncrement: 90
+  spawnRadius: 6
+  oscillationSpeed: 2
+  oscillationHeight: 1

@@ -17,7 +17,7 @@ public class Projectile : ActionBehaviour
     [SerializeField]
     protected GameObject explosionParticles;
     protected const string SHADER_COLOR_PROPERTY = "_MainColor";
-    protected const string SHADER_EMISSION_PROPERTY = "_InnerGlowColor";
+    protected const string SHADER_ORB_COLOR = "_OrbColor";
     protected int deflectedCount = 0;
 
     public virtual void SetParameters(
@@ -65,23 +65,15 @@ public class Projectile : ActionBehaviour
 
     protected virtual void OnCollisionEnter(Collision collision) { }
 
-    protected void SetColor(Color passedColor, float passedOpacity = 1.0f)
+    public void SetColor(Color passedColor, float passedOpacity = 1.0f)
     {
         if (_renderer == null || _renderer.material == null)
             return;
 
         _renderer.material.SetColor("_Color", passedColor);
-
-        if (_renderer.material.HasProperty(SHADER_COLOR_PROPERTY))
-        {
-            _renderer.material.SetColor(SHADER_COLOR_PROPERTY, passedColor);
-        }
-
-        if (_renderer.material.HasProperty(SHADER_EMISSION_PROPERTY))
-        {
-            _renderer.material.SetColor(SHADER_EMISSION_PROPERTY, passedColor);
-            _renderer.material.EnableKeyword("_EMISSION");
-        }
+        _renderer.material.SetColor(SHADER_COLOR_PROPERTY, passedColor);
+        _renderer.material.SetColor(SHADER_ORB_COLOR, passedColor);
+        _renderer.material.EnableKeyword("_EMISSION");
     }
 
     private Color GetColorBySpeed(float speed)
