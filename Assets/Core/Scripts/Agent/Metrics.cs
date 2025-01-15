@@ -17,7 +17,7 @@ public class Metrics : MonoBehaviour
     //public bool IsInCover { get; private set; }
     //public float TimeInCover { get; private set; }
     public float ShootingFrequency { get; private set; }
-    public float DodgeRatio { get; private set; }
+    public float DodgeRatio { get; private set; } = 0f;
     public List<Vector3> PositionHistory { get; private set; } = new();
     public List<AgentAction> ActionHistory { get; private set; } = new();
 
@@ -43,7 +43,7 @@ public class Metrics : MonoBehaviour
     public virtual void Update()
     {
         //ShootingFrequency = Random.Range(0f, 1f);
-        //DodgeRatio = Random.Range(0f, 1f);
+        UpdateDodgeRatio();
         CurrentBehavior = ClassifyBehavior();
         //UpdateVelocity();
         AddPositionToHistory();
@@ -64,6 +64,15 @@ public class Metrics : MonoBehaviour
             return Vector3.zero;
 
         return _agent.Target.Metrics.GetPredictedPosition() - _agent.transform.position;
+    }
+
+    public void UpdateDodgeRatio()
+    {
+        float timeSinceLastDamage = _agent.GetModule<HealthModule>().TimeSinceLastDamage;
+        float timeToReachMaxDodge = 10f;
+        float regenRate = 0.1f;
+        float dodgeTimeRatio = Mathf.Clamp01(timeSinceLastDamage / timeToReachMaxDodge);
+        DodgeRatio = Mathf.Lerp(dodgeTimeRatio, 1f, regenRate * Time.deltaTime);
     }
 
     public virtual void UpdateVelocity()

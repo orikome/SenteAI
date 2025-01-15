@@ -8,11 +8,15 @@ public class HealthModule : Module
     public bool IsAlive { get; private set; } = true;
     public float TimeAlive { get; private set; } = 0;
     public Vector3 LastHitAngle { get; private set; }
+    public float TimeSinceLastDamage { get; private set; }
 
     public override void Execute()
     {
-        if (IsAlive)
-            TimeAlive += Time.deltaTime;
+        if (!IsAlive)
+            return;
+
+        TimeAlive += Time.deltaTime;
+        TimeSinceLastDamage += Time.deltaTime;
     }
 
     public override void Initialize(Agent agent)
@@ -38,6 +42,7 @@ public class HealthModule : Module
         _agent.GetComponent<AgentExtra>().TriggerFlash();
 
         _agent.Metrics.UpdateDamageTaken(amount);
+        TimeSinceLastDamage = 0f;
 
         if (CurrentHealth <= 0)
         {
