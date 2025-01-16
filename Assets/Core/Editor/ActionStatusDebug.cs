@@ -34,6 +34,8 @@ public class ActionStatusDebug : Editor
             agent.GetModule<HealthModule>()?.TimeAlive.ToString()
         );
 
+        EditorGUILayout.LabelField("DodgeRatio", agent.Metrics?.DodgeRatio.ToString("F2"));
+
         EditorGUILayout.LabelField("DamageDone", agent.Metrics?.DamageDone.ToString());
         EditorGUILayout.LabelField("DamageTaken", agent.Metrics?.DamageTaken.ToString());
 
