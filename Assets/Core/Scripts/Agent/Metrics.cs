@@ -3,23 +3,23 @@ using UnityEngine;
 
 public class Metrics : MonoBehaviour
 {
-    public Vector3 Velocity { get; protected set; }
-    public Vector3 LastPosition { get; protected set; } = Vector3.zero;
-    public float DamageTaken { get; private set; }
-    public float DamageDone { get; private set; }
-    public float DistanceToTarget { get; protected set; }
-
-    // Behavior parameters
-    public float DodgeRatio { get; private set; } = 0f;
-    public List<Vector3> PositionHistory { get; private set; } = new();
-    public List<AgentAction> ActionHistory { get; private set; } = new();
-
-    // Private fields
+    #region Constants
     private const int RECENT_HISTORY_SIZE = 6;
     private const int MAX_POSITION_HISTORY_COUNT = 50; // 0.2 * 50 = last 10 seconds
     private const int MAX_ACTION_HISTORY_COUNT = 20;
     private const float HISTORY_RECORD_INTERVAL = 0.2f;
     private const float DETECTION_THRESHOLD = 2.5f;
+    private const float TIME_TO_REACH_MAX_DODGE = 10f;
+    private const float DODGE_REGEN_RATE = 0.1f;
+    #endregion
+    public Vector3 Velocity { get; protected set; }
+    public Vector3 LastPosition { get; protected set; } = Vector3.zero;
+    public float DamageTaken { get; private set; }
+    public float DamageDone { get; private set; }
+    public float DistanceToTarget { get; protected set; }
+    public float DodgeRatio { get; private set; } = 0f;
+    public List<Vector3> PositionHistory { get; private set; } = new();
+    public List<AgentAction> ActionHistory { get; private set; } = new();
     private Agent _agent;
     private float _timeSinceLastRecord = 0f;
 
@@ -59,21 +59,13 @@ public class Metrics : MonoBehaviour
     public void UpdateDodgeRatio()
     {
         float timeSinceLastDamage = _agent.GetModule<HealthModule>().TimeSinceLastDamage;
-        float timeToReachMaxDodge = 10f;
-        float regenRate = 0.1f;
-        float dodgeTimeRatio = Mathf.Clamp01(timeSinceLastDamage / timeToReachMaxDodge);
-        DodgeRatio = Mathf.Lerp(dodgeTimeRatio, 1f, regenRate * Time.deltaTime);
+        float dodgeTimeRatio = Mathf.Clamp01(timeSinceLastDamage / TIME_TO_REACH_MAX_DODGE);
+        DodgeRatio = Mathf.Lerp(dodgeTimeRatio, 1f, DODGE_REGEN_RATE * Time.deltaTime);
     }
 
-    public void UpdateDamageDone(float dmgDone)
-    {
-        DamageDone += dmgDone;
-    }
+    public void UpdateDamageDone(float dmgDone) => DamageDone += dmgDone;
 
-    public void UpdateDamageTaken(float dmgTaken)
-    {
-        DamageTaken += dmgTaken;
-    }
+    public void UpdateDamageTaken(float dmgTaken) => DamageTaken += dmgTaken;
 
     protected void AddPositionToHistory()
     {
