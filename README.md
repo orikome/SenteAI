@@ -8,9 +8,9 @@ The name "Sente" (先手) is derived from Japanese, meaning "seizing the initiat
 - Unity 6 (6000.0.28f1)
 - Git
 
-# Examples
+## Examples
 The `Agent` base class is shared by both the `Player` and the `Enemy` for handling common functionality, such as executing `Module` components.
-## Agent
+### Agent
 ```csharp
 public class Agent : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class Agent : MonoBehaviour
     }
 }
 ```
-## Brain
+### Brain
 Both the `Player` and the `Enemy` have a brain `Module`, which handles the execution of `Action` components such as attacking or moving.
 ```csharp
 public class Brain : Module
