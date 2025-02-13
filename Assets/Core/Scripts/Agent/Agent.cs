@@ -47,6 +47,11 @@ public class Agent : MonoBehaviour
         AgentManager.Instance.UnregisterAgent(this);
     }
 
+    public void SetState(AgentState newState)
+    {
+        State = newState;
+    }
+
     private Agent FindClosestTarget(List<Agent> potentialTargets)
     {
         if (potentialTargets == null || potentialTargets.Count == 0)
