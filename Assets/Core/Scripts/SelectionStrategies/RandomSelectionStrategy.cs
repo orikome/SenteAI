@@ -1,23 +1,26 @@
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(
-    fileName = "RandomSelectionStrategy",
-    menuName = "SenteAI/SelectionStrategies/RandomSelectionStrategy"
-)]
-public class RandomSelectionStrategy : ActionSelectionStrategy
+namespace SenteAI.Core
 {
-    public override AgentAction SelectAction(Agent agent)
+    [CreateAssetMenu(
+        fileName = "RandomSelectionStrategy",
+        menuName = "SenteAI/SelectionStrategies/RandomSelectionStrategy"
+    )]
+    public class RandomSelectionStrategy : ActionSelectionStrategy
     {
-        var executableActions = agent.Actions.Where(action => action.CanExecute()).ToList();
-
-        if (executableActions.Count == 0)
+        public override AgentAction SelectAction(Agent agent)
         {
-            AgentLogger.LogWarning("No executable actions available!");
-            return null;
-        }
+            var executableActions = agent.Actions.Where(action => action.CanExecute()).ToList();
 
-        int randomIndex = Random.Range(0, executableActions.Count);
-        return executableActions[randomIndex];
+            if (executableActions.Count == 0)
+            {
+                AgentLogger.LogWarning("No executable actions available!");
+                return null;
+            }
+
+            int randomIndex = Random.Range(0, executableActions.Count);
+            return executableActions[randomIndex];
+        }
     }
 }

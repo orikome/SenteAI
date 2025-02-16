@@ -1,57 +1,60 @@
 using UnityEngine;
 
-public static class AgentLogger
+namespace SenteAI.Core
 {
-    private static string FRAME_COUNT => $"[{Time.frameCount}]";
-
-    public static void Log(string message, GameObject go, GameObject targetGo)
+    public static class AgentLogger
     {
-        string firstPrefix = $"[{go.GetInstanceID()}]";
-        string secondPrefix = $"[{targetGo.GetInstanceID()}]";
-        string coloredFirstPrefix = GetColoredPrefix(go, firstPrefix);
-        string coloredSecondPrefix = GetColoredPrefix(targetGo, secondPrefix);
+        private static string FRAME_COUNT => $"[{Time.frameCount}]";
 
-        message = $"{FRAME_COUNT} {coloredFirstPrefix}->{coloredSecondPrefix} {message}";
-        Debug.Log(message);
-    }
+        public static void Log(string message, GameObject go, GameObject targetGo)
+        {
+            string firstPrefix = $"[{go.GetInstanceID()}]";
+            string secondPrefix = $"[{targetGo.GetInstanceID()}]";
+            string coloredFirstPrefix = GetColoredPrefix(go, firstPrefix);
+            string coloredSecondPrefix = GetColoredPrefix(targetGo, secondPrefix);
 
-    public static void Log(string message, GameObject go)
-    {
-        string prefix = $"[{go.GetInstanceID()}]";
-        string coloredPrefix = GetColoredPrefix(go, prefix);
+            message = $"{FRAME_COUNT} {coloredFirstPrefix}->{coloredSecondPrefix} {message}";
+            Debug.Log(message);
+        }
 
-        message = $"{FRAME_COUNT} {coloredPrefix} {message}";
-        Debug.Log(message);
-    }
+        public static void Log(string message, GameObject go)
+        {
+            string prefix = $"[{go.GetInstanceID()}]";
+            string coloredPrefix = GetColoredPrefix(go, prefix);
 
-    public static void Log(string message)
-    {
-        message = $"{FRAME_COUNT} {message}";
-        Debug.Log(message);
-    }
+            message = $"{FRAME_COUNT} {coloredPrefix} {message}";
+            Debug.Log(message);
+        }
 
-    public static void LogWarning(string message)
-    {
-        string warningPrefix = Helpers.Color(Helpers.Bold("[WARNING]"), Color.yellow);
-        message = $"{FRAME_COUNT} {warningPrefix} {message}";
-        Debug.LogWarning(message);
-    }
+        public static void Log(string message)
+        {
+            message = $"{FRAME_COUNT} {message}";
+            Debug.Log(message);
+        }
 
-    public static void LogError(string message)
-    {
-        string errorPrefix = Helpers.Color(Helpers.Bold("[ERROR]"), Color.red);
-        message = $"{FRAME_COUNT} {errorPrefix} {message}";
-        Debug.LogError(message);
-    }
+        public static void LogWarning(string message)
+        {
+            string warningPrefix = Helpers.Color(Helpers.Bold("[WARNING]"), Color.yellow);
+            message = $"{FRAME_COUNT} {warningPrefix} {message}";
+            Debug.LogWarning(message);
+        }
 
-    private static string GetColoredPrefix(GameObject go, string prefix)
-    {
-        if (go.CompareTag("Player"))
-            return Helpers.Color(prefix, Helpers.GetFactionColorHex(Faction.Player));
-        if (go.CompareTag("Enemy"))
-            return Helpers.Color(prefix, Helpers.GetFactionColorHex(Faction.Enemy));
-        if (go.CompareTag("Ally"))
-            return Helpers.Color(prefix, Helpers.GetFactionColorHex(Faction.Ally));
-        return prefix;
+        public static void LogError(string message)
+        {
+            string errorPrefix = Helpers.Color(Helpers.Bold("[ERROR]"), Color.red);
+            message = $"{FRAME_COUNT} {errorPrefix} {message}";
+            Debug.LogError(message);
+        }
+
+        private static string GetColoredPrefix(GameObject go, string prefix)
+        {
+            if (go.CompareTag("Player"))
+                return Helpers.Color(prefix, Helpers.GetFactionColorHex(Faction.Player));
+            if (go.CompareTag("Enemy"))
+                return Helpers.Color(prefix, Helpers.GetFactionColorHex(Faction.Enemy));
+            if (go.CompareTag("Ally"))
+                return Helpers.Color(prefix, Helpers.GetFactionColorHex(Faction.Ally));
+            return prefix;
+        }
     }
 }

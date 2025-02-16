@@ -1,71 +1,77 @@
 using System.Collections.Generic;
+using SenteAI.Core;
 using UnityEngine;
 
-public class ProjectilePooler : MonoBehaviour
+namespace SenteAI.Extra
 {
-    public static ProjectilePooler Instance { get; private set; }
-
-    [SerializeField]
-    private GameObject _projectilePrefab;
-    public static readonly int POOL_SIZE = 400;
-    private Stack<Projectile> _projectilePool = new();
-    private Transform _projectileParent;
-
-    private void Awake()
+    public class ProjectilePooler : MonoBehaviour
     {
-        Instance = this;
+        public static ProjectilePooler Instance { get; private set; }
 
-        _projectileParent = new GameObject("ProjectilePool").transform;
-        _projectileParent.SetParent(this.transform);
+        [SerializeField]
+        private GameObject _projectilePrefab;
+        public static readonly int POOL_SIZE = 400;
+        private Stack<Projectile> _projectilePool = new();
+        private Transform _projectileParent;
 
-        for (int i = 0; i < POOL_SIZE; i++)
+        private void Awake()
         {
-            GameObject projectileObject = Instantiate(_projectilePrefab, _projectileParent);
-            Projectile projectileComponent = projectileObject.GetComponent<Projectile>();
+            Instance = this;
 
-            if (projectileComponent == null)
+            _projectileParent = new GameObject("ProjectilePool").transform;
+            _projectileParent.SetParent(this.transform);
+
+            for (int i = 0; i < POOL_SIZE; i++)
             {
-                Debug.LogError("Projectile prefab does not have the Projectile script attached!");
-                return;
+                GameObject projectileObject = Instantiate(_projectilePrefab, _projectileParent);
+                Projectile projectileComponent = projectileObject.GetComponent<Projectile>();
+
+                if (projectileComponent == null)
+                {
+                    Debug.LogError(
+                        "Projectile prefab does not have the Projectile script attached!"
+                    );
+                    return;
+                }
+
+                projectileComponent.gameObject.SetActive(false);
+                _projectilePool.Push(projectileComponent);
             }
-
-            projectileComponent.gameObject.SetActive(false);
-            _projectilePool.Push(projectileComponent);
         }
-    }
 
-    public Projectile SpawnProjectile(
-        Vector3 position,
-        Quaternion rotation,
-        Vector3 direction,
-        float speed,
-        int damage,
-        Agent agent
-    )
-    {
-        if (_projectilePool.Count > 0)
+        public Projectile SpawnProjectile(
+            Vector3 position,
+            Quaternion rotation,
+            Vector3 direction,
+            float speed,
+            int damage,
+            Agent agent
+        )
         {
-            Projectile projectile = _projectilePool.Pop();
-            projectile.gameObject.SetActive(true);
+            if (_projectilePool.Count > 0)
+            {
+                Projectile projectile = _projectilePool.Pop();
+                projectile.gameObject.SetActive(true);
 
-            projectile.transform.position = position;
-            projectile.transform.rotation = rotation;
-            projectile.SetParameters(agent, direction, speed, damage);
+                projectile.transform.position = position;
+                projectile.transform.rotation = rotation;
+                projectile.SetParameters(agent, direction, speed, damage);
 
-            projectile.OnMissCallback = () => ReturnProjectile(projectile);
+                projectile.OnMissCallback = () => ReturnProjectile(projectile);
 
-            return projectile;
+                return projectile;
+            }
+            else
+            {
+                Debug.LogWarning("No projectiles available in pool!");
+                return null;
+            }
         }
-        else
+
+        public void ReturnProjectile(Projectile projectile)
         {
-            Debug.LogWarning("No projectiles available in pool!");
-            return null;
+            projectile.gameObject.SetActive(false);
+            _projectilePool.Push(projectile);
         }
-    }
-
-    public void ReturnProjectile(Projectile projectile)
-    {
-        projectile.gameObject.SetActive(false);
-        _projectilePool.Push(projectile);
     }
 }

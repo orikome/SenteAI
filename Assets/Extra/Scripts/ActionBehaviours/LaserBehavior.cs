@@ -1,38 +1,42 @@
+using SenteAI.Core;
 using UnityEngine;
 
-public class LaserBehavior : ActionBehaviour
+namespace SenteAI.Extra
 {
-    private float _damagePerSecond = 100f;
-
-    private void OnTriggerStay(Collider other)
+    public class LaserBehavior : ActionBehaviour
     {
-        if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(other.gameObject.layer, _targetMask))
+        private float _damagePerSecond = 100f;
+
+        private void OnTriggerStay(Collider other)
         {
-            float damage = _damagePerSecond * Time.deltaTime;
-
-            if (other.transform.gameObject.TryGetComponent(out Agent targetAgent))
+            if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(other.gameObject.layer, _targetMask))
             {
-                targetAgent.GetModule<HealthModule>().TakeDamage((int)damage);
-                _agent.Metrics.UpdateDamageDone(damage);
+                float damage = _damagePerSecond * Time.deltaTime;
 
-                if (!hasHitTarget)
+                if (other.transform.gameObject.TryGetComponent(out Agent targetAgent))
                 {
-                    hasHitTarget = true;
-                    OnHitCallback?.Invoke();
+                    targetAgent.GetModule<HealthModule>().TakeDamage((int)damage);
+                    _agent.Metrics.UpdateDamageDone(damage);
+
+                    if (!hasHitTarget)
+                    {
+                        hasHitTarget = true;
+                        OnHitCallback?.Invoke();
+                    }
                 }
             }
         }
-    }
 
-    private void OnDestroy()
-    {
-        if (!Application.isPlaying || (!gameObject.scene.isLoaded))
-            return;
-
-        // Trigger failure if target was not hit
-        if (!hasHitTarget)
+        private void OnDestroy()
         {
-            OnMissCallback?.Invoke();
+            if (!Application.isPlaying || (!gameObject.scene.isLoaded))
+                return;
+
+            // Trigger failure if target was not hit
+            if (!hasHitTarget)
+            {
+                OnMissCallback?.Invoke();
+            }
         }
     }
 }

@@ -1,22 +1,26 @@
 using System.Linq;
+using SenteAI.Extra;
 using UnityEngine;
 
-[CreateAssetMenu(
-    fileName = "PlayerInputSelectionStrategy",
-    menuName = "SenteAI/SelectionStrategies/PlayerInputSelection"
-)]
-public class PlayerInputSelectionStrategy : ActionSelectionStrategy
+namespace SenteAI.Core
 {
-    public KeyCode selectionKey = KeyCode.Mouse0;
-
-    public override AgentAction SelectAction(Agent agent)
+    [CreateAssetMenu(
+        fileName = "PlayerInputSelectionStrategy",
+        menuName = "SenteAI/SelectionStrategies/PlayerInputSelection"
+    )]
+    public class PlayerInputSelectionStrategy : ActionSelectionStrategy
     {
-        if (Player.Instance.IsInputHeld())
-        {
-            Player.Instance.PlayerWeaponRecoil.TriggerRecoil();
-            return agent.Actions.FirstOrDefault();
-        }
+        public KeyCode selectionKey = KeyCode.Mouse0;
 
-        return null;
+        public override AgentAction SelectAction(Agent agent)
+        {
+            if (Player.Instance.IsInputHeld())
+            {
+                Player.Instance.PlayerWeaponRecoil.TriggerRecoil();
+                return agent.Actions.FirstOrDefault();
+            }
+
+            return null;
+        }
     }
 }

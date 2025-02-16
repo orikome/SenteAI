@@ -1,53 +1,60 @@
+using SenteAI.Core;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "NavMeshAgentModule", menuName = "SenteAI/Modules/NavMeshAgentModule")]
-public class NavMeshAgentModule : Module
+namespace SenteAI.Extra
 {
-    public NavMeshAgent NavMeshAgent { get; private set; }
-    public Vector3 CurrentDestination { get; private set; }
-    private bool _isPaused = false;
-    private float _pauseTimer = 0f;
-
-    public void PauseFor(float duration)
+    [CreateAssetMenu(
+        fileName = "NavMeshAgentModule",
+        menuName = "SenteAI/Modules/NavMeshAgentModule"
+    )]
+    public class NavMeshAgentModule : Module
     {
-        _isPaused = true;
-        _pauseTimer = duration;
-        NavMeshAgent.isStopped = true;
-    }
+        public NavMeshAgent NavMeshAgent { get; private set; }
+        public Vector3 CurrentDestination { get; private set; }
+        private bool _isPaused = false;
+        private float _pauseTimer = 0f;
 
-    public override void Execute()
-    {
-        if (_isPaused)
+        public void PauseFor(float duration)
         {
-            _pauseTimer -= Time.deltaTime;
-            if (_pauseTimer <= 0f)
-            {
-                _isPaused = false;
-                NavMeshAgent.isStopped = false;
-            }
-            return;
+            _isPaused = true;
+            _pauseTimer = duration;
+            NavMeshAgent.isStopped = true;
         }
-    }
 
-    public override void Initialize(Agent agent)
-    {
-        if (agent.GetComponent<NavMeshAgent>() == null)
-            agent.AddComponent<NavMeshAgent>();
+        public override void Execute()
+        {
+            if (_isPaused)
+            {
+                _pauseTimer -= Time.deltaTime;
+                if (_pauseTimer <= 0f)
+                {
+                    _isPaused = false;
+                    NavMeshAgent.isStopped = false;
+                }
+                return;
+            }
+        }
 
-        NavMeshAgent = agent.GetComponent<NavMeshAgent>();
+        public override void Initialize(Agent agent)
+        {
+            if (agent.GetComponent<NavMeshAgent>() == null)
+                agent.AddComponent<NavMeshAgent>();
 
-        // Set NavMeshAgent properties
-        NavMeshAgent.acceleration = 100;
-        NavMeshAgent.angularSpeed = 50;
-        //NavMeshAgent.speed = 10;
-        NavMeshAgent.autoBraking = false;
-    }
+            NavMeshAgent = agent.GetComponent<NavMeshAgent>();
 
-    public void SetDestination(Vector3 destination)
-    {
-        NavMeshAgent.SetDestination(destination);
-        CurrentDestination = destination;
+            // Set NavMeshAgent properties
+            NavMeshAgent.acceleration = 100;
+            NavMeshAgent.angularSpeed = 50;
+            //NavMeshAgent.speed = 10;
+            NavMeshAgent.autoBraking = false;
+        }
+
+        public void SetDestination(Vector3 destination)
+        {
+            NavMeshAgent.SetDestination(destination);
+            CurrentDestination = destination;
+        }
     }
 }

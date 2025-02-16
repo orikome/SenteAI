@@ -1,20 +1,23 @@
 using UnityEngine;
 
-[CreateAssetMenu(
-    fileName = "SingleActionSelectionStrategy",
-    menuName = "SenteAI/SelectionStrategies/SingleAction"
-)]
-public class SingleActionSelectionStrategy : ActionSelectionStrategy
+namespace SenteAI.Core
 {
-    public override AgentAction SelectAction(Agent agent)
+    [CreateAssetMenu(
+        fileName = "SingleActionSelectionStrategy",
+        menuName = "SenteAI/SelectionStrategies/SingleAction"
+    )]
+    public class SingleActionSelectionStrategy : ActionSelectionStrategy
     {
-        if (agent.Actions.Count == 1)
+        public override AgentAction SelectAction(Agent agent)
         {
-            return agent.Actions[0];
-        }
-        else
-        {
-            return null;
+            if (agent.Actions.Count == 1)
+            {
+                return agent.Actions[0];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

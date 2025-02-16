@@ -1,7 +1,10 @@
-public enum UtilityType
+namespace SenteAI.Core
 {
-    Linear,
-    Quadratic,
-    Gaussian,
-    Exponential,
+    public enum UtilityType
+    {
+        Linear,
+        Quadratic,
+        Gaussian,
+        Exponential,
+    }
 }

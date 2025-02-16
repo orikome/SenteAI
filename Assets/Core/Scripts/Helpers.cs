@@ -1,220 +1,225 @@
 using UnityEngine;
 
-public static class Helpers
+namespace SenteAI.Core
 {
-    private static readonly string PLAYER_COLOR = "#A7C7E7"; // Pastel Blue
-    private static readonly string ENEMY_COLOR = "#FFB3B3"; // Pastel Red
-    private static readonly string ALLY_COLOR = "#B3FFB3"; // Pastel Green
-
-    //private static readonly string MAGENTA_COLOR = "#FFB3FF"; // Pastel Magenta
-
-    public static string Color(string text, Color color) =>
-        $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{text}</color>";
-
-    public static string Size(string text, float size) => $"<size={size}>{text}</size>";
-
-    public static string Bold(string text) => $"<b>{text}</b>";
-
-    public static string Italic(string text) => $"<i>{text}</i>";
-
-    public static string GetFactionColor(Faction faction)
+    public static class Helpers
     {
-        return faction switch
+        private static readonly string PLAYER_COLOR = "#A7C7E7"; // Pastel Blue
+        private static readonly string ENEMY_COLOR = "#FFB3B3"; // Pastel Red
+        private static readonly string ALLY_COLOR = "#B3FFB3"; // Pastel Green
+
+        //private static readonly string MAGENTA_COLOR = "#FFB3FF"; // Pastel Magenta
+
+        public static string Color(string text, Color color) =>
+            $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{text}</color>";
+
+        public static string Size(string text, float size) => $"<size={size}>{text}</size>";
+
+        public static string Bold(string text) => $"<b>{text}</b>";
+
+        public static string Italic(string text) => $"<i>{text}</i>";
+
+        public static string GetFactionColor(Faction faction)
         {
-            Faction.Player => PLAYER_COLOR,
-            Faction.Enemy => ENEMY_COLOR,
-            Faction.Ally => ALLY_COLOR,
-            _ => "#FFFFFF", // Default white
-        };
-    }
-
-    public static Color GetFactionColorHex(Faction faction)
-    {
-        string hexColor = faction switch
-        {
-            Faction.Player => PLAYER_COLOR,
-            Faction.Enemy => ENEMY_COLOR,
-            Faction.Ally => ALLY_COLOR,
-            _ => "#FFFFFF", // Default white
-        };
-
-        ColorUtility.TryParseHtmlString(hexColor, out Color color);
-        return color;
-    }
-
-    public static Vector3 PredictPosition(
-        Vector3 shooterPosition,
-        Transform target,
-        float projectileSpeed,
-        float accuracy = 1.0f,
-        Vector3 lastTargetPosition = default
-    )
-    {
-        Vector3 currentTargetPosition = target.position;
-        Vector3 targetVelocity = (currentTargetPosition - lastTargetPosition) / Time.deltaTime;
-
-        // Get distance between shooter and target
-        float distance = OrikomeUtils.GeneralUtils.GetDistanceSquared(
-            target.position,
-            shooterPosition
-        );
-
-        float timeToTarget = distance / projectileSpeed;
-
-        Vector3 predictedPosition = target.position + targetVelocity * timeToTarget;
-
-        // If accuracy is low, add deviation to make the prediction imperfect
-        float deviationMagnitude = (1.0f - accuracy) * 0.5f;
-        Vector3 deviation = Random.insideUnitSphere * deviationMagnitude;
-        Vector3 adjustedPrediction = predictedPosition + deviation;
-
-        return (adjustedPrediction - shooterPosition).normalized;
-    }
-
-    public static T GetComponentInHierarchy<T>(GameObject obj)
-        where T : Component
-    {
-        // Try direct
-        if (obj.TryGetComponent(out T component))
-            return component;
-
-        // Try children
-        component = obj.GetComponentInChildren<T>();
-        if (component != null)
-            return component;
-
-        // Try parents
-        return obj.GetComponentInParent<T>();
-    }
-
-    public static Quaternion GetYAxisLookRotation(Vector3 direction)
-    {
-        // Flatten direction to XZ plane
-        direction.y = 0;
-
-        // Return rotation only if direction is valid
-        if (direction != Vector3.zero)
-        {
-            return Quaternion.LookRotation(direction);
+            return faction switch
+            {
+                Faction.Player => PLAYER_COLOR,
+                Faction.Enemy => ENEMY_COLOR,
+                Faction.Ally => ALLY_COLOR,
+                _ => "#FFFFFF", // Default white
+            };
         }
 
-        return Quaternion.identity;
-    }
-
-    public static LayerMask GetTargetMask(Faction faction)
-    {
-        return faction switch
+        public static Color GetFactionColorHex(Faction faction)
         {
-            Faction.Enemy => LayerMask.GetMask("Player", "Ally"),
-            Faction.Player or Faction.Ally => LayerMask.GetMask("Enemy"),
-            _ => LayerMask.GetMask("Default"),
-        };
-    }
+            string hexColor = faction switch
+            {
+                Faction.Player => PLAYER_COLOR,
+                Faction.Enemy => ENEMY_COLOR,
+                Faction.Ally => ALLY_COLOR,
+                _ => "#FFFFFF", // Default white
+            };
 
-    public static LayerMask GetOwnerMask(Faction faction)
-    {
-        return faction switch
-        {
-            Faction.Player => LayerMask.GetMask("Player"),
-            Faction.Enemy => LayerMask.GetMask("Enemy"),
-            Faction.Ally => LayerMask.GetMask("Ally"),
-            _ => LayerMask.GetMask("Default"),
-        };
-    }
-
-    public static int GetProjectileLayer(Faction faction)
-    {
-        return faction switch
-        {
-            Faction.Enemy => LayerMask.NameToLayer("EnemyProjectile"),
-            Faction.Player or Faction.Ally => LayerMask.NameToLayer("PlayerProjectile"),
-            _ => LayerMask.NameToLayer("Default"),
-        };
-    }
-
-    public static int GetObstacleMask()
-    {
-        return LayerMask.GetMask("Wall");
-    }
-
-    public static void SetLayerRecursively(GameObject obj, int layer)
-    {
-        obj.layer = layer;
-        foreach (Transform child in obj.transform)
-        {
-            SetLayerRecursively(child.gameObject, layer);
+            ColorUtility.TryParseHtmlString(hexColor, out Color color);
+            return color;
         }
-    }
 
-    public static void SpawnParticles(
-        Vector3 position,
-        Color color,
-        float lifetime = 0.2f,
-        float speed = 30f,
-        float size = 0.4f,
-        int burstCount = 15
-    )
-    {
-        GameObject particles = new("CustomParticles");
-        ParticleSystem particleSystem = particles.AddComponent<ParticleSystem>();
-        particles.transform.position = position;
+        public static Vector3 PredictPosition(
+            Vector3 shooterPosition,
+            Transform target,
+            float projectileSpeed,
+            float accuracy = 1.0f,
+            Vector3 lastTargetPosition = default
+        )
+        {
+            Vector3 currentTargetPosition = target.position;
+            Vector3 targetVelocity = (currentTargetPosition - lastTargetPosition) / Time.deltaTime;
 
-        var main = particleSystem.main;
-        main.startLifetime = lifetime;
-        main.startSpeed = speed;
-        main.startSize = size;
-        main.simulationSpace = ParticleSystemSimulationSpace.World;
-        main.startColor = color;
+            // Get distance between shooter and target
+            float distance = OrikomeUtils.GeneralUtils.GetDistanceSquared(
+                target.position,
+                shooterPosition
+            );
 
-        var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
-        renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
-        renderer.material.SetColor("_TintColor", color);
+            float timeToTarget = distance / projectileSpeed;
 
-        // Fade out smoothly
-        var colorOverLifetime = particleSystem.colorOverLifetime;
-        colorOverLifetime.enabled = true;
-        Gradient gradient = new();
-        gradient.SetKeys(
-            new GradientColorKey[] { new(color, 0.0f), new(color, 1.0f) },
-            new GradientAlphaKey[] { new(1.0f, 0.0f), new(0.0f, 1.0f) }
-        );
-        colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
+            Vector3 predictedPosition = target.position + targetVelocity * timeToTarget;
 
-        var emission = particleSystem.emission;
-        emission.rateOverTime = 0f;
-        emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0f, burstCount) });
+            // If accuracy is low, add deviation to make the prediction imperfect
+            float deviationMagnitude = (1.0f - accuracy) * 0.5f;
+            Vector3 deviation = Random.insideUnitSphere * deviationMagnitude;
+            Vector3 adjustedPrediction = predictedPosition + deviation;
 
-        var shape = particleSystem.shape;
-        shape.shapeType = ParticleSystemShapeType.Sphere;
-        shape.radius = 0.2f;
+            return (adjustedPrediction - shooterPosition).normalized;
+        }
 
-        var velocityOverLifetime = particleSystem.velocityOverLifetime;
-        velocityOverLifetime.enabled = true;
-        velocityOverLifetime.space = ParticleSystemSimulationSpace.Local;
-        velocityOverLifetime.radial = 10f;
+        public static T GetComponentInHierarchy<T>(GameObject obj)
+            where T : Component
+        {
+            // Try direct
+            if (obj.TryGetComponent(out T component))
+                return component;
 
-        var noise = particleSystem.noise;
-        noise.enabled = true;
-        noise.strength = 0.7f;
-        noise.frequency = 3f;
-        noise.damping = true;
+            // Try children
+            component = obj.GetComponentInChildren<T>();
+            if (component != null)
+                return component;
 
-        var trails = particleSystem.trails;
-        trails.enabled = true;
-        trails.lifetime = 0.2f;
-        trails.dieWithParticles = true;
-        trails.widthOverTrail = 0.2f;
-        trails.colorOverLifetime = new ParticleSystem.MinMaxGradient(color);
+            // Try parents
+            return obj.GetComponentInParent<T>();
+        }
 
-        var trailMaterial = new Material(Shader.Find("Particles/Standard Unlit"));
-        trailMaterial.SetColor("_TintColor", color);
-        renderer.trailMaterial = trailMaterial;
+        public static Quaternion GetYAxisLookRotation(Vector3 direction)
+        {
+            // Flatten direction to XZ plane
+            direction.y = 0;
 
-        GameObject.Destroy(particles, main.startLifetime.constant + 0.5f);
-    }
+            // Return rotation only if direction is valid
+            if (direction != Vector3.zero)
+            {
+                return Quaternion.LookRotation(direction);
+            }
 
-    public static string CleanName(string name)
-    {
-        return name?.Replace("(Clone)", "").Trim();
+            return Quaternion.identity;
+        }
+
+        public static LayerMask GetTargetMask(Faction faction)
+        {
+            return faction switch
+            {
+                Faction.Enemy => LayerMask.GetMask("Player", "Ally"),
+                Faction.Player or Faction.Ally => LayerMask.GetMask("Enemy"),
+                _ => LayerMask.GetMask("Default"),
+            };
+        }
+
+        public static LayerMask GetOwnerMask(Faction faction)
+        {
+            return faction switch
+            {
+                Faction.Player => LayerMask.GetMask("Player"),
+                Faction.Enemy => LayerMask.GetMask("Enemy"),
+                Faction.Ally => LayerMask.GetMask("Ally"),
+                _ => LayerMask.GetMask("Default"),
+            };
+        }
+
+        public static int GetProjectileLayer(Faction faction)
+        {
+            return faction switch
+            {
+                Faction.Enemy => LayerMask.NameToLayer("EnemyProjectile"),
+                Faction.Player or Faction.Ally => LayerMask.NameToLayer("PlayerProjectile"),
+                _ => LayerMask.NameToLayer("Default"),
+            };
+        }
+
+        public static int GetObstacleMask()
+        {
+            return LayerMask.GetMask("Wall");
+        }
+
+        public static void SetLayerRecursively(GameObject obj, int layer)
+        {
+            obj.layer = layer;
+            foreach (Transform child in obj.transform)
+            {
+                SetLayerRecursively(child.gameObject, layer);
+            }
+        }
+
+        public static void SpawnParticles(
+            Vector3 position,
+            Color color,
+            float lifetime = 0.2f,
+            float speed = 30f,
+            float size = 0.4f,
+            int burstCount = 15
+        )
+        {
+            GameObject particles = new("CustomParticles");
+            ParticleSystem particleSystem = particles.AddComponent<ParticleSystem>();
+            particles.transform.position = position;
+
+            var main = particleSystem.main;
+            main.startLifetime = lifetime;
+            main.startSpeed = speed;
+            main.startSize = size;
+            main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.startColor = color;
+
+            var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
+            renderer.material = new Material(Shader.Find("Particles/Standard Unlit"));
+            renderer.material.SetColor("_TintColor", color);
+
+            // Fade out smoothly
+            var colorOverLifetime = particleSystem.colorOverLifetime;
+            colorOverLifetime.enabled = true;
+            Gradient gradient = new();
+            gradient.SetKeys(
+                new GradientColorKey[] { new(color, 0.0f), new(color, 1.0f) },
+                new GradientAlphaKey[] { new(1.0f, 0.0f), new(0.0f, 1.0f) }
+            );
+            colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
+
+            var emission = particleSystem.emission;
+            emission.rateOverTime = 0f;
+            emission.SetBursts(
+                new ParticleSystem.Burst[] { new ParticleSystem.Burst(0f, burstCount) }
+            );
+
+            var shape = particleSystem.shape;
+            shape.shapeType = ParticleSystemShapeType.Sphere;
+            shape.radius = 0.2f;
+
+            var velocityOverLifetime = particleSystem.velocityOverLifetime;
+            velocityOverLifetime.enabled = true;
+            velocityOverLifetime.space = ParticleSystemSimulationSpace.Local;
+            velocityOverLifetime.radial = 10f;
+
+            var noise = particleSystem.noise;
+            noise.enabled = true;
+            noise.strength = 0.7f;
+            noise.frequency = 3f;
+            noise.damping = true;
+
+            var trails = particleSystem.trails;
+            trails.enabled = true;
+            trails.lifetime = 0.2f;
+            trails.dieWithParticles = true;
+            trails.widthOverTrail = 0.2f;
+            trails.colorOverLifetime = new ParticleSystem.MinMaxGradient(color);
+
+            var trailMaterial = new Material(Shader.Find("Particles/Standard Unlit"));
+            trailMaterial.SetColor("_TintColor", color);
+            renderer.trailMaterial = trailMaterial;
+
+            GameObject.Destroy(particles, main.startLifetime.constant + 0.5f);
+        }
+
+        public static string CleanName(string name)
+        {
+            return name?.Replace("(Clone)", "").Trim();
+        }
     }
 }

@@ -1,8 +1,11 @@
-public enum AgentState
+namespace SenteAI.Core
 {
-    Combat,
-    Duty,
-    Routine,
-    Sleep,
-    Dead,
+    public enum AgentState
+    {
+        Combat,
+        Duty,
+        Routine,
+        Sleep,
+        Dead,
+    }
 }

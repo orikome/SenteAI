@@ -1,74 +1,78 @@
+using SenteAI.Core;
 using UnityEngine;
 
-public class NPCProjectile : Projectile
+namespace SenteAI.Extra
 {
-    private bool hasCompleted = false;
-    private bool hasPassedTarget = false;
-
-    protected override void Update()
+    public class NPCProjectile : Projectile
     {
-        _timer -= Time.deltaTime;
+        private bool hasCompleted = false;
+        private bool hasPassedTarget = false;
 
-        if (hasCompleted)
-            return;
-
-        // Check if projectile has passed the target, but don't destroy it yet
-        if (!hasPassedTarget && HasPassedTarget())
+        protected override void Update()
         {
-            hasPassedTarget = true;
-            OnMissCallback?.Invoke();
-        }
+            _timer -= Time.deltaTime;
 
-        // Destroy projectile when the timer runs out
-        if (_timer <= 0f)
-        {
-            hasCompleted = true;
-            Destroy(gameObject);
-        }
-    }
+            if (hasCompleted)
+                return;
 
-    private bool HasPassedTarget()
-    {
-        if (_agent == null || _agent.Target == null)
-            return false;
-
-        Vector3 toTarget = _agent.Target.transform.position - transform.position;
-        // If the dot product is negative, projectile is facing away from the target
-        return Vector3.Dot(transform.forward, toTarget) < 0;
-    }
-
-    protected override void OnCollisionEnter(Collision collision)
-    {
-        if (hasCompleted || !_agent)
-            return;
-
-        Vector3 normal = collision.contacts[0].normal;
-        //Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
-        Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
-
-        if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
-        {
-            if (collision.transform.gameObject.TryGetComponent<Agent>(out var target))
+            // Check if projectile has passed the target, but don't destroy it yet
+            if (!hasPassedTarget && HasPassedTarget())
             {
-                target.GetModule<HealthModule>().TakeDamage(Damage, transform.forward);
-                Instantiate(explosionParticles, transform.position, hitRotation);
-                _agent.Metrics.UpdateDamageDone(Damage);
-                AgentLogger.Log(
-                    $"{Helpers.CleanName(gameObject.name)} dealt {Damage} damage to {Helpers.CleanName(collision.transform.name)}",
-                    _agent.gameObject,
-                    target.gameObject
-                );
-                OnHitCallback?.Invoke();
+                hasPassedTarget = true;
+                OnMissCallback?.Invoke();
+            }
+
+            // Destroy projectile when the timer runs out
+            if (_timer <= 0f)
+            {
                 hasCompleted = true;
                 Destroy(gameObject);
             }
         }
-        else
+
+        private bool HasPassedTarget()
         {
-            Instantiate(explosionParticles, transform.position, hitRotation);
-            hasCompleted = true;
-            OnMissCallback?.Invoke();
-            Destroy(gameObject);
+            if (_agent == null || _agent.Target == null)
+                return false;
+
+            Vector3 toTarget = _agent.Target.transform.position - transform.position;
+            // If the dot product is negative, projectile is facing away from the target
+            return Vector3.Dot(transform.forward, toTarget) < 0;
+        }
+
+        protected override void OnCollisionEnter(Collision collision)
+        {
+            if (hasCompleted || !_agent)
+                return;
+
+            Vector3 normal = collision.contacts[0].normal;
+            //Debug.DrawRay(collision.contacts[0].point, normal, Color.red, 2f);
+            Quaternion hitRotation = Quaternion.FromToRotation(Vector3.forward, normal);
+
+            if (OrikomeUtils.LayerMaskUtils.IsLayerInMask(collision.gameObject.layer, _targetMask))
+            {
+                if (collision.transform.gameObject.TryGetComponent<Agent>(out var target))
+                {
+                    target.GetModule<HealthModule>().TakeDamage(Damage, transform.forward);
+                    Instantiate(explosionParticles, transform.position, hitRotation);
+                    _agent.Metrics.UpdateDamageDone(Damage);
+                    AgentLogger.Log(
+                        $"{Helpers.CleanName(gameObject.name)} dealt {Damage} damage to {Helpers.CleanName(collision.transform.name)}",
+                        _agent.gameObject,
+                        target.gameObject
+                    );
+                    OnHitCallback?.Invoke();
+                    hasCompleted = true;
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                Instantiate(explosionParticles, transform.position, hitRotation);
+                hasCompleted = true;
+                OnMissCallback?.Invoke();
+                Destroy(gameObject);
+            }
         }
     }
 }

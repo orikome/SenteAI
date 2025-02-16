@@ -1,63 +1,66 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Brain", menuName = "SenteAI/Modules/Brain")]
-public class Brain : Module
+namespace SenteAI.Core
 {
-    public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
-    public AgentAction CurrentAction { get; private set; }
-    private CooldownHandler _cooldownHandler;
-
-    public override void Initialize(Agent agent)
+    [CreateAssetMenu(fileName = "Brain", menuName = "SenteAI/Modules/Brain")]
+    public class Brain : Module
     {
-        base.Initialize(agent);
-        _cooldownHandler = new CooldownHandler(agent.data.actionCooldown);
-        _cooldownHandler.Reset();
-        ActionSelectionStrategy = agent.data.actionSelectionStrategy;
+        public ActionSelectionStrategy ActionSelectionStrategy { get; private set; }
+        public AgentAction CurrentAction { get; private set; }
+        private CooldownHandler _cooldownHandler;
 
-        if (ActionSelectionStrategy == null)
+        public override void Initialize(Agent agent)
         {
-            AgentLogger.LogError("ActionSelectionStrategy is not assigned in AgentData!");
-        }
-        ResetUtilityScores();
-    }
+            base.Initialize(agent);
+            _cooldownHandler = new CooldownHandler(agent.data.actionCooldown);
+            _cooldownHandler.Reset();
+            ActionSelectionStrategy = agent.data.actionSelectionStrategy;
 
-    public override void Execute()
-    {
-        if (_agent.Faction == Faction.Player)
+            if (ActionSelectionStrategy == null)
+            {
+                AgentLogger.LogError("ActionSelectionStrategy is not assigned in AgentData!");
+            }
+            ResetUtilityScores();
+        }
+
+        public override void Execute()
+        {
+            if (_agent.Faction == Faction.Player)
+                CurrentAction = ActionSelectionStrategy.SelectAction(_agent);
+
+            if (!_cooldownHandler.IsReady())
+                return;
+
             CurrentAction = ActionSelectionStrategy.SelectAction(_agent);
 
-        if (!_cooldownHandler.IsReady())
-            return;
-
-        CurrentAction = ActionSelectionStrategy.SelectAction(_agent);
-
-        if (CurrentAction != null)
-        {
-            CurrentAction.Execute(_agent.firePoint, _agent.GetShootDirection());
-            _cooldownHandler.Reset();
+            if (CurrentAction != null)
+            {
+                CurrentAction.Execute(_agent.firePoint, _agent.GetShootDirection());
+                _cooldownHandler.Reset();
+            }
         }
-    }
 
-    public void SetAction(AgentAction action)
-    {
-        CurrentAction = action;
-    }
-
-    public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)
-    {
-        ActionSelectionStrategy = strategy;
-    }
-
-    private void ResetUtilityScores()
-    {
-        foreach (AgentAction action in _agent.Actions)
+        public void SetAction(AgentAction action)
         {
-            action.ScaledUtilityScore = 1.0f / _agent.Actions.Count;
+            CurrentAction = action;
         }
-    }
 
-    public void PauseFor(float duration)
-    {
-        _cooldownHandler.PauseFor(duration);
+        public void SetActionSelectionStrategy(ActionSelectionStrategy strategy)
+        {
+            ActionSelectionStrategy = strategy;
+        }
+
+        private void ResetUtilityScores()
+        {
+            foreach (AgentAction action in _agent.Actions)
+            {
+                action.ScaledUtilityScore = 1.0f / _agent.Actions.Count;
+            }
+        }
+
+        public void PauseFor(float duration)
+        {
+            _cooldownHandler.PauseFor(duration);
+        }
     }
 }

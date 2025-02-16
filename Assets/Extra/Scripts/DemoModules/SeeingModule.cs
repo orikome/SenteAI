@@ -1,47 +1,51 @@
+using SenteAI.Core;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SeeingModule", menuName = "SenteAI/Modules/SeeingModule")]
-public class SeeingModule : SenseModule
+namespace SenteAI.Extra
 {
-    public bool HasLOS { get; private set; }
-    private const float RANGE = 250f;
-    private LayerMask _layerMask;
-
-    public override void Initialize(Agent agent)
+    [CreateAssetMenu(fileName = "SeeingModule", menuName = "SenteAI/Modules/SeeingModule")]
+    public class SeeingModule : SenseModule
     {
-        base.Initialize(agent);
-        _layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy", "Ally");
-    }
+        public bool HasLOS { get; private set; }
+        private const float RANGE = 250f;
+        private LayerMask _layerMask;
 
-    public override void Execute()
-    {
-        // Reset states if no target
-        if (_agent == null || _agent.Target == null)
+        public override void Initialize(Agent agent)
         {
-            CanSenseTarget = false;
-            HasLOS = false;
-            return;
+            base.Initialize(agent);
+            _layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy", "Ally");
         }
 
-        // Check LOS
-        bool isVisible = IsTargetVisible(_agent.Metrics.GetDirectionToTarget());
-
-        // Update states based on visibility
-        CanSenseTarget = isVisible;
-        HasLOS = isVisible;
-
-        if (isVisible)
+        public override void Execute()
         {
-            LastKnownPosition = _agent.Target.transform.position;
-            LastKnownVelocity = _agent.Target.Metrics.Velocity;
-            LastSeenTime = Time.time;
-        }
-    }
+            // Reset states if no target
+            if (_agent == null || _agent.Target == null)
+            {
+                CanSenseTarget = false;
+                HasLOS = false;
+                return;
+            }
 
-    private bool IsTargetVisible(Vector3 directionToTarget)
-    {
-        Ray ray = new(_agent.transform.position, directionToTarget);
-        return Physics.Raycast(ray, out RaycastHit hitInfo, RANGE, _layerMask)
-            && hitInfo.transform.gameObject == _agent.Target.transform.gameObject;
+            // Check LOS
+            bool isVisible = IsTargetVisible(_agent.Metrics.GetDirectionToTarget());
+
+            // Update states based on visibility
+            CanSenseTarget = isVisible;
+            HasLOS = isVisible;
+
+            if (isVisible)
+            {
+                LastKnownPosition = _agent.Target.transform.position;
+                LastKnownVelocity = _agent.Target.Metrics.Velocity;
+                LastSeenTime = Time.time;
+            }
+        }
+
+        private bool IsTargetVisible(Vector3 directionToTarget)
+        {
+            Ray ray = new(_agent.transform.position, directionToTarget);
+            return Physics.Raycast(ray, out RaycastHit hitInfo, RANGE, _layerMask)
+                && hitInfo.transform.gameObject == _agent.Target.transform.gameObject;
+        }
     }
 }

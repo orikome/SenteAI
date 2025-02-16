@@ -1,3 +1,6 @@
 using UnityEngine;
 
-public class Shield : MonoBehaviour { }
+namespace SenteAI.Extra
+{
+    public class Shield : MonoBehaviour { }
+}

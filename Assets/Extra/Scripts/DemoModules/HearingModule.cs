@@ -1,16 +1,20 @@
+using SenteAI.Core;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HearingModule", menuName = "SenteAI/Modules/HearingModule")]
-public class HearingModule : SenseModule
+namespace SenteAI.Extra
 {
-    //[SerializeField]
-    //private float hearingRange = 15f;
-
-    public override void Execute()
+    [CreateAssetMenu(fileName = "HearingModule", menuName = "SenteAI/Modules/HearingModule")]
+    public class HearingModule : SenseModule
     {
-        // Check if there are any sounds within hearingRange
-        // If so, update lastKnownLocation
-    }
+        //[SerializeField]
+        //private float hearingRange = 15f;
 
-    public override void Initialize(Agent agent) { }
+        public override void Execute()
+        {
+            // Check if there are any sounds within hearingRange
+            // If so, update lastKnownLocation
+        }
+
+        public override void Initialize(Agent agent) { }
+    }
 }

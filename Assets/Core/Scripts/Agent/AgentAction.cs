@@ -1,185 +1,188 @@
 using UnityEngine;
 
-public abstract class AgentAction : ScriptableObject
+namespace SenteAI.Core
 {
-    // -- Set these in editor --
-    public AgentState agentState = AgentState.Combat;
-    public float cooldownTime = 0.1f;
-
-    [Range(0.0f, 1.0f)]
-    public float biasWeight;
-
-    [Range(0.0f, 1.0f)]
-    public float penaltyPerExecution = 0.2f;
-
-    [Range(0.0f, 1.0f)]
-    public float penaltyRestoreRate = 0.2f;
-    public Sprite icon;
-
-    // -- Handled in code --
-    public const float MIN_UTILITY = 0.01f;
-    public const float MAX_UTILITY = 1.0f;
-    public float PenaltyFactor { get; private set; } = 0.0f;
-    public float UnscaledUtilityScore { get; private set; }
-    public float LastExecutedTime { get; protected set; }
-    public float ScaledUtilityScore { get; set; }
-    public int TimesExecuted { get; private set; } = 0;
-    private bool _penaltyMaxedOut = false;
-    protected Agent _agent;
-
-    public virtual bool CanExecute()
+    public abstract class AgentAction : ScriptableObject
     {
-        // If penalty is maxed out, block execution until PenaltyFactor is fully restored
-        if (_penaltyMaxedOut)
-            return false;
+        // -- Set these in editor --
+        public AgentState agentState = AgentState.Combat;
+        public float cooldownTime = 0.1f;
 
-        // If agent or agent's target is null, return false
-        if (_agent == null || _agent.Target == null)
-            return false;
+        [Range(0.0f, 1.0f)]
+        public float biasWeight;
 
-        // Return true if not on cooldown and utility is above minimum
-        return !IsOnCooldown() && ScaledUtilityScore > MIN_UTILITY;
-    }
+        [Range(0.0f, 1.0f)]
+        public float penaltyPerExecution = 0.2f;
 
-    /// <summary>
-    /// Returns how far along the cooldown is between 0f and 1f.
-    /// </summary>
-    public float GetCooldownProgress()
-    {
-        return Mathf.Clamp01((Time.time - LastExecutedTime) / cooldownTime);
-    }
+        [Range(0.0f, 1.0f)]
+        public float penaltyRestoreRate = 0.2f;
+        public Sprite icon;
 
-    /// <summary>
-    /// Returns the direct value of how much time is left on a cooldown.
-    /// </summary>
-    public float GetCooldownTimeRemaining()
-    {
-        return cooldownTime - (Time.time - LastExecutedTime);
-    }
+        // -- Handled in code --
+        public const float MIN_UTILITY = 0.01f;
+        public const float MAX_UTILITY = 1.0f;
+        public float PenaltyFactor { get; private set; } = 0.0f;
+        public float UnscaledUtilityScore { get; private set; }
+        public float LastExecutedTime { get; protected set; }
+        public float ScaledUtilityScore { get; set; }
+        public int TimesExecuted { get; private set; } = 0;
+        private bool _penaltyMaxedOut = false;
+        protected Agent _agent;
 
-    public virtual bool IsOnCooldown()
-    {
-        return Time.time - LastExecutedTime < cooldownTime;
-    }
-
-    public virtual void AddCooldown()
-    {
-        LastExecutedTime = Time.time;
-    }
-
-    public virtual void ResetCooldown()
-    {
-        LastExecutedTime = Time.time - cooldownTime;
-    }
-
-    public virtual void Initialize(Agent agent)
-    {
-        _agent = agent;
-        ResetCooldown();
-    }
-
-    /// <summary>
-    /// Called every frame in the agent's update loop.
-    /// </summary>
-    public abstract void Execute(Transform firePoint, Vector3 direction);
-
-    /// <summary>
-    /// Called every frame in the agent's update loop.
-    /// </summary>
-    public virtual void CalculateUtility() { }
-
-    /// <summary>
-    /// Apply a penalty, a value between 0f and 1f.
-    /// </summary>
-    public void AddPenalty()
-    {
-        PenaltyFactor = Mathf.Min(PenaltyFactor + penaltyPerExecution, MAX_UTILITY);
-
-        // If penalty limit is reached, apply a quadruple cooldown
-        if (PenaltyFactor >= MAX_UTILITY)
+        public virtual bool CanExecute()
         {
-            AgentLogger.Log(
-                $"Penalty exceeded, applying a penalty period to: {Helpers.CleanName(name)}.",
-                _agent.gameObject
-            );
-            _penaltyMaxedOut = true; // Prevent further execution until penalty is cleared
+            // If penalty is maxed out, block execution until PenaltyFactor is fully restored
+            if (_penaltyMaxedOut)
+                return false;
+
+            // If agent or agent's target is null, return false
+            if (_agent == null || _agent.Target == null)
+                return false;
+
+            // Return true if not on cooldown and utility is above minimum
+            return !IsOnCooldown() && ScaledUtilityScore > MIN_UTILITY;
         }
-    }
 
-    public void RestorePenaltyAndFeedback()
-    {
-        if (PenaltyFactor > 0.0f)
+        /// <summary>
+        /// Returns how far along the cooldown is between 0f and 1f.
+        /// </summary>
+        public float GetCooldownProgress()
         {
-            PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
-            if (PenaltyFactor <= 0.0f)
+            return Mathf.Clamp01((Time.time - LastExecutedTime) / cooldownTime);
+        }
+
+        /// <summary>
+        /// Returns the direct value of how much time is left on a cooldown.
+        /// </summary>
+        public float GetCooldownTimeRemaining()
+        {
+            return cooldownTime - (Time.time - LastExecutedTime);
+        }
+
+        public virtual bool IsOnCooldown()
+        {
+            return Time.time - LastExecutedTime < cooldownTime;
+        }
+
+        public virtual void AddCooldown()
+        {
+            LastExecutedTime = Time.time;
+        }
+
+        public virtual void ResetCooldown()
+        {
+            LastExecutedTime = Time.time - cooldownTime;
+        }
+
+        public virtual void Initialize(Agent agent)
+        {
+            _agent = agent;
+            ResetCooldown();
+        }
+
+        /// <summary>
+        /// Called every frame in the agent's update loop.
+        /// </summary>
+        public abstract void Execute(Transform firePoint, Vector3 direction);
+
+        /// <summary>
+        /// Called every frame in the agent's update loop.
+        /// </summary>
+        public virtual void CalculateUtility() { }
+
+        /// <summary>
+        /// Apply a penalty, a value between 0f and 1f.
+        /// </summary>
+        public void AddPenalty()
+        {
+            PenaltyFactor = Mathf.Min(PenaltyFactor + penaltyPerExecution, MAX_UTILITY);
+
+            // If penalty limit is reached, apply a quadruple cooldown
+            if (PenaltyFactor >= MAX_UTILITY)
             {
-                _penaltyMaxedOut = false;
                 AgentLogger.Log(
-                    $"{Helpers.CleanName(name)} penalty has been fully restored.",
+                    $"Penalty exceeded, applying a penalty period to: {Helpers.CleanName(name)}.",
                     _agent.gameObject
                 );
+                _penaltyMaxedOut = true; // Prevent further execution until penalty is cleared
             }
         }
 
-        if (this is not IFeedbackAction feedbackAction)
-            return;
-
-        // Restore feedback modifier slower
-        float feedbackRestoreRate = penaltyRestoreRate / 4.0f;
-        float feedbackModifier = feedbackAction.FeedbackModifier;
-
-        // Restore feedback modifier to 1.0f
-        if (feedbackModifier > 1.0f)
-            feedbackAction.FeedbackModifier = Mathf.Max(
-                1.0f,
-                feedbackModifier - feedbackRestoreRate * Time.deltaTime
-            );
-        else if (feedbackModifier < 1.0f)
-            feedbackAction.FeedbackModifier = Mathf.Min(
-                1.0f,
-                feedbackModifier + feedbackRestoreRate * Time.deltaTime
-            );
-    }
-
-    public virtual void SetUtilityWithModifiers(float util)
-    {
-        UnscaledUtilityScore = util;
-
-        // 1. Apply cooldown factor
-        if (GetCooldownProgress() < 1.0f)
+        public void RestorePenaltyAndFeedback()
         {
-            // If on cooldown, scale by cooldown progress
-            util *= GetCooldownProgress();
+            if (PenaltyFactor > 0.0f)
+            {
+                PenaltyFactor -= penaltyRestoreRate * Time.deltaTime;
+                if (PenaltyFactor <= 0.0f)
+                {
+                    _penaltyMaxedOut = false;
+                    AgentLogger.Log(
+                        $"{Helpers.CleanName(name)} penalty has been fully restored.",
+                        _agent.gameObject
+                    );
+                }
+            }
+
+            if (this is not IFeedbackAction feedbackAction)
+                return;
+
+            // Restore feedback modifier slower
+            float feedbackRestoreRate = penaltyRestoreRate / 4.0f;
+            float feedbackModifier = feedbackAction.FeedbackModifier;
+
+            // Restore feedback modifier to 1.0f
+            if (feedbackModifier > 1.0f)
+                feedbackAction.FeedbackModifier = Mathf.Max(
+                    1.0f,
+                    feedbackModifier - feedbackRestoreRate * Time.deltaTime
+                );
+            else if (feedbackModifier < 1.0f)
+                feedbackAction.FeedbackModifier = Mathf.Min(
+                    1.0f,
+                    feedbackModifier + feedbackRestoreRate * Time.deltaTime
+                );
         }
 
-        // 2. Apply bias
-        util *= biasWeight;
-
-        // 3. Apply penalty factor, if any
-        util *= Mathf.Max(MAX_UTILITY - PenaltyFactor, MIN_UTILITY);
-
-        // 4. Apply feedback modifier, if action has feedback methods
-        if (this is IFeedbackAction feedbackAction)
+        public virtual void SetUtilityWithModifiers(float util)
         {
-            util *= feedbackAction.ApplyFeedbackModifier(util, feedbackAction);
+            UnscaledUtilityScore = util;
+
+            // 1. Apply cooldown factor
+            if (GetCooldownProgress() < 1.0f)
+            {
+                // If on cooldown, scale by cooldown progress
+                util *= GetCooldownProgress();
+            }
+
+            // 2. Apply bias
+            util *= biasWeight;
+
+            // 3. Apply penalty factor, if any
+            util *= Mathf.Max(MAX_UTILITY - PenaltyFactor, MIN_UTILITY);
+
+            // 4. Apply feedback modifier, if action has feedback methods
+            if (this is IFeedbackAction feedbackAction)
+            {
+                util *= feedbackAction.ApplyFeedbackModifier(util, feedbackAction);
+            }
+
+            // 5. Restore penalty and feedback modifiers back to default
+            RestorePenaltyAndFeedback();
+
+            if (util <= 0)
+                AgentLogger.LogWarning(
+                    $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
+                );
+
+            // 6. Utility has been scaled, set it
+            ScaledUtilityScore = Mathf.Max(util, MIN_UTILITY);
         }
 
-        // 5. Restore penalty and feedback modifiers back to default
-        RestorePenaltyAndFeedback();
-
-        if (util <= 0)
-            AgentLogger.LogWarning(
-                $"[Frame {Time.frameCount}] Utility of {Helpers.CleanName(name)} is zero or negative, check parameters."
-            );
-
-        // 6. Utility has been scaled, set it
-        ScaledUtilityScore = Mathf.Max(util, MIN_UTILITY);
-    }
-
-    public void AfterExecution()
-    {
-        AddCooldown();
-        AddPenalty();
-        TimesExecuted++;
+        public void AfterExecution()
+        {
+            AddCooldown();
+            AddPenalty();
+            TimesExecuted++;
+        }
     }
 }

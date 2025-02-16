@@ -1,75 +1,78 @@
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(
-    fileName = "RouletteSelectionStrategy",
-    menuName = "SenteAI/SelectionStrategies/RouletteSelectionStrategy"
-)]
-public class RouletteSelectionStrategy : ActionSelectionStrategy
+namespace SenteAI.Core
 {
-    public override AgentAction SelectAction(Agent agent)
+    [CreateAssetMenu(
+        fileName = "RouletteSelectionStrategy",
+        menuName = "SenteAI/SelectionStrategies/RouletteSelectionStrategy"
+    )]
+    public class RouletteSelectionStrategy : ActionSelectionStrategy
     {
-        // Roulette wheel picker with sizes proportional to utility scores
-
-        var executableActions = agent.Actions.Where(action => action.CanExecute()).ToList();
-
-        if (executableActions.Count == 0)
+        public override AgentAction SelectAction(Agent agent)
         {
-            AgentLogger.LogWarning("No executable actions available!");
-            return null;
-        }
+            // Roulette wheel picker with sizes proportional to utility scores
 
-        // Find the action with the highest utility
-        var maxUtilityAction = executableActions
-            .OrderByDescending(action => action.ScaledUtilityScore)
-            .First();
-        float total = executableActions.Sum(action => action.ScaledUtilityScore);
-        float randomPoint = Random.value * total;
+            var executableActions = agent.Actions.Where(action => action.CanExecute()).ToList();
 
-        AgentAction selectedAction = null;
-
-        foreach (var action in executableActions)
-        {
-            if (randomPoint < action.ScaledUtilityScore)
+            if (executableActions.Count == 0)
             {
-                selectedAction = action;
-                break;
+                AgentLogger.LogWarning("No executable actions available!");
+                return null;
             }
-            else
+
+            // Find the action with the highest utility
+            var maxUtilityAction = executableActions
+                .OrderByDescending(action => action.ScaledUtilityScore)
+                .First();
+            float total = executableActions.Sum(action => action.ScaledUtilityScore);
+            float randomPoint = Random.value * total;
+
+            AgentAction selectedAction = null;
+
+            foreach (var action in executableActions)
             {
-                randomPoint -= action.ScaledUtilityScore;
+                if (randomPoint < action.ScaledUtilityScore)
+                {
+                    selectedAction = action;
+                    break;
+                }
+                else
+                {
+                    randomPoint -= action.ScaledUtilityScore;
+                }
             }
-        }
 
-        if (selectedAction == null)
-        {
-            AgentLogger.LogError("No suitable action found!");
-            return null;
-        }
+            if (selectedAction == null)
+            {
+                AgentLogger.LogError("No suitable action found!");
+                return null;
+            }
 
-        // Compare the selected action with the max utility action
-        if (selectedAction != maxUtilityAction)
-        {
-            AgentLogger.LogWarning(
-                $"Roulette selection picked a lower utility action: {selectedAction.name} "
-                    + $"(Utility: {selectedAction.ScaledUtilityScore}) vs Max Utility Action: {maxUtilityAction.name} "
-                    + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
-            );
-        }
+            // Compare the selected action with the max utility action
+            if (selectedAction != maxUtilityAction)
+            {
+                AgentLogger.LogWarning(
+                    $"Roulette selection picked a lower utility action: {selectedAction.name} "
+                        + $"(Utility: {selectedAction.ScaledUtilityScore}) vs Max Utility Action: {maxUtilityAction.name} "
+                        + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
+                );
+            }
 
-        // Check if the selected action has a super low utility score
-        if (
-            selectedAction.ScaledUtilityScore < total * 0.1f
-            || selectedAction.ScaledUtilityScore < maxUtilityAction.ScaledUtilityScore * 0.1f
-        )
-        {
-            AgentLogger.LogWarning(
-                $"Super low utility action selected! Action: {selectedAction.name} (Utility: {selectedAction.ScaledUtilityScore}) "
-                    + $"vs Max Utility Action: {maxUtilityAction.name} "
-                    + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
-            );
-        }
+            // Check if the selected action has a super low utility score
+            if (
+                selectedAction.ScaledUtilityScore < total * 0.1f
+                || selectedAction.ScaledUtilityScore < maxUtilityAction.ScaledUtilityScore * 0.1f
+            )
+            {
+                AgentLogger.LogWarning(
+                    $"Super low utility action selected! Action: {selectedAction.name} (Utility: {selectedAction.ScaledUtilityScore}) "
+                        + $"vs Max Utility Action: {maxUtilityAction.name} "
+                        + $"(Utility: {maxUtilityAction.ScaledUtilityScore})."
+                );
+            }
 
-        return selectedAction;
+            return selectedAction;
+        }
     }
 }

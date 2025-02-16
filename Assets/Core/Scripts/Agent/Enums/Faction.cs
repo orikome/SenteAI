@@ -1,7 +1,10 @@
-public enum Faction
+namespace SenteAI.Core
 {
-    Enemy,
-    Player,
-    Neutral,
-    Ally,
+    public enum Faction
+    {
+        Enemy,
+        Player,
+        Neutral,
+        Ally,
+    }
 }

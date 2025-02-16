@@ -1,7 +1,11 @@
+using SenteAI.Core;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TeleportAction", menuName = "SenteAI/Actions/TeleportAction")]
-public class TeleportAction : AgentAction
+namespace SenteAI.Extra
 {
-    public override void Execute(Transform firePoint, Vector3 direction) { }
+    [CreateAssetMenu(fileName = "TeleportAction", menuName = "SenteAI/Actions/TeleportAction")]
+    public class TeleportAction : AgentAction
+    {
+        public override void Execute(Transform firePoint, Vector3 direction) { }
+    }
 }

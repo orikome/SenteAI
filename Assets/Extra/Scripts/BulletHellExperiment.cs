@@ -1,55 +1,70 @@
 using UnityEngine;
 
-public class BulletHellExperiment : MonoBehaviour
+namespace SenteAI.Extra
 {
-    public GameObject bulletPrefab;
-    private int currentSpiralAngleOffset = 0;
-
-    void Update()
+    public class BulletHellExperiment : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        public GameObject bulletPrefab;
+        private int currentSpiralAngleOffset = 0;
+
+        void Update()
         {
-            GenerateLinearBullets(currentSpiralAngleOffset, 60, 24);
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                GenerateLinearBullets(currentSpiralAngleOffset, 60, 24);
+            }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                GenerateSpiralBullets(currentSpiralAngleOffset, 60, 24);
+                currentSpiralAngleOffset += 10;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        public void GenerateLinearBullets(int a, int d, int numberOfBullets)
         {
-            GenerateSpiralBullets(currentSpiralAngleOffset, 60, 24);
-            currentSpiralAngleOffset += 10;
+            for (int n = 0; n < numberOfBullets; n++)
+            {
+                float angle = a + n * d;
+
+                float angleInRadians = angle * (Mathf.PI / 180);
+
+                Vector3 direction = new(Mathf.Cos(angleInRadians), 0f, Mathf.Sin(angleInRadians));
+
+                GameObject bullet = Instantiate(
+                    bulletPrefab,
+                    transform.position,
+                    Quaternion.identity
+                );
+
+                bullet.GetComponent<Projectile>().SetParameters(null, direction, 10f, 1);
+            }
         }
-    }
 
-    public void GenerateLinearBullets(int a, int d, int numberOfBullets)
-    {
-        for (int n = 0; n < numberOfBullets; n++)
+        public void GenerateSpiralBullets(
+            int initialAngle,
+            float angleIncrement,
+            int numberOfBullets
+        )
         {
-            float angle = a + n * d;
+            float angle = initialAngle;
 
-            float angleInRadians = angle * (Mathf.PI / 180);
+            for (int n = 0; n < numberOfBullets; n++)
+            {
+                float angleInRadians = angle * (Mathf.PI / 180);
 
-            Vector3 direction = new(Mathf.Cos(angleInRadians), 0f, Mathf.Sin(angleInRadians));
+                Vector3 direction = new(Mathf.Cos(angleInRadians), 0f, Mathf.Sin(angleInRadians));
 
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                GameObject bullet = Instantiate(
+                    bulletPrefab,
+                    transform.position,
+                    Quaternion.identity
+                );
 
-            bullet.GetComponent<Projectile>().SetParameters(null, direction, 10f, 1);
-        }
-    }
+                bullet.GetComponent<Projectile>().SetParameters(null, direction, 10f, 1);
 
-    public void GenerateSpiralBullets(int initialAngle, float angleIncrement, int numberOfBullets)
-    {
-        float angle = initialAngle;
-
-        for (int n = 0; n < numberOfBullets; n++)
-        {
-            float angleInRadians = angle * (Mathf.PI / 180);
-
-            Vector3 direction = new(Mathf.Cos(angleInRadians), 0f, Mathf.Sin(angleInRadians));
-
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-
-            bullet.GetComponent<Projectile>().SetParameters(null, direction, 10f, 1);
-
-            angle += angleIncrement;
+                angle += angleIncrement;
+            }
         }
     }
 }

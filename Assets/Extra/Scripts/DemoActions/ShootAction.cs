@@ -1,39 +1,43 @@
+using SenteAI.Core;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "SenteAI/Actions/ShootAction")]
-public class ShootAction : AgentAction
+namespace SenteAI.Extra
 {
-    public GameObject projectilePrefab;
-    public float projectileSpeed = 10.0f;
-    public int damage = 10;
-
-    public override void Execute(Transform firePoint, Vector3 direction)
+    [CreateAssetMenu(menuName = "SenteAI/Actions/ShootAction")]
+    public class ShootAction : AgentAction
     {
-        if (direction != Vector3.zero)
+        public GameObject projectilePrefab;
+        public float projectileSpeed = 10.0f;
+        public int damage = 10;
+
+        public override void Execute(Transform firePoint, Vector3 direction)
         {
-            ShootProjectile(firePoint, direction.normalized);
-            AfterExecution();
-        }
-    }
-
-    public override bool CanExecute()
-    {
-        return true;
-    }
-
-    protected virtual void ShootProjectile(Transform firePoint, Vector3 direction)
-    {
-        GameObject projectile = Instantiate(
-            projectilePrefab,
-            firePoint.position,
-            Quaternion.LookRotation(direction)
-        );
-
-        if (projectile.TryGetComponent<Projectile>(out var projectileComponent))
-        {
-            projectileComponent.SetParameters(_agent, direction, projectileSpeed, damage);
+            if (direction != Vector3.zero)
+            {
+                ShootProjectile(firePoint, direction.normalized);
+                AfterExecution();
+            }
         }
 
-        Destroy(projectile, 4f);
+        public override bool CanExecute()
+        {
+            return true;
+        }
+
+        protected virtual void ShootProjectile(Transform firePoint, Vector3 direction)
+        {
+            GameObject projectile = Instantiate(
+                projectilePrefab,
+                firePoint.position,
+                Quaternion.LookRotation(direction)
+            );
+
+            if (projectile.TryGetComponent<Projectile>(out var projectileComponent))
+            {
+                projectileComponent.SetParameters(_agent, direction, projectileSpeed, damage);
+            }
+
+            Destroy(projectile, 4f);
+        }
     }
 }

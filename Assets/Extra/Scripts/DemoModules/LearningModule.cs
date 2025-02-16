@@ -1,9 +1,13 @@
+using SenteAI.Core;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LearningModule", menuName = "SenteAI/Modules/LearningModule")]
-public class LearningModule : Module
+namespace SenteAI.Extra
 {
-    public override void Execute() { }
+    [CreateAssetMenu(fileName = "LearningModule", menuName = "SenteAI/Modules/LearningModule")]
+    public class LearningModule : Module
+    {
+        public override void Execute() { }
 
-    public override void Initialize(Agent agent) { }
+        public override void Initialize(Agent agent) { }
+    }
 }

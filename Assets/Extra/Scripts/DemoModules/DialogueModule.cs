@@ -1,23 +1,27 @@
+using SenteAI.Core;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DialogueModule", menuName = "SenteAI/Modules/DialogueModule")]
-public class DialogueModule : Module
+namespace SenteAI.Extra
 {
-    public override void Initialize(Agent agent)
+    [CreateAssetMenu(fileName = "DialogueModule", menuName = "SenteAI/Modules/DialogueModule")]
+    public class DialogueModule : Module
     {
-        base.Initialize(agent);
-        TriggerDialogue();
-    }
+        public override void Initialize(Agent agent)
+        {
+            base.Initialize(agent);
+            TriggerDialogue();
+        }
 
-    public override void Execute() { }
+        public override void Execute() { }
 
-    private void TriggerDialogue()
-    {
-        if (CanvasManager.Instance != null)
-            CanvasManager.Instance.SpawnDamageText(
-                _agent.transform,
-                "Boss has spawned!",
-                Color.yellow
-            );
+        private void TriggerDialogue()
+        {
+            if (CanvasManager.Instance != null)
+                CanvasManager.Instance.SpawnDamageText(
+                    _agent.transform,
+                    "Boss has spawned!",
+                    Color.yellow
+                );
+        }
     }
 }

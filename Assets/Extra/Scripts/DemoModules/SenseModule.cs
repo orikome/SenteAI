@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using SenteAI.Core;
+using UnityEngine;
 
-public abstract class SenseModule : Module
+namespace SenteAI.Extra
 {
-    public Vector3 LastKnownPosition { get; protected set; }
-    public Vector3 LastKnownVelocity { get; protected set; }
-    public float LastSeenTime { get; protected set; }
-    public bool CanSenseTarget { get; protected set; }
+    public abstract class SenseModule : Module
+    {
+        public Vector3 LastKnownPosition { get; protected set; }
+        public Vector3 LastKnownVelocity { get; protected set; }
+        public float LastSeenTime { get; protected set; }
+        public bool CanSenseTarget { get; protected set; }
+    }
 }

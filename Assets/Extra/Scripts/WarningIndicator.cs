@@ -1,50 +1,54 @@
+using SenteAI.Core;
 using UnityEngine;
 
-public class WarningIndicator : MonoBehaviour
+namespace SenteAI.Extra
 {
-    [SerializeField]
-    private float lifeTime = 2f;
-
-    [SerializeField]
-    private float fadeSpeed = 1f;
-    private Material _material;
-    private float _timer;
-    private Agent _owner;
-    private bool _IsInit;
-
-    private void Awake()
+    public class WarningIndicator : MonoBehaviour
     {
-        _material = GetComponentInChildren<Renderer>().material;
-        _timer = lifeTime;
-    }
+        [SerializeField]
+        private float lifeTime = 2f;
 
-    private void Update()
-    {
-        if (!_IsInit)
-            return;
+        [SerializeField]
+        private float fadeSpeed = 1f;
+        private Material _material;
+        private float _timer;
+        private Agent _owner;
+        private bool _IsInit;
 
-        if (_owner == null)
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            _material = GetComponentInChildren<Renderer>().material;
+            _timer = lifeTime;
         }
 
-        _timer -= Time.deltaTime;
-        if (_timer <= fadeSpeed)
+        private void Update()
         {
-            Color color = _material.GetColor("_MainColor");
-            color.a = _timer / fadeSpeed;
-            _material.SetColor("_MainColor", color);
-        }
-        if (_timer <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
+            if (!_IsInit)
+                return;
 
-    public void Initialize(Agent agent)
-    {
-        _owner = agent;
-        _IsInit = true;
+            if (_owner == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            _timer -= Time.deltaTime;
+            if (_timer <= fadeSpeed)
+            {
+                Color color = _material.GetColor("_MainColor");
+                color.a = _timer / fadeSpeed;
+                _material.SetColor("_MainColor", color);
+            }
+            if (_timer <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        public void Initialize(Agent agent)
+        {
+            _owner = agent;
+            _IsInit = true;
+        }
     }
 }

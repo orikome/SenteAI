@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public abstract class ActionSelectionStrategy : ScriptableObject
+namespace SenteAI.Core
 {
-    public abstract AgentAction SelectAction(Agent agent);
+    public abstract class ActionSelectionStrategy : ScriptableObject
+    {
+        public abstract AgentAction SelectAction(Agent agent);
+    }
 }

@@ -1,6 +1,9 @@
-public enum Behavior
+namespace SenteAI.Core
 {
-    Aggressive,
-    Defensive,
-    Balanced,
+    public enum Behavior
+    {
+        Aggressive,
+        Defensive,
+        Balanced,
+    }
 }

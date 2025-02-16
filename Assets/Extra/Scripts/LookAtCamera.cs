@@ -1,20 +1,24 @@
+using SenteAI.Core;
 using UnityEngine;
 
-public class LookAtCamera : MonoBehaviour
+namespace SenteAI.Extra
 {
-    Camera cameraToLookAt;
-
-    void Start()
+    public class LookAtCamera : MonoBehaviour
     {
-        cameraToLookAt = Camera.main;
-    }
+        Camera cameraToLookAt;
 
-    void LateUpdate()
-    {
-        if (cameraToLookAt != null)
+        void Start()
         {
-            transform.LookAt(cameraToLookAt.transform);
-            transform.rotation = Quaternion.LookRotation(cameraToLookAt.transform.forward);
+            cameraToLookAt = Camera.main;
+        }
+
+        void LateUpdate()
+        {
+            if (cameraToLookAt != null)
+            {
+                transform.LookAt(cameraToLookAt.transform);
+                transform.rotation = Quaternion.LookRotation(cameraToLookAt.transform.forward);
+            }
         }
     }
 }

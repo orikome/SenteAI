@@ -1,85 +1,89 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using SenteAI.Core;
 using UnityEngine;
 
-[Serializable]
-public class TestData
+namespace SenteAI.Extra
 {
-    public int TimesTestRun;
-    public float AverageDamageDone;
-    public float AverageTimeAlive;
-    public List<RunData> Runs = new List<RunData>();
-}
-
-[Serializable]
-public class RunData
-{
-    public float DamageDone;
-    public float TimeAlive;
-}
-
-public class TestManager : MonoBehaviour
-{
-    private string filePath;
-    private TestData testData;
-
-    public static TestManager Instance { get; private set; }
-
-    void Awake()
+    [Serializable]
+    public class TestData
     {
-        Instance = this;
-
-        filePath = Path.Combine(Application.persistentDataPath, "TestData.json");
-        InitJSON();
+        public int TimesTestRun;
+        public float AverageDamageDone;
+        public float AverageTimeAlive;
+        public List<RunData> Runs = new List<RunData>();
     }
 
-    private void InitJSON()
+    [Serializable]
+    public class RunData
     {
-        if (File.Exists(filePath))
-        {
-            string json = File.ReadAllText(filePath);
-            testData = JsonUtility.FromJson<TestData>(json);
-        }
-        else
-        {
-            testData = new TestData();
-        }
+        public float DamageDone;
+        public float TimeAlive;
     }
 
-    public void SaveMetrics(float damageDone, float timeAlive)
+    public class TestManager : MonoBehaviour
     {
-        testData.TimesTestRun++;
-        testData.Runs.Add(new RunData { DamageDone = damageDone, TimeAlive = timeAlive });
+        private string filePath;
+        private TestData testData;
 
-        float totalDamageDone = 0f;
-        float totalTimeAlive = 0f;
-        foreach (var run in testData.Runs)
+        public static TestManager Instance { get; private set; }
+
+        void Awake()
         {
-            totalDamageDone += run.DamageDone;
-            totalTimeAlive += run.TimeAlive;
+            Instance = this;
+
+            filePath = Path.Combine(Application.persistentDataPath, "TestData.json");
+            InitJSON();
         }
 
-        testData.AverageDamageDone = totalDamageDone / testData.TimesTestRun;
-        testData.AverageTimeAlive = totalTimeAlive / testData.TimesTestRun;
-
-        AgentLogger.Log(
-            $"DamageDone: {damageDone:F2} - TimeAlive: {timeAlive:F2} - AverageDamageDone: {testData.AverageDamageDone:F2} - AverageTimeAlive: {testData.AverageTimeAlive:F2}"
-        );
-
-        SaveMetricsToJSON();
-    }
-
-    private void SaveMetricsToJSON()
-    {
-        try
+        private void InitJSON()
         {
-            string json = JsonUtility.ToJson(testData, true);
-            File.WriteAllText(filePath, json);
+            if (File.Exists(filePath))
+            {
+                string json = File.ReadAllText(filePath);
+                testData = JsonUtility.FromJson<TestData>(json);
+            }
+            else
+            {
+                testData = new TestData();
+            }
         }
-        catch (IOException ex)
+
+        public void SaveMetrics(float damageDone, float timeAlive)
         {
-            AgentLogger.LogError("Failed to write to JSON file: " + ex.Message);
+            testData.TimesTestRun++;
+            testData.Runs.Add(new RunData { DamageDone = damageDone, TimeAlive = timeAlive });
+
+            float totalDamageDone = 0f;
+            float totalTimeAlive = 0f;
+            foreach (var run in testData.Runs)
+            {
+                totalDamageDone += run.DamageDone;
+                totalTimeAlive += run.TimeAlive;
+            }
+
+            testData.AverageDamageDone = totalDamageDone / testData.TimesTestRun;
+            testData.AverageTimeAlive = totalTimeAlive / testData.TimesTestRun;
+
+            AgentLogger.Log(
+                $"DamageDone: {damageDone:F2} - TimeAlive: {timeAlive:F2} - AverageDamageDone: {testData.AverageDamageDone:F2} - AverageTimeAlive: {testData.AverageTimeAlive:F2}"
+            );
+
+            SaveMetricsToJSON();
+        }
+
+        private void SaveMetricsToJSON()
+        {
+            try
+            {
+                string json = JsonUtility.ToJson(testData, true);
+                File.WriteAllText(filePath, json);
+            }
+            catch (IOException ex)
+            {
+                AgentLogger.LogError("Failed to write to JSON file: " + ex.Message);
+            }
         }
     }
 }
