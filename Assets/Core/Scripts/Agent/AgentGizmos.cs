@@ -17,13 +17,12 @@ public class AgentGizmos : MonoBehaviour
 
     private void DrawActions()
     {
-        GUIStyle style =
-            new()
-            {
-                normal = { textColor = Color.yellow },
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = textSize,
-            };
+        GUIStyle style = new()
+        {
+            normal = { textColor = Color.yellow },
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = textSize,
+        };
 
         Vector3 textPosition = transform.position + Vector3.up * 2;
 
@@ -51,16 +50,12 @@ public class AgentGizmos : MonoBehaviour
 
         if (_agent != null && _agent.Target != null)
         {
-            // Only draw if current agent's ID is lower (prevents double drawing)
-            if (_agent.GetInstanceID() < _agent.Target.GetInstanceID())
-            {
-                var seeingModule = _agent.GetModule<SeeingModule>();
-                Color targetColor =
-                    seeingModule != null && seeingModule.HasLOS ? Color.green : Color.red;
-                targetColor.a = 0.4f;
-                Gizmos.color = targetColor;
-                Gizmos.DrawLine(transform.position, _agent.Target.transform.position);
-            }
+            var seeingModule = _agent.GetModule<SeeingModule>();
+            Color targetColor =
+                seeingModule != null && seeingModule.HasLOS ? Color.green : Color.red;
+            targetColor.a = 0.4f;
+            Gizmos.color = targetColor;
+            Gizmos.DrawLine(transform.position, _agent.Target.transform.position);
         }
 
         DrawLabel(
