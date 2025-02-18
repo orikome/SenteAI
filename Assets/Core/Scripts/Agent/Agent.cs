@@ -20,6 +20,7 @@ namespace SenteAI.Core
         public AgentState State { get; protected set; }
         public Faction Faction { get; protected set; }
         private readonly Dictionary<System.Type, Module> _moduleCache = new();
+        private IAgentState _currentState;
 
         public virtual void Initialize()
         {
@@ -27,16 +28,13 @@ namespace SenteAI.Core
             InitializeModules();
             InitializeActions();
             SelectTarget();
+            TransitionToState(new IdleState());
         }
 
         public virtual void Update()
         {
-            foreach (var module in Modules)
-            {
-                module.Execute();
-            }
-
             SelectTarget();
+            _currentState?.Execute(this);
         }
 
         void OnEnable()
@@ -48,6 +46,13 @@ namespace SenteAI.Core
         void OnDisable()
         {
             AgentManager.Instance.UnregisterAgent(this);
+        }
+
+        public void TransitionToState(IAgentState newState)
+        {
+            _currentState?.Exit(this);
+            _currentState = newState;
+            _currentState?.Enter(this);
         }
 
         public void SetState(AgentState newState)

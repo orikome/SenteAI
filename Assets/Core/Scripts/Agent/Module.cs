@@ -4,6 +4,7 @@ namespace SenteAI.Core
 {
     public abstract class Module : ScriptableObject
     {
+        public AgentState agentState = AgentState.Combat;
         protected Agent _agent;
 
         /// <summary>

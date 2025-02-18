@@ -4,7 +4,7 @@ namespace SenteAI.Core
     {
         Combat,
         Duty,
-        Routine,
+        Idle,
         Sleep,
         Dead,
     }
