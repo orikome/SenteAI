@@ -56,6 +56,10 @@ namespace SenteAI.Core
             if (_agent.Target == null)
                 return Vector3.zero;
 
+            if (!_agent.GetModule<SeeingModule>().HasLOS)
+                return _agent.GetModule<SeeingModule>().LastKnownPosition
+                    - _agent.transform.position;
+
             return _agent.Target.Metrics.GetPredictedPosition() - _agent.transform.position;
         }
 
