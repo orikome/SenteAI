@@ -28,7 +28,7 @@ namespace SenteAI.Core
             InitializeModules();
             InitializeActions();
             SelectTarget();
-            TransitionToState(new IdleState());
+            TransitionToState(new CombatState());
         }
 
         public virtual void Update()

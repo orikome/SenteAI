@@ -1,5 +1,4 @@
 using System.Linq;
-using UnityEngine;
 
 namespace SenteAI.Core
 {
@@ -8,7 +7,7 @@ namespace SenteAI.Core
         public void Enter(Agent agent)
         {
             agent.SetState(AgentState.Combat);
-            Debug.Log("Entering Combat state", agent.gameObject);
+            AgentLogger.Log("Entering Combat state", agent.gameObject);
         }
 
         public void Execute(Agent agent)
@@ -19,15 +18,15 @@ namespace SenteAI.Core
             }
 
             // Check for transition to idle
-            if (agent.Target == null)
-            {
-                agent.TransitionToState(new IdleState());
-            }
+            // if (agent.Target == null)
+            // {
+            //     agent.TransitionToState(new IdleState());
+            // }
         }
 
         public void Exit(Agent agent)
         {
-            Debug.Log("Exiting Combat state", agent.gameObject);
+            AgentLogger.Log("Exiting Combat state", agent.gameObject);
         }
     }
 }

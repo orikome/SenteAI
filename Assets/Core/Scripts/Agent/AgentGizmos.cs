@@ -70,6 +70,7 @@ namespace SenteAI.Core
                 _agent.transform.position,
                 Helpers.CleanName(_agent.GetModule<Brain>().CurrentAction?.name)
             );
+            DrawLabel(_agent.transform.position + Vector3.down * 2, _agent.State.ToString());
 
             // Draw movement type indicator
             if (_agent.Metrics.IsClusteredMovement())
