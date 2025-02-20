@@ -9,9 +9,10 @@ namespace SenteAI.Core
     public class AgentGizmos : MonoBehaviour
     {
         private Agent _agent;
-        private float textHeight = 4f;
-        private int textSize = 20;
-        private static readonly Color PATH_COLOR = new Color(0f, 1f, 1f, 0.1f);
+        private static readonly int TEXT_SIZE = 14;
+        private static readonly float TEXT_HEIGHT = 4f;
+        private static readonly float TEXT_SPACING = 0.2f;
+        private static readonly Color PATH_COLOR = new(0f, 1f, 1f, 0.1f);
 
         private void Start()
         {
@@ -24,14 +25,14 @@ namespace SenteAI.Core
             {
                 normal = { textColor = Color.yellow },
                 alignment = TextAnchor.MiddleCenter,
-                fontSize = textSize,
+                fontSize = TEXT_SIZE,
             };
 
             Vector3 textPosition = transform.position + Vector3.up * 2;
 
             foreach (var action in _agent.Actions)
             {
-                textPosition += Vector3.down * textHeight;
+                textPosition += Vector3.down * TEXT_HEIGHT;
 
                 string actionInfo =
                     $"{Helpers.CleanName(action.name)}={action.ScaledUtilityScore:F2}";
@@ -62,15 +63,20 @@ namespace SenteAI.Core
                 Gizmos.DrawLine(transform.position, _agent.Target.transform.position);
             }
 
+            Vector3 basePosition = _agent.transform.position;
+            float spacing = HandleUtility.GetHandleSize(basePosition) * TEXT_SPACING;
+
             DrawLabel(
-                _agent.transform.position + Vector3.down,
-                _agent.Metrics.DistanceToTarget.ToString()
+                basePosition + Vector3.up * spacing * 2,
+                Helpers.CleanName(_agent.GetModule<Brain>().CurrentAction?.name),
+                Color.yellow
             );
             DrawLabel(
-                _agent.transform.position,
-                Helpers.CleanName(_agent.GetModule<Brain>().CurrentAction?.name)
+                basePosition + Vector3.up * spacing,
+                _agent.Metrics.DistanceToTarget.ToString("F2"),
+                Color.cyan
             );
-            DrawLabel(_agent.transform.position + Vector3.down * 2, _agent.State.ToString());
+            DrawLabel(basePosition, _agent.State.ToString(), Color.magenta);
 
             // Draw movement type indicator
             if (_agent.Metrics.IsClusteredMovement())
@@ -129,9 +135,18 @@ namespace SenteAI.Core
             }
         }
 
-        private void DrawLabel(Vector3 position, string text)
+        private void DrawLabel(Vector3 position, string text, Color color)
         {
-            Handles.Label(position + Vector3.up * 2.5f, text);
+            float scaledSpacing = HandleUtility.GetHandleSize(position) * TEXT_SPACING;
+
+            GUIStyle style = new()
+            {
+                normal = { textColor = color },
+                fontSize = TEXT_SIZE,
+                alignment = TextAnchor.MiddleCenter,
+            };
+
+            Handles.Label(position + Vector3.up * scaledSpacing, text, style);
         }
     }
 }
