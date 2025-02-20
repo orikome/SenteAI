@@ -91,9 +91,6 @@ namespace SenteAI.Core
 
         protected void SelectTarget()
         {
-            if (Time.frameCount % 32 != 0)
-                return;
-
             switch (Faction)
             {
                 case Faction.Player:
