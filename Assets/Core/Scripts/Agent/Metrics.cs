@@ -46,7 +46,7 @@ namespace SenteAI.Core
         public Vector3 GetDirectionToTarget()
         {
             if (_agent.Target == null)
-                return Vector3.zero;
+                return transform.forward;
 
             return _agent.Target.transform.position - _agent.transform.position;
         }
@@ -54,7 +54,7 @@ namespace SenteAI.Core
         public Vector3 GetDirectionToTargetPredictedPosition()
         {
             if (_agent.Target == null)
-                return Vector3.zero;
+                return transform.forward;
 
             if (!_agent.GetModule<SeeingModule>().HasLOS)
                 return _agent.GetModule<SeeingModule>().LastKnownPosition
@@ -146,7 +146,7 @@ namespace SenteAI.Core
         public Vector3 GetPredictedPosition()
         {
             if (_agent == null)
-                return Vector3.zero;
+                return transform.forward;
 
             // If distance is less than 30, directly shoot at player instead of predicting position
             if (DistanceToTarget < 30f)
