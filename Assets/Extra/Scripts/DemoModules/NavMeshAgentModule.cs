@@ -1,5 +1,4 @@
 using SenteAI.Core;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -40,7 +39,7 @@ namespace SenteAI.Extra
         public override void Initialize(Agent agent)
         {
             if (agent.GetComponent<NavMeshAgent>() == null)
-                agent.AddComponent<NavMeshAgent>();
+                agent.gameObject.AddComponent<NavMeshAgent>();
 
             NavMeshAgent = agent.GetComponent<NavMeshAgent>();
 
