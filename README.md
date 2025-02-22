@@ -5,7 +5,7 @@ These `Module` components, along with `Action` components, can be easily added o
 The name "Sente" (先手) is derived from Japanese, meaning "seizing the initiative" or "taking the first move." It reflects the idea behind the AI, where agents are proactive and continuously evaluating their environment to seize opportunities.
 
 ## Requirements
-- Unity 6 (6000.0.28f1)
+- Unity 6 (6000.0.36f1)
 - Git
 
 ## Examples
