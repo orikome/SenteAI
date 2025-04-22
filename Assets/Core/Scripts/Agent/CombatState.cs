@@ -14,7 +14,7 @@ namespace SenteAI.Core
         {
             foreach (var module in agent.Modules.Where(m => m.agentState == AgentState.Combat))
             {
-                module.Execute();
+                module.OnUpdate();
             }
 
             // Check for transition to idle

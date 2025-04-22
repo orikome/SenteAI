@@ -44,7 +44,7 @@ namespace SenteAI.Extra
             }
         }
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             if (_nonPlayerAgent.Target == null)
                 return;

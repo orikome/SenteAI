@@ -22,7 +22,7 @@ namespace SenteAI.Extra
             NavMeshAgent.isStopped = true;
         }
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             if (_isPaused)
             {

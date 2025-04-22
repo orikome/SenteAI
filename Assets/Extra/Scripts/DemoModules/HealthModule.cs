@@ -13,7 +13,7 @@ namespace SenteAI.Extra
         public Vector3 LastHitAngle { get; private set; }
         public float TimeSinceLastDamage { get; private set; }
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             if (!IsAlive)
                 return;

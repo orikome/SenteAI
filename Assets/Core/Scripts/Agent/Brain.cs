@@ -23,7 +23,7 @@ namespace SenteAI.Core
             ResetUtilityScores();
         }
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             if (_agent.Faction == Faction.Player)
                 CurrentAction = ActionSelectionStrategy.SelectAction(_agent);

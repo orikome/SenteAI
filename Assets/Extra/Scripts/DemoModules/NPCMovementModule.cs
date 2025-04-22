@@ -13,7 +13,7 @@ namespace SenteAI.Extra
         private const float MOVE_RADIUS = 30f;
         private const int SAMPLE_AMOUNT = 4;
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             if (_agent.Target == null || Time.frameCount % 32 != 0)
                 return;

@@ -76,7 +76,7 @@ namespace SenteAI.Extra
             AgentLogger.Log($"Created {waypoints.Length} random waypoints for patrol");
         }
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             if (isWaiting)
             {

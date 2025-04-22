@@ -23,6 +23,6 @@ namespace SenteAI.Core
         /// <summary>
         /// Called every frame in the object's Update method.
         /// </summary>
-        public abstract void Execute();
+        public abstract void OnUpdate();
     }
 }

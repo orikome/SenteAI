@@ -12,7 +12,7 @@ namespace SenteAI.Extra
             TriggerDialogue();
         }
 
-        public override void Execute() { }
+        public override void OnUpdate() { }
 
         private void TriggerDialogue()
         {

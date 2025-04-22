@@ -16,7 +16,7 @@ namespace SenteAI.Extra
             _layerMask = OrikomeUtils.LayerMaskUtils.CreateMask("Player", "Wall", "Enemy", "Ally");
         }
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             // Reset states if no target
             if (_agent == null || _agent.Target == null)

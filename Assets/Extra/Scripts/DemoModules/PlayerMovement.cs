@@ -22,7 +22,7 @@ namespace SenteAI.Extra
         private float _dashCooldownRemaining;
         private Vector3 _dashDirection;
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             _isGrounded = _controller.isGrounded;
             if (_isGrounded && _velocity.y < 0)

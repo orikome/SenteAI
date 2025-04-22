@@ -9,7 +9,7 @@ namespace SenteAI.Extra
         //[SerializeField]
         //private float hearingRange = 15f;
 
-        public override void Execute()
+        public override void OnUpdate()
         {
             // Check if there are any sounds within hearingRange
             // If so, update lastKnownLocation
