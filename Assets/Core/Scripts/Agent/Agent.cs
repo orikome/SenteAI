@@ -169,11 +169,31 @@ namespace SenteAI.Core
         {
             if (Modules.Count == 0)
                 AgentLogger.LogError("No modules assigned!");
-            // Initialize modules
+
+            // 1. Create module cache without initialization
+            foreach (var module in Modules)
+            {
+                // Cache by concrete type
+                System.Type concreteType = module.GetType();
+                _moduleCache[concreteType] = module;
+
+                // Cache by all base module types
+                System.Type baseType = concreteType.BaseType;
+                while (
+                    baseType != null
+                    && baseType != typeof(object)
+                    && typeof(Module).IsAssignableFrom(baseType)
+                )
+                {
+                    _moduleCache[baseType] = module;
+                    baseType = baseType.BaseType;
+                }
+            }
+
+            // 2. Initialize now that they can all find each other
             foreach (var module in Modules)
             {
                 module.Initialize(this);
-                _moduleCache[module.GetType()] = module;
             }
         }
 
@@ -199,14 +219,11 @@ namespace SenteAI.Core
         public T GetModule<T>()
             where T : Module
         {
-            if (_moduleCache.TryGetValue(typeof(T), out var cachedModule))
-                return cachedModule as T;
+            System.Type type = typeof(T);
+            if (_moduleCache.TryGetValue(type, out var cachedModule))
+                return (T)cachedModule;
 
-            T module = Modules.OfType<T>().FirstOrDefault();
-            if (module != null)
-                _moduleCache[typeof(T)] = module;
-
-            return module;
+            return null;
         }
     }
 }
